@@ -1,9 +1,11 @@
 # Formális nyelvek és fordítóprogramok
 
 ## Előadók
+----------
 - Nagy Sára saci@inf.elte.hu
 
 ## 1. Előadás
+-------------
 
 ### Alapfogalmak és jelölések
 
@@ -126,46 +128,110 @@ L* := ⋃ⱼ≥₀ Lʲ valamint L+ := ⋃ⱼ≥₁ Lʲ
 
 
 ## 2. Előadás
+-------------
 
+### Nyelv megadásának szabályrendszere
+
+***Def.:*** Grammatikának (nyelvtannak) a következő négyest nevezzük:  
+**G = (N,T,P,S)**
+- **N** a nemterminális ábácé,
+- **T** a terminálisok ábécéje,
+- **P** az átírási szabályok véges halmaza,
+- **S** a kezdőszimbólum.  
+- N és T diszjunkt halmazok, azaz N ⋂ T = ∅.
+- S Є N, kezdőszimbólum.
+- A szabályok p → q alakúak, ahol p ∈ (N∪T)* N (N∪T)* , q ∈ (N∪T)* és p jelöli a szabály baloldalát, q a jobboldalát,  
+→ a két oldalt elválasztó jel.
+- A szabályok baloldala kötelezően tartalmaz legalább egy 
+nemterminális szimbólumot.
+- (N∪T)* elemeit _mondatformáknak_ nevezzük.
+
+### Grammatika által generált nyelv
+- Minden olyan szó, amely közvetetten levezethető a kezdőszimbólumból.  
+- L(G) := { u ∈ T* | S ⇒ᴳ* u }
+
+### Közvetlen levezetés
+- Legyen G = (N, T, P, S) egy adott grammatika.  
+- Legyen u, v ∈ (N ∪ T)* .  
+- Azt mondjuk, hogy a v mondatforma közvetlenül levezethető az u mondatformából, ha létezik u₁ , u₂ ∈ (N ∪ T)* és x → y ∈ P úgy, hogy u = u₁xu₂ és v = u₁yu₂.
+- Jelölése: u ⇒ᴳ v
+
+### Közvetett levezetés
+- Legyen G = (N, T, P, S) egy adott grammatika.
+- Legyen u, v ∈ (N ∪ T)* .
+- Azt mondjuk, hogy a v mondatforma közvetetten levezethető az u mondatformából, ha létezik olyan k ≥ 0 szám és x₀,…,xₖ ∈ (N ∪ T)* , hogy u = x₀ és v = xₖ és ∀ i ∈ [0,k-1]: xᵢ ⇒ᴳ xᵢ₊₁ .  
+- Jelölése: u ⇒ᴳ* v
+
+### Ekvivalencia
+- A G1 es G2 nyelvtanok ekvivalensek, ha 
+L(G1) = L(G2), azaz ugyanazt a nyelvet generálják.  
+- Gyengén ekvivalensek, ha L(G1)\{ε}= L(G2)\{ε}.
+
+### Chomsky féle grammatika típusok
+***Def.:*** A G =(N,T,P,S) grammatika i-típusú (i = 0,1,2,3), ha P szabályhalmazára teljesülnek a következők:
+- **i = 0:** Nincs korlátozás.
+- **i = 1:** P minden szabálya u₁Au₂ → u₁vu₂ alakú, ahol u₁,u₂,v ∈ (N∪T)* , A ∈ N, és v ≠ ε, kivéve az S → ε alakú szabályt, de ekkor S nem fordul elő egyetlen szabály jobboldalán sem  
+(Ezt "Korlátozott ε szabály”-nak, röviden: KES szabálynak hívjuk.)
+- **i = 2:** P minden szabálya A → v alakú, ahol A ∈ N, v ∈ (N∪T)* .
+- **i = 3:** P minden szabálya vagy A → uB vagy A → u alakú, ahol A,B ∈ N és u ∈ T* .
+
+### Chomsky féle grammatika típusok
+- Jelölje 𝔾ᵢ az i-típusú grammatikák halmazát.  
+- A grammatikák alakjából következik, hogy  
+𝔾ᵢ ⊆ 𝔾₀ , ahol i=1,2,3.  
+𝔾₃ ⊆ 𝔾₂ 
+
+### Nyelvek típusai
+- Egy L nyelvet i-típusúnak nevezünk (i ∈{0,1,2,3}), ha létezik olyan i-típusú grammatika, ami az L nyelvet generálja.
+- Jelölje 𝕃ᵢ az i-típusú nyelvek halmazát. 
+(Nyelvcsalád.)
+
+### Chomsky féle hierarchia
+- 𝕃₃ ⊆ 𝕃₂ ⊆ 𝕃₁ ⊆ 𝕃₀   
+#### Pontosabban valódi tartalmazás van
+- 𝕃₃ ⊂ 𝕃₂ ⊂ 𝕃₁ ⊂ 𝕃₀
+#### Grammatikákra
+- 𝔾₃ ⊆ 𝔾₂ ⊈ 𝔾₁ ⊆ 𝔾₀  
+A 2-es szabályban v≠ϵ nincs kikötve, az 1-esben pedig igen.
 
 
 ## 3. Előadás
-
+-------------
 
 
 ## 4. Előadás
-
+-------------
 
 
 ## 5. Előadás
-
+-------------
 
 
 ## 6. Előadás
-
+-------------
 
 
 ## 7. Előadás
-
+-------------
 
 
 ## 8. Előadás
-
+-------------
 
 
 ## 9. Előadás
-
+-------------
 
 
 ## 10. Előadás
-
+--------------
 
 
 ## 11. Előadás
-
+--------------
 
 
 ## 12. Előadás
-
+--------------
 
 
