@@ -1,0 +1,383 @@
+# Formális nyelvek és fordítóprogramok
+
+## Előadók
+----------
+- Nagy Sára saci@inf.elte.hu
+
+## 1. Előadás
+-------------
+
+### Alapfogalmak és jelölések
+
+**Ábécé:**  
+- Ábécének nevezzük a jelek egy nem üres véges halmazát. 
+- Jele: V
+
+**Betű:**
+- Az ábécé elemeit betűknek hívjuk. (a ∈ V )
+
+**Szó:**
+- A V ábécé elemeinek egy tetszőleges véges sorozatát a V ábécé feletti szónak nevezzük. (Ha V nem lényeges vagy egyértelmű, akkor szóról beszélünk.)
+- Ha u egy tetszőleges szó, akkor **ℓ(u)** jelöli a szó hosszát. 
+- 0 ≤ ℓ(u) < ∞ ; ℓ(ε) = 0, ahol **ε** az üres szó
+- A V ábécé feletti szavak halmazát **V\***-gal jelöljük.
+- A nem üres szavakét **V+**-szal.
+
+**Nyelv:**
+- V* valamely részhalmazát a V ábécé feletti nyelvnek nevezzük. 
+- Jele: L 
+- L ⊆ V* 
+
+**Nyelvosztály (nyelvcsalád):**
+- Nyelvek valamely összességét nyelvosztálynak hívjuk.
+
+### Műveletek szavakon
+
+**Konkatenáció**
+- Legyenek u = t₁...tₖ és v = q₁...qₘ szavak egy V* felett értelmezve.
+- Ekkor a két szó konkatenáltja az  
+uv := t₁...tₖq₁...qₘ  
+(A két szó egymás utáni leírásával kapott szó.)
+
+- V* zárt a konkatenációra
+- V* a konkatenációra egységelemes félcsoportot alkot.
+- **Asszociatív:** u,v,w ∈ V* : (uv)w = u(vw)
+- **Egységelemes:** ɛ és v ∈ V* : ɛv = v = vɛ
+
+**Hatványozás**
+- Legyen u egy tetszőleges szó. 
+- Nemnegatív egész hatványai:  
+u⁰ := ε  
+u¹ := u  
+uⁿ := uⁿ⁻¹u , ahol n≥1
+
+**Megfordítás**
+- Ha u egy tetszőleges szó és u = t₁...tₖ és v = tₖ...t₁, akkor v az u fordítottja, másképpen mondva a tükörképe.
+- Jelölése: u⁻¹ = v
+
+### További alapfogalmak
+
+- **Részszó:** A v u-nak részszava, ha léteznek olyan w₁;w₂ szavak, hogy u = w₁vw₂.
+- **Szó prefixe:** A v az u szó prefixe,ha van olyan w szó, hogy u = vw.   
+Valódi prefix, ha v ≠ ε és v ≠ u.
+- **Szó suffixe:** A v az u szó suffixe,ha van olyan w szó, hogy u = wv.   
+Valódi suffix, ha v ≠ ε és v ≠ u.
+
+### Műveletek nyelveken
+
+**Unió**
+- Legyenek L₁ és L₂ nyelvek V* felettiek.   
+Ekkor az L₁ és L₂ nyelvek unióján az 
+L₁ U L₂ := {u ∈ V* | u ∈ L₁ vagy u ∈ L₂ } nyelvet értjük.
+
+- Az unió kommutatív, asszociatív és egységelemes művelet. Az egységelem az üres nyelv (üres halmaz).
+- Jele: Ø
+- Ø U L = L = L U Ø
+
+**Két nyelv metszete**
+- Legyenek L₁ és L₂ nyelvek V* felettiek. 
+- Ekkor az L₁ és L₂ nyelvek metszetén az 
+L₁ ∩ L₂ := {u ∈ V* | u ∈ L1 és u ∈ L2
+} nyelvet értjük.
+
+**Komplementer**
+
+- Az L ⊆ V* nyelv komplementere a V ábécére vonatkozóan: L̅ := V* \ L, azaz minden olyan szó, ami nem tartozik az L nyelvbe. 
+- L̅ ∩ L = Ø és L̅ U L = V*
+
+**Tükörkép**
+- Az L ⊆ V* nyelv tükörképe az a nyelv, amely a szavainak megfordítottját tartalmazza.
+- Jele: L⁻¹
+- L⁻¹ := {u ∈ V* | u⁻¹ ∈ L}
+- Példa:  
+L = {abc, aabb, acaa, baab}  
+L⁻¹ = {cba, aaca, baab, bbaa}
+
+**Konkatenáció**
+- Legyenek L₁ és L₂ nyelvek.
+- Ekkor az L₁ és L₂ nyelvek konkatenációján az L₁L₂ := {uv | u ∈ L₁ és v ∈ L₂ } nyelvet értjük.
+- A nyelvek halmaza a konkatenációra nézve egység elemes félcsoport alkot.
+- Egység elem: {ε} (az üres szót tartalmazó nyelv)
+- {ε}L = L = L{ε}
+- ∅L = ∅ = L∅
+
+**Hatványozás**
+- Legyen L egy tetszőleges nyelv.
+- Nemnegatív egész hatványai:  
+L⁰ := {ε}  
+L¹ := L  
+Lⁿ := Lⁿ⁻¹L , ahol n≥1.
+
+**Lezártja (iteráltja)**
+- Legyen L egy tetszőleges nyelv. 
+- L* := L⁰ U L¹ U L² U … az L nyelv lezártja.  
+Másképpen:  
+L* := ⋃ⱼ≥₀ Lʲ valamint L+ := ⋃ⱼ≥₁ Lʲ
+
+### Reguláris műveletek:
+- unió
+- konkatenáció
+- lezárás
+
+### Nyelvek megadási módjai
+- logikai formula
+- struktúrális rekurzió
+- algoritmus
+- matematikai gépek
+- produkciós rendszerek
+
+
+## 2. Előadás
+-------------
+
+### Nyelv megadásának szabályrendszere
+
+***Def.:*** Grammatikának (nyelvtannak) a következő négyest nevezzük:  
+**G = (N,T,P,S)**
+- **N** a nemterminális ábácé,
+- **T** a terminálisok ábécéje,
+- **P** az átírási szabályok véges halmaza,
+- **S** a kezdőszimbólum.  
+- N és T diszjunkt halmazok, azaz N ⋂ T = ∅.
+- S Є N, kezdőszimbólum.
+- A szabályok p → q alakúak, ahol p ∈ (N∪T)* N (N∪T)* , q ∈ (N∪T)* és p jelöli a szabály baloldalát, q a jobboldalát,  
+→ a két oldalt elválasztó jel.
+- A szabályok baloldala kötelezően tartalmaz legalább egy 
+nemterminális szimbólumot.
+- (N∪T)* elemeit _mondatformáknak_ nevezzük.
+
+### Grammatika által generált nyelv
+- Minden olyan szó, amely közvetetten levezethető a kezdőszimbólumból.  
+- L(G) := { u ∈ T* | S ⇒ᴳ* u }
+
+### Közvetlen levezetés
+- Legyen G = (N, T, P, S) egy adott grammatika.  
+- Legyen u, v ∈ (N ∪ T)* .  
+- Azt mondjuk, hogy a v mondatforma közvetlenül levezethető az u mondatformából, ha létezik u₁ , u₂ ∈ (N ∪ T)* és x → y ∈ P úgy, hogy u = u₁xu₂ és v = u₁yu₂.
+- Jelölése: u ⇒ᴳ v
+
+### Közvetett levezetés
+- Legyen G = (N, T, P, S) egy adott grammatika.
+- Legyen u, v ∈ (N ∪ T)* .
+- Azt mondjuk, hogy a v mondatforma közvetetten levezethető az u mondatformából, ha létezik olyan k ≥ 0 szám és x₀,…,xₖ ∈ (N ∪ T)* , hogy u = x₀ és v = xₖ és ∀ i ∈ [0,k-1]: xᵢ ⇒ᴳ xᵢ₊₁ .  
+- Jelölése: u ⇒ᴳ* v
+
+### Ekvivalencia
+- A G1 es G2 nyelvtanok ekvivalensek, ha 
+L(G1) = L(G2), azaz ugyanazt a nyelvet generálják.  
+- Gyengén ekvivalensek, ha L(G1)\{ε}= L(G2)\{ε}.
+
+### Chomsky féle grammatika típusok
+***Def.:*** A G =(N,T,P,S) grammatika i-típusú (i = 0,1,2,3), ha P szabályhalmazára teljesülnek a következők:
+- **i = 0:** Nincs korlátozás.
+- **i = 1:** P minden szabálya u₁Au₂ → u₁vu₂ alakú, ahol u₁,u₂,v ∈ (N∪T)* , A ∈ N, és v ≠ ε, kivéve az S → ε alakú szabályt, de ekkor S nem fordul elő egyetlen szabály jobboldalán sem  
+(Ezt "Korlátozott ε szabály”-nak, röviden: KES szabálynak hívjuk.)
+- **i = 2:** P minden szabálya A → v alakú, ahol A ∈ N, v ∈ (N∪T)* .
+- **i = 3:** P minden szabálya vagy A → uB vagy A → u alakú, ahol A,B ∈ N és u ∈ T* .
+
+### Chomsky féle grammatika típusok
+- Jelölje 𝔾ᵢ az i-típusú grammatikák halmazát.  
+- A grammatikák alakjából következik, hogy  
+𝔾ᵢ ⊆ 𝔾₀ , ahol i=1,2,3.  
+𝔾₃ ⊆ 𝔾₂ 
+
+### Nyelvek típusai
+- Egy L nyelvet i-típusúnak nevezünk (i ∈{0,1,2,3}), ha létezik olyan i-típusú grammatika, ami az L nyelvet generálja.
+- Jelölje 𝕃ᵢ az i-típusú nyelvek halmazát. 
+(Nyelvcsalád.)
+
+### Chomsky féle hierarchia
+- 𝕃₃ ⊆ 𝕃₂ ⊆ 𝕃₁ ⊆ 𝕃₀   
+#### Pontosabban valódi tartalmazás van
+- 𝕃₃ ⊂ 𝕃₂ ⊂ 𝕃₁ ⊂ 𝕃₀
+#### Grammatikákra
+- 𝔾₃ ⊆ 𝔾₂ ⊈ 𝔾₁ ⊆ 𝔾₀  
+A 2-es szabályban v≠ɛ nincs kikötve, az 1-esben pedig igen.
+
+
+## 3. Előadás
+-------------
+
+### Nyelvtani transzformáció
+- Eljárás, ami G grammatikából G' grammatikát készít.
+- **Ekvivalens** transzformáció, ha **L(G)=L(G')**.
+
+### ε-mentesítés
+**Tétel:** Minden 2-es grammatikához megkonstruálható egy vele ekvivalens, amiben nincs epszilon szabály.
+- G=(N,T,P,S) ---> G'=(N',T',P',S')
+- (A → ɛ) ∉ P'
+- kivéve ha ɛ ∈ L(G)  
+ekkor (S' → ɛ) ∈ P', de S' nem szerepelhet szabály jobb oldalán.
+
+#### Lépések:
+1. Meghatározzuk, hogy mely nemterminálisokból vezethető le az üres szó.
+    - H:={ A ∈ N | A ⇒ᴳ* ε}
+    - Ehhez definiáljuk a Hᵢ(i≥1) halmazokat:
+        - H₁ := { A ∈ N | ∃A→ε ∈ P}
+        - Hᵢ₊₁ := Hᵢ U { A ∈ N | ∃A→w ∈ P és w ∈ Hᵢ*}
+        - H₁ ⊆ H₂ ⊆ … ⊆ Hₖ = Hₖ₊₁ ∃k és legyen H:= Hₖ
+    - ɛ ∈ L(G) ⇔ S ∈ H
+2. Átalakítjuk a grammatika szabályait.
+    - A → v' ∈ P'   ⇔   v'≠ɛ és ∃A → v ∈ P
+    - v-ből nulla vagy több H-beli nemterminális elhagyásával kapjuk v'-t.
+    - Ha **S ∈ H**
+        - Hozzáveszünk még két szabályt.
+        - S' → ɛ
+        - S' → S
+        - S' ∉ N és S' a G' új kezdőszimbóluma
+    - Az átalakítás megőrzi a 2. és 3. típust.
+
+### Nyelvosztályok zártsága a reguláris műveletekre
+**Tétel:** Az 𝕃ᵢ, i = 0, 1, 2, 3 nyelvosztályok mindegyike zárt a reguláris műveletekre nézve. 
+
+### Nyelvosztály zártsága nyelvi műveletre
+- Legyen ϕ n-változós nyelvi művelet, azaz ha L₁,…,Lₙ nyelvek, akkor ϕ(L₁,…,Lₙ) is nyelv.  
+- Az 𝕃 nyelvcsalád zárt a ϕ műveletre nézve, ha L₁,…,Lₙ ∈ L estén ϕ(L₁,…,Lₙ) ∈ L.
+
+#### Unió
+G=(N,T,P,S) legyen az L nyelvhez tartozó grammatika és G’=(N’,T,P’,S’) legyen az L’ nyelvhez tartozó grammatika és N ∩ N’ = Ø és G, G’ azonos típusúak.  
+
+**i=0,2,3** esetén, legyen S₀ új szimbólum, azaz S₀ ∈ (N ∪ N’).  
+Gᵤ = (N ∪ N’ ∪ {S₀},T, P ∪ P’ ∪ {S₀→S, S₀→S’}, S₀).  
+Látható, hogy Gᵤ típusa megegyezik G,G’ típusával, 
+és L(G) ∪ L(G’) = L(Gᵤ)
+
+**i=1** esetén, ha ɛ ∈ (L ∪ L'), akkor nem teljesül a KES.  
+Ezért tekintsük az L1 = L \ {ε} és L2 = L’ \ {ε} nyelveket, amelyeket G1 és G2 1-es típusú grammatikák generálnak. 
+Készítsük el Gᵤ–t az előbbi módon, majd vezessünk be egy S₁ új kezdőszimbólumot és adjuk a szabályhalmazhoz az S₁→ε és S₁→S₀ szabályokat.
+
+#### Konkatenáció
+_(Megjegyzés: Most csak a 3-as típusra bizonyítjuk.)_  
+Legyen i = 3.  
+A P szabályhalmazból megkonstruálunk egy P1 szabályhalmazt úgy, hogy minden A → u alakú szabályt felcserélünk egy A → uS′ alakú szabályra, a többi szabályt változatlanul hagyjuk.  
+A Gc = (N ∪ N′, T, P1 ∪ P′, S) grammatika 3-as típusú és generálja az L(G)L(G′) nyelvet.
+
+#### Lezárás
+_(Megjegyzés: Most csak a 3-as típusra bizonyítjuk.)_  
+Legyen i = 3.  
+Legyen S0 új szimbólum, azaz S0 ∈ N.
+Definiáljuk a P1 szabályhalmazt úgy, hogy minden A → u alakú szabályt felcserélünk egy A → uS0 alakú szabályra és ezek legyenek a P1 elemei.  
+G∗ = (N ∪ {S0}, T, P1 ∪ P ∪ {S0 → ε, S0 → S}, S0) grammatika generálja az L* nyelvet.
+
+### A 3-as nyelvcsalád nyelveit leírhatjuk
+- 3-as típusú grammatikával,
+- reguláris kifejezéssel,
+- véges determinisztikus automatával,
+- véges nemdeterminisztikus automatával.
+
+Bizonyítható, hogy  
+- 𝕃₃ = 𝕃_(reg) = 𝕃_(VDA) =𝕃_(VNDA).  
+
+_Megjegyzés: A programozási nyelvek lexikális egységei a 3-as nyelvcsaládba tartoznak._
+
+### Reguláris nyelvek (rekurzív definíció)
+- az elemi nyelvek: Ø, {ε}, {a} , ahol a ∈ U, 
+azaz egy tetszőleges betű
+- azon nyelvek, melyek az elemi nyelvekből 
+az unió, a konkatenació és a lezárás 
+műveletek véges számú alkalmazásával 
+állnak elő;
+- nincs más reguláris nyelv
+
+### Reguláris nyelvek 
+**Tétel:** Minden L reguláris nyelvhez megadható egy G 3-as típusú grammatika,amelyre L=L(G). (𝕃_(reg) ∈ 𝕃₃)
+**Bizonyítás:**
+Elemi nyelvekhez adható 3-as típusú grammatika.
+- G=( {S}, {a}, {S→aS}, S)   L(G)=Ø
+- G=( {S}, {a}, {S→ε}, S)    L(G)={ε}
+- G=( {S}, {a}, {S→a}, S)    L(G)={a}
+
+Az 𝕃₃ nyelvcsalád zárt a reguláris műveletekre, így az elemi nyelvek grammatikáiból kiindulva reguláris műveletekkel megkonstruálható bármilyen 3-as grammatika.
+
+### Reguláris kifejezések:
+**Definició:**
+- az elemi regularis kifejezesek: Ø, ε, a , ahol a ∈ U
+- ha R1 es R2 és R regularis kifejezesek akkor 
+    - (R1 | R2);
+    - (R1R2);
+    - (R)* is reguláris kifejezések.
+- a reguláris kifejezések halmaza a legszűkebb halmaz, 
+melyre a fenti két pont teljesül.
+
+Jelölje L_R az R reguláris kifejezéshez tartozó nyelvet.  
+- L_Ø = Ø, L_ε = {ε}, L_a = {a}
+
+Ha Q és R reguláris kifejezések, akkor
+- L(Q|R) = L_Q ∪ L_R unió
+- L(QR) = L_QL_R konkatenáció
+- L(R)* = (L_R)* lezárás
+
+A műveletek prioritási sorrendje növekvően:  
+- unió, konkatenáció, lezárás.  
+
+A zárójelek elhagyhatók a reguláris kifejezésekből a 
+prioritásoknak megfelelően.
+
+### 3-típusú grammatikák normál formája
+**Tétel:** Minden 3-as típusú, nyelv generálható egy olyan grammatikával, amelynek szabályai
+- **A → aB**, ahol A, B ∈ N és a ∈ T vagy
+- **A → ε** alakúak, ahol A ∈ N.
+
+_Megjegyzés: A 3-as normál forma alakítható majd át könnyen automatává._
+
+### 3-as típusú grammatikák normálformára hozása 
+Legyen G=(N,T,P,S) 3-as típusú grammatika.
+Megkonstruálunk egy G’=(N’,T,P’,S) 3-as normál formájú grammatika, melyre L(G)=L(G’).
+
+**Lépesei:**
+1. hosszredukció
+2. befejező szabályok átalakítása
+3. láncmentesítés
+
+#### Hosszredukció
+Elhagyjuk az **A→a₁…aₖB** alakú szabályokat, ahol k≥2 és ∀i ∈ [1,k]: aᵢ ∈ T és A ∈ N, B ∈ N vagy B=ε.
+Helyettesítjük a következő szabályokkal:
+- **A →a₁Z₁** ,ahol Z₁∉N, azaz új nemterminális,
+- **Z₁ →a₂Z₂** ,ahol Z₂∉(N ∪ Z₁)
+- **…**
+- **Zₖ₋₁ →aₖB**
+
+_Megjegyzés: Minden szabályra új nemterminálisokat vezetünk be._
+
+#### Befejező szabályok átalakítása
+Elhagyjuk az **A→a** alakú szabályokat, ahol a∈T és A∈N.  
+Legyen E egy új nemterminális. 
+_(Ez lehet közös minden befejező szabály esetén.)_  
+Vegyük fel P’-be az **A→aE** és a **E→ε** szabályokat az előbbiek helyett.
+
+_Megjegyzés: A 3-as normál forma alakítható majd át könnyen automatává._
+
+#### Láncmentesítés
+Elhagyjuk az **A → B** alakú szabályokat P-ből, ahol A, B ∈ N.
+Első lépésben meghatározzuk minden A ∈ N esetén a
+- H(A):={ B ∈ N | A ⇒ᴳ* B} halmazokat.
+
+Ehhez definiáljuk a Hᵢ (i≥1) halmazokat:
+- H₁(A)={ A }
+- Hᵢ₊₁(A)=Hᵢ(A) ∪ { B ∈ N | ∃C ∈ Hᵢ(A) és C→B ∈ P}
+- H₁(A) ⊆ H₂(A) ⊆ … ⊆ Hₖ(A)= Hₖ₊₁(A) ∃k és legyen H(A):= Hₖ(A).
+
+Ezután P’-be felvesszük az **A → X** szabályokat, ha ∃B ∈ H(A) és B → X ∈ P, ahol X∈(T U N)* és X nem csak egyetlen nemterminális.
+
+### Véges determinisztikus automata (VDA)
+**Definíció:** A = (Q, T, δ, q0, F) rendezett ötöst véges determinisztikus automatának nevezzük, ahol
+- Q az állapotok nem üres véges halmaza,
+- T az input szimbólumok ábécéje,
+- δ: Q x T → Q leképezés az állapot-átmeneti függvény,
+- q0 ∈ Q a kezdőállapot,
+- F ⊆ Q elfogadóállapotok halmaza.
+
+Véges determinisztikus automata estén a δ: Q x T → Q állapot-átmeneti függvény ∀(q,a) párra értelmezett, ahol (q,a) ∈ Q x T és egyetlen olyan p ∈ Q állapot van, amelyre δ(q,a) = p.
+
+
+
+## 4. Előadás
+-------------
+
+
+## 5. Előadás
+-------------
+
+
+## 6. Előadás
+-------------
