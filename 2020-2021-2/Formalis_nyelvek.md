@@ -441,6 +441,134 @@ Minden reguláris nyelvhez adható 3-as típusú grammatika, és fordítva minde
 ## 5. Előadás
 -------------
 
+### Minimális véges determinisztikus automata
+**Definíció:** Az A véges determinisztikus automata minimális, ha nincs olyan A′ véges determinisztikus automata, amely ugyanazt a nyelvet ismeri fel, mint A, de A′ állapotainak száma kisebb, mint A állapotainak száma.
+
+**Tétel:** Az L reguláris nyelvet felismerő minimális véges determinisztikus automata az izomorfizmus erejéig egyértelmű.
+
+**Tétel:** Az L reguláris nyelvet felismerő minimális véges determinisztikus automata (VDA) az izomorfizmus erejéig egyértelmű.  
+**Bizonyítás lépései:**
+1. Automata összefüggővé tétele
+2. Ekvivalens állapotok meghatározása
+
+#### Összefüggő véges determinisztikus automata
+
+**Definíció:** Az A = (Q, T, δ, q0, F) véges determinisztikus automata q állapotát **elérhetőnek** mondjuk, ha ∃u∈T* szó, hogy q0u ⇒* q.
+(Gráfos ábrázolásban ez azt jelenti, hogy van irányított út q0-ból q-ba.)
+
+**Definíció:** Az A = (Q, T, δ, q0, F) véges determinisztikus automatát **összefüggőnek** mondjuk, ha minden állapota elérhető a kezdőállapotból.
+
+Elérhető állapotok meghatározása:
+- H halmaz tartalmazza az elérhető állapotokat.
+    - Legyen H0={q0},
+    - Hᵢ₊₁=Hᵢ ∪ {r∈Q | δ(q,a)=r, q∈Hᵢ, a∈T} és i≥0.
+    - ∃k≥0 : Hₖ = Hₘ , ahol m≥k. Legyen H=Hk.
+- A’ legyen az A azon részautomatája, ahol Q’=H.
+- (A Q\H nemelérhető állapotok elhagyhatók.)
+
+#### Ekvivalens állapotok meghatározása
+**Definíció:** q ~ p (q és r ekvivalens állapotok), ha ∀ u∈T* szóra igaz, hogy qu ⇒* r és pu ⇒* r’ esetén r∈F akkor és csak akkor, ha r’∈F.
+- (Minden szóra igaz, hogy az automatát q-ból indítva vagy p-ből indítva, vagy mind kettő esetben elfogadja a szót, vagy mind kettő esetben elutasítja.)
+
+**Állítás:** Ha q és p ekvivalens, akkor qa→s és pa→t
+esetén s és t is ekvivalens állapotok ∀ a ∈ T betűre.
+
+**Definíció:** q ~𝒊 p (q és r i-ekvivalens állapotok), ha ∀ u∈T* szóra,ahol l(u)≤ i igaz, hogy qu ⇒* r és pu ⇒* r’ esetén r∈F akkor és csak akkor, ha r’∈F.
+- (Legfeljebb i hosszú szavak esetén a két állapot nem megkülönböztethető.)
+
+**Lemma:** q ~𝒊+1 p akkor és csak akkor, ha ∀a ∈ T-re qa→r és pa→t esetén r ~𝒊 t.
+
+**Lépések:**
+- Tegyük fel, hogy az A automata **összefüggő**.
+0. q ~0 p ⇔ q,p ∈ F ∨ q,p ∈ Q\F
+    - Első lépésben szétválasztjuk az elsfogadó és nem elfogadó állapotokat.
+    - Q = B₁ ∪ B₂, B₁=F, B₂=Q\F
+1. q ~i p ⇔ ∀a∈T : qa→r ∧ pa→t : r,t ∈ Bᵢ
+    - A szavak hossza szerint finomítjuk a partíciókat.
+    - q és p akkor marad együtt, ha minden inputra ugyanabba az állapothalmazba/partícióba mennek át, különben szét kell bontani.
+    - Ha az előző lépés szerint mindig ugyanoda képeznek, akkor q ~(i+1) p.
+    - Addig folytatjuk amíg van változás.
+
+#### Minimális automata megadása
+- A’ = (Q’, T, δ’, q0’, F’)
+- Q’= {az előző eljárással nyert Bᵢ partíciók}
+- q0’= a q0-t tartalmazó partíció.
+- F’ =az F-ből keletkezett partíciók.
+- δ’(Bᵢ,a)= Bⱼ, ha δ(q,a)=p és q ∈ Bᵢ és p ∈Bⱼ
+
+### Szükséges feltétel 3-as típusú nyelvekre
+**Tétel:** (Kis Bar-Hillel lemma) 
+Minden L ∈ 𝕃₃ nyelvhez van olyan n≥1 nyelvfüggő konstans, hogy ∀u ∈ L , ahol l(u) ≥ n szó esetén van u-nak olyan u = xyz felbontása, amelyre 
+- l(xy) ≤ n, 
+- y≠ε, 
+- ∀i ≥ 0 egész esetén x(y^i)z ∈ L.
+
+**Bizonyítás vázlat:**
+- L-hez adható minimális véges determinisztikus autómata.
+- Ha az autómatának n állapota van és nézünk egy n hosszú szót akkor legalább egy állapotot kétszer kell érinteni.
+- Gráfos ábrázolásnál ez azt jelenti, hogy teszünk egy kört.
+- A kör során érintett szórészletet bárhányszor "bepumpálhatjuk" és L-beli szót kapunk.
+
+### Nyelv maradéknyelvei
+**Definíció:** Legyen L egy T ábácé felett értelmezett nyelv.  
+Az L nyelv egy p∈T* szóra értelmezett maradéknyelve a következő:
+- Lp :={ u∈T* | pu ∈ L}
+
+### Myhill-Nerode tétel
+**Tétel:** L ∈ 𝕃₃ akkor és csak akkor, ha az L-hez tartozó maradéknyelvek száma véges, azaz |{Lp|p ∈ T*}|<∞.
+
+_Megjegyzés: A szavakon egy osztályozást végzünk az 
+adott nyelvtől függően._
+
+**Bizonyítás vázlat:**
+1. Ha véges sok maradéknyelve van, akkor azokkal lehet VDA-t készíteni, amire L(A)=L.
+Az autómata pedig átírható 3-as grammatikává.
+2. Ha L 3-as, akkor van hozzá 3-as grammatika, amihez van autómata.
+Az autómata állapotaihoz rendelhető egy-egy maradéknyelv.
+Ezek között vannak megegyezők.
+Milyen az állapotok száma is véges, így a maradéknyelvek száma is véges.
+
+### VDA előállítása maradéknyelvekből
+Határozzuk meg a szavak hossza szerint haladva a lehetséges maradék nyelveket!  
+Legyen p1,p2,…,pn az egyes maradék nyelvek egy-egy reprezentáns szava!  
+Feleltessük meg az állapotokat a maradék nyelveknek, azaz legyen 
+- Q:={Lpᵢ| n≥i≥1} és
+- δ(Lp, a):=Lpa ∀a ∈ T;
+- q0:=Lɛ;
+- F:={Lp|ε ∈Lp}.
+
+### Backus-Naur forma (BNF)
+A BNF lényegében egy 2-es típusú grammatika.
+- Szabályok véges halmaza, ahol a szabályok bal- és jobb oldalát a **::=** jel választja el.
+- A bal oldalon egy fogalom (egy nemterminális) szerepel.  
+**< fogalom >** (A < > jelek közé tetszőleges szöveg írható.)
+- A jobb oldalon a bal oldal kifejtése szerepel. Ha több alternatíva is van, akkor az alternatívákat | jel választja el.
+- A terminálisokat nem kell semmilyen jel közé tenni.
+- Egy alternatíva terminálisok és nem terminálisok sorozata.
+
+### Szóprobléma
+- Szintaktikusan helyes-e az egy kifejezés?
+- Ha levezethető a <kifejezés> fogalmából, akkor igen.
+
+### Levezetési fa (szintaxisfa)
+**Definició:** Legyen G = (N,T,P,S) tetszőleges 2-es típusú grammatika.  
+A t nemüres fát G feletti levezetési (szintaxis) fának nevezzük, ha
+- pontjai T ∪ N ∪ {ε} elemeivel vannak címkézve;
+- belső pontjai N elemeivel vannak címkézve;
+- ha egy belső pont címkéje A, a közvetlen leszármazottjainak címkéi pedig balról jobbra olvasva  
+X1, X2, …, Xk, akkor A → X1X2…Xk ∈ P.
+- az ε -nal címkézett pontoknak nincs testvére.
+
+**Tétel:** Ha adott G grammatika esetén u ∈ L(G) akkor és csak akkor, ha u-hoz megadható egy szintaxisfa.
+
+_**Megjegyzés:** Az u-hoz tartozó szintaxisfa gyökere S és a leveleit balról jobbra összeolvasva az u szót kapjuk._
+
+**Állítás:** Minden szintaxisfához megadható egy levezetés és fordítva.
+- Legbal levezetés: A legbal levezetés olyan levezetés, hogy ha a levezetés folyamán a mondatforma i. betűjén helyettesítés történik, akkor a korábbi pozíciókat (1., … , i-1.) a levezetés a további lépesekben már nem 
+érinti, azok változatlanul maradnak.
+
+Egy G 2-es típusú grammatika egyértelmű, ha minden u ∈ L(G) szóhoz egyetlen szintaxisfa tartozik.
+- **Ellenpélda:** S → a | S + S u = a + a + a //két fát is meg tudunk adni
 
 
 ## 6. Előadás
