@@ -369,14 +369,78 @@ Ezután P’-be felvesszük az **A → X** szabályokat, ha ∃B ∈ H(A) és B 
 
 Véges determinisztikus automata estén a δ: Q x T → Q állapot-átmeneti függvény ∀(q,a) párra értelmezett, ahol (q,a) ∈ Q x T és egyetlen olyan p ∈ Q állapot van, amelyre δ(q,a) = p.
 
-
-
 ## 4. Előadás
 -------------
 
+### Alternatív jelölés az állapot-átmenetre
+- δ(q, a) = p állapot átmenet jelölhető egy
+- qa → p    szabállyal is.
+
+### Közvetlen redukció
+Legyen A = (Q, T, δ, q0, F) egy véges determinisztikus automata és legyenek **u, v ∈ QT\*** .   
+_(Konfiguráció: aktuális állapot, input hátralévő része.)_  
+Azt mondjuk, hogy az A automata az u konfigurációt a v konfigurációra redukálja közvetlenül (jelölés: u ⇒_A v), ha van olyan qa → p szabály (azaz δ(q, a) = p) és van olyan w ∈ T* szó, amelyre u = qaw és v = pw teljesül.
+
+### Redukció
+**Definíció:** Az A = (Q, T, δ, q0, F) véges automata az u ∈ QT* konfigurációt a v ∈ QT* konfigurációra redukálja (jelölés: u ⇒_A* v), ha vagy u = v, vagy van olyan z ∈ QT*, amelyre u ⇒_A* z és z ⇒_A v teljesül.
+
+### Automata által elfogadott nyelv
+**Definíció:** Az A = (Q, T, δ, q0, F) véges automata által elfogadott nyelv alatt az L(A) := {u ∈ T*| ∃q0u ⇒_A* p és p ∈ F} szavak halmazát értjük.
+
+_Megjegyzés: Ez azt jelenti, hogy van olyan működése az automatának, hogy a **kezdőállapotból** indulva végig olvasva az inputot **elfogadóállapotba** jut._
+
+### Véges nemdeterminisztikus automata (VNDA)
+**Definíció:** A = (Q, T, δ, **Q0**, F) rendezett ötöst véges **nemdeterminisztikus** automatának nevezzük, ahol
+- Q az állapotok nem üres véges halmaza,
+- T az input szimbólumok ábécéje,
+- δ: Q x T → **P(Q)** _(a Q részhalmazaiba képez)_
+- Q0 ⊆ Q a kezdőállapotok halmaza,
+- F ⊆ Q elfogadó állapotok halmaza.
+
+_Megjegyzés: VNDA a VDA általánosítása_
+
+### 3-as típusú nyelvek kapcsolata a véges automatákkal
+**Tétel:** Minden 3-as típusú L nyelvhez megadható egy véges nemdeterminisztikus automata, és fordítva, minden nemdeterminisztikus automata 3-as típusú nyelvet ismer fel.
+- (𝕃₃ ⊆ 𝕃_(VNDA) , 𝕃_(VNDA) ⊆ 𝕃₃)
+
+_Megjegyzés: Már láttuk, hogy 𝕃\_(reg) ⊆ 𝕃₃, így a reguláris kifejezésekhez (lexikális egységekhez) építhető automata._
+
+**Bizonyítás vázlat:**
+- G grammatikából A nemdeterminisztikus autómata.
+    - Az input szimbólumok ábécéje a terminálisok.
+    - Rendelünk minden nemterminálishoz egy állapotot.
+        - q_A ⟺ A ∈ N
+    - A kezdőállapot megegyezik a kezdő nemterminálishoz rendelt állapottal.
+    - Állapot-átmemeteketek a levezetési szabályok alapján.
+        - δ(q_A,a)=q_B ⟺ A → aB ∈ P
+        - q_A ∈ F ⟺ A → ɛ ∈ P
+    - Ha **S ⇒\* u** (G szerint), akkor **q_S ⇒\* u** (A szerint)
+- Autómatából grammatikát hasonló eljárásokkal kapunk.
+
+#### Nemdeterminisztikus automaták determinisztikussá tétele
+**Tétel:** Minden A=(Q,T,δ,Q0,F) nemdeterminisztikus automatához megadható egy A’=(Q’,T,δ’,q0’,F’) véges determinisztikus automata, hogy L(A’)=L(A).
+(𝕃_(VNDA) ⊆ 𝕃_(VDA))
+
+#### Determinisztikus automata megkonstruálása:
+- Legyen Q’:= P(Q) ,azaz Q összes részhalmazainak halmaza, azaz hatványhalmaza.  
+- Legyen a δ’: Q’ x T → Q’ a következőképpen definiálva:
+    - δ’(q’,a):= ⋃_(q∈q') δ(q,a), ahol q’∈Q’ és a∈T.
+    - Állapotok helyett halmazok.
+    - pl.: {A,B}a → {C,D} // Aa→C, Ba→D ∈ δ
+- Legyen q0’:=Q0 és F’:={q’ ∈ Q’|q’ ∩ F≠∅}.
+
+### Kleene tétele
+**Tétel:** 𝕃₃ = 𝕃_(reg)  
+Minden reguláris nyelvhez adható 3-as típusú grammatika, és fordítva minden 3-as típusú nyelv felépíthető az elemi reguláris nyelvekből a reguláris műveletek véges sokszori alkalmazásával.
+
+**Bizonyítás vázlat:**
+1. 𝕃_(reg) ⊆ 𝕃₃
+2. 𝕃₃ = 𝕃_(VDA)
+3. 𝕃_(VDA) ⊆ 𝕃_(reg)
 
 ## 5. Előadás
 -------------
+
 
 
 ## 6. Előadás
