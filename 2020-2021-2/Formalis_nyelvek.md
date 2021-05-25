@@ -363,11 +363,11 @@ Ezután P’-be felvesszük az **A → X** szabályokat, ha ∃B ∈ H(A) és B 
 **Definíció:** A = (Q, T, δ, q0, F) rendezett ötöst véges determinisztikus automatának nevezzük, ahol
 - Q az állapotok nem üres véges halmaza,
 - T az input szimbólumok ábécéje,
-- δ: Q x T → Q leképezés az állapot-átmeneti függvény,
+- δ: Q × T → Q leképezés az állapot-átmeneti függvény,
 - q0 ∈ Q a kezdőállapot,
 - F ⊆ Q elfogadóállapotok halmaza.
 
-Véges determinisztikus automata estén a δ: Q x T → Q állapot-átmeneti függvény ∀(q,a) párra értelmezett, ahol (q,a) ∈ Q x T és egyetlen olyan p ∈ Q állapot van, amelyre δ(q,a) = p.
+Véges determinisztikus automata estén a δ: Q × T → Q állapot-átmeneti függvény ∀(q,a) párra értelmezett, ahol (q,a) ∈ Q × T és egyetlen olyan p ∈ Q állapot van, amelyre δ(q,a) = p.
 
 ## 4. Előadás
 -------------
@@ -393,7 +393,7 @@ _Megjegyzés: Ez azt jelenti, hogy van olyan működése az automatának, hogy a
 **Definíció:** A = (Q, T, δ, **Q0**, F) rendezett ötöst véges **nemdeterminisztikus** automatának nevezzük, ahol
 - Q az állapotok nem üres véges halmaza,
 - T az input szimbólumok ábécéje,
-- δ: Q x T → **P(Q)** _(a Q részhalmazaiba képez)_
+- δ: Q × T → **P(Q)** _(a Q részhalmazaiba képez)_
 - Q0 ⊆ Q a kezdőállapotok halmaza,
 - F ⊆ Q elfogadó állapotok halmaza.
 
@@ -423,7 +423,7 @@ _Megjegyzés: Már láttuk, hogy 𝕃\_(reg) ⊆ 𝕃₃, így a reguláris kife
 
 #### Determinisztikus automata megkonstruálása:
 - Legyen Q’:= P(Q) ,azaz Q összes részhalmazainak halmaza, azaz hatványhalmaza.  
-- Legyen a δ’: Q’ x T → Q’ a következőképpen definiálva:
+- Legyen a δ’: Q’ × T → Q’ a következőképpen definiálva:
     - δ’(q’,a):= ⋃_(q∈q') δ(q,a), ahol q’∈Q’ és a∈T.
     - Állapotok helyett halmazok.
     - pl.: {A,B}a → {C,D} // Aa→C, Ba→D ∈ δ
@@ -573,3 +573,174 @@ Egy G 2-es típusú grammatika egyértelmű, ha minden u ∈ L(G) szóhoz egyetl
 
 ## 6. Előadás
 -------------
+
+### 2-típusú grammatikák normál formája
+**Definíció:** Egy G=(N,T,P,S) környezetfüggetlen grammatikát Chomsky normálformájúnak mondunk, ha szabályai
+- A → a, ahol A ∈ N és a ∈ T vagy
+- A → BC alakúak, ahol A,B,C ∈ N.
+- S → ε, de ekkor S nem fordul elő egyetlen szabály jobboldalán sem.
+
+### Chomsky normál forma
+**Tétel:** Minden környezetfüggetlen grammatikához megkonstruálható egy vele ekvivalens Chomsky normálformájú grammatika.
+
+**_Megjegyzés:_**
+- _A 2-es típusú grammatikák Chomsky normálformára hozásának algoritmusa nem a tananyag része._
+- _Chomsky normálformájú grammatikákhoz megadható olyan elemző program, amely O(n³) időben eldönti a szóproblémát (Cocke-Younger-Kasami algoritmus)._
+- _Bizonyos állítások bizonyítását elég elvégezni a normálformájú grammatikákra._
+
+### 2-es típusú grammatikák redukálása
+A grammatikák transzformálása közben keletkezhetnek olyan szabályok, amelyek egyetlen szó levezetésében sem használhatóak.  
+A grammatikában lehetnek olyan nemterminálisok, amelyekből 
+1. nem lehet csupa nem terminálisból álló sorozatot előállítani; (zsákutcák)
+2. nem érhetők el a kezdőszimbólumból.
+
+### Hasznos/ nem hasznos nemterminálisok
+**Definició:** 
+- **Aktív** nemterminálisok halmaza egy adott G=(N,T,P,S) környezetfüggetlen grammatika esetén:
+    - A := { X ∈ N | X ⇒* u és u ∈ T*}.
+- **Inaktív** (zsákutca) nemterminálisok: N \ A.
+
+**Definició:** 
+- **Elérhető** nemterminálisok halmaza:
+    - R := { X ∈ N | S ⇒* uXw és u,w ∈ (T ∪ N)*}.
+- **Nemelérhető** nemterminálisok: N \ R.
+
+**Definició:** Egy nemterminálist **hasznosnak** mondunk, ha **aktív** és **elérhető**.
+
+**Definició:** Egy környezetfüggetlen grammatika redukált, ha **minden nemterminálisa hasznos**, azaz a grammatika **zsákutcamentes** és **összefüggő**.
+
+**Tétel:** Minden 2-es típusú grammatikához megkonstruálható egy vele ekvivalens **redukált grammatika**.
+
+**Bizonyítás:**
+1. Zsákutcák meghatározása és minden olyan szabály elhagyása, amiben inaktív nemterminálisok szerepelnek.
+2. Az S-ből nem elérhető nemterminálisokhoz tartozó szabályok elhagyása, azaz a grammatika összefüggővé tétele.
+
+#### 1. Zsákutcák elhagyása
+- A₁ = { X ∈ N | X → u ∈ P és u ∈ T*}
+- Aᵢ₊₁ = Aᵢ ∪  { X ∈ N | X → w ∈ P és w ∈ (Aᵢ ∪ T)*} , ahol i ≥ 1.
+- ∃k : ∀m > k : Aₖ = Aₘ
+    - Ekkor Aₖ a grammatika aktív nemterminálisainak halmaza.
+- Az N\Aₖ inaktív (zsákutca) nemterminálisokat elhagyjuk a grammatikából és minden olyan szabályt is, amiben szerepelnek.
+
+#### 2. Összdefüggővé tétel
+- R₁ = { S }
+- Rᵢ₊₁ = Rᵢ ∪ { Y ∈ N | X → uYw ∈ P, X ∈ Rᵢ, u,w ∈ (N ∪ T)*} , ahol i ≥ 1.
+- ∃k : ∀m > k : Rₖ = Rₘ
+    - Ekkor Rₖ a grammatika elérhető nemterminálisainak halmaza.
+- Az N \ Rk nem elérhető nemterminálisokat elhagyjuk a grammatikából és minden olyan szabályt is, amiben szerepelnek.
+
+### Bar-Hillel lemma (pumpáló lemma)
+Minden L környezetfüggetlen nyelvhez megadható két nyelvtől függő természetes szám p és q úgy, hogy
+- ∀ u ∈ L szóra, ha l(u) > p, akkor u felírható **u = vxwyz** alakban, ahol v, x, w, y, z ∈ T* és
+    - l(xwy) ≤ q, 
+    - xy ≠ ε,
+    - v(x^i)w(y^i)z ∈ L, ∀ i ≥ 0 esetén.
+
+_**Megjegyzés:** A lemmát nem bizonyítjuk, de a bizonyításhoz szükséges, hogy a 2-es típusú nyelvekhez létezik Chomsky-normálformájú grammatika._
+
+### Szóprobléma eldöntése
+**Tétel:** Minden G=(N,T,P,S) környezetfüggetlen grammatika esetében eldönthető,hogy egy tetszőleges u ∈ T* szó benne van-e a G grammatika által generált nyelvben vagy sem.  
+Másképpen u ∈ L(G) igaz-e?
+
+**Bizonyítás:**
+- Feltesszük, hogy G Chomsky normál formában van.
+- A nyelvben van üras szó ha S→ɛ ∈ P
+- u levezethető k=2*l(u)-1 lépésben G-ben.
+- A k lépésben levezethető szavak halmaza véges, így eldönthető, hogy u ∈ L(G) vagysem.
+
+### Veremautomata
+**Definíció:**
+- A = (Z, Q, T, δ, z0, q0, F) rendezett hetest veremautomatának nevezzük, ahol
+    - Z a verem szimbólumok ábécéje,
+    - Q az állapotok nem üres véges halmaza,
+    - T az input szimbólumok ábécéje,
+    - δ: Z × Q × (T ∪ {ε}) → P(Z* × Q) leképezés az állapot-átmeneti függvény, ahol δ véges részhalmazokba képez,
+    - z0 ∈ Z a kezdő veremszimbólum,
+    - q0 ∈ Q a kezdőállapot,
+    - F ∈ Q elfogadó állapotok halmaza.
+
+### Veremautomata állapot-átmenete
+Egy lépésben mindig kell egy jelet olvasni a verem tetejéről és csak egy jelet lehet elérni. Az input szalagról is egy jelet lehet olvasni, de nem kötelező.
+Megváltoztatható az automata aktuális állapota, illetve a verem teteje. Egy lépésben egy egész sorozatot is beírhatunk a verembe.
+Példák:
+- δ(#,q0,a) = {(#a,q0)}
+    - Jelentése: Ha # van a verem tetején és 'a' betű jön az inputon, akkor tegyük be 'a'-t a verembe.
+- δ(#,q0,a) = {(ε,q0)}
+    - Jelentése: Ha # van a verem tetején és 'a' betű jön az inputon, akkor töröljük #-t a veremből.
+- δ(#,q0,a) = {(#,q0)}
+    - Jelentése: Ha # van a verem tetején és 'a' betű jön az inputon, akkor ne változtassuk a verem tartalmát.
+- δ(#,q0,ε) = {(#bb,q0)}
+    - Jelentése: Ha # van a verem tetején és nem olvasunk az inputról, akkor tegyünk a verembe két 'b' betűt.
+
+### Veremautomata - alternatív jelöléssel
+- Ha δ(z,q,a) = {(w₁,r₁),…,(wₖ,rₖ)} , akkor ezt a leképezést a következő szabályhalmazzal is jelölhetjük:
+    - zqa → wᵢrᵢ,ahol 1≤i ≤k.
+- Ha δ(z,q,ε) = {(w₁,r₁),…,(wₖ,rₖ)} , akkor ezt a leképezést a következő szabályhalmazzal is jelölhetjük:
+    - zq → wᵢrᵢ,ahol 1≤i ≤k.
+- Tehát a szabályok baloldala ZQT vagy ZQ alakú és a jobboldala Z*Q alakú.
+
+### Konfiguráció
+Legyen A = (Z, Q, T, δ, z0, q0, F) egy veremautomata és legyen α ∈ Z*QT* . 
+Azt mondjuk α az A veremautomata egy **konfigurációja**. 
+- A konfiguráció a veremautomata egy pillanatnyi állapotát írja le. 
+- Ha α=zqu, ahol z ∈ Z* és q ∈ Q és u ∈ T* és z=z1…zk és u=u1…um, akkor z1 a verem alján és zk a tetején lévő karakter és u az input szöveg még el nem olvasott része, ahol u1 a soron következő karakter.
+- Kezdő konfiguráció: z0q0w ,ahol w ∈ T* az elemzendő szó.
+
+### Közvetlen redukció - definíció
+Legyen A = (Z, Q, T, δ, z0, q0, F) egy veremautomata és legyenek α, β ∈ Z*QT* konfigurációk. 
+- Azt mondjuk, hogy az A veremautomata az α konfigurációt 
+a β konfigurációra redukálja közvetlenül (jelölés: α ⇒_A β), 
+ha van olyan z ∈ Z, q,p ∈ Q, a ∈ T U {ε} és r,u ∈ Z*, w ∈ T* 
+szó, hogy zqa → up egy szabály és
+- α = rzqaw és β = rupw teljesül.
+
+### Redukció - definíció
+Legyen A = (Z, Q, T, δ, z0, q0, F) egy veremautomata és legyenek α, β ∈ Z*QT* . 
+- Azt mondjuk, hogy az A veremautomata az α konfigurációt a β konfigurációra redukálja (jelölés: α ⇒* β, α ⇒_A* β), ha vagy α=β vagy létezik α₁,…,αₖ konfiguráció sorozat, hogy
+- α₁ = α és αₖ = β és αᵢ ⇒ αᵢ₊₁ (1≤i≤k-1).
+
+### Veremautomata által elfogadott nyelv
+**Elfogadó állapottal felismerhető nyelv:**
+- **L(A)** := { u ∈ T*| ∃ z0q0u ⇒* wr és r∈F és w∈Z*}.
+
+_**Megjegyzés:** Ez azt jelenti, hogy van olyan működése a veremautomatának, hogy kezdő konfigurációból indulva végig olvasva az inputot elfogadóállapotba jut._
+
+**Üres veremmel felismerhető nyelv:**
+- **N(A)** := { u ∈ T* | ∃ z0q0u ⇒* r és r ∈ Q }.
+
+_**Megjegyzés:** Ez azt jelenti, hogy van olyan működése a veremautomatának, hogy kezdő konfigurációból indulva végig olvasva az inputot teljesen kiüríti a vermet._
+
+### Determinisztikus veremautomata
+Egy veremautomatát determinisztikusnak mondunk, ha minden α ∈ Z+QT* konfiguráció esetén egyetlen konfiguráció vezethető le közvetlenül α -ból.
+
+_**Megjegyzés:** Ez azt jelenti, hogy nincs két olyan szabály, amelynek azonos a baloldala, valamint, ha zq egy baloldal, akkor nincs zqa baloldal egyetlen terminálisra sem._
+
+### Determinisztikus és nemdeterminisztikus veremautomaták kapcsolata
+A determiniszitikus autómatákkal felismerhető nyelvek családja **szűkebb** mint a nemdeterminálisoké.  
+Pl. a szimmetrikus szavak nem ismerhetőek fel determinisztikussal.
+
+### A kétféle elfogadás kapcsolata.
+**Lemma1:** Bármely A veremautomatához megadható A’ veremautomata úgy, hogy N(A’)=L(A). 
+**Lemma2:** Bármely A veremautomatához megadható A’ veremautomata úgy, hogy L(A’)=N(A).
+
+_**Megjegyzés:** Ez azt jelenti, hogy ha egy nyelvhez építhető elfogadó állapottal felismerő veremautomata, akkor építhető üresveremmel felismerő veremautomata és fordítva._
+
+### A 2-es nyelvcsalád és a veremautomaták kapcsolata
+**Tétel:** Ha L ∈ 𝕃₂, akkor megadható egy A veremautomata úgy, hogy L=N(A), azaz 𝕃₂ ⊆ 𝕃1V .
+
+**Bizonyítás:** Legyen G=(N,T,P,S) egy környezetfüggetlen (2-es típusú) 
+grammatika, amelyre L=L(G).  
+Ekkor A=(T∪N,{q0},T,δ,S,q0,∅), ahol δ a következő:
+- Xq0 → w⁻¹q0 akkor és csak akkor, ha X → w ∈ P, X∈N, w∈(T∪N)*;
+    - Ha nemterminális van a verem tetején, akkor valamelyik rá vonatkozó szabály jobb oldalára cseréljük.
+- aq0a → q0 akkor és csak akkor, ha a ∈ T.
+    - Ha terminális van a verem tetjén, akkor ha ugyan az van az inputban akkor tovább lépünk az inputban és kivesszük a veremből.
+- A veremmel a szó legbal levezetését szimuláljuk.
+
+_**Megjegyzés:** A egy egyállapotú üresveremmel elfogadó automata._
+
+**Tétel:** Minden A veremautomatához megadható egy környezetfüggetlen G grammatika úgy, hogy L(G)=N(A), azaz 𝕃1V ⊆ 𝕃₂ .
+
+_**Megjegyzés:** A fordított tételt nem bizonyítjuk._
+
+
