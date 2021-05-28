@@ -10,7 +10,7 @@
     linkcolor=blue,  %choose some color if you want links to stand out
 }
 
-%\setlength{\parindent}{4em}
+\setlength{\parindent}{0em}
 %\setlength{\parskip}{5em}
 %\setlength{\parbox}{5em}
 \def\thesection{\arabic{section}.}
@@ -36,26 +36,28 @@
 
             \subsubsection{Ismertesse a lebegőpontos számábrázolás modelljét, és definiálja a gépi számokat.}
 
-            %\paragraph{\underline{Definíció:} Normalizált lebegőpontos szám} ~\\
-            \underline{Definíció:} Normalizált lebegőpontos szám
+            \textbf{Definíció:} Normalizált lebegőpontos szám
 
-            %\setlength{\leftskip}{3cm}
-            %\begin{adjustwidth}{2cm}{}
-            %\parshape 1 2em \dimexpr\linewidth-2em\relax
-            Legyen $m = \sum^{t}_{i=1} m_j\cdot2^{-i}$, ahol $ t \in \mathbb{N}, m_1 = 1, m_i \in \{0,1\}$. ~\\
+            Legyen $m = \sum^{t}_{i=1} m_j\cdot2^{-i}$, ahol $ t \in \mathbb{N}, m_1 = 1, m_i \in \{0,1\}.$ ~\\
             Ekkor az $a = \pm m \cdot 2^k (k \in \mathbb{Z})$ alakú számot \underline{\textit{normalizált lebegőpontos számnak}} nevezzük. ~\\
             m: a szám \underline{mantisszája}, hossza t ~\\
             k: a szám \underline{karakterisztikája}, $k^- \leq k \leq k^+$ ~\\
-
             $101011 \rightsquigarrow 0.101011\cdot2^{-6}$ ~\\
             \textbf{Jelölés:} $a = \pm[m_1...m_k|k] = \pm0.m_1...m_k * 2^k$. ~\\
-            \textbf{Def.:} Gépi számok halmaza ~\\
-            %\end{adjustwidth}
-            %\par
+            
+            \textbf{Jelölés:} $M = M(t, k^-, k^+)$ a gépi számok halmaza, adott $k^-,k^+ \in \mathbb{Z}$ és $t \in \mathbb{N}$ esetén. (Általában $k^-<0$ és $k^+>0$). \\
+            \textbf{Definíció:} Gépi számok halmaza ~\\
+            \[M(t, k^-, k^+) = \{ a = \pm 2^k\cdot\sum^{t}_{i=1} m_i\cdot 2^{-i} : k^- \leq k \leq k^+, m_i \in \{0,1\}, m_1=1  \}\bigcup\{0\}\]
+            Gyakorlatban még hozzávesszük: $\infty, -\infty, NaN, ...$
 
             \subsubsection{Nevezze meg és számítsa ki a számhalmaz nevezetes mennyiségeit (elemszám, $M\infty$, $\varepsilon_0$).}
 
-            adsfdsafafaf
+            \begin{itemize}
+                \item $\frac{1}{2} \leq m \leq 1$
+                \item M szimmetrikus a 0-ra.
+                \item M legnagyobb eleme: \[M_\infty = [11...11|k^+] = 1.00...00\cdot2^{k^+}-0.00...01\cdot2^{k^+} = (1-2^{-t})\cdot2^{k^+}\]
+                \item M legkisebb pozitív eleme: \[\varepsilon_0 = [10...00|k^-] = \frac{1}{2} \cdot 2^{k^-} = 2^{k^--1}\]
+            \end{itemize}
 
 
         \subsection{Az input függvény fogalma, tétel az ábrázolt szám hibájáról, $\varepsilon_1$ mennyiség bevezetése és értelmezése.}
