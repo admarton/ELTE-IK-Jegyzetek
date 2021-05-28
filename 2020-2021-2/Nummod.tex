@@ -1,177 +1,176 @@
 \documentclass{article}
 \usepackage[margin=0.75in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
 
-\setlength{\parindent}{4em}
-\setlength{\parskip}{1em}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=blue,  %choose some color if you want links to stand out
+}
+
+%\setlength{\parindent}{4em}
+%\setlength{\parskip}{5em}
+%\setlength{\parbox}{5em}
+\def\thesection{\arabic{section}.}
+\def\thesubsection{\arabic{section}.\alph{subsection}.}
+\def\thesubsubsection{\arabic{section}.\alph{subsection}.\arabic{subsubsection}.}
 
 \title{Nummod I. - Tételek}
 \date{2021-05-27}
 \author{Ambrus-Dobai Márton}
 
-\iffalse
-# pdflatex
-
-## 1. Lebegőpontos számok és tulajdonságaik. A Horner-algoritmus.
-### 1. a)
-Ismertesse a lebegőpontos számábrázolás modelljét, és definiálja a gépi számokat.
-- **Def.:** Normalizált lebegőpontos szám
-    - Legyen m = ∑ᵗⱼ₌₁ mⱼ * 2⁻ʲ, ahol t ∈ ℕ, m₁ = 1, mᵢ∈{0,1}.
-    - Ekkor az a = ±m*2ᵏ (k∈ℤ) alakú számot _normalizált lebegőpontos számnak_ nevezzük.
-    - m: a szám mantisszája, hossza t
-    - k: a szám karakterisztikája, k⁻ ≤ k ≤ k⁺
-    - 101011 ⇝ 0.101011*2⁻⁶
-- **Jel.:** a = ±[m₁...mₜ|k] = ±0.m₁...mₜ * 2ᵏ.
-- **Def.:** Gépi számok halmaza
-    - 
-
-Nevezze meg és számítsa ki a számhalmaz nevezetes mennyiségeit (elemszám, M∞, ε0).
-\fi
-
 \begin{document}
     \pagenumbering{arabic}
     \maketitle
+
+    \tableofcontents
+
     \section{Lebegőpontos számok és tulajdonságaik. A Horner-algoritmus.}
+        \subsection{
+        Ismertesse a lebegőpontos számábrázolás modelljét, és definiálja a gépi számokat.
+        Nevezze meg és számítsa ki a számhalmaz nevezetes mennyiségeit (elemszám, $M\infty$, $\varepsilon_0$).
+        Szemléltesse a halmaz elemeit számegyenesen. Adjon meg két példát a véges szám-ábrázolásból fakadó furcsaságokra.
+        }
 
-    \subsection{
-    Ismertesse a lebegőpontos számábrázolás modelljét, és definiálja a gépi számokat.
-    Nevezze meg és számítsa ki a számhalmaz nevezetes mennyiségeit (elemszám, $M\infty$, $\varepsilon_0$).
-    Szemléltesse a halmaz elemeit számegyenesen. Adjon meg két példát a véges szám-ábrázolásból fakadó furcsaságokra.
-    }
+            \subsubsection{Ismertesse a lebegőpontos számábrázolás modelljét, és definiálja a gépi számokat.}
 
-    \subsubsection{Ismertesse a lebegőpontos számábrázolás modelljét, és definiálja a gépi számokat.}
-    \paragraph{Definíció: Normalizált lebegőpontos szám}
+            %\paragraph{\underline{Definíció:} Normalizált lebegőpontos szám} ~\\
+            \underline{Definíció:} Normalizált lebegőpontos szám
+
+            %\setlength{\leftskip}{3cm}
+            %\begin{adjustwidth}{2cm}{}
+            %\parshape 1 2em \dimexpr\linewidth-2em\relax
+            Legyen $m = \sum^{t}_{i=1} m_j\cdot2^{-i}$, ahol $ t \in \mathbb{N}, m_1 = 1, m_i \in \{0,1\}$. ~\\
+            Ekkor az $a = \pm m \cdot 2^k (k \in \mathbb{Z})$ alakú számot \underline{\textit{normalizált lebegőpontos számnak}} nevezzük. ~\\
+            m: a szám \underline{mantisszája}, hossza t ~\\
+            k: a szám \underline{karakterisztikája}, $k^- \leq k \leq k^+$ ~\\
+
+            $101011 \rightsquigarrow 0.101011\cdot2^{-6}$ ~\\
+            \textbf{Jelölés:} $a = \pm[m_1...m_k|k] = \pm0.m_1...m_k * 2^k$. ~\\
+            \textbf{Def.:} Gépi számok halmaza ~\\
+            %\end{adjustwidth}
+            %\par
+
+            \subsubsection{Nevezze meg és számítsa ki a számhalmaz nevezetes mennyiségeit (elemszám, $M\infty$, $\varepsilon_0$).}
+
+            adsfdsafafaf
+
+
+        \subsection{Az input függvény fogalma, tétel az ábrázolt szám hibájáról, $\varepsilon_1$ mennyiség bevezetése és értelmezése.}
+        
+        
+        \subsection{* A Horner algoritmus polinom és deriváltja helyettesítési értékeinek gyors számolására, és a kapcsolódó tétel igazolása.}
+
+
+    \section{Becslés polinom gyökeinek elhelyezkedésére. A hibaszámítás alapjai.}
+        \subsection{* Becslés polinom gyökeinek elhelyezkedésére és annak bizonyítása.}
+        \subsection{Ismertesse az abszolút és relatív hiba, hibakorlát fogalmát. Mutassa be az alapműveletek hibakorlátaira vonatkozó állításokat, és igazolja a szorzásra vagy osztásra vonatkozó összefüggéseket. Ez alapján mely műveletek elvégzése veszélyes az abszolút és relatív hibára nézve és miért?}
+        \subsection{Igazolja a függvényérték hibakorlátaira vonatkozó tételeket és definiálja függvény adott pontbeli kondíciószámát.}
+
+
+    \section{A Gauss-elimináció és az LU-felbontás algoritmusa.}
+        \subsection{Vázolja a Gauss-elimináció alapötletét LER megoldására, vezesse le az algoritmus képleteit. Mutassa be a Gauss-elimináció további alkalmazásait azonos mátrixú lineáris egyenletrendszerek megoldására, determináns kiszámítására és inverzmátrix meghatározására.}
+        \subsection{Határozza meg az elimináció és a visszahelyettesítés műveletigényét.}
+        \subsection{* Mutassa meg, hogy a GE lépései végrehajthatók speciális mátrix-szorzásokkal. Vezesse le a kapott mátrixok inverzére és szorzatára tanult állításokat. Végül ezeket felhasználva állítsa elő a kiinduló mátrix LU-felbontását.}
+asd
+
+    \section{A Gauss-elimináció és az LU-felbontás elemzése.}
+        \subsection{Mutassa be a Gauss-elimináció algoritmusát. Adjon szükséges és elégséges feltételeket a GE elakadására illetve végrehajthatóságára. Ismertesse LER megoldását LU-felbontás segítségével. Miért előnyös ennek használata a GE-vel szemben?}
+        \subsection{Ismertesse a részleges és teljes főelemkiválasztás módszereit. Mit mondhatunk az elakadásról részleges főelemkiválasztás alkalmazása esetén? Miért lehet érdemes teljes főelemkiválasztást használni?}
+        \subsection{* Idézze fel az LU felbontás előállításának módszerét a Gauss-elimináció segítségével (bizonyítás nélkül). Adjon szükséges és elégséges feltételt a létezésre. Igazolja az LU-felbontás egyértelműségére vonatkozó tételt.}
+
+
+    \section{Az LU-felbontás alkalmazása. A Schur-komplementer.}
+        \subsection{Definiálja egy mátrix LU-felbontását. Adjon módszert L és U mátrixok elemenkénti meghatározására, vezesse le az elemekre vonatkozó képleteket. Térjen ki az elemek meghatározásának sorrendjére és a műveletigényre is.}
+        \subsection{Definiálja a Schur-komplementert. Ismertesse a GE megmaradási tételeit (és a kapcsolódó fogalmakat), majd bizonyítsa a determinánsra és szimmetriára vonatkozó pontokat.}
+        \subsection{* Igazolja a pozitív definitség megmaradására vonatkozó állítást.}
     
-    Legyen $m = \sum^{t}_{i=1} m_j\cdot2^{-i}$, ahol $ t \in \mathbb{N}, m_1 = 1, m_i \in \{0,1\}$. 
+ads
+    \section{A Cholesky-féle felbontás.}
+        \subsection{Az LDU-felbontás fogalma, előállítása. Szimmetrikus mátrix felbontására vonatkozó tétel.}
+        \subsection{* Definiálja a Cholesky-felbontást, igazolja a létezésére és egyértelműségére vonatkozó tételeket.}
+        \subsection{Mutassa be az elemenkénti meghatározásra szolgáló (Cholesky-)algoritmust, vezesse le a képleteket és határozza meg a műveletigényt, tárigényt. Vesse össze az LDLT és a Cholesky felbontások alkalmazhatóságát.}
 
 
-    \par
+    \section{A QR-felbontás.}
+        \subsection{Definiálja a QR-felbontást és vezesse le az előállítására alkalmas Gramm–Schmidt ortogonalizációs eljárást. Milyen feltétel garantálja, hogy az algoritmus nem akad el?}
+        \subsection{Mutassa be az ortogonalizációs eljárás normálás nélküli változatát, és az utólagos normálás módját. Hogyan alkalmazható a QR-felbontás LER megoldására? Vesse össze az LU-felbontáson alapuló megoldással (műveletigény, alkalmazhatóság).}
+        \subsection{* A QR-felbontás egyértelmúségére vonatkozó tétel.}
+
+
+    \section{A Householder-transzformáció.}
+        \subsection{Definiálja a Householder-transzformációt, ismertesse geometriai tartalmát, vezesse le elemi tulajdonságait. Mutassa be a transzformáció alkalmazásának módját vektorra illetve mátrixra (mindkét irányból), adja meg e számítások műveletigényeit.}
+        \subsection{Határozza meg különböző, azonos (de nem 0) hosszúságú a, b vektorokhoz azt a H transzformációt, melyre $Ha = b$. Alkalmazza ezt az eredményt tetszőleges vektor $\sigma e_1$ alakra hozására, indokolja $\sigma$ értékének megválasztását.}
+        \subsection{* Mutassa be a Householder-transzformáció alkalmazását lineáris egyenletrendszer megoldására, valamint QR-felbontás elkészítésére. Vesse össze a módszert a Gram–Schmidt eljárással műveletigény és numerikus stabilitás szempontjából.}
+
+ads
+    \section{Mátrixnormák és tulajdonságaik I.}
+        \subsection{Definiálja a vektornormát, mátrixnormát és indukált normát, mutassa meg, hogy utóbbi mindig mátrixnorma. Adjon meg példákat is. Igazolja mátrix tetszőleges normája és a spektrálsugara közti egyenlőtlenséget.}
+        \subsection{* Vezesse le a 2-es vektornorma által indukált mátrixnorma képletét.}
+        \subsection{Vezesse le, mivel egyenlő normális mátrix 2-es normája. Mit mondhatunk ortogonális mátrix 2-es normájáról?}
+
+
+    \section{Mátrixnormák és tulajdonságaik II.}
+        \subsection{Definiálja a vektornormát, mátrixnormát és indukált normát, mutassa meg, hogy utóbbi mindig mátrixnorma. Írja fel a Frobenius mátrixnorma képletét (bizonyítás nélkül), igazolja, hogy nem indukált norma. Definiálja az illeszkedés fogalmát, igazolja, hogy indukált norma mindig illeszkedik a megfelelő vektornormához.}
+        \subsection{* Igazolja a Frobenius-norma sajátértékekkel való kifejezésének képletét. Ezt felhasználva mutasson példát olyan vektornormára, melyhez a Frobenius-norma illeszkedik.}
+        \subsection{Vezesse le az 1-es vektornorma által indukált mátrixnorma képletét.}
+
+    
+    \section{LER érzékenysége.}
+        \subsection{Formalizálja LER jobboldalának illetve mátrixának perturbációját, ismertesse a megoldás megváltozásának mértékére tanult tételeket (bizonyítás nélkül). Definiálja a kondíciószámot és igazolja tulajdonságait.}
+        \subsection{Vizsgálja LER megoldásának érzékenységét szorzatfelbontások (LU, QR) alkalmazása esetén. Bizonyítsa a LER jobboldalának megváltozására vonatkozó tételt.}
+        \subsection{* Bizonyítsa a mátrix megváltozására vonatkozó tételt és a felhasznált lemmát.}
+
+asd
+    \section{Iterációs módszerek konvergenciája.}
+        \subsection{* Kontrakció fogalma $\mathbb{R}^n$-en, a Banach-féle fixponttétel ismertetése és bizonyítása.}
+        \subsection{Vázolja LER iterációs módszerrel történő megoldásának alapötletét, vesse össze a direkt módszerekkel. Vezessen le elégséges feltételt a konvergenciára.}
+        \subsection{Igazolja a konvergencia szükséges és elégségséges feltételét.}
+
+
+    \section{A Jacobi-iteráció.}
+        \subsection{Vezesse le a Jacobi-iteráció mátrixos és koordinátás alakját. Ismertesse a csillapított változat alapötletét, határozza meg vektoros és koordinátás képleteit.}
+        \subsection{Írja át az iterációt a reziduumvektoros alakra, térjen ki annak szerepére. Adjon elégséges feltételt a Jacobi-iteráció konvergenciájára.}
+        \subsection{* Igazolja a csillapított Jacobi-iteráció konvergenciatételét.}
+
+
+    \section{A Gauss–Seidel-iteráció.}
+        \subsection{Vezesse le a Gauss–Seidel-iteráció vektoros és koordinátás alakját. Ismertesse a relaxált változat alapötletét, határozza meg vektoros és koordinátás képleteit.}
+        \subsection{* Írja át az iterációt a reziduumvektoros alakra, térjen ki annak szerepére. Bizonyítsa a relaxációs módszer konvergenciájának szükséges feltételét.}
+        \subsection{Vesse össze a Jacobi és Gauss-Seidel típusú iterációkat. Ismertesse a speciális mátrixosztályok eseteire tanult tételeket (bizonyítás nélkül), értelmezze az eredményeket.}
+
+asd
+    \section{A Richardson-típusú iterációk. Kerekítési hibák az iterációkban.}
+        \subsection{Vezesse le a Richardson-típusú iterációk képletét. Írja fel a reziduumvektoros alakot és ismertesse annak jelentőségét. Fogalmazza meg a tanult konvergenciatételt (bizonyítás nélkül).}
+        \subsection{* Igazolja a konvergenciatételt.}
+        \subsection{Vezesse le a kerekítési hibák hosszútávú hatását egy (általános) iterációs módszer alkalmazásakor.}
+
+
+    \section{A részleges LU-felbontás és az ILU algoritmus.}
+        \subsection{Definiálja a részleges LU-felbontást és vezesse le az ILU algoritmust. Írja át reziduumvektoros alakra is. Adjon nevezetes példákat az algoritmus speciális eseteiként.}
+        \subsection{Vázolja a részleges LU-felbontás előállításának algoritmusát. Adjon elégséges feltételt a felbontás létezésére és egyértelműségére.}
+        \subsection{* A felbontást előállító algoritmus helyességét megalapozó tétel bizonyítása.}
+
+
+    \section{Nemlineáris egyenletek megoldása I.}
+        \subsection{Ismertesse a nemlineáris egyenletek megoldásának feladatát. Mutassa be a megoldás létezését biztosító állításokat: írja fel a Bolzano-tételt (bizonyítás nélkül), és segítségével igazolja a Brouwer-féle fixpont-tételt.}
+        \subsection{Kontrakció fogalma [a; b] intervallumon és a Banach-féle fixponttétel (bizonyítás nélkül). Igazolja az elégséges feltételt a kontrakcióra.}
+        \subsection{* Ismertesse a konvergenciarend fogalmát és elemi tulajdonságait. Igazolja a fixpontiterációk magasabb rendű konvergenciájáról szóló tételt.}
+
+asd
+    \section{Nemlineáris egyenletek megoldása II.}
+        \subsection{Vázolja az intervallumfelezés algoritmusát és mutasson hozzá hibabecslést. Ismertesse a húrmódszer alapötletét, szemléltesse működését és vezesse le az algoritmusát.}
+        \subsection{Ismertesse a Newton-módszer alapötletét, szemléltesse működését és vezesse le a képletét. Mutassa be a többváltozós esetet is. Milyen tételt ismer a módszer monoton konvergenciájáról (bizonyítás nélkül)?}
+        \subsection{* Igazolja a Newton-módszer monoton konvergenciájáról szóló állítást.}
+
+
+    \section{Nemlineáris egyenletek megoldása III.}
+        \subsection{Ismertesse a Newton-módszer alapötletét, szemléltesse működését és vezesse le a képletét. Mutassa be a többváltozós esetet is. Milyen tételt ismer a módszer lokális konvergenciájáról (bizonyítás nélkül)?}
+        \subsection{* Igazolja a Newton-módszer lokális konvergenciájáról szóló állítást.}
+        \subsection{Ismertesse a szelőmódszer alapötletét, szemléltesse működését és vezesse le az algoritmusát. Adjon konvergenciatételt (bizonyítás nélkül). Vesse össze az eredményeket a Newton-módszerről tanultakkal.}
+    
+        asdasd
+
 \end{document}
-
-\iffalse
-
-b) Az input függvény fogalma, tétel az ábrázolt szám hibájáról, ε1 mennyiség bevezetése és értelmezése.
-c) * A Horner algoritmus polinom és deriváltja helyettesítési értékeinek gyors számolására, és a kapcsolódó tétel igazolása.
-2. Becslés polinom gyökeinek elhelyezkedésére. A hibaszámítás alapjai.
-a) * Becslés polinom gyökeinek elhelyezkedésére és annak bizonyítása.
-b) Ismertesse az abszolút és relatív hiba, hibakorlát fogalmát. Mutassa be az alapműveletek hibakorlátaira vonatkozó állításokat, és igazolja a szorzásra vagy osztásra
-vonatkozó összefüggéseket. Ez alapján mely műveletek elvégzése veszélyes az abszolút és relatív hibára nézve és miért?
-c) Igazolja a függvényérték hibakorlátaira vonatkozó tételeket és definiálja függvény
-adott pontbeli kondíciószámát.
-3. A Gauss-elimináció és az LU-felbontás algoritmusa.
-a) Vázolja a Gauss-elimináció alapötletét LER megoldására, vezesse le az algoritmus
-képleteit. Mutassa be a Gauss-elimináció további alkalmazásait azonos mátrixú
-lineáris egyenletrendszerek megoldására, determináns kiszámítására és inverzmátrix
-meghatározására.
-b) Határozza meg az elimináció és a visszahelyettesítés műveletigényét.
-c) * Mutassa meg, hogy a GE lépései végrehajthatók speciális mátrix-szorzásokkal.
-Vezesse le a kapott mátrixok inverzére és szorzatára tanult állításokat. Végül ezeket
-felhasználva állítsa elő a kiinduló mátrix LU-felbontását.
-4. A Gauss-elimináció és az LU-felbontás elemzése.
-a) Mutassa be a Gauss-elimináció algoritmusát. Adjon szükséges és elégséges feltételeket a GE elakadására illetve végrehajthatóságára. Ismertesse LER megoldását
-LU-felbontás segítségével. Miért előnyös ennek használata a GE-vel szemben?
-b) Ismertesse a részleges és teljes főelemkiválasztás módszereit. Mit mondhatunk az
-elakadásról részleges főelemkiválasztás alkalmazása esetén? Miért lehet érdemes
-teljes főelemkiválasztást használni?
-c) * Idézze fel az LU felbontás előállításának módszerét a Gauss-elimináció segítségével
-(bizonyítás nélkül). Adjon szükséges és elégséges feltételt a létezésre. Igazolja az
-LU-felbontás egyértelműségére vonatkozó tételt.
-5. Az LU-felbontás alkalmazása. A Schur-komplementer.
-a) Definiálja egy mátrix LU-felbontását. Adjon módszert L és U mátrixok elemenkénti
-meghatározására, vezesse le az elemekre vonatkozó képleteket. Térjen ki az elemek
-meghatározásának sorrendjére és a műveletigényre is.
-b) Definiálja a Schur-komplementert. Ismertesse a GE megmaradási tételeit (és a kapcsolódó fogalmakat), majd bizonyítsa a determinánsra és szimmetriára vonatkozó
-pontokat.
-c) * Igazolja a pozitív definitség megmaradására vonatkozó állítást.
-
-6. A Cholesky-féle felbontás.
-a) Az LDU-felbontás fogalma, előállítása. Szimmetrikus mátrix felbontására vonatkozó tétel.
-b) * Definiálja a Cholesky-felbontást, igazolja a létezésére és egyértelműségére vonatkozó tételeket.
-c) Mutassa be az elemenkénti meghatározásra szolgáló (Cholesky-)algoritmust, vezesse
-le a képleteket és határozza meg a műveletigényt, tárigényt. Vesse össze az LDLT
-és a Cholesky felbontások alkalmazhatóságát.
-7. A QR-felbontás.
-a) Definiálja a QR-felbontást és vezesse le az előállítására alkalmas Gramm–Schmidt
-ortogonalizációs eljárást. Milyen feltétel garantálja, hogy az algoritmus nem akad
-el?
-b) Mutassa be az ortogonalizációs eljárás normálás nélküli változatát, és az utólagos
-normálás módját. Hogyan alkalmazható a QR-felbontás LER megoldására? Vesse
-össze az LU-felbontáson alapuló megoldással (műveletigény, alkalmazhatóság).
-c) * A QR-felbontás egyértelmúségére vonatkozó tétel.
-8. A Householder-transzformáció.
-a) Definiálja a Householder-transzformációt, ismertesse geometriai tartalmát, vezesse
-le elemi tulajdonságait. Mutassa be a transzformáció alkalmazásának módját vektorra illetve mátrixra (mindkét irányból), adja meg e számítások műveletigényeit.
-b) Határozza meg különböző, azonos (de nem 0) hosszúságú a, b vektorokhoz azt a H
-transzformációt, melyre Ha = b. Alkalmazza ezt az eredményt tetszőleges vektor
-σe1 alakra hozására, indokolja σ értékének megválasztását.
-c) * Mutassa be a Householder-transzformáció alkalmazását lineáris egyenletrendszer
-megoldására, valamint QR-felbontás elkészítésére. Vesse össze a módszert a Gram–
-Schmidt eljárással műveletigény és numerikus stabilitás szempontjából.
-9. Mátrixnormák és tulajdonságaik I.
-a) Definiálja a vektornormát, mátrixnormát és indukált normát, mutassa meg, hogy
-utóbbi mindig mátrixnorma. Adjon meg példákat is. Igazolja mátrix tetszőleges
-normája és a spektrálsugara közti egyenlőtlenséget.
-b) * Vezesse le a 2-es vektornorma által indukált mátrixnorma képletét.
-c) Vezesse le, mivel egyenlő normális mátrix 2-es normája. Mit mondhatunk ortogonális mátrix 2-es normájáról?
-10. Mátrixnormák és tulajdonságaik II.
-a) Definiálja a vektornormát, mátrixnormát és indukált normát, mutassa meg, hogy
-utóbbi mindig mátrixnorma. Írja fel a Frobenius mátrixnorma képletét (bizonyítás
-nélkül), igazolja, hogy nem indukált norma. Definiálja az illeszkedés fogalmát,
-igazolja, hogy indukált norma mindig illeszkedik a megfelelő vektornormához.
-b) * Igazolja a Frobenius-norma sajátértékekkel való kifejezésének képletét. Ezt felhasználva mutasson példát olyan vektornormára, melyhez a Frobenius-norma illeszkedik.
-c) Vezesse le az 1-es vektornorma által indukált mátrixnorma képletét.
-11. LER érzékenysége.
-a) Formalizálja LER jobboldalának illetve mátrixának perturbációját, ismertesse a
-megoldás megváltozásának mértékére tanult tételeket (bizonyítás nélkül). Definiálja
-a kondíciószámot és igazolja tulajdonságait.
-b) Vizsgálja LER megoldásának érzékenységét szorzatfelbontások (LU, QR) alkalmazása esetén. Bizonyítsa a LER jobboldalának megváltozására vonatkozó tételt.
-c) * Bizonyítsa a mátrix megváltozására vonatkozó tételt és a felhasznált lemmát.
-12. Iterációs módszerek konvergenciája.
-a) * Kontrakció fogalma R
-n
--en, a Banach-féle fixponttétel ismertetése és bizonyítása.
-b) Vázolja LER iterációs módszerrel történő megoldásának alapötletét, vesse össze a
-direkt módszerekkel. Vezessen le elégséges feltételt a konvergenciára.
-c) Igazolja a konvergencia szükséges és elégségséges feltételét.
-13. A Jacobi-iteráció.
-a) Vezesse le a Jacobi-iteráció mátrixos és koordinátás alakját. Ismertesse a csillapított
-változat alapötletét, határozza meg vektoros és koordinátás képleteit.
-b) Írja át az iterációt a reziduumvektoros alakra, térjen ki annak szerepére. Adjon
-elégséges feltételt a Jacobi-iteráció konvergenciájára.
-c) * Igazolja a csillapított Jacobi-iteráció konvergenciatételét.
-14. A Gauss–Seidel-iteráció.
-a) Vezesse le a Gauss–Seidel-iteráció vektoros és koordinátás alakját. Ismertesse a
-relaxált változat alapötletét, határozza meg vektoros és koordinátás képleteit.
-b) *
-Írja át az iterációt a reziduumvektoros alakra, térjen ki annak szerepére. Bizonyítsa a relaxációs módszer konvergenciájának szükséges feltételét.
-c) Vesse össze a Jacobi és Gauss-Seidel típusú iterációkat. Ismertesse a speciális
-mátrixosztályok eseteire tanult tételeket (bizonyítás nélkül), értelmezze az eredményeket.
-15. A Richardson-típusú iterációk. Kerekítési hibák az iterációkban.
-a) Vezesse le a Richardson-típusú iterációk képletét. Írja fel a reziduumvektoros alakot és ismertesse annak jelentőségét. Fogalmazza meg a tanult konvergenciatételt
-(bizonyítás nélkül).
-b) * Igazolja a konvergenciatételt.
-c) Vezesse le a kerekítési hibák hosszútávú hatását egy (általános) iterációs módszer
-alkalmazásakor.
-16. A részleges LU-felbontás és az ILU algoritmus.
-a) Definiálja a részleges LU-felbontást és vezesse le az ILU algoritmust. Írja át reziduumvektoros alakra is. Adjon nevezetes példákat az algoritmus speciális eseteiként.
-b) Vázolja a részleges LU-felbontás előállításának algoritmusát. Adjon elégséges feltételt a felbontás létezésére és egyértelműségére.
-c) * A felbontást előállító algoritmus helyességét megalapozó tétel bizonyítása.
-17. Nemlineáris egyenletek megoldása I.
-a) Ismertesse a nemlineáris egyenletek megoldásának feladatát. Mutassa be a megoldás létezését biztosító állításokat: írja fel a Bolzano-tételt (bizonyítás nélkül), és
-segítségével igazolja a Brouwer-féle fixpont-tételt.
-b) Kontrakció fogalma [a; b] intervallumon és a Banach-féle fixponttétel (bizonyítás
-nélkül). Igazolja az elégséges feltételt a kontrakcióra.
-c) * Ismertesse a konvergenciarend fogalmát és elemi tulajdonságait. Igazolja a fixpontiterációk magasabb rendű konvergenciájáról szóló tételt.
-18. Nemlineáris egyenletek megoldása II.
-a) Vázolja az intervallumfelezés algoritmusát és mutasson hozzá hibabecslést. Ismertesse a húrmódszer alapötletét, szemléltesse működését és vezesse le az algoritmusát.
-b) Ismertesse a Newton-módszer alapötletét, szemléltesse működését és vezesse le a
-képletét. Mutassa be a többváltozós esetet is. Milyen tételt ismer a módszer monoton konvergenciájáról (bizonyítás nélkül)?
-c) * Igazolja a Newton-módszer monoton konvergenciájáról szóló állítást.
-19. Nemlineáris egyenletek megoldása III.
-a) Ismertesse a Newton-módszer alapötletét, szemléltesse működését és vezesse le a
-képletét. Mutassa be a többváltozós esetet is. Milyen tételt ismer a módszer lokális
-konvergenciájáról (bizonyítás nélkül)?
-b) * Igazolja a Newton-módszer lokális konvergenciájáról szóló állítást.
-c) Ismertesse a szelőmódszer alapötletét, szemléltesse működését és vezesse le az algoritmusát. Adjon konvergenciatételt (bizonyítás nélkül). Vesse össze az eredményeket
-a Newton-módszerről tanultakkal.
-
-\fi
