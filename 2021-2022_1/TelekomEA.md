@@ -7,7 +7,7 @@ Rout leaking, egy routert rosszul konfigurálnak és olyan mintha a csomagokat e
 
 ## Elérhetőség
 
-lakis@inf.elte.hu
+lakis@inf.elte.hu  
 https://lakis.web.elte.hu
 
 ## Cél

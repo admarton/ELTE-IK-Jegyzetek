@@ -1,5 +1,5 @@
 # Telekommunikációs hálózatok 2 GY 2021.09.07
-vzoli@inf.elte.hu
+vzoli@inf.elte.hu  
 tms.inf.elte.hu
 
 ## Követelmény

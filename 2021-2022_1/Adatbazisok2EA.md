@@ -167,7 +167,9 @@ Structured Query Language
 6. ÁTNEVEZÉS, ρ_S(A,B)(R) az R át lesz nevezve S-re és az oszlopai is
 
 Részkifejezésekből nézettáblák -> azokon lekérdezése = összetett lekérdezés felépítése  
-```SQL CRATE VIEW T1 AS SELECT ... FROM ... WHERE ...;```
+```SQL
+ CRATE VIEW T1 AS SELECT ... FROM ... WHERE ...;
+ ```
 
 Ilyen műveletek sorozata a relációs algebra.
 
