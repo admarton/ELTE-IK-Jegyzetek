@@ -1,4 +1,4 @@
-# Adatbázisok 2 GY 2021.09.07
+# Telekommunikációs hálózatok 2 GY 2021.09.07
 vzoli@inf.elte.hu
 tms.inf.elte.hu
 

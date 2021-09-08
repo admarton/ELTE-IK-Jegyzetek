@@ -10,6 +10,12 @@
     linkcolor=blue,  %choose some color if you want links to stand out
 }
 
+\newcommand{\tetel}{\textbf{Tétel:} \quad}
+\newcommand{\jelol}{\textbf{Jelölés:} \quad}
+\newcommand{\defin}{\textbf{Definíció:} \quad}
+\newcommand{\kovet}{\textbf{Következmény:} \quad}
+
+
 \setlength{\parindent}{0em}
 %\setlength{\parskip}{5em}
 %\setlength{\parbox}{5em}
@@ -62,17 +68,48 @@
 
             \subsubsection{Szemléltesse a halmaz elemeit számegyenesen. Adjon meg két példát a véges szám-ábrázolásból fakadó furcsaságokra.}
             M = M(2, -1, 1)
+            $M = \{ 0, \pm 2, \pm 1, \pm 0.75, \pm 0.5, \pm \frac{3}{8}, \pm 0.25, \pm \frac{1}{8} \}$
             
 
         \subsection{Az input függvény fogalma, tétel az ábrázolt szám hibájáról, $\varepsilon_1$ mennyiség bevezetése és értelmezése.}
-        
-        
-        \subsection{* A Horner algoritmus polinom és deriváltja helyettesítési értékeinek gyors számolására, és a kapcsolódó tétel igazolása.}
+        \jelol $\mathbb{R}_M$ az ábrázolható gépi számok tartománya. \[ \mathbb{R}_M := \{ x \in \mathbb{R}: |x| \leq M_\infty \} \]
+        \defin Input függvény
+        \begin{itemize}
+            \item Az $fl : \mathbb{R}_M \rightarrow M$ függvényt input függvénynek nevezzük, ha
+            \[ 
+                fl(x) = \left .
+                \begin{cases} 
+                    0 \quad ha \quad |x| < \varepsilon_0, \\
+                    \tilde{x} \quad ha \quad \varepsilon_0 \leq |x| \leq M_\infty, 
+                \end{cases} \right .
+            \]
+            ahol $\tilde{x}$ az x-hez legközelebbi gépi szám (a kerekítés szabályai szerint).
+        \end{itemize}
+        \tetel Input hiba
+        Minden $x \in \mathbb{R}_M$ esetén \[ |x-fl(x)| \leq \left.
+            \begin{cases}
+                \varepsilon_0 \qquad ha \quad |x| < \varepsilon_0, \\
+                \frac{1}{2}|x|\cdot \varepsilon_1 \quad ha \quad \varepsilon_0 \leq |x| \leq M_\infty
+            \end{cases} \right.\]
 
+        \jelol M-ben az 1 után következő gépi szám és 1 különbsége: \[ \varepsilon_1 = [100...01|1]-[100...00|1] = 2^{-t}\cdot2^{1} = 2^{1-t} \]
+
+        \kovet Ha $\varepsilon_0 \leq |x| \leq M_\infty$, akkor
+        \[
+            \frac{|x-fl(x)|}{|x|} \leq \frac{1}{2}\cdot\varepsilon_1 = 2^{-t}.
+        \]
+        A hiba tehát lényegében $\varepsilon_1$-től, azaz $t$-től függ.
+
+        \subsection{* A Horner algoritmus polinom és deriváltja helyettesítési értékeinek gyors számolására, és a kapcsolódó tétel igazolása.}
+            Ez nem volt.
 
     \section{Becslés polinom gyökeinek elhelyezkedésére. A hibaszámítás alapjai.}
         \subsection{* Becslés polinom gyökeinek elhelyezkedésére és annak bizonyítása.}
         \subsection{Ismertesse az abszolút és relatív hiba, hibakorlát fogalmát. Mutassa be az alapműveletek hibakorlátaira vonatkozó állításokat, és igazolja a szorzásra vagy osztásra vonatkozó összefüggéseket. Ez alapján mely műveletek elvégzése veszélyes az abszolút és relatív hibára nézve és miért?}
+            \subsubsection{Ismertesse az abszolút és relatív hiba, hibakorlát fogalmát.}
+            \subsubsection{Mutassa be az alapműveletek hibakorlátaira vonatkozó állításokat, és igazolja a szorzásra vagy osztásra vonatkozó összefüggéseket.}
+            \subsubsection{Ez alapján mely műveletek elvégzése veszélyes az abszolút és relatív hibára nézve és miért?}
+
         \subsection{Igazolja a függvényérték hibakorlátaira vonatkozó tételeket és definiálja függvény adott pontbeli kondíciószámát.}
 
 
