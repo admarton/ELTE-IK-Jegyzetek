@@ -1,4 +1,4 @@
-# Mesterséges Intelligencia EA
+# Mesterséges Intelligencia EA 2021.09.09
 
 
 ## Követelmény

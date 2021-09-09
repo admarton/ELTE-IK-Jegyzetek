@@ -1,4 +1,4 @@
-# Adatbázisok 2 GY
+# Adatbázisok 2 GY 2021.09.09
 
 https://people.inf.elte.hu/branyi/ora/gyak2/  
 https://branyi.hu
