@@ -61,10 +61,11 @@ class MyThread extends Thread {
 ```java  
 class Main {
     public static void main( String args[] ){
-        //new Thread {
-        //@Override public void run(){
-        //    while(true) System.out.println("Hi!");
-        //}
+        (new Thread() {
+            @Override public void run(){
+                while(true) System.out.println("Hi!");
+            }
+        }).start();
     }
 }
 ```
