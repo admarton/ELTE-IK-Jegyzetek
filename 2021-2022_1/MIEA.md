@@ -238,7 +238,7 @@ Mérő László - jó könyvek a témában
 - adott pillanatban lehessen rangsorolni
 
 ## Útkeresési probléma
-**Def.:** Útkeresési probléma az, amelynek megoldása megfeleltethető egy *élsújozott irányítatlan gráfbeli*
+**Def.:** Útkeresési probléma az, amelynek megoldása megfeleltethető egy *élsújozott irányított gráfbeli*
     - *csúcsnak* (célcsúcs)
     - *útnak* (startcsúcsból célcsúcsba, esetleg a legolcsóbb)
 
