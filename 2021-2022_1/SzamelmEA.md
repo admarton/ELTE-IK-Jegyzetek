@@ -21,7 +21,7 @@
     - levezethető u ⇒_G v --> u = u₁xu₂, v = u₁yu₂, x → y ∈ P
     - generált nyelv - ami S-ből indulva levezethető (⇒*)
 
-- Grammatika osztályok
+- Grammatika osztályok  
     0. nincs korlát
     1. ∀ u₁Au₂ → u₁vu₂ ∈ P, u₁,u₂,v ∈ (N ∪ T)*, A ∈ N, v ≠ ɛ  
         S → ɛ lehet, de akkor S nem lehet szabály jobb oldalán (KES)
