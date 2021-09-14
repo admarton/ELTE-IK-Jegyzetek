@@ -195,3 +195,138 @@ Nem triviális rekurzió.
     - séma nem egyezzik r|X|s=r×s
 - Osztás, hányados
 - Monotonitás - sorok hozzáadásával növekedni fog.
+
+# AB2 EA 2021.09.14
+
+## Algebrai optimalizálás
+**Cél:**
+Legérdezések gyorsítása, a tábla specifikus paraméterek, statisztikák ismeretében, heurisztikák használatával.
+
+## Lekérdezés optimalizálása
+- SQL lekérdezés
+1. elemzés
+- Elemző fa
+2. Átalakítás
+- Logikai lekérdező terv
+3. Szabályok alkalmazása
+    - algebrai optimalizáció
+- Javított logikai lekérdező terv
+4. Várható métretek becslése
+5. Fizikai tervek készítése
+- 
+6. Költségek becslése
+- Terv, költség párok : **{(FT1,KI),(FT2,K2)...}**
+
+
+## Példa:
+```SQL
+SELECT B,D
+FROM R,S
+WHERE R.A = 'c'
+AND S.E = 2 AND R.C=S.C;
+```
+????
+
+- Két tábla direkt szorzata és abból a megfelelő sorok, majd vetítés.
+    - A direkt szorzatnak nagy eredménye lesz.
+    - Oracle-ban: NESTED LOOP
+    - Költséges
+    - Π_(B,D)[σ_(felt)](R×S)
+
+- Relációs algebrát ábrázolhatjuk fával
+    - A levelek a táblák
+    - Belső csúcsok műveletek
+
+- Kiválasztások hamarabb, utána összekapcsolás.
+    - Két vélhetően kisebb tábla lesz összerakva.
+    - Π_(B,D)[(σ(R))|X|(σ(S))]
+1. Keresést lehet gyorsítani pl indexekkel
+2. Összekapcsolás is gyorsítható indexel
+3. S-re szűrés
+4. Összekapcsolás közben lehet ellenőrizni a vetítést
+
+## Példa 2:
+```SQL
+SELECT TITLE
+FROM StarsIn
+WHERE starName IN (
+    SELECT name
+    FROM MovieStar
+    WHERE birthdate LIKE '%1960'
+);
+```
+1. Elemzőfa, Parse Tree
+    - \<Query>, \<SFW>, 
+2. Rendszertáblákból ellenőrizve vannak, hogy léteznek-e a táblák, megfelelő típúsok vannak, meg vannak a jogosultságok, stb..
+3. Elemzőfából lehet REL-ALG fát csinálni
+    - '\<tuple> IN \<query>' ezt még át kell alakítani
+    - \<table> × \<query> majd σ_('x in y' -> 'x = y.x')
+    - lehet theta joint a szorzás helyett
+4. Ezeket a műveleteket végrehajtási szinten is lehet optimalizálni
+
+## Algebrai optimalizálás
+- **Cél:** gyorsabb kiszámítás
+- **Költségmodell:** költség arányos a méretekkel, lehetne bonyolultabb kölségeket is kiszámolni (mienk alap szintű)
+- **Módszer:** művletei tula. alapján ekviv. átalakítás
+- **Az eljárás heurisztikus**, nem valódi méretekkel számol
+- **Az eredmény nem egyértelmű:** Az átalakítások sorrendje nem determinisztikus, de általában jobb költségű
+- **Megj.:** Az SQL sokkal bővebb, de most klassic. alg. kif. lesznek.
+
+- kifejezést gráffal ábrázoljuk
+- **Kifejezésfa:**
+    - nem levél csúcs
+        - unáris műveletek
+        - bináris műveletek
+    - levelek: konstans relációk vagy reláció változók
+
+## Példa 3:
+- kv(s,i,kc) //könyv(sors., író, k.cím)
+- kő(a,n,lc) //kölcsönző(azon., név, l.cím)
+- ks(s,a,d)  //kölcsönzés(sors., azon., dátum)
+- Milyen című könyvet kölcsönöztek ki 2007-től kezdve?
+    - Π_kc(σ_(d>='2007.01.01')(kv |X| kő |X| ks))
+    - ha minden infó kell, akkor az összekapcsolás szükséges - materializált nézet
+    - Kölcsönző adataira nincs szükség, de lehet van materializált nézetünk
+
+## 11 szabály csoport
+1. Kommutativitás
+    - X × Y ⩳ Y × X
+2. Asszociativitás
+    - A × B × C ≂ A × (B × C)
+3. Vetítések összevonása, bővítés
+    - A ⊆ B ⊆ E
+    - Π_A(Π_B(E)) ⩳ Π_A(E)
+4. Kiválasztások felcserélhetősége, felbontása
+    - σ_(F1 ∧ F2)(E) ⩳ σ_(F1)(σ_(F2)(E))
+5. Kiválasztás és vetítés felcserálhetősége
+6. Kiválasztás és szorzás felcserélhetősége
+7. Kiválasztás és egyesítés felcs.
+8. Kiválasztás és kivonás frlcs.
+9. Kiválasztás és természetes összekapcsolás felcs.
+10. Vetítés és szorzás felscs.
+11. Vetítés és egyesítés felcs.
+- Nem minden cserélhető pl: Vetítés és kivonás nem cserélhető fel
+
+## Heurisztikus elvek
+1. Minnél hamarabb szelektáljuk
+2. Össszekapcsolások jobbak mint a szorzások
+3. Unáris műveletek összevonása
+4. Keressünk közös részkifejezéseket
+
+## Optimalizáló algoritmus
+1. A kiválasztásokat bontsuk fel (4)
+2. A kiválasztást mélyebbre visszük (4-9)
+3. A vetítések is mélyre (3,5,10,11)
+4. Műveltek összevonása (3-5)
+5. Bináris műveltek csoportosítása, egy-egy művelte egy csoportban.
+6. A fát kiértékeljük
+
+
+## Példa 3:
+- kv(s,i,kc) //könyv(sors., író, k.cím)
+- kő(a,n,lc) //kölcsönző(azon., név, l.cím)
+- ks(s,a,d)  //kölcsönzés(sors., azon., dátum)
+- Milyen című könyvet kölcsönöztek ki 2007-től kezdve?
+    - Π_kc(σ_(d>='2007.01.01')(kv |X| kő |X| ks))
+    - Π_kc(σ_(kv.s=ks.s)((Π_(kv.s, kc)(kv))×Π_ks.a(σ_(kő.a=ks.a)(Π_kő.a(kő)×Π_(ks-s,ks.s)(σ_2007(ks))))))
+    - Részgráfok képzése

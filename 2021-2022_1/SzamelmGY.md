@@ -201,3 +201,107 @@ X₄ → )
 Z₁ → X₁ S  
 Z₂ → X₂ A  
 Z₃ → S X₄  
+
+# Számelm GY 2021.09.14
+
+## CYK Algoritmus
+- CNF-ben kell lennie
+- Eldönti a szóproblémát
+    - Igen / nem a kimenete
+    - Egy szó a bemente
+    - Eldönti, hogy a nyelvben van
+- Lentről fölfelé elemez
+- **Szorgalmi a szintaxisfához**
+- Mártix van
+    - A részszót hogyan tudjuk előállítani
+    - Sorok az, hogy milyen hosszú résszóról van szó
+    - Az oszlopok meg az, hogy hanyadik betűtől
+    - Minden cellában nemterminálisok vannak amiból le lehet vezetni az alatta lévó résszót
+- Ha az első sor első oszlopában van S, akkor előállítható a szó
+- (i,j)-ben szerepel A, ha van olyan A ⟶ BC ∈ P
+    - B szerepel (k,j)-ben
+    - C szerepel (i-k, k+j)-ben
+    - k ∈ [1,...,i-1]
+- O(n³) műveletigény
+
+|u_1|u_2|...|u_n|
+|---|---|---|---|
+|   |
+|
+
+## Példa 1
+
+- G:  
+    S → AB  
+    A → AA | a  
+    B → b  
+- Input:
+    aaaab
+
+| n | 1 | 2 | 3 | 4 | 5 |
+|:--|---|---|---|---|---|
+| 1 | S |   |   |   |   |
+| 2 | A | S |   |   |   |
+| 3 | A | A | S |   |   |
+| 4 | A | A | A | S |   |
+| 5 | A | A | A | A | B |
+|   | a | a | a | a | b |
+
+
+## Példa 2
+
+- G:  
+    S → AB | BC  
+    A → XA | a  
+    X → a  
+    C → YC | c  
+    Y → c
+    B → UV | VW  
+    U → XX  
+    W → YY  
+    V → ZZ  
+    Z → b  
+- Input:
+    aabbcc
+
+| n | 1 | 2 | 3 | 4 | 5 | 6 |
+|:--|---|---|---|---|---|---|
+| 6 | S |   |   |   |   |   |
+| 5 | S | S |   |   |   |   |
+| 4 | B | ∅ | B |   |   |   |
+| 3 | ∅ | ∅ | ∅ | ∅ |   |   |
+| 2 |A,U| ∅ | V | ∅ |C,W|   |
+| 1 |A,X|A,X| Z | Z |C,Y|C,Y|
+|   | a | a | b | b | c | c |
+
+## Házi
+
+- G:  
+    S → BZ₂ | a | X₃Z₃ | AZ₁  
+    A → a | X₃Z₃ | BZ₂  
+    B → a | X₃Z₃     
+    Z₁ → X₁S  
+    Z₂ → X₂A
+    Z₃ → SX₄  
+    X₁ → +  
+    X₂ → *  
+    X₃ → (  
+    X₄ → )  
+- Input:
+    (a+a)*a
+
+| n | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|:--|---|---|---|---|---|---|---|
+| 7 |S,A|   |   |   |   |   |   |
+| 6 | 0 | 0 |   |   |   |   |   |
+| 5 |SAB| 0 | 0 |   |   |   |   |
+| 4 | 0 | z₃| 0 | 0 |   |   |   |
+| 3 | 0 | S | 0 | 0 | 0 |   |   |
+| 2 | 0 | 0 | Z₁| Z₃| 0 | Z₂|   |
+| 1 | X₃|SAB| X₁|SAB| X₄| X₂|SAB|
+|   | ( | a | + | a | ) | * | a |
+
+## Szorgalmi
++ 7,5% a ZH-n (fél jegy)  
+CYK-ból hogyan lehet szintaxisfát csinálni + példa (kb 2 oldal)  
+ZH-ig teamsen
