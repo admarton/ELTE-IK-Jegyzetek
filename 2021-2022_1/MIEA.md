@@ -315,3 +315,36 @@ A startbúl induló hiperútak bejárásai δ-gráfot alkotnak.
 - Célcsúcsai az e. g. célcs.-ból álló sorozat
 
 ## !!HUH!! ##
+
+# Konzi 2021.09.16
+
+## δ-tul. 
+- Kizárjuk azt hogy a végtelen hosszú út legyen a legrövidebb
+- Általában magától adódik ez a tulajdonság
+- nem végtelen feladatban sem lesz végtelen kifok
+- súlyok alsó korlátja általában műveleti költségből jönű
+    - annak van minimuma általában
+- gráf lehet kb végtelen nagy is
+
+## ÉS/VAGY gráf
+- Kövönséges gráfnak megfeleltethető
+    - át lehet alakítani
+- ÉS él a kiperés
+- VAGY él a sima él
+- Hiperutak rendes utakká lesznek alakítva
+- Hiperút bejárása szekvenciával
+- Az átalakítás sok idő lenne
+    - ezért az útkeresőbe kell beépíteni az átalakítást
+- pl
+    - a -+-> b
+    - a -+-> c
+    - <a> -> <b,c>
+- átalakítás nagyobb problémát csinál
+    - egyszerűsíteni kell
+    - egy hiperút minden bejárása felesleges
+    - általában elég néhány bejárása
+    - Hamis bejárások is belekerülhetnek
+    - Célcsúcsból kiinduló utakat el lehetne hagyni, felesleges
+    - Irányított fát jobb építeni mint gráfot
+
+    
