@@ -347,4 +347,95 @@ A startbúl induló hiperútak bejárásai δ-gráfot alkotnak.
     - Célcsúcsból kiinduló utakat el lehetne hagyni, felesleges
     - Irányított fát jobb építeni mint gráfot
 
-    
+# 2.előadás ~2021.09.17
+
+## Modellezés fontos
+- Állapottér modell
+    - fontos teknika
+    - felvehető állapotok halmaza
+    - invariáns állítássokkal lehet szűkíteni
+    - műveletekkel lehet egyik állapotból a másikba jutni
+    - kezdőállapot(ok)
+    - célállapotok
+    - feladat:
+        - műveletsorozat amivel a kezdőből a célba jutunk
+    - irányított gráffal reprezentálható
+    - éleknek lehet súlya, ha nincs akkor egységnyi
+    - feladat megoldásához útkeresési algoritmus
+    - pl.: Hannoi tornyai
+        - adatszerkezet pontosságig kell vinni a modellezést
+        - pl lehetnek vermek
+        - lehet a korongok helyzete is
+        - Állapottér:
+            - tömbök sorozata
+        - művelet:
+            - honnan hova kell rakni, korong egyértelmű lesz
+        - nagy a problématér
+    - pl.: n-királynő
+        - állapottér: {királynő, _}ⁿ×ⁿ
+        - művelet:
+            - áthelyet(x,y,u,v)
+        - hatalmas problématér
+        - tetszőlegest start állapot
+        - megoldás a célállapot
+
+## Reprezentációs gráf bonyolultsága
+- repr. gráf -> problématér -> keresés számításigénye
+- Start csúcsból kivezető utak száma
+- minnél kisebb problématér kell
+    - akár az állapottér bővítéssel is lehet javítani
+    - műveletek előfeltételének szigorítása
+    - pl.: n-királynő
+        - üres tábláról indul
+        - felhelyez királynőket
+        - csak sorról sorra lehessen felrakni
+        - ha már ütés van akkor ne lehessen többet felrakni
+        - művelet: helyez(oszlop)
+            - a sor egyértelműen jön
+            - előfeltétel ellenőrzések
+
+## Műveltek
+- műveletek hatékonysága befolyásolja a keresés időtartamát
+- invariáns szigorítás
+- adatok számon tartása az állapotokban
+- pl.: n-királynő
+    - állapot: rec(t:{királynő, X, _}ⁿ×ⁿ, köv_sor:ℕ)
+    - cél már csak annyi hogy az összes soron végigmentünk
+
+## Tologatós játék
+- csempéket kell tologatni (8-as, 15-ös)
+- kezdőállapot bármi lehet
+- célállomás a mérettől függ (8->körben, 15->sorfolytonos)
+- állapotok: mártix
+    - rec(m:{0..8}^3×3, üres:{1..3}×{1..3})
+- művelet:
+    - "üres hely eltolás", kevesebb művelet mint az összes lap eltolása
+    - Tol(irány)
+        - nem szabad kitolni
+- sok kör és út
+
+## Visszafelé haladó keresés
+- meg kell találni aztén át kell fordítani
+- nem minden célból lehet visszajutni
+- kétirányú élek kellenek
+- ha ezek nem állnak fenn akkor probléma redukció kell
+    - állapot halmazok
+    - megelőző állapothalmazt kell kiszámolni
+    - el lehet jutni a startig
+    - redukciós operátor kell:
+        - hogyan lehet létrehozni a megelőző állapothalmazt
+    - redukciós operátor sorozat a célból a startba és abból fisszaforgatás
+
+## Probléma dekompozíció
+- Részproblémák megoldása
+- általános probléma leírása
+- kiinduló probléma
+- egyszerű probléma
+- dekomponáló operátor
+- ÉS/VAGY gráffal ábrázolható
+- pl.: Integrál számítás
+    - összeg szétválasztása
+    - konstans kiemelés
+    - alap integrál levezetés
+    - parciálás szabálya
+- 
