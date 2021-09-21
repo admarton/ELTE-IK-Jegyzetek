@@ -330,3 +330,181 @@ WHERE starName IN (
     - Π_kc(σ_(d>='2007.01.01')(kv |X| kő |X| ks))
     - Π_kc(σ_(kv.s=ks.s)((Π_(kv.s, kc)(kv))×Π_ks.a(σ_(kő.a=ks.a)(Π_kő.a(kő)×Π_(ks-s,ks.s)(σ_2007(ks))))))
     - Részgráfok képzése
+
+
+# EA 2021.09.21
+
+## Fizikai tervek
+- Eddig logiaki terv volt
+- SQL lekérdezésből lesz egy terv
+- "Explain Plan" ablak
+- Műveletek közül próbál jobb költségűeket keres (nem a legjobbat, csak kb)
+- blokk műveletek száma a mártákegység
+- minden műveltre ki kell számolni a költségeket
+    - jobb költségű sorozatot kell választani
+    - műveletsorozat
+        - kövi művelet költsége az előzőtől függ
+- Méreteket és futási időkel kell összehasonlíthatni
+
+## Sorrend:
+- SQL
+    - elemzés
+- Elemző fa
+    - átalakítás
+- Logikai lekérdező terv - fix pont
+    - szabályok alkalmazása
+- Javított logikai terv
+    - Végrehajtás megbecslése
+- Fizikai tervek
+    - Költségek becslése
+- "Legjobb kiválasztása"
+    - Végrahajtás
+- Eredmény
+
+## Miért jó?
+- Ez egy általános módszer
+- Mi lehet tudunk speckó infókat amivel jobb végrahajtást tudunk adni
+- Ha megértettük, akkor lehet javítani
+
+## Indexelés
+- Célok:
+    - gyors lekérdezés
+    - gyors adatmódosítás
+    - minnél kisebb tárhely
+    - (hálózati forgalom optimalizálás, stb)
+- Nincs általános legjobb optimalizáció. A célok egymás ellen dolgoznak
+- Adatbázis lehet
+    - statikus (ritkán módosul, komplex lekérdezések) - pl.: adattárház
+    - dinamikus (sok módosítás, egyszerű lekérdezések) - pl.: bank fálhasználói rendszere
+- Hogyan mérjük költségeket?
+- Memória műveletek gyorsabbak mint a háttértár műveletek
+- Blokkokat ír,olvas, blokkokban számolunk
+    - Írnia kell az eszköz dobozán a blokk sebességet, azzal kell felszorozni az aktuális hardveren
+    - blokkméretet fixnek tekintjük (pl OP rendszer is meghatároz, író/olvasó fej is meghatároz ilyet, adatbázis is meghatároz)
+- Feltesszük, hogy beolvasás és kiírás költsége arányos a háttértár és memória között mozgatott blokkokkal (memória beli műveletek arányosan nagyon kicsik, eltekintünk tőlük)
+- Adatbázist is blokkokba szervezzük
+- Feltesszük, hogy állandó hosszúak a rekordok
+- blokkok tartalmaznak:
+    - leíró fejlécet (hol vannak rekordok, üres helyek, egyéb infókat)
+    - rekordokat
+    - üres helyeket
+- Költségek méréséhez paramétereket használunk
+    - l - (length) rekord méret (bájtban)
+    - b - blokkméret (bájtban)
+    - T - (Tuple) rekordok száma
+    - B - a fájl mérete blokkban
+    - bf - blokkolási faktor (mennyi rekord fér el egy blokkban = bf = ⌊ b / l ⌋ - alsó egészrész)
+    - B = ⌈ T / bf ⌉ - felső egészrész
+    - M - memória mérete blokkban
+    - Példa: R×S mérete
+        - l(R×S) = l(R)+l(S)
+        - T(R×S) = T(R)*T(S)
+        - bf(R×S) = b / (l(R)+l(S))
+        - B(R×S) = (T(R)*T(S)) * (l(R)+l(S)) / b =  
+            = (T(S) * T(R) * I(R)/b) + (T(R) * T(S) * I(S)/b) =   
+            = **T(S) * B(R) + T(R) * B(S)**
+
+- Milyen lekérdezést vizsgálunk?
+- Rel-alg 
+    - Kiválasztás
+        - Legegyszerűbb:
+            - A = a (A mező, a konstans)
+        - Kétféle bonyolultság
+            - átlagos
+            - legrosszabb
+        - A=a -ból mennyi van (sok, egy)
+            - ezt nem akarjuk viszgálni, ezért feltesszük, hogy minden konstansból ugyan annyi van
+            - **Egyenletességi feltétel**
+            - Mennyi az annyi?
+            - Különböző értékek száma I(A) - (image)
+            - I(A) = |π_A(R)|
+            - Egyenletességi feltétel esetén
+                - T(σ_A=a(R)) = T(R) / I(A)
+                - B(σ_A=a(R)) = B(R) / I(A)
+            - Fejlesztési módszerek
+                - Ömlesztett adatok
+                - Kupac
+                - Hasító index
+                - Rendezett állomány
+                - Elsődleges index (ritka)
+                - Másodlagos (sűrű)
+                - Többszintű index
+                - B⁺-fa, B*-fa
+            - Mi csak azt nézzük, hogy az elsőt mennyi megtalálni.  
+                - A többire csak becslést adunk
+            - Módosítási műveletek:
+                - beszúrás
+                - frissítés
+                - törlés
+            - Memóriában lévő adatokra is lehetne figyelni, nem kellene újra betölteni
+
+### Kupac szervezés
+- Blokk első üres helyére rakjuk, sorban
+- Tárméret: B
+- A=a keresési idő:
+    - B (legrosszabb)
+    - B/2 (átlagosan)
+    - lineáris keresés
+- Beszúrás
+    - Utolsó blokkot kell beolvasnni és beleírni: 2 művelet
+- Módosítás:
+    - 1 keresés + 1 írás
+- Törlés:
+    - 1 keresés + 1 írás (üres hely marad, vagy törlés bitet beállítjuk)
+    - más is hivatkozhat erre
+
+### Hasító szervezés
+- Szekvenciális gyorsítása
+- Láncok a blokkokból
+- Egy blokkban hasonló dolgok
+- Csak az adott kosárban kell keresni
+- kosarak száma
+    - fix -> statikus hasítás : K
+    - adatoktól függően változik -> dinamikus hasítás
+- A besorolás az indexmező értékei alapján 
+- h(x)∈{1,...,K} hasító függvény
+- A hasító függvény általában maradékos osztáson alapul
+    - statikus esetben mod(K)
+- Akkor jó a ha nem fögg attól hogy melyik blokk milyen hosszú
+- Adatok eloszlásához lehet állítani a hasító függvényt
+- blokkláncok egyforma hosszúak legyenek, blokklánc B/K blokkból álljon
+- Keresés A=a:
+    - Túl nagy K sem segít
+    - Túl kicsi sem biztos hogy jó
+- Beszúrás
+    - Blokk telítódik, akkor hozzáláncol egy újat
+- Módosítás:
+    - 1 keresés + 1 írás
+    - ha a hasító érték módosul akkor átkerül
+- Törlés:
+    - Láncon előrébb lehet vinni, de felesleges lassítás lehet
+- Intervallumos keresésre nem jó, egyenlőségre épül fel
+
+- Dinamikus hasítás
+    - kiterjesztjóhető
+    - lineáris
+
+- Kiterjeszthető hasító index:
+    - kezdetben mindegyik blokk 1 rekordot tartalmaz, keresési költség: 1
+    - hasító függvény:
+        - rekordok várható számának logaritmusánál nagyobb k-t választunk
+        - k hosszú bináris sorozatot ad
+        - kosár azonosítója a bináris kód
+        - prefix kód, i hosszú
+        - h(x) bináris kód, annak i hosszú eleje lesz a kosarának a prefix azonosítója
+        - ha betelik akkor átosztjuk a következő bit alapján a kosarakat
+        - sok adatnál sok kosár jöhet létre és hosszú láncok jöhetnek létre
+        - teljes fa lenne a jó, ki kell egyensújozni
+        - virtuálisan kiegészítjük a fát
+    - Kosár kódokat számon kell tartani
+        - ha egyiknek nő a hossza, akkor fel kell venni az összes olyan hosszú kódszót
+        - ha két külön direktori bejegyzés van, de csak egy blokk akkor ugyyan arra mutatnak (csak virtuális szétbontás)
+
+- Lineáris
+    - több blokkból álló kosarak
+    - komplexebb feltétel
+    - telítettség alapján van szétbontva
+    - pl.: kosarak átlagos mérete
+    - kosarak csoportosítva a végződéseik alapjána (postfix)
+    
+

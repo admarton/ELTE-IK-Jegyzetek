@@ -424,7 +424,7 @@ A startbúl induló hiperútak bejárásai δ-gráfot alkotnak.
     - el lehet jutni a startig
     - redukciós operátor kell:
         - hogyan lehet létrehozni a megelőző állapothalmazt
-    - redukciós operátor sorozat a célból a startba és abból fisszaforgatás
+    - redukciós operátor sorozat a célból a startba és abból visszaforgatás
 
 ## Probléma dekompozíció
 - Részproblémák megoldása

@@ -115,3 +115,134 @@ print(p1.communicate()) # eredménye egy tuple(stdout, stderr)
     - vannak válaszidők
     - meg lehet találni a probléma helyét
 
+# GYak_3 2021.09.21
+
+- TMS működik
+- Milyen csomagok mennek?
+- szerver imitálás  
+    `nc -l -p 1234`
+- kliens imitálás  
+    `nc destination_host 1234`
+- Tutorial a ppt-ben
+- ilyet tudunk majd írni a félév végére
+- enkapszuláció
+    - egymásra épülő rétegek, saját burkolatba csomagolják a dolgokat
+- tcpdump - hálózati forgalomfigyelés
+    - elemezni lehet
+    - forgalmat ki lehet menteni
+    - host és port szűrés
+        - teljes csomagot szed ki, nem csak egy részét
+    - mentés pcap file-ba
+- WhireShark ennek egy modernebb verziója
+    - adat kiírása - hexa kód
+    - logikai kiírás - szintek leírása
+        - Frame - 1.szint
+        - Ethernet - 2.szint
+            - honnan, hova, beágyazott struktúra típusa (pl.: IPv4)
+            - mindenki megnézi az elejét és megnézi hogy neki szól-e
+            - csak akkor olvassa vágig ha neki szól
+            - broadcast üzenetet mindenki megnézi
+        - IPv4 - 3.szint
+            - 4 biten a verzió
+            - 4 biten h hány bájt lesz a header
+            - Dolgok...pl.:
+            - Protocol: pl.:UDP
+        - UDP - Transport - 4.szint
+            - Source port, dest port
+            - checksum (extra védelem)
+            - UDP payload (x bytes) - mennyi adat van
+        - DATA (x bytes)
+    - csomagok kiírása
+        - sorban a dolgok
+        - honnan, hova, protocoll, stb....
+    - általános filter kifejezés
+        - protocoll azonosító
+            - arp - ip alapján MAC kérés
+            - reverse arp - tudom a MAC címem és kérem az ip-m
+                - dhcp - dinamikus ip kérés és háló konfig lekérés
+                    - ip cím, netmask, default gateway, stb...
+        - fejléc mező
+        - fejléc almező
+        - összehasonlító operátor
+        - elvárt étrék
+        - Ezek összekapcsolása operátorokkal
+        - pl.: tcp.flags.ack==1 and tcp.dstport==80
+            - ack nyugta flag - valameddig megkapt, azt visszaküldi
+
+    - follow stream -el lehet az egész kommunikációt követni
+
+- nem a hálózathoz kell jogosultság, hanem a géphez
+    - az egész hálózatot tudom figyelni
+    - általában
+    - Keretinformációk nincsenek titkosítva
+        - sok mindent ki lehet olvasni
+
+- python dolgok
+- `import socket`
+    - socket unix erőforrás
+    - két független program tudjon egymásnak üzenetet küldeni (nem pipeline, külső file, stb)
+    - két task tudjon kommunikálni -> majd online is
+- `gethostname()`
+    - hol fut a py program host nevét
+- `gethostbyname(), gethostbyname()_ex, gethostbyaddr()`
+    - domain lekérés, ilyesmi
+- portok használata 
+    - port : short int
+        - 1024 alattiak az ismertek
+        - ismert porton a megfelelő program induljon
+        - 22 - ssh
+        - 23 - telnet
+        - 80 - http
+        - ftp, ftp_data, stb
+        - etc/services file-ban benne van
+    - `getservbyport(22)` milyen service tartozik, ha tartozik
+- Little edian, big edian
+    - high, low fele milyen sorrendbe van tárolva
+    - hálózati formára kell transformálni - hálózati forma a rendes sorrend
+    - htons(), htonl() - host to network short/long
+    - ntohs(), ntohl() - network to host short/long
+
+- TCP
+    - server
+        - socket()
+            - oprendszer erőforrás
+            - ezen keresztül kommunikáció
+            - itt kötődik össze a task és az op-rendszer
+            - network socket-et kér
+            - socket descriptort ad amit a bind, listen, accept, és close használja
+            - `sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)`
+        - bind()
+            - kinek szóló adatot akar megkapni
+            - milyen portot akar
+            - port hozzárendelés
+            - `sock.bind(server_address) #server_address = ('localhost',10000)`
+        - listen()
+            - várakozási sor állítás
+            - listen queue-ba kerülnek a várakozó kliens
+            - továbít a megfelelő szerverhez
+            - `sock.listen(1)`
+        - windows-on settimeout(mp-ig)
+        - 2. accept()
+            - várakozók kiszolgálása
+            - újabb connect a sorba áll
+            - kliens ip címét és portszámát megkapja - hova kell visszaküldeni
+            - visszaad egy kapcsolat azonosítót
+            - socket descreptor - recv és send ezt használja
+            - `connection, client_address = sock.accept()`
+        - 4. recv()
+            - `data = connection.recv(16).decode()`
+        - 5. send()
+            - `connection.sendall(data.encode())`
+        - 7. close()
+            - `connection.close()`
+    - client
+        - socket()
+        - 1. connect()
+            - mit kell elérni
+            - ip, port
+            - `sock.connect(server_address)`
+        - 3. send()
+        - 6. recv()
+        - 7. close()
+    
+- UDP a kövi gyakon

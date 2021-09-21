@@ -305,3 +305,187 @@ Z₃ → S X₄
 + 7,5% a ZH-n (fél jegy)  
 CYK-ból hogyan lehet szintaxisfát csinálni + példa (kb 2 oldal)  
 ZH-ig teamsen
+
+# Gyak 2021.09.21
+
+## Verem autómata
+- állapotok
+- szallag
+- verem - pop van mindig
+- ɛ-átmenet
+    - helyben marad de a veremmel történik dolog
+    - első input előtt és utolsó után is lehet
+- nem determinisztikus
+- (Z, Q, T, δ, z₀, q₀, F)
+- Z - Verem szim
+- Q - Állapotok
+- T - inputok
+- z₀ - verem kezd.
+- q₀ - kezd. áll.
+- F - elfogadó áll. 
+- δ - átmeneti szabályok
+    - δ : z×q×{T∪{ɛ}} → 2^(Z*×Q)
+
+- konfiguráció : egy "állapota" 
+    - zqw szó, ahol z∈Z*, q∈Q, w∈T*
+    - mi van a veremben, állapot, mi van a szalagon
+
+- közvetlen lépés:
+    - q állaptban vagyunk, z van a verem tetején és x-et olvasunk
+    - δ(z,q,x)={(u₁,p₁),..,(uₙ,pₙ)} // uᵢ∈Z*, pᵢ∈Q
+    - δ(z,q,ɛ)={(u₁,p₁),..,(uₙ,pₙ)} // uᵢ∈Z*, pᵢ∈Q
+
+- redukció:
+    - α-t β-ra redukálja az A autómata : α ⇒_A β
+    - α = rzqaw
+    - β = rupw
+    - //r - még van valami a veremben, w - van még valami a szalagon
+    - (u,p) ∈ δ(zqa)
+
+- több lépéses redukció:
+    - egy lépéses tranz. refl. lezártja
+    - α ⇒* β
+
+- elfogadó állapotta lelfogadó nyelv
+    - L(A) = {u∈T* | z₀q₀u ⇒* rp, r∈Z*, p∈F}
+
+- üres veremmel elfogadott nyelv
+    - ha kiürül a verem és végigér a szón, akkor elfogadja
+    - L(A) = {u∈T* | z₀q₀u ⇒* p, p∈Q}
+
+## Feladat 1
+- L = { aⁿbⁿ | n≥1 }
+- ehhez a nyelvhez autómata
+- le kell modellezni h kb mit csináljon
+- mutasd be a működéstő
+    - olvas a szalagon a-t, akkor beleteszi a verembe
+    - ha b-t olvas megnézi hogy van-e a veremben a
+    - minden b-re legyen a veremben egy a
+- gráf
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="600" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="98.5" cy="126.5" rx="30" ry="30"/>
+	<text x="88.5" y="132.5" font-family="Times New Roman" font-size="20">q0</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="262.5" cy="127.5" rx="30" ry="30"/>
+	<text x="252.5" y="133.5" font-family="Times New Roman" font-size="20">q1</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="433.5" cy="127.5" rx="30" ry="30"/>
+	<text x="422.5" y="133.5" font-family="Times New Roman" font-size="20">q2</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="433.5" cy="127.5" rx="24" ry="24"/>
+	<path stroke="black" stroke-width="1" fill="none" d="M 95.099,96.811 A 22.5,22.5 0 1 1 119.996,105.742"/>
+	<text x="120" y="52.5" font-family="Times New Roman" font-size="20">(#,a) → #a</text>
+	<polygon fill="black" stroke-width="1" points="119.996,105.742 129.423,105.37 123.792,97.105"/>
+	<polygon stroke="black" stroke-width="1" points="128.499,126.683 232.501,127.317"/>
+	<polygon fill="black" stroke-width="1" points="232.501,127.317 224.531,122.268 224.47,132.268"/>
+	<text x="140" y="148.5" font-family="Times New Roman" font-size="20">(a,b) → ɛ</text>
+	<path stroke="black" stroke-width="1" fill="none" d="M 79.097,103.773 A 22.5,22.5 0 1 1 104.736,97.275"/>
+	<text x="25" y="49.5" font-family="Times New Roman" font-size="20">(a,a) → aa</text>
+	<polygon fill="black" stroke-width="1" points="104.736,97.275 112.347,91.701 103.061,87.991"/>
+	<path stroke="black" stroke-width="1" fill="none" d="M 249.275,100.703 A 22.5,22.5 0 1 1 275.725,100.703"/>
+	<text x="230" y="51.5" font-family="Times New Roman" font-size="20">(a,b) → ɛ</text>
+	<polygon fill="black" stroke-width="1" points="275.725,100.703 284.473,97.17 276.382,91.292"/>
+	<polygon stroke="black" stroke-width="1" points="292.5,127.5 403.5,127.5"/>
+	<polygon fill="black" stroke-width="1" points="403.5,127.5 395.5,122.5 395.5,132.5"/>
+	<text x="305" y="148.5" font-family="Times New Roman" font-size="20">(#,ɛ) → #</text>
+</svg>
+
+- leírás
+    - δ(#,q0,a) = (#a,q0)
+    - δ(a,q0,a) = (aa,q0)
+    - δ(a,q0,b) = (ɛ,q1)
+    - δ(a,q1,b) = (ɛ,q1)
+    - δ(#,q1,ɛ) = (#,q2)
+    - ha üressel elfogadható: δ(#,q1,ɛ) = (ɛ,q2)
+    - A = ({q0,q1,q2}, {a,b}, {#,a,b}, δ, q0, #, {q2})
+
+- levezetés:
+    1. #q0aaabbb → #aq0aabbb
+    2. #aq0aabbb → #aaq0abbb
+    3. #aaq0abbb → #aaaq0bbb
+    4. #aaaq0bbb → #aaq1bb
+    5. #aaq1bb → #aq1b
+    6. #aq1b → #q1
+    7. #q1 → #q2
+    - ha üressel elfogadható: #q1 → q2
+
+## Feladat 2
+- L = { ucu⁻¹ | u∈{a,b}⁺ }
+- amíg c jön addig brakom a cuccokat
+- a c után nézem h ugyan az van-e a veremben
+
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="800" height="300" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<polygon fill="black" stroke-width="1" points="1,0 31,30 25,35 35,35 35,25 29,30 0,1"/>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="61.5" cy="54.5" rx="30" ry="30"/>
+	<text x="51.5" y="60.5" font-family="Times New Roman" font-size="20">q0</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="294.5" cy="54.5" rx="30" ry="30"/>
+	<text x="284.5" y="60.5" font-family="Times New Roman" font-size="20">q1</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="557.5" cy="54.5" rx="30" ry="30"/>
+	<text x="547.5" y="60.5" font-family="Times New Roman" font-size="20">q2</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="557.5" cy="54.5" rx="24" ry="24"/>
+	<polygon stroke="black" stroke-width="1" points="91.5,54.5 264.5,54.5"/>
+	<polygon fill="black" stroke-width="1" points="264.5,54.5 256.5,49.5 256.5,59.5"/>
+	<text x="147.5" y="75.5" font-family="Times New Roman" font-size="20">(a,c) → a</text>
+	<text x="147.5" y="95.5" font-family="Times New Roman" font-size="20">(b,c) → b</text>
+	<path stroke="black" stroke-width="1" fill="none" d="M 74.725,81.297 A 22.5,22.5 0 1 1 48.275,81.297"/>
+	<text x="22.5" y="143.5" font-family="Times New Roman" font-size="20">(#,a) → #a</text>
+	<text x="22.5" y="163.5" font-family="Times New Roman" font-size="20">(#,b) → #b</text>
+	<text x="22.5" y="183.5" font-family="Times New Roman" font-size="20">(a,a) → aa</text>
+	<text x="22.5" y="203.5" font-family="Times New Roman" font-size="20">(a,b) → ab</text>
+	<text x="22.5" y="223.5" font-family="Times New Roman" font-size="20">(b,b) → bb</text>
+	<text x="22.5" y="243.5" font-family="Times New Roman" font-size="20">(b,a) → ba</text>
+	<polygon fill="black" stroke-width="1" points="48.275,81.297 39.527,84.83 47.618,90.708"/>
+	<polygon stroke="black" stroke-width="1" points="324.5,54.5 527.5,54.5"/>
+	<polygon fill="black" stroke-width="1" points="527.5,54.5 519.5,49.5 519.5,59.5"/>
+	<text x="400.5" y="75.5" font-family="Times New Roman" font-size="20">#,ɛ → #</text>
+	<path stroke="black" stroke-width="1" fill="none" d="M 307.725,81.297 A 22.5,22.5 0 1 1 281.275,81.297"/>
+	<text x="263.5" y="143.5" font-family="Times New Roman" font-size="20">(a,a) → ɛ</text>
+	<text x="263.5" y="168.5" font-family="Times New Roman" font-size="20">(b,b) → ɛ</text>
+	<polygon fill="black" stroke-width="1" points="281.275,81.297 272.527,84.83 280.618,90.708"/>
+</svg>
+
+## Faladat 3
+- L = { uu⁻¹ | u∈{a,b}⁺ }
+- berkajuk a cuccokat az autómatába
+- ha olyan jön ami bent van, akkor kiolvasó állapotba megyünk
+- onnan kezdve kiolvasgatunk
+
+<svg width="800" height="300" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<polygon fill="black" stroke-width="1" points="1,0 31,30 25,35 35,35 35,25 29,30 0,1"/>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="61.5" cy="54.5" rx="30" ry="30"/>
+	<text x="51.5" y="60.5" font-family="Times New Roman" font-size="20">q0</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="294.5" cy="54.5" rx="30" ry="30"/>
+	<text x="284.5" y="60.5" font-family="Times New Roman" font-size="20">q1</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="557.5" cy="54.5" rx="30" ry="30"/>
+	<text x="547.5" y="60.5" font-family="Times New Roman" font-size="20">q2</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="557.5" cy="54.5" rx="24" ry="24"/>
+	<polygon stroke="black" stroke-width="1" points="91.5,54.5 264.5,54.5"/>
+	<polygon fill="black" stroke-width="1" points="264.5,54.5 256.5,49.5 256.5,59.5"/>
+	<text x="147.5" y="75.5" font-family="Times New Roman" font-size="20">(a,a) → a</text>
+	<text x="147.5" y="95.5" font-family="Times New Roman" font-size="20">(b,b) → b</text>
+	<path stroke="black" stroke-width="1" fill="none" d="M 74.725,81.297 A 22.5,22.5 0 1 1 48.275,81.297"/>
+	<text x="22.5" y="143.5" font-family="Times New Roman" font-size="20">(#,a) → #a</text>
+	<text x="22.5" y="163.5" font-family="Times New Roman" font-size="20">(#,b) → #b</text>
+	<text x="22.5" y="183.5" font-family="Times New Roman" font-size="20">(a,a) → aa</text>
+	<text x="22.5" y="203.5" font-family="Times New Roman" font-size="20">(a,b) → ab</text>
+	<text x="22.5" y="223.5" font-family="Times New Roman" font-size="20">(b,b) → bb</text>
+	<text x="22.5" y="243.5" font-family="Times New Roman" font-size="20">(b,a) → ba</text>
+	<polygon fill="black" stroke-width="1" points="48.275,81.297 39.527,84.83 47.618,90.708"/>
+	<polygon stroke="black" stroke-width="1" points="324.5,54.5 527.5,54.5"/>
+	<polygon fill="black" stroke-width="1" points="527.5,54.5 519.5,49.5 519.5,59.5"/>
+	<text x="400.5" y="75.5" font-family="Times New Roman" font-size="20">#,ɛ → #</text>
+	<path stroke="black" stroke-width="1" fill="none" d="M 307.725,81.297 A 22.5,22.5 0 1 1 281.275,81.297"/>
+	<text x="263.5" y="143.5" font-family="Times New Roman" font-size="20">(a,a) → ɛ</text>
+	<text x="263.5" y="168.5" font-family="Times New Roman" font-size="20">(b,b) → ɛ</text>
+	<polygon fill="black" stroke-width="1" points="281.275,81.297 272.527,84.83 280.618,90.708"/>
+</svg>
+
+
+## Feladat 4
+- L = { u∈{a,b}* | lₐ(u) = lᵦ(u) }
+- ha nem találok semmi, akkor berakom
+- ha van párja, akkor kiveszem
+- egy állapot, hurokél sok szabállyal
