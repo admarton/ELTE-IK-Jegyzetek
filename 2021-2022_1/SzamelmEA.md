@@ -179,5 +179,119 @@ CYK-algoritmus |G|*n³ lépésben eldönti, ahol n a szó hossza.
 - H(i,j) = { X ∈ N | X ⇒* tᵢ...tⱼ }
 
 
+# EA 3 2021.09.22
+
+## CYK algoritmus
+- szó generálható-e a grammatikával (CNF-ben van megadva)
+- a terminálisok mikből vezethetőek le
+- az eddig meglévő részszavak mikből vezethetőek le
+- ha a tetején kijön az S, akkor levezethető 
+
+## Algoritmikusan Eldönthető
+1. G 2-es grem., L véges nyelv
+    - L ⊆ L(G) 
+2. G 2-es grem., L véges nyelv
+    - L ∩ L(G) = ∅
+3. Környezetfüggetlen G végtelen nyelvet generál-e
+4. ...
+
+## Algoritmikusan nem eldönthető
+1. L(G1) = L(G2) 
+2. L(G1) ⊆ L(G2) 
+3. L(G1) ∩ L(G2) = ∅
+4. L(G) = T*
+5. G egyértelmű-e
+
+## Hossznemcsökkentő grammatika szóprobléma
+- **Biz.:** Ha u=ɛ, akkor L(G) ⇔ S → ɛ ∈ P.
+- n
+- r
+- n hosszú mondatformában vannak r hosszú résszavak
+- ???
+
+## 0-ás típusú grammatika esetén a szóprobléma algoritmikusan nem eldönthető
+- De van parciálisan eldöntő algoritmus
+- a pozitív eleteket felismeri
+- a negatívat nem biztos
+- gráfot lehet csinálni
+- ???
 
 
+## Témák
+- Nulladrendű logika
+- Elsőrendű logika
+- Függvények aszimptotikus viselkedése
+- Turing gépek, alapfogalmak
+- TG változatok
+- számosságok
+- eldönthetőség
+- eldönthetetlen problémák
+- bonyolultság elmélet
+- NP-teljesség
+
+## Nulladrendű logika - Ítéletkalkulus
+- Állítások összekapcsolása műveletekkel
+- Az állítások igazságértéke egyértelmű, eldönthető
+- implikáció : Ha süt a nap, akkor le megyek a térre
+- Ítéletváltozó: Var = {x1, x2, ...}
+    - x ∈ Var ⇒ x ∈ Form
+    - ϕ ∈ Form  , akkor ¬ϕ ∈ Form
+    - a, b ∈ Form, akkor (a ∨ b), (a ∧ b), (a → b) ∈ Form
+
+- Formula szerkezeti fával reprezentálható
+- Részformulákkal címkézett
+
+- ¬, ∧, ∨, → csökkenő precedencia sorrendben
+
+- **Def.:** Interpretáció
+    - I : Var(a) → {i, h} - változó kiértékelés
+
+- Formula igazságértéke: 
+    - 𝔹_I(x) := I(x)
+    - 𝔹_I(¬x) := ¬I(x)
+    - 𝔹_I(x ∘ y) := 𝔹_I(x) ∘ 𝔹_I(y)  //  ∘ ∈ { ∧, ∨, →}
+| 𝔹_I(x) | 𝔹_I(y) |   | 𝔹_I(¬x) | 𝔹_I(x ∧ y) | 𝔹_I(x ∨ y) | 𝔹_I(x → y) |
+|--------|---------|---|---------|------------|-----------|---------| 
+| | | | | | | |
+
+- Minden formulához lehet adni igazságtáblát
+- Interpretáció kielégít egy formulát ha felvesz igaz értéket
+- Kielégíthetó ha van olyan eterpretáció ami kielégíti
+- Tautologia ha minden interetáció kielégíti
+- tautologikusa nekvivalensek ha pontosan ugyanazok az interpretációk elégítik ki
+- ⊤ : tautológia, ⊥ : kielégíthetetlen
+- Szabályok:
+    1. ¬¬a = a
+    2. a ∨ a ~₀ a , a ∧ a ~₀ a
+    3. a ∨ b ~₀ b ∨ a , a ∧ b ~₀ b ∧ a
+    4. 
+    5. 
+    6. 
+    7. a → b ~₀ ¬a ∨ b
+    8. 
+    9. a ∨ ¬a ~₀ ⊤ , a ∧ ¬a ~₀ ⊥
+    10. a ∨ ⊤ ~₀ ⊤ , a ∨ ⊥ ~₀ a
+    11. 
+
+- Szabályok használata nem változtatja az igazságértéket
+
+- **Tételek**
+    - a kielégíthetetlen, ha ¬a ~₀ ⊤
+    - 
+
+- Literál : x és ¬x
+- Elemi diszjunkció (klóz) : a₁ ∨ ... ∨ aₙ, aᵢ-k kölönböző literálok
+- Konjunktív normálforma (KNF) : k₁ ∧ ... ∧ kₙ ahol kᵢ klóz
+-  Diszjunktív normálforma (DNF) : 
+
+- Ítéletkalkulusbeli formulához megadható vele ekviv. DNF
+    - Az igazságtábla igaz sorai adják hogy mi kell bele
+- Ítéletkalkulusbeli formulához megadható vele tautológikusan ekviv. KNF
+    - A hamis sorok negáltjai kellenek
+    1. implikáció eliminálás
+    2. negációs operátorok csak ítéletváltozólk előtt legyenek
+    3. disztributív szabályokkal 2 szintűvé lapítjuk
+
+- Rezolvens
+    - 1 komplemens literálpárt tartalmaz klózoknak lehet rezolvense kivesszük  belőlük a komplemens literálpárt és összevagyoljuk 
+    (x ∨ y, ¬y ∨ z) = x ∨ z

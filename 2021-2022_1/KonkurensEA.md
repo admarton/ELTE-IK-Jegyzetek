@@ -184,3 +184,146 @@ public void sort ( int[] data ) throws InterruptedException {
 - Két jó program zavarja egymást
 - Race condition
     - El kell kerülni
+
+# EA 3 2021.09.22
+
+- Össze kell hangolni a folyamatokat
+    - szinkronizáció
+- Interferencia nem mindig működik
+
+## Példa 1
+```java
+class Számla {
+    int egyenleg;
+    public void rátesz( int összeg ){
+        egyenleg += összeg; //nem atomi művelet
+        //int újEgyenleg;
+        //újEyeneleg = egyenleg + összeg;
+        //egyenleg = újEgyenleg;
+        //Így már látszik hogy hol lehet a több szállal a probléma
+    }
+} 
+```
+
+- Az adatokhoz való hozzáférés szerializálása
+    - Kölcsönös kizárás (mutual exclusion)
+    - Kritikus szakasz (critical section)
+
+- Többféle megoldás
+    - Bináris szemafor
+    - Monitor - mi most erre fogunk koncentrálni - középső megoldás
+    - Író-olvasó szinkronizáció
+
+- Monitor
+    - még nem volt oop de ez már majdnem az
+
+## Példa 1 - javítás
+```java
+class Számla {
+    //így csak a műveletekkel lehet manipulálni a belső állapotot
+    private int egyenleg;
+    //így már szálbiztos - egy időben csak egy helyen futhat ez a függvény
+    // a többi hívás addig vár
+    public synchronized void rátesz( int összeg ){
+        egyenleg += összeg;
+    }
+} 
+``` 
+- Minden objektumhoz tartozik egy kulcs (lock) és egy várakozási sor
+    - kérek kulcsot, végrehajtom a szinkronizált metódust, visszaadom
+    - amig nem kapok kulcsot addig bekerülök a várakozási sorba
+    - az objektumnak van kulcsa, nem a metódusnak
+        - az összes metódus lehet `synchronized`
+## Példa 1 - javítás 2
+```java
+class Számla {
+    private int egyenleg;
+    public synchronized void rátesz( int összeg ){
+        egyenleg += összeg;
+    }
+    public synchronized void kivesz( int összeg )
+            throws SzámlaTúllépés() {
+        ...
+    }
+} 
+``` 
+
+## Szál megállítás
+- `stop()` deprecated 
+- kell egy boolean flag amit figyelnie kell
+- ha átbillen a flag, akkor rendet rak maga után és megáll
+- a többi szál is használja a flag-eh, mert ők akarnak jelezni
+```java
+class MyAnim extends ... implements Runnable {
+    private boolean running = false;
+    public synchronized void startAnim(){
+        running = true;
+        (new Thread(this)).start();
+    }
+    public synchronized void stopAnim(){
+        running = false;
+    }
+    public synchronized boolean isRunning(){
+        return runnig;
+    }
+    ...
+    @Override public void run(){
+        while( isRunning() ){
+            // one step of the animation
+            try{ sleep(20); }
+            catch(InterruptedException e){...}
+        }
+    }
+    ...
+}
+```
+
+## Szinkronizált blokkok
+- Nem csak metódus de utasítás is lehet szinkronizált
+    - csak kisebb része kritikus
+    - felesleges várakoztatás lenne a többi
+    - elég csak a kritikus részt bezárni
+- blokk utasításnal van ilyen extra verziója
+- `synchronized(obj){...}`
+    - az adott objektum kulcsát kéri
+    - ha megvan a kulcs, akkor megcsinálja a blokkbeli cuccokat
+- kliensoldali zárolás, ha nem szinkronizált
+    - `synchronized(számla){ számla.rátesz(100); }`
+    - figyelni kell, hogy minden hívásnál megcsináljam
+    - ha valahol kimarad, akkor race condition lesz
+- osztály zárása biztonságosabb, potenciális hiba lokálisan megoldva
+
+- **Ökölszabály**
+    - szálak közös változót használnak, akkor kell valamilyen szinkronizáció
+    - így kevesebb hiba lesz
+    - ezt gyakoroljuk ebben a félévben
+
+- néha meg kell törni a monitor szemléletet
+    - több helyen tárolt adatból van probléma
+    - pl.: többféle erőforrás kell neki egyszerre
+
+## Egymásba rakott dolgok
+```java
+class A {
+    synchronized void m1(){...}
+    // nem lesz holtpont, tudja, hogy nála van a kulcs
+    synchronized void m2(){... m1() ...}
+}
+```
+- nem kéri újra a kulcsot, mert már nála van
+- számlálja, hogy hányszor kérte ki és csak a végén rakja vissza a kulcsot
+
+```java
+class A {
+    synchronized void m1(){...}
+    synchronized void m2(B b){... b.m1() ...}
+}
+class B {
+    synchronized void m1(){...}
+    synchronized void m2(A a){... a.m1() ...}
+}
+```
+- Egyik szálban: a.m2(b)
+- Másik szálban: b.m2(a)
+- Nem lesz interferencia, de holtpont igen
+- most túlszinkronalizált lett

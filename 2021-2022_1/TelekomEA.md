@@ -370,3 +370,141 @@ Hálózatok hálózata
     - Network - IP
     - Link - Ethernet
 
+
+# EA 3 2021.09.22
+
+## Hálózati karakterisztikák
+- Késleltetés - delay
+    - roszz felhasználó élmény
+    - mennyi idő az átvitel
+    - link property
+        - **transmission** delay 
+            - meddig tart kiírni az adatot
+            - packet size [bits] / link badwidth [bits/sec] = delay [sec]
+        - **propagation** delay
+            - jelterjedés az adott linken keresztül
+            - link length [m] / signal propagation speed [m/sec] = delay [sec]
+    - traffic mix & switch internals
+        - **processing** delay
+            - feldolgozási idő pl.: hova kell küldeni
+            - általában ez a legkevesebb ( sokszor elhanyagolható )
+        - **queuing** delay
+            - átmeneti túlterhelésnél várakozás
+            - ha egyszerre mennének ugyan arra, akkor az egyik várakozik
+            - előre nehéz meghatározni
+            - arrival rate, transmission rate, 
+    - ezekből jön a **total** delay
+- Csomagvesztés - loss rate
+    - Elveszett csomagok újraküldése vagy minőségromlás
+    - mennyi csomag veszik el mennyiből
+    - permanens túlterhelésnél megtelik a várakozási sor és eldobálja a maradék csomagokat
+        - ha nem sikerül akkor valaki majd megoldja
+        - TCP mindig teletölt egy sort
+- Átvitel - throughput
+    - Nagy fájloknál nagy sávszélesség kell
+    - data size [bits] / transfer time [sec]
+    - útvonal menti bottle neck határozza meg
+        - a leggyengébb láncszem a meghatározó
+        - linket hsználók között fel kell osztani az átvitelt
+    
+- Átvitel és a késleltetés fejlődik, de a terjedési sebesség nem nő
+    - ezért replikák vannak és több helyen fut ugyan az a szerver
+    - mondenki közelébe kerül egy kiszolgáló
+
+## Fizikai réteg
+- Villamosmérnökök terepe
+- Erre épül az adatkapcsolati réteg
+- semmi garancia sincs
+- lehet nem az érkezik meg mint amit elküldtem
+- fizikai behatások érik a jelet
+- Információ átvitel a cél
+- Kódolni kell a bitet
+
+### Alapfogalmak
+- számítógép digitális, diszkrét
+- a valóság meg analóg
+- Legegyszerűbb:
+    - 1 - van feszültség vagy áramerőség
+    - 0 - nincs feszültség
+    - időegységbe kódolva
+    - kapcsolót kapcsolgatjuk
+    - érzékelő kell a másik oldalon
+    - szinkronban kell lennie a két félnek
+- Furier sorokkal lehet modellezni a valóságot
+    - sin/cos-ok összegeikén állnap össze a jelek
+    - lehet közelíteni a szögletes jelhez hullám függvényekkel
+- aproximált jel érkezik meg
+- periódusokat lehet ismételni
+- jelek el tudnak nyelődni
+    - csökken a jelerősség
+    - küldési energia / vevési energia = elnyelődés [dB, deciBel]
+    - nem egyenletes az elnyelődés
+    - a közeg tulajdonságai meghatározzák, hogy mely frekvenciákat érdemes használni
+- fázis eltolódás
+    - más frekvencia más sebességgel terjed
+    - ez nem túl jó
+- zaj, hő, más rendszerek, ...
+
+- bitek helyett szimbólumok vannak
+    - két jelszint pazarlás lenne
+    - ha négy szimbólum van, akkor több bitet is reprezentáhat - egy időben több információ megy át
+    - szimbólum ráta [BAUD] nem változik
+    - Adat ráta [bps] nő
+    - vevő oldalon ez probléma
+        - ha több szimbólum van, akkor nehezebb megkülönböztetni
+
+### Átviteli közegek
+- mágneses adathordozó
+    - sávszélesség jó, kéleltetés nagy (nem , on-line)
+    - nagyon nagy adatmennyiségnél gyorsabb
+- sodort érpár
+    - ha nem sodort akkor antenna is lehet
+    - nagy távolsági rendszerek
+- koax kábel
+    - nagy sebesség és távolság
+    - nincs csavarás ezért le kell szigetelni
+- fényvezető szálak
+    - fény adó és vevő
+    - pattog az optikai szálban
+    - egy vékony szál, hajlítható, szigetelés
+    - rengeteg szál össszerakva pl az óceánban
+- vezeték nélküli
+    - frekvencia, f [Hertz, Hz] - másodpercenkénti rezgésszám
+    - hullámhossz, λ
+    - fénysebesség, c, kb 3*10⁸m/s
+    - rézben és üvegszálban kb 2/3-ad
+    - λf = c
+    - antennaméret és hullámhossznak van köze egymáshoz
+    - érdekesség - "speed of light internet"
+
+### Kiinduló feltételek
+- Jelet időnként mérjük
+- szinkronizálni kell mert torzult jel jön
+- órajelenként egyszer lehet mintavételezni
+- ha eltér az órajel, akkor többet tud mérni, vagy kevesebbet
+- GPS szinkronjelekkel lehet ott ahol ez nagyon fontos
+- Kritikus időpontokban szinkronizáljuk
+- Önütemező jel
+    - órajel szinkronizáció nélkül is kódolható
+    - nem alacsony-magas jel, hanem változások
+    - a változásokat könnyebb észrevenni
+- MAncheszter kódolás ami most fontos - 10 megabitnél
+    - minden bit jelszintváltozásba
+    - 1 - magasról alacsonyra
+    - 0 - alacsonyról magasra
+    - két órajel egy bit kódolásához
+    - lehetséges kapacitás felét használjuk ki
+- NRZI
+    - 1 - átmenet
+    - 0 - ugyanaz marad
+    - egy órajelciklus elég a kezeléshez
+    - sok nullánál el tud csúszni
+- 4-5 bit kódólás - 100 megabitnél
+    - max 3 nulla lehet egymás mellett
+    - veszít sávszélességet de nem túl sokat és cserébe jobb
+- 8-10 kódolás gigabit-nél
+
+### Alapsáv és szélessáv
+- alapsáv fel minden frekvencián megy
+- szélessáv, csak egy tartományba küld, pl ott ahol az elnyelődés egyenletes
+
