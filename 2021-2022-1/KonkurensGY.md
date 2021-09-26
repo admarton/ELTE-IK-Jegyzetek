@@ -123,3 +123,106 @@ for (int i = 0; i < 100; ++i){
     threads.add(t);
 }
 ```
+
+# GYAK 3 2021.09.23
+
+- InterruptedException vizsgálat
+- szinkronizáció alapjai
+- Csak a main szál exception számít a program végén
+- `Thread.interrupted()` -> törli ezt az állapotot
+- `Thread.currentThread().isInterrupted()` -> nem törli elsőre
+- `synchronized` mutex-el egy objektumra
+- Random-ot tesztelésnél seed-el kell használni
+- Minden szál aludjon min 300 sec max 500 sec
+    - arra gondolnak h Random(200)+300
+
+- két beadandó
+    - 15/15 pont
+    - zh 20 elm
+    - zh 30 gyak
+- 51-ponttól 2-es, 85 ponttól 5-ös
+
+```java
+package hu.elte.marci;
+
+import java.util.Random;
+
+public class Gy3 {
+    public static void main(String[] args) throws InterruptedException {
+        Random randomGenerator = new Random();
+        for (int i = 0; i < 10; i++) {
+            System.out.println("random: "+randomGenerator.nextInt(100));
+        }
+        Object o = new Object();
+        Thread.sleep(1);
+        Thread t = new Thread(() -> {
+            synchronized (o) {
+                try {
+                    for (int i = 0; i < 50_000; i++) {
+
+                        System.out.println(i);
+                        if (Thread.interrupted())
+                            throw new InterruptedException("counting was interrupted");
+                    }
+                    System.out.printf("Finnished");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        // t.start();
+        Thread.sleep(50);
+        synchronized (o) {
+            t.interrupt();
+            System.out.printf("Interrupted");
+        }
+
+    }
+}
+```
+
+- 100 szál, random szám 1000 és 5000 között, tökéletes szám-e, osztóinak összege a szám kétszerese
+```java
+package hu.elte.marci;
+
+import java.util.Random;
+
+public class Gy3 {
+    public static boolean IsPerfect(int num){
+        int sum = 1;
+        for (int i = 2; i < num; i++) {
+            if(num%i==0){
+                sum += i;
+            }
+        }
+        if(sum == num){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Random randomGenerator = new Random();
+        Object o = new Object();
+        int[] eredmeny = {-1};
+
+        for (int i = 0; i < 100; i++) {
+            Thread t = new Thread(() -> {
+                while(eredmeny[0]==-1){
+                    int num = randomGenerator.nextInt(1000)+8000;
+                    boolean p = IsPerfect(num);
+                    System.out.println("Current num: "+num+(p?" is perfect":" is not perfect"));
+                    if(p){
+                        synchronized (o) {
+                            eredmeny[0] = num;
+                            System.out.println("A végeredmény: "+eredmeny[0]);
+                        }
+                    }
+                }
+            });
+            t.start();
+        }
+    }
+}
+```

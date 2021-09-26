@@ -250,9 +250,13 @@ CYK-algoritmus |G|*n³ lépésben eldönti, ahol n a szó hossza.
     - 𝔹_I(x) := I(x)
     - 𝔹_I(¬x) := ¬I(x)
     - 𝔹_I(x ∘ y) := 𝔹_I(x) ∘ 𝔹_I(y)  //  ∘ ∈ { ∧, ∨, →}
+
 | 𝔹_I(x) | 𝔹_I(y) |   | 𝔹_I(¬x) | 𝔹_I(x ∧ y) | 𝔹_I(x ∨ y) | 𝔹_I(x → y) |
-|--------|---------|---|---------|------------|-----------|---------| 
-| | | | | | | |
+| :----: | :----: |---| :----: | :----: | :----: | :----: | 
+| i | i | | h | i | i | i |
+| i | h | | h | h | i | h |
+| h | i | | i | h | i | i |
+| h | h | | i | h | h | i |
 
 - Minden formulához lehet adni igazságtáblát
 - Interpretáció kielégít egy formulát ha felvesz igaz értéket
@@ -264,25 +268,28 @@ CYK-algoritmus |G|*n³ lépésben eldönti, ahol n a szó hossza.
     1. ¬¬a = a
     2. a ∨ a ~₀ a , a ∧ a ~₀ a
     3. a ∨ b ~₀ b ∨ a , a ∧ b ~₀ b ∧ a
-    4. 
-    5. 
-    6. 
+    4. (a ∨ b) ∨ c ~₀ a ∨ (b ∨ c)  
+        (a ∧ b) ∧ c ~₀ a ∧ (b ∧ c)
+    5. (a ∨ b) ∧ c ~₀ (a ∧ c) ∨ (b ∧ c)  
+        (a ∧ b) ∨ c ~₀ (a ∨ c) ∧ (b ∨ c)
+    6. (a ∨ b) ∧ b ~₀ b, (a ∧ b) ∨ b ~₀ b
     7. a → b ~₀ ¬a ∨ b
-    8. 
+    8. ¬(a ∧ b) ~₀ ¬a ∨ ¬b, ¬(a ∨ b) ~₀ ¬a ∧ ¬b
     9. a ∨ ¬a ~₀ ⊤ , a ∧ ¬a ~₀ ⊥
-    10. a ∨ ⊤ ~₀ ⊤ , a ∨ ⊥ ~₀ a
-    11. 
+    10. a ∨ ⊤ ~₀ ⊤ , a ∧ ⊥ ~₀ ⊥
+    11. a ∨ ⊥ ~₀ a , a ∧ ⊤ ~₀ a
 
 - Szabályok használata nem változtatja az igazságértéket
 
 - **Tételek**
     - a kielégíthetetlen, ha ¬a ~₀ ⊤
-    - 
+    - F ⊧(\models)₀ a akkor és csak akkor ha F∪{¬a} kilégíthetetlen
 
 - Literál : x és ¬x
 - Elemi diszjunkció (klóz) : a₁ ∨ ... ∨ aₙ, aᵢ-k kölönböző literálok
 - Konjunktív normálforma (KNF) : k₁ ∧ ... ∧ kₙ ahol kᵢ klóz
--  Diszjunktív normálforma (DNF) : 
+- Elemi konjunkció : hasonlóan
+- Diszjunktív normálforma (DNF) : hasonlóan 
 
 - Ítéletkalkulusbeli formulához megadható vele ekviv. DNF
     - Az igazságtábla igaz sorai adják hogy mi kell bele

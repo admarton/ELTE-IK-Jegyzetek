@@ -113,3 +113,64 @@ SELECT DISTINCT OWNER FROM DBA_OBJECTS WHERE OBJECT_TYPE="INDEX" GROUP BY OWNER 
 
 - DBA_TABLE táblákat mutat
 - all_tables, user_tables
+
+# GYAK 3 2021.09.23
+
+```sql
+-- Oszlopok tulajdonságai
+select * from dba_tab_columns;
+
+-- Fordító eszköz - megadja az oszlopokat és a típúsaikat, meg hogy lehet-e null
+desc dual;
+```
+
+- Ha olyan típust ad meg az ember ami nincs de ansi-ban van, akkor azt is feldolgozza
+    - smallint  -> number, 0 tizedes jegy
+    - int       -> number, 0 tizedes jegy
+    - float     -> float, 126 jegy
+    - real      -> float, 63 jegy
+    - varchar   -> varchar2
+- Típusok
+    - char      -> kitölti a maradékot szóközzel a fix hosszhoz (trim, ltrim, rtrim)
+    - varchar2  -> max hosszt lehet megadni, nem tölti ki szóközzel
+    - nchar     -> kétszer annyi hosszt felvett mint amennyit megadná
+
+```sql
+-- Tábla tulajdonos és nevÉT AMINEK VAN Z-VEL KEZDŐDIK NEVŰ OSZLOPA
+SELECT DISTINCT OWNER, TABLE_NAME FROM DBA_TAB_COLUMNS WHERE COLUMN_NAME LIKE 'Z%';
+SELECT DISTINCT OWNER, TABLE_NAME FROM DBA_TAB_COLUMNS WHERE SUBSTR(COLUMN_NAME,1,1) = 'Z';
+SELECT DISTINCT OWNER, TABLE_NAME FROM DBA_TAB_COLUMNS WHERE INSTR(COLUMN_NAME, 'Z') = 1; -- JÖVŐHÉTEN EZZEL LEHET MEGOLDANI EGY FELADATOT
+
+-- TÁBLÁK AMIBEN MIN 8 DÁTUM TÍPUSÚ CUCC VAN
+SELECT OWNER, TABLE_NAME FROM DBA_TAB_COLUMNS 
+WHERE DATA_TYPE="DATE" 
+GROUP BY OWNER, TABLE_NAME
+HAVING COUNT(TABLE_NAME) >= 8;
+
+-- TÁBLA AMIBEN  AZ ELSŐ OSZLOP VARCHAR2
+SELECT DISTINCT TABLE_NAME FROM DBA_TAB_COLUMNS
+WHERE DATA_TYPE = 'VARCHAR2' AND COLUMN_ID=1;
+
+-- TÁBLA AMIBEN  A NEGYEDIK OSZLOP VARCHAR2
+SELECT DISTINCT TABLE_NAME FROM DBA_TAB_COLUMNS
+WHERE DATA_TYPE = 'VARCHAR2' AND COLUMN_ID=4;
+
+-- TÁBLA AMIBEN  AZ ELSŐ ÉS NEGYEDIK OSZLOP VARCHAR2
+SELECT DISTINCT TABLE_NAME FROM
+(SELECT DISTINCT OWNER, TABLE_NAME FROM DBA_TAB_COLUMNS
+WHERE DATA_TYPE = 'VARCHAR2' AND COLUMN_ID=1
+INTERSECT
+SELECT DISTINCT OWNER, TABLE_NAME FROM DBA_TAB_COLUMNS
+WHERE DATA_TYPE = 'VARCHAR2' AND COLUMN_ID=4);
+
+-- SZEKVENCIA VÁLTOZÓ
+CREATE SEQUENCE NAME 
+START WITH 1
+NOCYCLE;
+-- .CURVAL, .NEXTVAL
+-- EGYEDI AZON KIOSZTÁSA
+```
+
+### Kövi óra
+- Mindkét adatbázisba be fogunk lépni
+- Nézettábla
