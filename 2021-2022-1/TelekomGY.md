@@ -38,12 +38,12 @@ tms.inf.elte.hu
 
 ## Szorgalmi
 - három feladat jó megoldása email-ben, kövi gyakig
-- nagy ZH-nál 1-2% bónusz pont
+- nagy ZH-nál 1-2% bónuszpont
 
 # Telekom GY 2021.09.13
 
 1. feladat csomag határidő október első hétfő
-2. feldat csomag határidő október második hete hétfő
+2. feladat csomag határidő október második hete hétfő
 
 ## Ha nem kell output
 ```py
@@ -82,17 +82,17 @@ print(p1.communicate()) # eredménye egy tuple(stdout, stderr)
 - ipconfig /all
 - kapcsolódnia kell egy átviteli közeghez
 - szükséges szoftverek telepítve vannak
-- célgéé hálózatát majd a gépet kell elérni
+- célgép hálózatát majd a gépet kell elérni
 - fel kell paraméterezni a gépet
 - Alap paraméterek
     - Physical Address, MAC address -  hálózati kártya azonosítója
-    - IPv4 Adress, IPv6 Address - szofveres cím, telepítés során kapja
-    - Subnet Mask - bitenkéti éselés az IPv4-el visszaadja a hálózat IPv4 címét
+    - IPv4 Address, IPv6 Address - szoftveres cím, telepítés során kapja
+    - Subnet Mask - bitenkénti éselés az IPv4-el visszaadja a hálózat IPv4 címét
     - DNS server is be van konfigurálva min 2-3
 - arp protocol (arp -a)
     - A hálózatomon belüli MAC address-eket sorolja fel
     - Broadcast csomag megy ki, mindenkinek szól
-        - csupa 1-es a bradcast
+        - csupa 1-es a broadcast
         - ha ismeri az ip címet akkor belerakja a MAC addressét és visszaküldi
 - ha nem a local hálón van a cél akkor egy kitüntetett gép kell aki kiküldhet a hálón kívülre - router
 - addig meg routerről routerre a csomag ameddig eljut a helyi hálózatáig és ott meg lesz a MAC address
@@ -140,7 +140,7 @@ print(p1.communicate()) # eredménye egy tuple(stdout, stderr)
         - Ethernet - 2.szint
             - honnan, hova, beágyazott struktúra típusa (pl.: IPv4)
             - mindenki megnézi az elejét és megnézi hogy neki szól-e
-            - csak akkor olvassa vágig ha neki szól
+            - csak akkor olvassa végig ha neki szól
             - broadcast üzenetet mindenki megnézi
         - IPv4 - 3.szint
             - 4 biten a verzió
@@ -154,9 +154,9 @@ print(p1.communicate()) # eredménye egy tuple(stdout, stderr)
         - DATA (x bytes)
     - csomagok kiírása
         - sorban a dolgok
-        - honnan, hova, protocoll, stb....
+        - honnan, hova, protokoll, stb....
     - általános filter kifejezés
-        - protocoll azonosító
+        - protokoll azonosító
             - arp - ip alapján MAC kérés
             - reverse arp - tudom a MAC címem és kérem az ip-m
                 - dhcp - dinamikus ip kérés és háló konfig lekérés
@@ -164,17 +164,17 @@ print(p1.communicate()) # eredménye egy tuple(stdout, stderr)
         - fejléc mező
         - fejléc almező
         - összehasonlító operátor
-        - elvárt étrék
+        - elvárt érték
         - Ezek összekapcsolása operátorokkal
         - pl.: tcp.flags.ack==1 and tcp.dstport==80
-            - ack nyugta flag - valameddig megkapt, azt visszaküldi
+            - ack nyugta flag - valameddig megkapta, azt visszaküldi
 
     - follow stream -el lehet az egész kommunikációt követni
 
 - nem a hálózathoz kell jogosultság, hanem a géphez
     - az egész hálózatot tudom figyelni
     - általában
-    - Keretinformációk nincsenek titkosítva
+    - Keret információk nincsenek titkosítva
         - sok mindent ki lehet olvasni
 
 - python dolgok
@@ -198,7 +198,7 @@ print(p1.communicate()) # eredménye egy tuple(stdout, stderr)
     - `getservbyport(22)` milyen service tartozik, ha tartozik
 - Little edian, big edian
     - high, low fele milyen sorrendbe van tárolva
-    - hálózati formára kell transformálni - hálózati forma a rendes sorrend
+    - hálózati formára kell transzformálni - hálózati forma a rendes sorrend
     - htons(), htonl() - host to network short/long
     - ntohs(), ntohl() - network to host short/long
 
@@ -219,7 +219,7 @@ print(p1.communicate()) # eredménye egy tuple(stdout, stderr)
         - listen()
             - várakozási sor állítás
             - listen queue-ba kerülnek a várakozó kliens
-            - továbít a megfelelő szerverhez
+            - továbbít a megfelelő szerverhez
             - `sock.listen(1)`
         - windows-on settimeout(mp-ig)
         - 2. accept()
@@ -246,3 +246,95 @@ print(p1.communicate()) # eredménye egy tuple(stdout, stderr)
         - 7. close()
     
 - UDP a kövi gyakon
+
+# Gyak_4 2021.09.28
+
+## Házik
+- Ezen a héten nyílik
+- kb 3 hét lesz rá
+- Okt ? - a harmadik
+- Nov 1 - a negyedik
+
+## ZH
+- Nov 2 ⨀ 9 
+    - külön: ⨀ = és
+    - egyben: ⨀ = vagy
+- Gépteremben váltott héten
+- Vagy Canvas feladat
+
+## Szerializálás
+- Binárissá alakítás
+```py
+import struct
+value = (int("1"), "ab".encode(), 2.7)
+packer = struct.Struct('I 2s f') # int, char[2], float
+packet_data = packer.pack(*values)
+```
+- Üzenet visszaállítás
+```py
+import struct
+unpacker = struct.Struct('I 2s f')
+data = client.recv(unpacker.size)
+unp_data = unpacker.unpack(data)
+```
+
+## Feladat 
+- Kliens-szerver app
+- küld két számot és egy operátort - struktúrában
+- visszakapja az eredményt
+- `x = eval(str(unp_data[0])+unp_data[2].decode()+str(unp_data[1]))`
+- `client.send(str(x).encode())`
+- `client, addr = server.accept()`
+    - `print('Csatlakozott:'+addr)`
+    - a loop elején accept van, nem kell explicit close(), de a kliens nem tudja, hogy bezárt
+
+
+## Socket
+- ipv4: AF_INET
+- tcp: SOCK_STREAM
+- `connect`-re kell hibakezelés
+- szerveren kell: `settimeout(4.0)`
+- nonblocking mode:
+    - timeoutig vár, ha nincs semmi akkor megint vár
+- blocking mode:
+    - olvas a socket-ra
+    - ha nincs semmi akkor várja h jöjjön valami
+    - ha kliens küld valamit akkor csinál valamit
+    - az is valami ha bezárja a kapcsolatot
+        - `data = client_socket.recv(n)`
+        - ha data null
+            - `client_socket.close()`
+    - ha a protokoll megengedi akkor a szerver is bonthat kapcsolatot
+- except:
+    - timeout
+    - KeyboardInterrupt
+
+## Server párhuzamosítása
+- select()
+```py
+inputs = [server]
+output = []
+timeout=1
+readable,writable,exceptional = select.select(inputs, outputs, inputs, timeout)
+...
+for s in readable:
+    if s is server: # új kliens
+        client, addr = s.accept()
+        inputs.append(client)
+    else:
+        ... # kliens kezelése pl recv
+```
+- select-et lehet többféle erőforrásra használni //socket, fájl, stb.
+- select() 1.param - van-e olvasható erőforrás
+- select() 2.param - van-e írható erőforrás
+- select() 3.param - van-e sűrgős adat - hálózat specifikus //nem sokat használjuk még
+- select() 4.param - timeout
+- select beállítja az olvasható, írható és hiba dolgokat
+- readable dolgokra lehet read jellegű dolgokat hívni //lehet olvasni, accept, recv
+- ha egy output benne van a writable-ban akkor lehet write jellegű folyamat //send
+- close hiányosságokat pótolni kell
+
+- server.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+    - SO_REUSEADDR
+        - adott oprendszer nem szabványosan felszabadított erőforrást még nem oszt ki másnak
+        - 3-4 percig foglalt lesz a port 

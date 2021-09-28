@@ -20,10 +20,10 @@ inf.elte.hu/
 
 ## Adatmodellek
 - Hálós, hierarchikus adatmodell (apa-fiú kapcsolat gráfja)
-- Relációs adtmodell (táblaszerű kezelés)
+- Relációs adatmodell (tábla szerű kezelés)
 - Objektum-orientált adatmodell (háttérben relációk is lehetnek)
-- Logiakai modell (tények és szabályok, tény + szabály -> új tény)
-- Félig struktúrált (XML, gráfos)
+- Logikai modell (tények és szabályok, tény + szabály -> új tény)
+- Félig strukturált (XML, gráfos)
 
 ## Adatbázis-kezelő nyelvek
 - DDL - adatdefiniáló nyelv (sémák...)
@@ -33,9 +33,9 @@ inf.elte.hu/
     - Procedurális (relációs algebra)
 - PL/SQL - programozási szerkezetek + SQL
 - Programozási nyelv beágyazás
-- 4GL nyelvekű
+- 4GL nyelvek
 
-## Több felhaználó
+## Több felhasználó
 - Felhasználói csoportok
 - DBA - ab rendszergazda
 - Jogosultságok (írás, olvasás, jogok továbbadása, visszavonása)
@@ -67,7 +67,7 @@ Végrahajtás sorrendjét adja meg.
 Ekvivalens tranzakciók egymás utáni végrehajtása.
 
 ## Helyreállíthatóság
-- Szoftver vagy hardverhiba esetén utolsó jó pont visszaállítása
+- Szoftver vagy hardver hiba esetén utolsó jó pont visszaállítása
 - Rendszeres mentések
     - Statikus adatb (nem gyakori)
     - Dinam (gyakori)
@@ -83,7 +83,7 @@ Ekvivalens tranzakciók egymás utáni végrehajtása.
 ## Adatvédelem
 - Jogok kezelése (grant, revoke)
 - Nézettáblákra is
-- Titkosítani lehet az edatokat vagy a hálózati kapcsolatot
+- Titkosítani lehet az adatokat vagy a hálózati kapcsolatot
 
 ## AB-kezelő felépítése
 - Lekérdezés feldolgozó
@@ -92,33 +92,34 @@ Ekvivalens tranzakciók egymás utáni végrehajtása.
     - Jogok ellenőrzése
     - Lek. opt. átértelmezése
     - Végrehajtási tervek készítése
-    - Legjobb költségő kiválasztása
+    - Legjobb költségű kiválasztása
 - Tranzakció-kezelő
     - Párhuzamos végrahajtást biztosít
     - (ACID)
 - Tárkezelő
     - memóriába töltés
     - előre létrehozott indexek, nézettáblák,...
-    - bonyolultabb lekérezések gyorsítása
+    - bonyolultabb lekérdezések gyorsítása
 
 ## Adatb-kezelő felépítése
+```
 Alkalmazás  Lekérdezés              Sémaleírás
         \       /                       |
     Lekérdezés-feldolg.             Sémafordító
                     \               /
-                Adatb-lezelő motor
+                Adatb-kezelő motor
                         |
                 Állománykezelő
-
+```
 ## Szintek
 - Sémák és előfordulások
-- Fizikai, logiaki, alkalmazások
+- Fizikai, logikai, alkalmazások
   
 - Fizikai adatfüggetlenség
     - A réteg módosítása ne látszódjon a felsőbb rétegekben
 
 - Logikai függetlenség
-    - Logiaki bővítésnél az alkalmazásokat nem kell újraírni
+    - Logikai bővítésnél az alkalmazásokat nem kell újraírni
 
 ## Relációs adatmodell
 ### Edgar Frank Codd 12 szabálya
@@ -126,17 +127,17 @@ Alkalmazás  Lekérdezés              Sémaleírás
 2. Garantált lokalizálhatóság szabálya - adatmodellnek megfelelően kell hivatkozni az adatra, Tábla,Sor,Oszlop egyértelműen meghatároz
 3. A NULL értékek egységes kezelése - típusfüggetlen
 4. A relációs modell alapján aktív online katalógust kell üzemben tartani - rendszertáblák is megvannak, SQL-el olvashatóak
-5. A teljes körű "adatnyelv" szabálya - interaktív, appba élítve, kül. a lekérd. és az adatmódósító műv., lehessen tranzakció
-6. A nézet frissítésének szabálya - nézettáblák használata, autómatikus frissítés
-7. Mahgas szintű beszúrás, törlés, módostás
+5. A teljes körű "adatnyelv" szabálya - interaktív, appba építve, kül. a lekérd. és az adatmódosító műv., lehessen tranzakció
+6. A nézet frissítésének szabálya - nézettáblák használata, automatikus frissítés
+7. Magas szintű beszúrás, törlés, módosítás
 8. Fizikai adatfüggetlenség
 9. Logikai adatfüggetlenség
 10. Jóság (integritás) függetlensége - constraintek definiálása, ellenőrzése
-11. Elosztástól való föggetlenség - alkalmazói szinten nem látszik, hogy elosztott az adatbázis, redundancia
+11. Elosztástól való függetlenség - alkalmazói szinten nem látszik, hogy elosztott az adatbázis, redundancia
 12. Megkerülhetetlenség szabálya - ne hessen közvetlenől belenyúlni, csak a kezelővel lehessen módosítani
 
 ## Relációs adatmodell
-- Relációsáma: R(A1,A2,...,An)
+- Relációséma: R(A1,A2,...,An)
     - R - relációnév
     - Ai - attr.-, tul.-, oszlop név
     - Dom(Ai) - lehetséges értékek halmaza
@@ -146,20 +147,20 @@ Alkalmazás  Lekérdezés              Sémaleírás
     - t ∈ r esetén t sor (angolul: tuple - n-es)
     **!!??????????????????!!**
 
-## SQL lekérdezés módostása
+## SQL lekérdezés módosítása
 Structured Query Language  
 Összetett lekérdezés felbontása, és külön optimalizálás.
-- Egyzserű SQL
+- Egyszerű SQL
     - Kiválasztás
-    - Többtábla
+    - Több tábla
     - Halmazművelet
     - Átnevezés
     - 
 
 ## Relalg műveletek
-1. ÚNIO, R ⋃ S, R,S azonos sáma, sorok halmaza
+1. UNIÓ, R ⋃ S, R,S azonos sáma, sorok halmaza
 2. KÜLÖNBSÉG, R - S,  
-3. DIREKT SZORZÁS, R × S, két tábla sémája nem egyezhet meg, átneveződik, nincs kétszer ugyan az az oszlop
+3. DIREKT SZORZÁS, R × S, két tábla sémája nem egyezhet meg, átneveződik, nincs kétszer ugyanaz az oszlop
 4. PROJEKCIÓ, SELECT, Πₐ(R), SELECT a FROM R
 5. KIVÁLASZTÁSOK, SZŰRÉS, oszlop összehasonlítása, σₕ(R), SELECT * FROM R WHERE h  
     - σ_A∧B(R) ⩳ σ_A(σ_B(R))
@@ -178,11 +179,11 @@ Nem triviális rekurzió.
 **Tétel:** Nem lehet relációs algebrával megoldani.  
 *Teljes nyelv* ha mindent tud amit a relációs algebra. 
 
-## Származtatott műveltek
+## Származtatott műveletek
 - Metszet
 - Összekapcsolások
     - Téta : |X|_A=B  
-        A szabály olapján kell összekapcsokólni
+        A szabály alapján kell összekapcsolódni
     - Természetes : |X|  
         Közös oszlop alapján összekapcsolás
     - Félig-összekapcsolás: |X  
@@ -191,8 +192,8 @@ Nem triviális rekurzió.
         Mindent szeretnénk látni, ezért NULL párokkal bekerülnek a hiányzó dolgok (nem teljesen relációs művelet)
 
 
-    - séma egyezzés r|X|s=r∩s
-    - séma nem egyezzik r|X|s=r×s
+    - séma egyezés r|X|s=r∩s
+    - séma nem egyezik r|X|s=r×s
 - Osztás, hányados
 - Monotonitás - sorok hozzáadásával növekedni fog.
 
@@ -200,7 +201,7 @@ Nem triviális rekurzió.
 
 ## Algebrai optimalizálás
 **Cél:**
-Legérdezések gyorsítása, a tábla specifikus paraméterek, statisztikák ismeretében, heurisztikák használatával.
+Lekérdezések gyorsítása, a tábla specifikus paraméterek, statisztikák ismeretében, heurisztikák használatával.
 
 ## Lekérdezés optimalizálása
 - SQL lekérdezés
@@ -211,7 +212,7 @@ Legérdezések gyorsítása, a tábla specifikus paraméterek, statisztikák ism
 3. Szabályok alkalmazása
     - algebrai optimalizáció
 - Javított logikai lekérdező terv
-4. Várható métretek becslése
+4. Várható méretek becslése
 5. Fizikai tervek készítése
 - 
 6. Költségek becslése
@@ -257,7 +258,7 @@ WHERE starName IN (
 ```
 1. Elemzőfa, Parse Tree
     - \<Query>, \<SFW>, 
-2. Rendszertáblákból ellenőrizve vannak, hogy léteznek-e a táblák, megfelelő típúsok vannak, meg vannak a jogosultságok, stb..
+2. Rendszertáblákból ellenőrizve vannak, hogy léteznek-e a táblák, megfelelő típusok vannak, megvannak a jogosultságok, stb..
 3. Elemzőfából lehet REL-ALG fát csinálni
     - '\<tuple> IN \<query>' ezt még át kell alakítani
     - \<table> × \<query> majd σ_('x in y' -> 'x = y.x')
@@ -266,15 +267,15 @@ WHERE starName IN (
 
 ## Algebrai optimalizálás
 - **Cél:** gyorsabb kiszámítás
-- **Költségmodell:** költség arányos a méretekkel, lehetne bonyolultabb kölségeket is kiszámolni (mienk alap szintű)
-- **Módszer:** művletei tula. alapján ekviv. átalakítás
+- **Költségmodell:** költség arányos a méretekkel, lehetne bonyolultabb költségeket is kiszámolni (miénk alapszintű)
+- **Módszer:** műveletei tula. alapján ekviv. átalakítás
 - **Az eljárás heurisztikus**, nem valódi méretekkel számol
 - **Az eredmény nem egyértelmű:** Az átalakítások sorrendje nem determinisztikus, de általában jobb költségű
 - **Megj.:** Az SQL sokkal bővebb, de most klassic. alg. kif. lesznek.
 
 - kifejezést gráffal ábrázoljuk
 - **Kifejezésfa:**
-    - nem levél csúcs
+    - nem levélcsúcs
         - unáris műveletek
         - bináris műveletek
     - levelek: konstans relációk vagy reláció változók
@@ -298,27 +299,27 @@ WHERE starName IN (
     - Π_A(Π_B(E)) ⩳ Π_A(E)
 4. Kiválasztások felcserélhetősége, felbontása
     - σ_(F1 ∧ F2)(E) ⩳ σ_(F1)(σ_(F2)(E))
-5. Kiválasztás és vetítés felcserálhetősége
+5. Kiválasztás és vetítés felcserélhetősége
 6. Kiválasztás és szorzás felcserélhetősége
 7. Kiválasztás és egyesítés felcs.
-8. Kiválasztás és kivonás frlcs.
+8. Kiválasztás és kivonás felcs.
 9. Kiválasztás és természetes összekapcsolás felcs.
-10. Vetítés és szorzás felscs.
+10. Vetítés és szorzás felcs.
 11. Vetítés és egyesítés felcs.
 - Nem minden cserélhető pl: Vetítés és kivonás nem cserélhető fel
 
 ## Heurisztikus elvek
-1. Minnél hamarabb szelektáljuk
-2. Össszekapcsolások jobbak mint a szorzások
+1. Minél hamarabb szelektáljuk
+2. Összekapcsolások jobbak mint a szorzások
 3. Unáris műveletek összevonása
-4. Keressünk közös részkifejezéseket
+4. Keressünk közös rész kifejezéseket
 
 ## Optimalizáló algoritmus
 1. A kiválasztásokat bontsuk fel (4)
 2. A kiválasztást mélyebbre visszük (4-9)
 3. A vetítések is mélyre (3,5,10,11)
-4. Műveltek összevonása (3-5)
-5. Bináris műveltek csoportosítása, egy-egy művelte egy csoportban.
+4. Műveletek összevonása (3-5)
+5. Bináris műveletek csoportosítása, egy-egy művelte egy csoportban.
 6. A fát kiértékeljük
 
 
@@ -335,16 +336,16 @@ WHERE starName IN (
 # EA 2021.09.21
 
 ## Fizikai tervek
-- Eddig logiaki terv volt
+- Eddig logikai terv volt
 - SQL lekérdezésből lesz egy terv
 - "Explain Plan" ablak
 - Műveletek közül próbál jobb költségűeket keres (nem a legjobbat, csak kb)
-- blokk műveletek száma a mártákegység
-- minden műveltre ki kell számolni a költségeket
+- blokk műveletek száma a mértékegység
+- minden műveletre ki kell számolni a költségeket
     - jobb költségű sorozatot kell választani
     - műveletsorozat
         - kövi művelet költsége az előzőtől függ
-- Méreteket és futási időkel kell összehasonlíthatni
+- Méreteket és futási időkkel kell összehasonlítani
 
 ## Sorrend:
 - SQL
@@ -358,24 +359,24 @@ WHERE starName IN (
 - Fizikai tervek
     - Költségek becslése
 - "Legjobb kiválasztása"
-    - Végrahajtás
+    - Végrehajtás
 - Eredmény
 
 ## Miért jó?
 - Ez egy általános módszer
-- Mi lehet tudunk speckó infókat amivel jobb végrahajtást tudunk adni
+- Mi lehet tudunk speckó infókat amivel jobb végrehajtást tudunk adni
 - Ha megértettük, akkor lehet javítani
 
 ## Indexelés
 - Célok:
     - gyors lekérdezés
     - gyors adatmódosítás
-    - minnél kisebb tárhely
+    - minél kisebb tárhely
     - (hálózati forgalom optimalizálás, stb)
 - Nincs általános legjobb optimalizáció. A célok egymás ellen dolgoznak
 - Adatbázis lehet
     - statikus (ritkán módosul, komplex lekérdezések) - pl.: adattárház
-    - dinamikus (sok módosítás, egyszerű lekérdezések) - pl.: bank fálhasználói rendszere
+    - dinamikus (sok módosítás, egyszerű lekérdezések) - pl.: bank felhasználói rendszere
 - Hogyan mérjük költségeket?
 - Memória műveletek gyorsabbak mint a háttértár műveletek
 - Blokkokat ír,olvas, blokkokban számolunk
@@ -413,7 +414,7 @@ WHERE starName IN (
             - átlagos
             - legrosszabb
         - A=a -ból mennyi van (sok, egy)
-            - ezt nem akarjuk viszgálni, ezért feltesszük, hogy minden konstansból ugyan annyi van
+            - ezt nem akarjuk vizsgálni, ezért feltesszük, hogy minden konstansból ugyanannyi van
             - **Egyenletességi feltétel**
             - Mennyi az annyi?
             - Különböző értékek száma I(A) - (image)
@@ -446,7 +447,7 @@ WHERE starName IN (
     - B/2 (átlagosan)
     - lineáris keresés
 - Beszúrás
-    - Utolsó blokkot kell beolvasnni és beleírni: 2 művelet
+    - Utolsó blokkot kell beolvasni és beleírni: 2 művelet
 - Módosítás:
     - 1 keresés + 1 írás
 - Törlés:
@@ -465,14 +466,14 @@ WHERE starName IN (
 - h(x)∈{1,...,K} hasító függvény
 - A hasító függvény általában maradékos osztáson alapul
     - statikus esetben mod(K)
-- Akkor jó a ha nem fögg attól hogy melyik blokk milyen hosszú
+- Akkor jó a ha nem függ attól hogy melyik blokk milyen hosszú
 - Adatok eloszlásához lehet állítani a hasító függvényt
 - blokkláncok egyforma hosszúak legyenek, blokklánc B/K blokkból álljon
 - Keresés A=a:
     - Túl nagy K sem segít
     - Túl kicsi sem biztos hogy jó
 - Beszúrás
-    - Blokk telítódik, akkor hozzáláncol egy újat
+    - Blokk telítődik, akkor hozzáláncol egy újat
 - Módosítás:
     - 1 keresés + 1 írás
     - ha a hasító érték módosul akkor átkerül
@@ -481,7 +482,7 @@ WHERE starName IN (
 - Intervallumos keresésre nem jó, egyenlőségre épül fel
 
 - Dinamikus hasítás
-    - kiterjesztjóhető
+    - kiterjeszthető
     - lineáris
 
 - Kiterjeszthető hasító index:
@@ -494,17 +495,174 @@ WHERE starName IN (
         - h(x) bináris kód, annak i hosszú eleje lesz a kosarának a prefix azonosítója
         - ha betelik akkor átosztjuk a következő bit alapján a kosarakat
         - sok adatnál sok kosár jöhet létre és hosszú láncok jöhetnek létre
-        - teljes fa lenne a jó, ki kell egyensújozni
+        - teljes fa lenne a jó, ki kell egyensúlyozni
         - virtuálisan kiegészítjük a fát
     - Kosár kódokat számon kell tartani
         - ha egyiknek nő a hossza, akkor fel kell venni az összes olyan hosszú kódszót
-        - ha két külön direktori bejegyzés van, de csak egy blokk akkor ugyyan arra mutatnak (csak virtuális szétbontás)
+        - ha két külön direktori bejegyzés van, de csak egy blokk akkor ugyan arra mutatnak (csak virtuális szétbontás)
 
 - Lineáris
     - több blokkból álló kosarak
     - komplexebb feltétel
     - telítettség alapján van szétbontva
     - pl.: kosarak átlagos mérete
-    - kosarak csoportosítva a végződéseik alapjána (postfix)
-    
+    - kosarak csoportosítva a végződéseik alapján (postfix)
 
+# AB2 EA 4 2021.09.28
+
+## Indexelés
+
+### Rendezett állomány
+- Egy adott mező szerint sorba rendezi
+- Ha a keresési mező a rendezett mező jók vagyunk
+- Blokkos keresés
+    - Beolvassa a középső blokkot
+    - Bináris keresés
+    - Vagy az adott blokkban van, vagy el tudjuk dönteni hogy melyik felében van az érték a maradék résznek
+- Keresési idő: **log₂(B)** // B = blokkok száma
+- Beszúrás
+    - Hova kell beszúrni
+    - Be kell rakni és a maradékot tologatni kell
+    - Ha a blokkban nincs hely akkor az sok művelet
+    - Helyeket hagyunk 
+        - Nem teljesen töltjük ki
+        - Kevesebb művelet a tologatás
+        - pl a felét üresen hagyjuk
+            - 2× akkora hely
+            - Keresés: log₂(2*B) = **1 + log₂(B)**
+            - Ha betelik akkor újrarendezés
+
+    - Túlcsordulási blokkok
+        - Keresés több helyen
+        - G = túlcsordulási blokkok száma
+        - Keresés
+            - Log ker a rendezettben
+            - \+ a rendezetlen rész
+            - **log₂(B) + K**
+            - K minél kisebb kell legyen
+                - Ha nagy a K akkor újrarendezés
+                    - B*log₂(B)
+- Törlés
+    - Keresés
+    - \+ törlés bit átállítása
+    - Sok törölt esetén újrarendezés
+
+- Akkor jó ha inkább keresünk
+- Több mezőre keresés
+    - új indexet kell nekik létrehozni
+
+## Indexek
+- Mezők konka.-ra is lehet indexet csinálni
+- Nő a tárméret
+- Karban kell tartani
+- Főfájl + indexek
+- Ha sokszor keresünk azokra akkor van értelme
+- Felépítés
+    - (a,p) index és mutató
+    - p Blokk mutató (pontosabb is lehet)
+- Oracle
+```sql
+CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>);
+
+--ÖSSZETETT
+CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS;
+```
+- Statisztikák
+    - egy oszlopban hány féle érték stb.
+
+### Elsődleges index - Primari
+- Arra a mezőre amire rendezve van a fájl
+- Csak egy mezőre lehet
+- Csak egy lehet
+- `Primary key` kulcsszóval rendezett lesz és lesz hozzá index
+- Ritka index - nem kell minden mezőhöz
+    - (sűrű - minden rekordhoz)
+- bf(I)>>bf - az index sokkal kisebb mint a fájl
+- B(I) = B / bf(I) << B = T / bf
+- Keresés
+    - Keresünk az indexben, csak fedő értéket tudunk keresni
+    - Kisebbek közül a legnagyobbat
+    - log₂(B(I))
+    - Ha meg van a blokk akkor azt is be kell olvasni és abban is keresni
+        - **1+log₂(B(I))** << log₂(B)
+- Módosítás
+    - Be kell szúrni a táblába és talán az indexbe is
+    - Ha van még hely a blokkban akkor kevesebb művelet
+    - Indexfájlban is hagyhatunk helyet
+
+### Másodlagos index
+- Több másodlagos index is lehet
+- Minden rekordból lesz index - sűrű
+- Nagyobb méretű
+- Index alapján lehet tudni, hogy benne van-e
+- bf(I) >> bf
+- B(I) = T/bf(I) << B = T/bf
+- Keresés
+    - **1+log₂(B(I))** << log₂(B)
+- Módosítás
+    - Index fájlt kell módosítani mindig
+    - Mindig rendezett kell legyen
+    - Max üres hely lehet benne
+
+
+### Indexnél több érték is lehet ugyanaz
+- Nem foglalkozunk és felvesszük többször
+    - Mindet ki kell szedni
+- Ritka indexxel nem túl hatékony mert több irányba is lehet, hogy kell keresni
+    - Javítás ha az első előfordulást tároljuk el
+    - Összeláncoljuk a blokkokat
+- Közös index, de több mutató hozzá
+    - Nem fix hosszú rekordok
+- Elsőt tároljuk
+    - Összeláncoljuk a közös blokkokat
+    - Sok mindent kell karbantartani
+- Index mutatója egy külön helyre
+    - kosarakra
+    - kosarak mutatnak az adott rekordokra
+    - Több mezőre keresésnél kellenek a kosarak metszetei
+
+### Indexelés
+- Klaszter (nyaláb, fürt)
+    - Klaszterszervezés
+        - Egyforma értékek egy blokkban vagy közeli blokkban
+    - Ilyenekre lehet klaszter indexet készíteni
+    - Ha két táblát gyakran össze kell kapcsolni
+        - klaszterindex az összekapcsolási rekordokra
+- Indextábla is tábla
+    - Arra is lehet indexelni
+    - Csak rendezett táblára lehet ritka index
+    - Egy index már rendezett - arra indexelni már ritka lesz
+    - Addig lehet csinálni amíg elég kevés érték marad a legfelső indexbe (min 1 rekord)
+    - Ez már fa szerű felépítés lesz
+
+### Többszintű index
+- legfelül bináris keresés
+- onnantól lefelé minden szinten csak egy blokkot kell beolvasni 
+    - (blokkon belüli keresés gyors - elhanyagolható)
+
+|  | Főfájl | 1.szint | 2.szint | ... | t.szint |
+| :---: | :---: | :---: | :---: | :---: | :---: | 
+| blokkok száma | B  | B/bf(I) | B/bf(I)² | ... | B/bf(I)ᵗ |
+| rekordok száma | T | B | B/bf(I) | ... | B/bf(I)ᵗ⁻¹ |
+| blokkolási faktor | bf | bf(I) | bf(I) | ... | bf(I) |
+
+- t = **log_(bl(I))(B)** < log₂(B)
+
+### B⁺, B* fák
+- B⁺ min 50%-ban telített
+- B* min 66%-ban telített
+- Legalsó szinten sűrű index
+- Csúcs
+    - n+1 mutató
+    - n index érték
+    - az index értékek intervallumokat jelentenek
+- Fa magassága blokk művelet
+- Beszúrásnál ha nincs hely akkor karbantartás
+    - Ha nincs hely akkor kettéválasztja a blokkot és beszúrja
+        - Egy szinttel feljebb is be kell kötni az új blokkot
+        - Tovább gyűrűzhet
+        - Magasabb lehet a fa
+- Törlésnél kicsi a telítettség
+    - Blokkokat kell összevonni
+    - Ez is felfelé gyűrűzik
+    - Kisebb lehet a fa

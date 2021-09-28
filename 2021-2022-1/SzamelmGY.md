@@ -7,7 +7,7 @@
 - Start szimbólum
 
 ## Chomsky Grammatikák
-Chomsky kitalálta a típúsokat  
+Chomsky kitalálta a típusokat  
 0. nincs korlát
 1. ∀ u₁Au₂ → u₁vu₂ ∈ P, u₁,u₂,v ∈ (N ∪ T)*, A ∈ N, v ≠ ɛ  
         S → ɛ lehet, de akkor S nem lehet szabály jobb oldalán (KES)
@@ -33,7 +33,7 @@ Környezetfüggetlenből mindig lehet CNF-et csinálni
     - Terminális helyett neki létrehozott nemterminális lesz
     - felvesszük az új nt-ből a terminálisba vezető szabályt
 3. Hosszredukció
-    - X -> Y₁Y₂...Yₖ, k ≥ 3 szabályt kelyettesítjük:
+    - X -> Y₁Y₂...Yₖ, k ≥ 3 szabályt helyettesítjük:
         - { X -> Y₁Z₁, Z₁->Y₂Z₂,...Zₖ-₁->Yₖ}
 4. ɛ-mentesítés
     - Uᵢ ⊆ N
@@ -135,7 +135,7 @@ Z₁ → X₂X₁
 Z₂ → CC | X₂Z₃  
 Z₃ → X₂D | b
 
-## Feldat megoldás
+## Feldatmegoldás
 1. Új kezdőszimbólum (S₀→S, ha S szerepel szabály jobb oldalán)
 2. Álterminálisok bevezetése  
 3. Hosszredukció
@@ -208,15 +208,15 @@ Z₃ → S X₄
 - CNF-ben kell lennie
 - Eldönti a szóproblémát
     - Igen / nem a kimenete
-    - Egy szó a bemente
+    - Egy szó a bemenete
     - Eldönti, hogy a nyelvben van
-- Lentről fölfelé elemez
+- Lentről felfelé elemez
 - **Szorgalmi a szintaxisfához**
-- Mártix van
+- Mátrix van
     - A részszót hogyan tudjuk előállítani
     - Sorok az, hogy milyen hosszú résszóról van szó
-    - Az oszlopok meg az, hogy hanyadik betűtől
-    - Minden cellában nemterminálisok vannak amiból le lehet vezetni az alatta lévó résszót
+    - Az oszlopok meg az, hogy hányadik betűtől
+    - Minden cellában nemterminálisok vannak amiből le lehet vezetni az alatta lévő résszót
 - Ha az első sor első oszlopában van S, akkor előállítható a szó
 - (i,j)-ben szerepel A, ha van olyan A ⟶ BC ∈ P
     - B szerepel (k,j)-ben
@@ -308,7 +308,7 @@ ZH-ig teamsen
 
 # Gyak 2021.09.21
 
-## Verem autómata
+## Veremautomata
 - állapotok
 - szallag
 - verem - pop van mindig
@@ -331,7 +331,7 @@ ZH-ig teamsen
     - mi van a veremben, állapot, mi van a szalagon
 
 - közvetlen lépés:
-    - q állaptban vagyunk, z van a verem tetején és x-et olvasunk
+    - q állapotban vagyunk, z van a verem tetején és x-et olvasunk
     - δ(z,q,x)={(u₁,p₁),..,(uₙ,pₙ)} // uᵢ∈Z*, pᵢ∈Q
     - δ(z,q,ɛ)={(u₁,p₁),..,(uₙ,pₙ)} // uᵢ∈Z*, pᵢ∈Q
 
@@ -342,11 +342,11 @@ ZH-ig teamsen
     - //r - még van valami a veremben, w - van még valami a szalagon
     - (u,p) ∈ δ(zqa)
 
-- több lépéses redukció:
-    - egy lépéses tranz. refl. lezártja
+- többlépéses redukció:
+    - egylépéses tranz. refl. lezártja
     - α ⇒* β
 
-- elfogadó állapotta lelfogadó nyelv
+- elfogadó állapottal elfogadó nyelv
     - L(A) = {u∈T* | z₀q₀u ⇒* rp, r∈Z*, p∈F}
 
 - üres veremmel elfogadott nyelv
@@ -355,7 +355,7 @@ ZH-ig teamsen
 
 ## Feladat 1
 - L = { aⁿbⁿ | n≥1 }
-- ehhez a nyelvhez autómata
+- ehhez a nyelvhez automata
 - le kell modellezni h kb mit csináljon
 - mutasd be a működéstő
     - olvas a szalagon a-t, akkor beleteszi a verembe
@@ -411,8 +411,8 @@ ZH-ig teamsen
 
 ## Feladat 2
 - L = { ucu⁻¹ | u∈{a,b}⁺ }
-- amíg c jön addig brakom a cuccokat
-- a c után nézem h ugyan az van-e a veremben
+- amíg c jön addig berakom a cuccokat
+- a c után nézem h ugyanaz van-e a veremben
 
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
@@ -449,7 +449,7 @@ ZH-ig teamsen
 
 ## Faladat 3
 - L = { uu⁻¹ | u∈{a,b}⁺ }
-- berkajuk a cuccokat az autómatába
+- berakjuk a cuccokat az automatába
 - ha olyan jön ami bent van, akkor kiolvasó állapotba megyünk
 - onnan kezdve kiolvasgatunk
 
@@ -489,3 +489,121 @@ ZH-ig teamsen
 - ha nem találok semmi, akkor berakom
 - ha van párja, akkor kiveszem
 - egy állapot, hurokél sok szabállyal
+
+# Gyak_4 2021.09.28
+
+## ZH
+- 2 hét múlva
+
+## Logika
+- Kétértékű logikával foglalkozunk mi
+- i,h (egyéb 1,0)
+- Nagy I,H mást jelent
+- összetett állítás: állítás és logikai műveletek kapcsolata
+- A→B, B a tágabb halmaz, A része B-nek
+
+### Ítéletlogika leíró nyelve
+- ábécé: Var={x,y,z,x₁,...} ; ¬ ; ∧ ; ∨ ; → ; ( ; ) ;
+
+- Logikai összetettség
+    - l(x)=0
+    - l(¬A) = l(A) + 1
+    - l(A ∘ B) = l(A) + l(B) + 1
+    - hány műveleti jel van benne
+- Közvetlen részformula
+    - A ∨ B közv. részf.: A,B
+- Részformula
+    - A ∨ (B ∨ C) részf.: B,C,A ∨ (B ∨ C)
+- Fő műveleti jele, fő logikai összekötő
+    - Milyen típusú a formula?
+    - Az ami az egész formulára hat
+- Zárójel elhagyás
+    - Ha a prioritása nagyobb mint a másiké
+    - A → (B → (C → D))
+    - ((A ∧ B) ∧ C) ∧ D
+
+#### Feladat
+- a : (((x → y) ∧ (y → z)) → (¬x ∨ z))
+    - ((x → y) ∧ (y → z)) → (¬x ∨ z)
+    - ((x → y) ∧ (y → z)) → ¬x ∨ z
+    - (x → y) ∧ (y → z) → ¬x ∨ z
+    - l((x → y) ∧ (y → z) → ¬x ∨ z) = 6
+    - imp
+- b : ((x → y) → (y → x))
+    - (x → y) → y → x
+    - l((x → y) → y → x) = 3
+    - imp
+
+#### Szemantika
+- B_I(A) := I(A)
+
+### Igazságtábla
+- Bázis : ítéletváltozók sorrendje
+- Táblában az összes lehetséges kombinációja a változók értékének
+
+| x | y | z | (x→y)→z | x→(y→z) |
+|:-:|:-:|:-:| :-----: | :-----: |
+| i | i | i |    i    |    i    |
+| i | i | h |    h    |    h    |
+| i | h | i |    i    |    i    |
+| i | h | h |    i    |    i    |
+| h | i | i |    i    |    i    |
+| h | i | h |    h    |    i    |
+| h | h | i |    i    |    i    |
+| h | h | h |    h    |    i    |
+
+- két formula **ekvivalens** ha megegyezik az igazságtáblájuk, bizonyít
+    - a fenti két formula nem ekviv.
+    - van két eltérő sorok
+
+### Igazhalmaz/Hamishalmaz
+- Olyan interpretációk amikre i/h a formula
+- ((x→y)→z)ʰ = {(i, i, h), (h, i, h), (h, h, h)}
+- lesz ZH-ban
+
+### Szemantikus tulajdonságok
+- I interp. **kielégít** B formulát: I ⊧₀ B
+- B **kielégíthető** ha  ∃I ⊧₀ B
+- B **kielégíthetetlen** ha  ∄I ⊧₀ B
+- B **tautológia** ha ⊧₀ B
+- ugyanezek formulahalmazokra
+- A form.-nak B form. **tautológikus következménye**: A ⊧₀ B ha I ⊧₀ A és I ⊧₀ B
+- A és B **tautológikusan ekviv.**: A ~₀ B ha A ⊧₀ B és B ⊧₀ A
+- ugyanez formulahalmaz és formula esetén
+
+### Nevezetes ekviv.
+- a) dupla tagadás törvénye
+- b) indenpotens tul.
+- c) kommutativitás tul.
+- d) asszociativitás tul. (átzárójelezhetőség)
+- e) disztributivitás tul.
+- f) elnyelési tul. *(A ∨ B) ∧ B ~₀ B és (A ∧ B) ∨ B ~₀ B*
+- g) implikáció átírása *A → B ~₀ ¬A ∨ B*
+- h) De-Morgan azon. *¬(A ∧ B) ~₀ ¬A ∨ ¬B és ¬(A ∨ B) ~₀ ¬A ∧ ¬B*
+- i) *A ∨ ¬A ~₀ ⊤ és A ∧ ¬A ~₀ ⊥*
+- j) *A ∨ ⊤ ~₀ ⊤ és A ∧ ⊥ ~₀ ⊥*
+- k) *A ∨ ⊥ ~₀ A és A ∧ ⊤ ~₀ A*
+- bizonyítsa/lássa be feladatok erre épülnek
+
+#### Feladat 
+- Lássa be: ⊧₀ x → (y → x)
+1. implikációtól megszabadulni 
+    - x → (y → x)
+    - ~₀ x → (¬y ∨ x)
+    - ~₀ ¬x ∨ (¬y ∨ x)
+2. többi szabály
+    - ~₀ (¬x ∨ ¬y) ∨ x
+    - ~₀ (¬y ∨ ¬x) ∨ x
+    - ~₀ ¬y ∨ (¬x ∨ x)
+    - ~₀ ¬y ∨ ⊤
+    - ~₀ ⊤
+
+| x | y | x→(y→x) |
+|:-:|:-:| :-----: |
+| i | i |    i    |
+| i | h |    i    |
+| h | i |    i    |
+| h | h |    i    |
+
+#### Feladat 
+- Lássuk be: ¬(x ∨ (y ∧ (z → x))) ~₀ ¬x ∧ (y → z)
