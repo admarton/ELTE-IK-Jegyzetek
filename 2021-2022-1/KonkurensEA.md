@@ -327,3 +327,110 @@ class B {
 - Másik szálban: b.m2(a)
 - Nem lesz interferencia, de holtpont igen
 - most túlszinkronalizált lett
+
+# EA 4 2021.09.29
+
+## Holtpont probléma
+- Túlszinkronizálás
+- Folyamatok egy halmaza kerülhet holtpontba
+    - Nem tud továbblépni
+- Nincs univerzális megoldás
+    - Programozó dolga
+- Folyamatok leállítása és így megszüntetni a holtpontot
+    - Megfelelő erőforrás felszabadítással
+- Detektálás, megszüntetés
+- Timeout, ne várakozzon végtelenségig
+    - Mondjon le az erőforrásról
+    - Próbálja újra
+        - Lehet végtelen újarpróbálás "ciklus"
+- Gráfos ábrázolásban látszódhatnak problémák
+    - lassítások 
+- Megelőzés
+    - Figyeljünk arra hogy ne alakuljon ki
+    - erőforrások, folyamatok sorbaállítása
+    - Szimmetriák megtörése
+    - Folyamatok súlyozása
+        - Erősebb kapja meg az erőforrást hamarabb
+        - Kiéheztetés veszélye
+    - Erőforrások súlyozása
+        - pl Oprendszereknél
+        - Kissebb utána a nagyobb erőforrás
+        - Általánasan holtpont elkerülő stratégia
+        - Csak akkor működik ha előre lehet tudni az erőforrás szükségletet
+- Központi irányítás
+- Véletlen szüneteltetés
+
+## Példa
+```java
+class Számla {
+    private int egyenleg;
+    public synchronized void rátesz( int összeg ){
+        egyenleg += összeg;
+    }
+    public synchronized void kivesz( int összeg )
+            throws SzámlaTúllépés() {
+        ...
+    }
+
+    // Ha ez is sync akkor pénz cserénél holtpont
+    public void átutal (int összeg, Számla másik)
+            throws SzámlaTúllépés() {
+        kivesz(összeg);
+        másik.rátesz(összeg);
+        // Fordított sorrendben elromolhat ha nincs elég pénzem
+    }
+} 
+``` 
+- Bonyolult megoldás nem jó
+    - másik programozó hozzáfejleszt és elronthatja az egyedi szinkron megoldást
+- Szét kell választani a monitor és a sima működéseket
+    - Külön `Számla` és `Bank` osztály
+    - A sima osztály szinkronságát a támaszkodó szink. osztályok biztosítják
+
+## Példa
+```java
+class Bank {
+
+    public void átutal (int összeg, Számla innen, Számla ide)
+            throws SzámlaTúllépés() {
+        innen.kivesz(összeg);
+        ide.rátesz(összeg);
+    }
+    // átutalás közben kétszer számolhat egy pénz össszeget
+    public long vagyon( Számla[] számlák){
+        long összeg = 0L;
+        for( Számla számla: Számlák){
+            összeg += számla.egyenleg();
+        }
+        return összeg;
+    }
+} 
+``` 
+- Ha az egész bank szink. akkor nem lehet több utalás egyzserre
+
+## Több erőforrás szinkronizált blokkokkal
+- Egy közös Objektum Lock az összes erőforráshoz
+- Kliens oldali zárolás
+- De így nem tudnak egyszerre dolgozni
+
+## Szinkronizált adatszerkezetek
+- Alap java dolgok nem sync-ek
+- ArrayList helyett java.util.Vector (szálbiztos)
+- Map helyett java.util.HashTable (szálbiztos)
+- java.util.Collections
+    - synchronizedCollection
+    - synchronizedList
+    - synchronizedSet
+    - csomagoló a régi objektumoknak
+    - szálbiztosítás
+```java
+List lst = Collections.synchronizedList(new ArrayList<Integer>());
+```
+- ArrayList lesz használva belül
+    - kívülről szálbiztos
+- ArrayList-re nem szabad megtartani a referenciát
+    - ne lehessen a wrapper nálkül belenyúlni
+- Iterátorokkal baj lehet
+    - többszálú iteráció problémás lehet
+    - külön kell szinkronizálni pl sync. blokk a listára
+    - igaz a `for(Integer n: lst)`-re is

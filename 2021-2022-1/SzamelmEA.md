@@ -302,3 +302,116 @@ CYK-algoritmus |G|*n³ lépésben eldönti, ahol n a szó hossza.
 - Rezolvens
     - 1 komplemens literálpárt tartalmaz klózoknak lehet rezolvense kivesszük  belőlük a komplemens literálpárt és összevagyoljuk 
     (x ∨ y, ¬y ∨ z) = x ∨ z
+
+# EA 4 2021.09.29
+
+## Logika
+### Rezolvens
+Komplemens literálpárok diszjunkciója
+
+### Rezolúciós levezetés
+- Véges klóz sorozat
+- Mindegyik klóz vagy eredeti, vagy kisebb indexű klóznak rezolvense
+- Ha levezethető az üres klóz, akkor kielégíthetetlen
+
+#### Feladat
+S = {y ∨ z, ¬x ∨ W ∨ ¬z, y ∨ ¬z ∨ ¬w, x ∨ z}
+1. ¬y           (∈ S)
+2. y ∨ z        (∈ S)
+3. z            (=res(1,2))
+4. ¬x ∨ W ∨ ¬z  (∈ S)
+5. y ∨ ¬z ∨ ¬w  (∈ S)
+6. ¬x ∨ y ∨ ¬z  (=res(4,5))
+7. ¬x ∨ y       (=res(3,6))
+8. x ∨ y        (∈ S)
+9. y            (=res(7,8))
+10. □           (=res(1,9))
+
+## Elsődrendű logika
+- Minden ember halandó! Szokratész ember! -> Szokratész halndó!
+
+### Szintaxis
+- Ábécé
+    - Pred - predikátumszimbólumok véges halmaza
+    - Func - függvényszimbólumok véges halmaza
+    - Cnst - konstansszimbólumok véges halmaza
+    - Ind  - Individuumváltozók
+    - 0-d rendű műveletek és univerzális és egzisztenciális kvantor
+    - Zárójelek és vessző
+- Termek
+    - Minden x ∈ Ind akkor x ∈ Term
+    - Minden c ∈ Cnst akkor c ∈ Term
+    - Minden f ∈ Func akkor f(t₁, .., tₐᵣ₍f₎) ∈ Term
+- Formulák
+    - minden p ∈ Pred és t₁, .., tₐᵣ₍p₎ ∈ Term akkor p(t₁, .., tₐᵣ₍p₎) ∈ Form, atomi formula
+    - ...
+- Interpretáció és változókiértékelés
+    - I = < U, I_Pred, I_Func, I_Cnst> rendezett négyes az interpretáció
+    - I_Pred : a pred-ekhez rendel értékeket
+    - I_Func : függvényeket rendel a szimb.-hoz
+    - I_Cnst : Konst. szimb.-hoz rendel értéket
+
+    - κ : Ind → U egy változókiértékelés
+
+#### Példa
+- I = < ℕ, I_Pred, I_Func, I_Cnst>
+    - I_Pred(p) = p', (m,n) :∈ p' ↔ m ≥ n
+    - I_Pred(q) = q', (m,n) :∈ q' ↔ m = n
+    - I_Func(f) = f', f'(m,n := m+n)
+    - I_Cnst(a) := 0
+    - κ*(y) = κ(y) minden y ∈ Ind, y ≠ x
+- |p(f(y,y),x)|^(I,κ) = i : y=3, x=2
+- |q(f(y,y),x)|^(I,κ) = h : y=3, x=2
+
+### Szabad és kötött előfordulás
+- Kötött: ∃xϕ -> x zárt előfordulés
+- Szabad: különben
+- Ha ϕ minden változója kötött akkor zárt
+
+### Szemantikus fogalmak
+- Kiélégíthető, kielégíthetetlen
+- Logikailag igaz(érvényes) ha minden kielégíti
+- Logikai ekvivalens
+- ...
+
+### Törnények
+1. nulladrendű törvények
+2. ha x nem szabad vélt. A-nak
+    ∀xA ~ A és ∃xA ~ A
+3. ∀x∀yS ~ ∀y∀xA és ∃x∃yS ~ ∃y∃xA
+4. ¬∃xA ~ ∀x¬A és ¬∀xA ~ ∃x¬A
+5. ha x nem szabad vált. A-nak
+    - ...
+    - ...
+    - ...
+    - ...
+6. ∀xA ∧ ∀xB ~ ∀x(A ∧ B) és ∃xA ∨ ∃xB ~ ∃x(A ∨ B)
+
+#### Példa
+- E(x) : x ember
+- H(x) : x halandó
+- s : Szókratész (cnst)
+- Minden ember halandó : ∀x(E())
+- 4. ea 103.oldal 
+- ...
+
+## Függvények aszimptotikus nagysága
+- Ω
+- Θ
+- O
+- f, g = O(h) -> f + g = O(h) (összeadásra zártság)
+- (pozitív konstanasal szorzásra zártság)
+- (szekvencia tétel)
+- ... cuccok
+
+## Algoritmikus megoldás
+- Véges utasítással megoldja a problémát minden inputra
+- Eldöntés algoritmusnaál
+    - nem eredménynél nem mindig terminál akkor parciális algoritmus
+- Kurt Göbel - rekurzív függvényi
+- Alonso Church - λ kalkulus
+- Alan Turing - Turing gép
+
+- Church-Turing tézis
+    - Minden algoritmizálható probléma megoldható Turing-géppel
+

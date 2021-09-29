@@ -508,3 +508,190 @@ Hálózatok hálózata
 - alapsáv fel minden frekvencián megy
 - szélessáv, csak egy tartományba küld, pl ott ahol az elnyelődés egyenletes
 
+# EA 4 2021.09.29
+
+## PSK több szim.
+- fázis eltolás könnyen felismerhető a fogadó által
+## Amplitudo több szim.-hez
+
+## Multiplexitás
+- Egy fizikai közeget többen is használnak
+    - átvitelek zavarhatják egymást
+    - csatorna felbontása logikai alcsatornákkra
+    - Küldő oldalon kell egy összefésülő eszköz : **multipexer**
+    - Vevőnél demultiplexálás
+
+- Térbeli multiplexálás
+    - A legegyszerűbb
+- Frekvencia multi.
+    - Adott tartományban jó az átvitel
+    - A tartományt is fel lehet osztani
+    - Kis szünet is van a jelek között, hogy biztos legyen
+    - Összefésülés
+    - Egyben megy ki
+- Hullámhossz
+    - Optikai módon meg lehet csinálni
+- Idő
+    - meg van hogy ki mikor jön
+- CDMA - Code Division Multiple Access
+    - nincs megszorítás
+    - hol a multiplex?
+    - nagy zaj generálódik
+    - ki lehet szűrni a sepeckó üzeneteket
+    - 3G-nél jött használatba
+    - minden állomás egyfolytában sugározhat
+    - interferencia = lin. komb. az egyedi jeleknek
+    - jeleket úgy kell kódolni, hogy ki lehesseen majd olvasni
+    - vektor összeg, báris, projektálás a bázisra és tá-dá csak az erdmény
+    - töredék/csip vektor
+    - minden állomásnak van chip
+    - ezekre ortogonalitás kell hogy vissza lehessen állítani
+    - 1-et chippe kódoljuk
+    - 0-t a chip komplemensével kódoljuk
+    - két állomás cuccai összeadódnak
+    - slotonként lesznek átfedések
+        - összegvektor jelenik meg a hálózaton
+        - eredő az összeg
+    - dekódolásnál skalárisan szorozni kell a chippel
+        - pozitívitását kell nézni
+        - negatív - 0
+        - pozitíz - 1
+        - nulla   - nem küldött semmit
+
+- Fizikai réteghez tudni kell
+    - nem biztosít semmi
+    - lehet, h. rosszul értelmezi
+
+## Adatkapcsolati réteg
+- Feleadata, hogy kezelje a hibákat
+- Statikus módszerek pazarolnak- erre nyújt megoldásokat
+- Felkészülés löketszerűségre és változó felhasználószámra
+- Keretek Átvitele
+- Folyamvezérlés
+
+### Keret képzés
+- Nagy adatnál egybe küldésnél hibák lesznek
+    - el kell dönteni, h jó-e
+- Kis darabokban nem kell ez egészet újraküldeni hiba esetén
+    - gyorsabb
+- Nem akarjuk túlterhelni a vevőt
+    - bufferba belefér
+    - ha feldolgozta kkor megy még keret
+- Fel kell ismerni, h hol kezdődik és hol van vége
+    - itt is lehetnek hibák
+    - hol volt zaj, hol van keret
+- Csomag kapcsolt hálózat
+- Fajtái
+    - Bájt alapú
+    - Bit alapú
+    - Idő alapú
+- Fejlécben a keret hossza / bájt alapú
+    - Annyi cucc kell
+    - De ha pont az hibás akkor baj van
+        - elcsúsznak a dolgok
+    - szinkron elveszhet
+- Bájt beszúrás
+    - Flag bájt az eleje és vége
+    - Kezelni kell az adaton belüli flag-szerű rászeket
+    - String-eknél hasonlóan működik programozási nyelvekben
+    - ESC - escape
+        - ESC-t is lehet ESC-elni kell
+    - itt is lehet hiba
+    - **teljesítmény**
+        - általában legrosszabb eset
+        - ha minden ESC vagy FLAG, akkor kétszer akkora lesz az adat 
+- Pont-pont alapú protokollok: modem, DSL, cellular
+- Bit beszúrás
+    - FLAG szerű bitsorozat
+    - bitminta az adatban
+        - csak bit lesz beszúrva
+        - kevesebb overhead
+        - nagyobb hibalehetőség
+    - pl HDLC protokoll
+    - 11111 után be kell szúrni egy 0-t
+        - 6 db 1-nél hiba van
+    - **teljesítmény**
+        - csupa 1-nél a legnagyobb overgead
+- Óra alapúak optikai hálózatokban
+    - Keret mérete fix hosszú
+    - Keret küldés ideje is fix
+    - 810 bájt
+    - Táblázat szerű
+    - Speckó kezdőminta
+        - onnan tudjukaz idejét és az adat mennyiséget
+    - Vége ki lesz padddelve
+    - Tartalmazza hogx mennyi adat van - mazadék padding
+    - Elég biztonságos az optika, kevesebb hiba
+
+## Hiba felügyelet
+- Zaj kezelés
+    - hogyan detektáljuk ahibát
+    - hogyan állítsuk helyre
+- Bithiba
+    - hiba löketek vannak
+    - van ami nem jó, de van ami jó
+    - olyan sorozat aminek az eleje és vége hibás
+    - m : védelmi övezet
+    - csoportos hibán belül minimum m-nek kell jónak lenni, hogy szétszedjük két másiknak
+- Naív hibadataktáló
+    - adatból nem lehet eldönteni
+    - kétszer kérünk egy keretet
+        - ha mind2 egyenlő akkor minden jó
+        - küllönben hiba
+    - rossz ötlet
+        - minden duplázva - sávszélesség feleződik
+        - hiba védelem is gyenge
+            - mindkettő lehet hibás
+- Paritás bit
+    - minden kis csoporthoz paritásbit (pl 7 bit (ASCII karakter) helyett 8)
+        - az egyesek száma páros v. páratlan
+    - kis overhead
+    - max 1 bit hibát engedünk meg
+        - nem stimmel valami
+        - 2 bit hiba nem detektálható
+
+## Hiba javítás
+- Annyi extra infó h helyre lehessen állítani
+- Csak detektálás és újraküldés
+- Melyik a jobb - nem egyértelmű
+    - javítóban több extra infó, extra számolások, extra hardver igény
+    - ha biztos a hálózat akkor jobb a ARQ (automatic repeat request)
+    - rossz hálózaton jobb az FEC (forward error correction)
+    - modil hálózatok adaptívan működnek
+        - gyenge és erős hibajavító között váltogat
+    - vezetékes hálózatok inkább újraküldik
+        - várni kell addig amíg van visszajelzés hogy újra kell-e küldeni
+- Hibadetektálás nélküli átvitel
+    - pl hangátvitel
+    - veszteséges visszaállítás
+
+## Redundancia
+- Extra infó
+    - m adatbit
+    - r redundáns bit
+    - ki kell számolni, el kell küldeni
+    - ha redundáns dolog hibásan jön akkor baj van
+
+## Hamming távolság
+- Kulcsszavak jók, a többi nem
+- Hágy bitben különböznek a dolgok
+- Hibát akkor lehet felismerni ha a bithibák sokassága nem állítja véletlen helyesre
+- Halmaz min Ham-távát a legál és legál között láhet detektálni
+    - minHam = k -> k-1 bithibát lehet detektálni
+- d hiba javításásohoz 2d+1 minHam kell
+    - legközellebbi jó volt az ami elromlott
+    - ennek egyértelműnek kell lenni (a jó a rádiusza kisebb mint a távolsága a legközelebbi jótól)
+    - ha nagyon sok romlik el akkor egy másikhoz lesz a legközelebb
+
+- Ráta
+    - S a legálisak
+    - Rₛ = (log₂|S|)/n
+    - Hatékonyság karakterisztikája
+- Kód távolság
+    - δₛ = d(S)/n
+    - hibakezelési képesség karakterisztikája
+    
+
+
+
+
