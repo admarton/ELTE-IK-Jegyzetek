@@ -735,3 +735,140 @@ end
             - mod inv.
                 - *teknika*: meglévő súlyozása, büntető pont rendszer
             - 
+
+# Konzi 4 2021.09.30
+
+## Heurisztika teszi megoldhatóvá
+- De nem garantált
+- Becslések a hátralévő útra
+- Milyen a jó heurisztika?
+    - Lokális információkkal dolgozik
+    - Relatív korrekt
+        - Célhoz közelebbi csúcsnak kisebb értéket adjon
+        - Nem kell tökéletes legyen
+    - Arányos - 2× messzebbi csúcs 2× akkora érték
+    - Reális - tényleges közelséghez közelít
+    - Következetes - szomszédos csúcsok viszonya
+    - Robosztusság 
+- Tökéletes heurisztika Hanoi-ra
+    - P(this) = f(1)₁ f:[1..n+1] → ℕ×ℕ
+    - f(i) : csak az i-edik és annál nagyobb korongokat vesszük figyelembe
+    - f(i)₁ : lépésszám
+    - f(i)₂ : melyik rúd nincs használatban
+    - f(n+1) = (0,1)
+    - f(i+1) = 
+        - (2*f(i)₁ + 1, 6 - f(i)₂ - this[i-1]) ha this[i-1]≠f(i)₂
+        - (2*f(i)₁, f(i)₂) ha this[i-1]=f(i)₂
+
+# EA 4 2021.10.03
+
+## Visszalépéses keresés
+- Ariadné és Theseus a minotaur labirintusában
+- Módosítható stratégiájú keresés
+- Egy utat tartalmaz
+- Start-Start
+    - bele kerülnek a lépések
+- Terminál ha megvan a cél vagy ha mindent leellenőrzött.
+- Szabályok
+    - Hozzá lehet venni élt
+    - Ki lehet törölni élt - visszalépés
+- Csak végső esetben lehet visszalépés
+    - Zsákutca
+    - Zsákutca torkolat
+    - Kör
+    - Mélységi korlát
+- Gyengébb stratégiák is lehetnek beleépítve
+    - Lehet modellfüggő vagy heurisztikus
+    - Sorrendiség
+        - Sorba állítja a kivezető éleket
+        - Előbb próbál ki egy jobb élt
+    - Vágó szabály
+        - Kizár utakat
+- Drágább mint a hegymászó
+- Van olyan verzió amiben csak
+    - Zsákutca és torkolat szabály van
+    - véges körmentes irányított gráfon működik
+- megoldás := VL1(startccsúcs);
+```SQL
+Recursive procedure VL1(akt: N) return (A*; hiba)
+1.  if cél(akt) then retirn(nil) end if
+2.  for ∀új ∈ Γ(akt) loop
+3.      megoldás := VL1(új)
+4.      if megoldás ≠ hiba then
+5.          return( fűz((akt, új), megoldás) ) end if
+6.  end loop
+7.  return(hiba)
+end
+```
+- n-királynő második állapottér modellje fa ezért működik rajta
+- Heurisztikák az algpritmusba
+    - n-királynőnél sorrendi heurisztika
+        - hosszabbik átló hossza
+            - ha nagy az érték akkor sokat kilő
+        - páratlan páros
+            - páratlan sorban balról jobbra
+            - párosban jobbról balra
+        - Ütés alá kerülő szabad mezők száma
+            - dinamikus heurisztika, a többi statikus
+    - n-királynő vágó heur.
+        - azokat ahova már nem lehet lerakni ki lehet vágni
+        - részleges előre tekintés
+            - szűrés
+            - a következő sorba adott helyre rakás kiüti-e valamelyik sort
+            - ha valamielyik sort teljesen kiüti akkor már vissza kell lépni
+        - előre tekintés
+            - mindent leellenőriz
+            - összes kövi sorra ellenőriz, nem csak a 1-re
+- Új modell az n-királynőhöz
+    - folyamtosan töröljük a domain-eket
+    - ha nincs már domain akkor visszalépés
+    - **Bináris korlát-kielégítési modell**
+        - Keressük (x₁,..,xₙ) ∈ D₁×..×Dₙ n-est ami kielégít néhány Cᵢⱼ⊆Dᵢ×Dⱼ bináris korlátot.
+    - Töröl/szűr nem a visszalépéses kereséshez csatlakozik hanem a modellhez
+    - nem heurisztikák
+
+- Második változat
+- Mineden feltétel beépítve a keresésbe
+- ***VL2* δ-gráfban mindig terminál**
+- Ha létezik a mélységi korlátnál nem hosszabb megoldás ó, akkor megtalál egy megoldást.
+- rekurzió az alap implementáció
+- az egész utat látni kell
+```sql
+Recursive procedure VL2(út : N*) return (A*; hiba)
+1.  akt := utolsó_csúcs(út)
+2.  if cél(akt) then return(nil) end if
+3.  if hossza(út)≥korlát then return(hiba) end if
+4.  if akt∈maradék(út) then return(hiba) end if
+5.  for ∀új ∈ Γ(akt) - π(akt) loop
+6.      megoldás := VL2(fűz(út,új))
+7.      if megoldás ≠ hiba then
+8.          return(fűz((akt,új), megoldás)) end if
+9.  end loop
+10. return(hiba)
+end
+```
+
+- Mélységi korlát ellenőrzése biztosítja a terminálást
+- Körfigyelés nem szükséges
+    - Csak hamarabb megtalálja a visszalépést
+    - Ha nincs vagy nagy körök vannak akkor nem általában optimálisabb kihagyni
+- A mélységi korlátnál hosszabb a célhoz vezető útat nem találja meg
+- tologatós játék
+    - vágó heurisztika
+        - ha az aktuális út hossza és a becsült lépésszám nagyobb mint a mélységi korlát akkor vágás
+
+- **előnyök**
+    - terminál
+    - talál megoldást ha van a korláton belül
+    - könnyen implementálható
+    - kicsi memóriaigény
+    - az egyik legfontosabb megoldási módszer
+- **hátrányok**
+    - nem garantál optimális megoldást
+        - lehet ennek megfeleően módosítani
+    - kezdeti rossz döntést sok lépés után lehet kijavítani
+    - egy zsákutcát többször is megtalálhat
+        - korlátos a memóriája
+    - futás ideje nagyon rossz lehet
+    
+

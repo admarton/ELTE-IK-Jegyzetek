@@ -226,3 +226,67 @@ public class Gy3 {
     }
 }
 ```
+
+# GYak 4 2021.09.30
+
+```java
+package hu.elte.marci;
+
+import java.util.Random;
+
+public class WaitNotify {
+    private static boolean t1Has = true;
+
+    public static void main(String[] args) {
+        Object o = new Object();
+        Thread t1 = new Thread(() -> {
+            synchronized (o) {
+                while(true){
+                    if(t1Has){
+                        sleepRandom();
+                        System.out.println("t1 is running");
+                        t1Has = false;
+                        o.notify();
+                        try {
+                            o.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        Thread t2 = new Thread(()->{
+            synchronized (o) {
+                while(true){
+                    if(!t1Has){
+                        sleepRandom();
+                        System.out.println("t2 is running");
+                        t1Has = true;
+                        o.notifyAll();
+                        try {
+                            o.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+
+    public static void sleepRandom() {
+        try {
+            Thread.sleep(new Random().nextInt(10));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+## Feladat
+- 
