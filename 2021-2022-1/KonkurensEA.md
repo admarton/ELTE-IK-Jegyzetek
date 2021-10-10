@@ -434,3 +434,25 @@ List lst = Collections.synchronizedList(new ArrayList<Integer>());
     - többszálú iteráció problémás lehet
     - külön kell szinkronizálni pl sync. blokk a listára
     - igaz a `for(Integer n: lst)`-re is
+
+# EA 5 2021.10.06
+
+## Memoriafelhasználás
+- JAva a stack-et meg a Heap-et használja
+- Stack-en a szálak cucca
+- Heap-en a mindenki által elérhetőek
+- Stack-en a run metódus kerül be
+- Daemon szálak futhatnak a main után is
+    - setDeamon(true)
+- Erőszakos leállításnál megáll minden
+- Típus alapján  dől el hogy hova kerül
+- A stack-re kerül egy referencia a Heap-beli cuccról
+- Cache memória fontos
+- egy adathoz hány szál fér hozzá a heap-ről
+- Referenciák nem kell kiszökjenek a szálból
+- Stack adatai biztonségban - biztos?
+    - nem fér hozzá más
+    - szintaktikus dolgok vannak
+    - de ez át lesz alakítva
+    - biztos
+    

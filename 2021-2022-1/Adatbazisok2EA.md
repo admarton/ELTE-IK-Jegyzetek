@@ -640,11 +640,11 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
 - onnantól lefelé minden szinten csak egy blokkot kell beolvasni 
     - (blokkon belüli keresés gyors - elhanyagolható)
 
-|  | Főfájl | 1.szint | 2.szint | ... | t.szint |
-| :---: | :---: | :---: | :---: | :---: | :---: | 
-| blokkok száma | B  | B/bf(I) | B/bf(I)² | ... | B/bf(I)ᵗ |
-| rekordok száma | T | B | B/bf(I) | ... | B/bf(I)ᵗ⁻¹ |
-| blokkolási faktor | bf | bf(I) | bf(I) | ... | bf(I) |
+|                   | Főfájl | 1.szint | 2.szint | ... | t.szint |
+| ----------------: | :----: | :-----: | :-----: | :-: | :-----: | 
+|     blokkok száma |    B   | B/bf(I) | B/bf(I)² | ... | B/bf(I)ᵗ |
+|    rekordok száma |    T   |    B    | B/bf(I) | ... | B/bf(I)ᵗ⁻¹ |
+| blokkolási faktor |   bf   |  bf(I)  |  bf(I)  | ... | bf(I) |
 
 - t = **log_(bl(I))(B)** < log₂(B)
 
@@ -666,3 +666,188 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
     - Blokkokat kell összevonni
     - Ez is felfelé gyűrűzik
     - Kisebb lehet a fa
+
+# EA 5 2021.10.05
+
+## Optimalizálás
+- Több féle végrehajtás
+    - szevenciális, index alapú keresés
+    - Primari key-ből egy van
+π_name(σ_cours=AdvancedDBs((student |X|_cid takes) |X|_courseid course))
+    - költségeket alulról számoljuk
+    - hogyan kapcsoljuk össze?
+    - K_n - összekapcsolás sebessége
+    - O_n - új tábla mérete
+    - az utolsó a végeredmény
+    - Teljes költség:
+        - ∑_i=1..n K_i + O_n
+- Optimalizáscónál
+    - K költségek közül választunk
+    - a legkisebb költségűt választjuk
+    - nem számolja ki az összeset és keresi a legjobbat
+    - heurisztika alapján DP-vel keres egy jót
+
+## Költségek
+- Lemez I/O
+- CPU idő (nem számoljuk)
+- Hálózati kommunikáció (nem számolunk vele)
+- Idő, költség és méret becslés
+- SQL developerben meg lehet nézni
+    - később lehet megtanuljuk hogy a felhasználó is befolyásolhatja
+- Műveletek
+    - σ, π, ∪, -, x, |X|, ∩
+- Költésgek
+    - N_R: Rekordok szám (Eddig T_R)
+    - L_R: Rekordok mérete (eddig I_R)
+    - F_R: blokkolási tényevő (eddig bf_R)
+    - B_R: R-hez szükséges blokkok száma
+    - V(A,R): A mező különböző értékeinek száma
+    - SC(A,R): A mező kiválasztási számossága
+            - szelektivitás - hány olyan van
+        - A kulcs: SC(A,R)=1
+        - 
+    - HT_i: index fa, B* fa magassága
+
+## Kiválasztás
+- Lineáris 
+    - nem kulcs: B_R
+    - kulcs: 0.5*B_R
+- Logaritmusos keresés
+    - rendezett mező esetén:|log_2 B_R|+m
+    - átlagos költség:
+        - m további lapot kell beolvasni
+        - m = ⌈SC(A,R)/F_R⌉ -1
+    - (inkábbb attól függ hogy hány találat van)
+- Elsődleges/cluster index
+    - átlagos: 
+        - egy: HT_i + 1
+        - több: HT_i + ⌈SC(A,R)/F_R⌉
+- Másodlagos index:
+    - átlag
+        - kulcs: HT_i + 1
+        - nem kulcs:
+            - legrosszabb: HT_i + SC(A,R)
+            - lineáris keresés jobb ha sok a találat
+    
+## Összetett kiválasztás
+- konjungciós kiválasztás
+    - egyik feltételre az egyszerű költség
+        - a találatokra megy a többi ellenőrzés
+        - a leggyorsabb indexet kell kiválasztani
+    - Több index és találtaok metszete
+- diszjunkciós kiválasztás
+    - indexek nem gyorsítanak
+    - szekvenciális keresés és ellenőrzés
+
+## Méretbecslés - kiválasztás
+- A = a
+    - Sorok száma: SC(A,R)
+    - Blokkok száma: SC(A,F)/F_R
+- A <> a
+    - Sorok száma: N_R * (v - min(A,R)) / (max(A,R)-min(A,R))
+    - Blokkok száma: Sorok száma/F_R
+- θ ∧..∧ θ
+    - független feltételeknél szorzat - felső becslés
+    - Sorok száma: N_R * [(s_1/N_R)*..*(s_n/N_R)]
+    - Blokkok száma: Sorok száma/F_R
+- θ ∨..∨ θ
+    - komplementere: egyik feltétel sem igaz -> hasonló a konjunkcióhoz - annak a fordítottja
+    - Sorok száma: N_R * (1-[(1-s_1/N_R)*..*(1-s_n/N_R)])
+    - Blokkok száma: Sorok száma/F_R
+## Halmazműveletek: ∪, ∩, -
+- Rendezésekre visszavezetve
+- Ha minden befér a memóriába akkor ott rendezünk és kiírjuk : 2*B_R
+- Ha nem fér be akkor bonyolultabb, rendezett részek
+    - futamokat kőpzönk
+    - bolvasunk annyit ami befér a memóriába és lerendezzük
+    - kiírjuk
+    - rendezett részeket összefésüléssel hosszabbakat csinálunk
+    - Rendezett futam: 2*B_R
+    - Hány összefésülés: log_(M-1)(B_R/M)
+    - 2 * B_R + 2 * B_R * log_(M-1)(B_R/M) [- B_R]
+
+## Vetítés
+- Felesleges oszlopok kidobása
+    - B_R + B_R1
+- Duplikátumok elhagyása
+    - Rendezés igénye
+
+## Méretbecslés - Vetítésre
+- Felső becslés: B_R
+- Egy oszlopra:
+    - Sorok: V(A,R)
+
+## Unió
+- felső: N_R + N_S
+- duplikátumok törlése rendezéstől függ
+
+## Szorzat
+- sorok: N_R X N_S
+- blokk: B_R * N_R + B_S * N_S
+
+## Metszet
+- sorok: min(N_R, N_S)
+- blokk: min(B_R, B_S)
+
+## Kivonás
+- sorok: N_R
+- blokk: B_R
+        
+## Öaazekapcsolások
+- Nested-loop join - Skatulyásott ciklusos
+    - B_R + B_S
+    - ha csak egy blokk fér a memóriába
+    - R minden sorához végig kell olvasni a másik táblát
+        - N_R * B_S + B_R
+```
+R minden t_R rekordján
+    S minden t_S rekordján
+        ha (t_R t_S illeszkedik) akkor összerakás 
+    vége
+vége
+```
+- Block-nested join - Blokk skatulyázott
+```
+R minden X_R blokkra
+    S minden X_S blokkra
+        X_R minden t_XR rekordra
+            X_S minden t_XS rekordra
+                ha (t_R t_S illeszkedik) akkor t_R |X| t_S kiírása 
+            vége
+        vége
+    vége
+vége
+```
+- Index nested join - Inexelt skatulyázott
+    - jobb a klaszter index
+    - külsőn végigmegyünk és index alapján keresünk hozzá értéket
+    - B_R + N_R * c
+        - c kiválasztási költség
+    - Kisebb tábla legyen a külső
+- Sort-merge join
+    - Ha rendezve van a tábla az jó
+    - He nem akkor lerendezi
+    - Két mutató mozog - mindig a kisebbet kell léptetni
+- Hash join 
+    - Kosarakba hasítjuk
+    - Akkora kosarak, hogy beférjen kettő a memóriába
+    - Ugyan azt a hasító függvényt kell használni
+    - A kicsi kosarakat könnyebb kezelni
+    - Az adott kosárban azonos értékű sorok vannak
+    - Összekapcsolható sorok ugyanabba a kosárba kerülnek
+    - Végig kell olvasni és hasítani mindkét táblát, utána már csak beolvasás és kiírás
+    - 2*(B_R+B_S) + (B_R+B_S)
+
+## Méretbecslés - összekapcsolás
+- legrosszabb : direkt szorzat
+- egy közös oszlop
+    - N_R*N_S/V(A,S)
+    - sorok:N_S*N_R / Max(V(A,R), V(A,S))
+    - tARTALMAZÁSNÁL KEVESEBB
+
+## öSSZEFOGLALÁS
+- Minden költséget lehet becsülni
+- Összeadjuk
+- És ebből próbálunk jobbat csinálni
+- Esetleg párhuzamosítás
+- Tetszőleges orrend lehet sok helyen, lehet variálni

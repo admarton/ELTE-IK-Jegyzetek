@@ -288,5 +288,237 @@ public class WaitNotify {
 }
 ```
 
-## Feladat
-- 
+# Gyak 5 2021.10.07
+
+- ctrl+alt+shift+L a formázás inteliij
+
+## Konkurencia kezelés, kizárásbiztosítás
+- szamafor
+```java
+import java.util.concurrent.Semaphore;
+Semaphore semaphore = new Semaphore(1);
+try {
+    semaphore.acquire();
+    //munka
+    semaphore.release();
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+```
+- Lehet több permitet is kérni, adni, lefoglalni
+- Drain Permits -összeset lekéri
+    - Összeset visszaadja ami van szabadon
+- availablePermits()
+- acquireUninterruptibly()
+- tryAcquire() - ha nincs akkor false, ha true akkor lefoglalta
+- tryAcquire(2,10, TimeUnit.MILLISECONDS) - ez várhat
+- kiéheztetés ellen lehet fair semaphore 
+    - ezzel jobb mint a sima sync
+
+```java
+package hu.elte.marci;
+
+import java.util.Random;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+
+public class semaphorMain {
+    public static void main(String[] args) {
+        Semaphore semaphore = new Semaphore(3, true);
+        for (int i = 0; i < 3; i++) {
+            int j = i;
+            new Thread(() -> {
+                while (true) {
+                    try {
+                        if (j == 2) {
+                            semaphore.acquire(3);
+                        } else {
+                            semaphore.acquire();
+                        }
+                        try {
+                            System.out.println(Thread.currentThread().getName() + "\tsays Hi!");
+                            Thread.sleep(new Random().nextInt(200) + 100);
+                        } catch (InterruptedException e) {
+                            throw new IllegalStateException("cannot sleep", e);
+                        } finally {
+                            if (j == 2) {
+                                semaphore.release(3);
+                            } else {
+                                semaphore.release();
+                            }
+                        }
+                    } catch (InterruptedException e) {
+                        throw new IllegalStateException("cannot get permit", e);
+                    }
+                }
+            }).start();
+        }
+    }
+}
+```
+## Feladat 
+- szálnak azonosító, 
+- 10 szál
+- 2 semafor mehet a területre
+- ha mindkettő páros akkor counter növelés
+- páratlan eset hasonló
+- amelyik eléri a 100-at írja ki h győztem
+
+Megoldásom
+```java
+package hu.elte.marci;
+
+import java.util.concurrent.Semaphore;
+
+public class semaphorMain {
+    public static int checkInSemaphore(boolean inSemaphore[]){
+        int pr = 0;
+        int pt = 0;
+
+        for (int i = 0; i < 10; i++) {
+            if(inSemaphore[i]){
+                if(i%2==0){
+                    ++pr;
+                }else if(i%2==1){
+                    ++pt;
+                }
+            }
+            if(pr>=2)
+                return -1;
+            if(pt>=2)
+                return 1;
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        Semaphore semaphore = new Semaphore(2, true);
+        boolean inSemaphore[] = {false, false, false, false, false, false, false, false, false, false};
+        int race[] = {0,0};
+        for (int i = 0; i < 10; i++) {
+            int j = i;
+            new Thread(() -> {
+                int myNum = j;
+                while (true) {
+                    if(race[0]>=100 || race[1]>=100)
+                        return;
+
+                    try {
+                        semaphore.acquire();
+                        inSemaphore[myNum] = true;
+
+                        int n = checkInSemaphore(inSemaphore);
+                        if(n == -1){
+                            race[0]++;
+                        }else if (n == 1){
+                            race[1]++;
+                        }
+
+                        if(race[0]>=100){
+                            System.out.println("Paros nyert");
+                        }else if(race[1]>=100){
+                            System.out.println("Paratlan nyert");
+                        }
+
+                        inSemaphore[myNum] = false;
+                        semaphore.release();
+
+                    } catch (InterruptedException e) {
+                        throw new IllegalStateException("cannot get permit", e);
+                    }
+                }
+            }).start();
+        }
+    }
+}
+```
+
+Tanári megoldás
+```java
+package hu.elte.pp.semaphore;
+
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.Semaphore;
+
+/**
+ * 10 threads, with ids from 1 to 10
+ * synchronise with semaphore
+ * 2 threads can be active at the same time
+ * each thread mark their id in a common storage
+ * if both thread is even, increase an even counter
+ * if both is odd, increase odd counter
+ * in case even / odd reaches 100 print "I won! " + id
+ */
+public class SemaphoreRace {
+    public static void main(String[] args) {
+        Semaphore semaphore = new Semaphore(2);
+        IdRegistry registry = new IdRegistry();
+
+        for(int i =0; i<10; ++i) {
+            new Thread(new Racer(i+1, registry, semaphore)).start();
+        }
+    }
+
+    private static class Racer implements Runnable{
+
+        private final int id;
+        private final IdRegistry registry;
+        private final Semaphore semaphore;
+
+        public Racer(int id, IdRegistry registry, Semaphore semaphore) {
+            this.id=id;
+            this.registry=registry;
+            this.semaphore=semaphore;
+        }
+
+        @Override
+        public void run() {
+            while(!registry.isFinished()) {
+                semaphore.acquireUninterruptibly();
+                try {
+                    registry.register(id);
+                    registry.deregister(id);
+                } finally {
+                    semaphore.release();
+                }
+            }
+        }
+    }
+
+    private static class IdRegistry {
+        private static final int MAX = 2;
+        private final Set<Integer> ids = new HashSet<>();
+        private int oddCounter = 0;
+        private int evenCounter = 0;
+
+        public synchronized void register(int id) {
+            if(isFinished()) {
+                return;
+            }
+            ids.add(id);
+            if(ids.size() == MAX) {
+                int sum = ids.stream().mapToInt(i-> i%2).sum();
+                if(sum == MAX) {
+                    ++oddCounter;
+                } else if(sum == 0) {
+                    ++evenCounter;
+                }
+            }
+            if(isFinished()) {
+                System.out.println("I won! "+id);
+            }
+        }
+
+        public synchronized void deregister(int id) {
+            ids.remove(id);
+        }
+
+        public synchronized boolean isFinished() {
+            return oddCounter >= 100 || evenCounter >= 100;
+        }
+    }
+
+}
+```

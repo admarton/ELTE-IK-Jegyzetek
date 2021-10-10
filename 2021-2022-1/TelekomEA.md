@@ -692,6 +692,158 @@ Hálózatok hálózata
     - hibakezelési képesség karakterisztikája
     
 
+# EA 5 2021.10.06
 
+Az Internet törékeny  
+Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tudta feloldani a domain-eket
+
+## Redundancia
+- Szükséges a hibakezeléshez
+- Extra infó a hasznos adat mellett
+- Hamming távolság használata
+    - bitsorozatok távolsága
+    - megfelelő távol kel lennie a jó és a rossz kulcsoknak (bitsorozatoknak)
+    - hibás bitsorhoz a legközelebbi helyes bitsort vesszük
+- az alatta lévő közegnek garantálni kell egy max hibaszámot, hibakorlátot
+    - különben nem használható
+
+### Hamming korlát
+- C kód Hamming távolsága k
+- |C| ∑_(i=0)^( ⌊(k-1)/2⌋ ) (n alatt az i) ≤ 2ⁿ
+
+- egy X kód legfeljebb egy helyes kód van amihez (k-1)/2 távolságra van
+
+## Hibefelismerés és javítás Hamming távolsággal
+- MEkkkora hiba lehet
+- Ebből ki lehet számolni hogy mekkora Hamming távolság kell a kódszavak között
+
+## Paritás bit
+- 7 bit adat, 8. bit a paritás
+- Egy(páratlan) hibát tud detektálni
+- Javítása:
+    - Hamming kód
+    - Kódszó bitjeit megszámozzuk
+    - Keverjük az adat és redundáns biteket
+    - Kettő hatvány pozíció az ellenőrző bit
+    - Közötte az adatok
+    - Paritás számítás
+        - Más más adatbitet figyel
+        - átfedések is vannak
+        - k=13 adatbit ami =1+4+8 -ebbe a háromba tartozik bele
+        - Ha az adott pozíción 1-es adat van akkor a bináris felbontásán növeli a paritást
+    - Vevő oldalon 
+        - ha a k-adik paritás nem jó akkor egy számlálóhoz adok egyet
+        - ha a számláló 0 akkor jó
+        - javítás:
+            - k helyén a hibás cucc van
+            - egy bit hiba javítható
+            - kettő már nem
+
+## Hibajező kódok
+- Netes protokollok tartalmaznak ilyet
+- Vezetékes átvitel elég stabil, kevés hiba
+- Kevés plusz adat
+- Ha van hiba akkor újraküldjük a keretet
+- CRC kód
+    - Polinom kód, ciklikus redundancia
+    - bitsorozat polinom, kettes maradékosztály testek felett
+    - összas eszköz tudja a generátor polinomot
+    - generátor polinomot nehéz készíteni
+    - xᵍ*keret - elshiftelem a generátor fokával
+        - xᵍ*M(x)
+    - ezt leosztjuk a generátorral és a maradékot tartjuk meg
+        - r(x) = xᵍ*M(x) mod G(X)
+    - küldött adat a keret lesz eltolva és az előző eredménye  
+        - T(x) = xᵍ*M(x) + r(X)
+    - fogadó oldalon az eredmény osztható kell legyen a generátorral
+        - E(x) a hiba
+        - (T(x) + E(x)) mod G(x)
+            - ha ez 0 akkor jó minden
+    - Ha a hiba a generátor többszöröse akkor nem detektálható a hiba
+        - ezért kell jó generátor
+    - 1961-ben megmutatták, hogy ez harveresen implementálható könnyen
+    - Ethernet 32 bites CRC
+    - Más rétegben is előjön
+
+## Folyamvezérlés, forgalomszabályozás
+- Mit csinál hiba után?
+- Gyors adó, lassú vevő probléma
+- Engedély alapú: Vevő engedélyezi h küldjenek neki
+- Sebesség alapú: mérnek és az alapján küldenek
+- Rétegek üzeneteket adnak át egymásnak
+- Gép hibákkal nem foglalkozunk
+- Sok hibától eltekintünk
+- Simplex komm. - egy irányú
+- fél-duplex komm. - több irány lehet, egyszerre csak egy
+- duplex komm. - szimultán két irány
+    - két logikai alcsatorna, nem zavarják egymást
+- Protokolllok
+    - Szimplex módszer
+        - mindig mindenki készen áll, végtelene puffer, 0 feldolgozási idő, hiba nélkül megy
+        - végtelen ciklusban küld a küldő
+        - pufferba várja a vevő
+        - ilyen nincs a valóságban
+    - Szimplex megáll-és-vár protokoll (stop-and-wait prot.)
+        - Mindig készen állnak
+        - van feldolgozási idő
+        - megvárja és utána küld
+        - nyugta után küld újat
+        - nyugta csomagot vissza kell küldeni
+        - fél-duplex csatorna kell
+    - Szimplex zajos csatornához
+        - keretek elromolhatnak
+        - küldő vár a nyugtára
+        - ha nem jön akkor újraküldi
+        - ha jön nyugta akkor újat küld
+        - vevő hiba esetén nem küld vissza semmit
+            - ezzel jelzi a hibát és újra fogja kapni
+        - még ez sem old meg minden problémát
+        - nyugta is meghibásodhat
+            - ilyenkor kavarodás lehet
+            - kétszer kapjuk meg ugyan azt a csomagot
+            - duplikátumot kellene ellenőrizni - hálózati rétegben
+        - csatorna kihasználtság
+            - kis keretnél kicsi a kihasználtság
+    - Alternáló bit protokoll (ABP)
+        - egy bites számláló bevezetése 
+        - keretbe is sorszám
+        - alternál a sorszám
+        - vevő sorszámra vár
+        - ha nyugtát kap akkor másik számmal küld
+        - így ha kétszer ugyan az a számláló jön akkor a nyugta nem ment vissza
+            - újra küldjük az előző nyugtát
+         - Kihasználtság
+            - átérés: T_packet + d
+            - vissza: T_ack + d
+            - össz idő hiba nélkül az előző kettő összege
+
+            - n = T_packet/(T_packet+d+T_ack+d)
+            - minnnél nagyobb csomaggal lesz jobb a kihasználtság
+            
+            - Javítás
+                - Küldünk több keretet
+                - Jönnek a nyugták
+                - Több dolgot kell bufferelni
+                - Pipeline teknika
+                - Így lehet túlterhelés
+                    - lehet max-ot bevezetni az egyben fogadható keretszámra
+                    - várakozni kell
+    - Csúszó ablak protokkol 
+        - ennek az általánosítása az ABP
+        - javítja a kihasználtságot
+        - n keretet lehet egyben fogadni
+        - küldő max n keretet küldhet nyugtázatlanul
+        - tödd sorszám, ciklikusan nő
+        - nyugtákban is számít a sorszám
+            - kummulatív nyugta is lehet
+                - az összes annál kisebb sorszámú megjött
+                - ha nyugta elveszik akkor a következő ezt helyettesíti
+                - nyugta sorszám az ami még nem jött meg
+        - Az ablak tolódik
+            - ha az első elveszik akkor újra kell küldeni az összeset a kumulatív nyugta miatt
+            - olyan nyugtát küldök ami még nincs meg
+            - majd akkor küldöm a nagyobbat ha a hiányzó is megjön
+            - ami megjött azt megtartja a fogadó és egyszerre nyugtázhatja az egészet ha megjön a hiányzó
+            
 
 

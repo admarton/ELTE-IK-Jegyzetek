@@ -226,3 +226,51 @@ CREATE VIEW NÉV AS ALLEKÉRDEZÉS;
 
 - CSAK LEÍRÁST TARTALMAZ
 
+# Gyak 5 2021.10.07
+
+## Merevlemez
+- Egy szektor: 512 bájt
+- formázás
+    - Boot sector
+        - itt van a boot program
+        - lemez elején van - legkülső sávban
+        - floppynál lyuk van
+        - vinyónál meg a motornak van 0-s állapota
+        - Master Boot Recod
+    - foglaltsági táblázat
+        - lemez minden szektorát nyilvántartotta
+        - ebből baj lesz
+    - főkönyvtár
+        - fix méretű
+        - x darab fájlt lehet csak belerakni
+        - alkönyvtárak bővíthetőek
+
+## Oracle
+- Lemez blokkok
+- Adatbazis blokkok, fix méretek, itt vannak a konkrét adatok
+- Extets - részek, változó méretek
+- Segments - az adattábla, index, cluster
+- Tablespaces - táblaterk, az azonos célra használt tábláhat összecsoportosítja, ebben vannak a szegmensek, jogokat leht hozzárendelni
+
+## Adatbázis blokkok
+- Van blokk header
+- Vannak sorok
+- Közöttük van hely a növekedéshez 10% megmarad
+- Ha 40% felszabadul akkor lesz megint használható a felszabadítás után
+- `dba_data_files` és `dba_TEMP_file` listázza fájlokat ahol a blokok vannak
+- user verzió nencs mert oracle-ben nem tud saját táblateret csinálni
+
+## Szegmensek
+- `dba_segments` 
+- hány extens van benne
+- Melyik partíción
+
+## Extensek
+- `dba_extents`
+- melyik fájlban van
+
+## Üres helye
+- `dba_free_space`
+
+## Jövőhét
+- papír kell majd

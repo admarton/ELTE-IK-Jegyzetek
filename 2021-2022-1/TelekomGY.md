@@ -338,3 +338,51 @@ for s in readable:
     - SO_REUSEADDR
         - adott oprendszer nem szabványosan felszabadított erőforrást még nem oszt ki másnak
         - 3-4 percig foglalt lesz a port 
+
+# Gyak 5 2021.10.05
+
+## Beadandók
+- Ne utolsó pillanatban
+
+## ZH
+- Hibridben
+    - két egymás utáni héten, a bentiek írnak
+    - jövőhéten kitűzzük
+    - lehet választani h mikor tud jönni
+- Gépes ZH
+    - Lehet akár canvasos is
+    - Min 50% kell legyen
+
+## Jobb input pythonhoz
+- Fent van VZoli oldalán
+- Non blocking, van egy timeout-ja
+    - Tovább lép ha nincs semmi
+- Non ascii karaktereket nem kezelik
+    - Coding utf-8-at be kell állítani
+
+## Chat kliens
+- set timeout-al nem befagyós lesz
+- két párhuzamos dolgot kell csinálnia, akkor duplácóódik
+- mindenkitők jöhet válasz
+- bármikor kell tudni üzenetet küldeni
+- végtelen ciklus, két try blokk, input és hálózat figyelés
+- kvázi paralell server <-> select
+- read mellett a write is legyen select-elve
+- mindenkinek el kell küldeni akitől nem kaptam
+- üzenetek egy queue-ba kerülnek
+- majd küldésnél kiüríti
+- kulcs adat párokat küld a kliens
+- client.settimeout(1.0)
+- két try blokk
+- server socketet mindig meg kell különböztetni a többitől
+- 
+
+## UDP - Hasznos skeleton
+- Kvázi paralell - select-el
+- ZH-feladat lehet
+    - UDP autentikáció -> token
+    - Tokennel tud TCP server-hez kapcsolódni
+    - két féle működés
+- Minden TCP előtt Kell UDP kulcs
+- Vagy kap egy címet meg portot amivel tud kapcsolódni
+- min 3 feladat amiből egy több protkollt használ

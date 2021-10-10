@@ -415,3 +415,73 @@ S = {y ∨ z, ¬x ∨ W ∨ ¬z, y ∨ ¬z ∨ ¬w, x ∨ z}
 - Church-Turing tézis
     - Minden algoritmizálható probléma megoldható Turing-géppel
 
+# EA 5 2021.10.06
+
+## Turing gép
+M = < Q, ∑, Γ, δ, q₀, qᵢ, qₙ >
+- Q - állaptotok halmaza
+- q_0 kezdő, q_i elfogadó, q_n elutasító állapot
+- ∑,Γ - ábécé
+
+### Konfigurációja
+uqv szó
+- q ∈ Q
+- u, v ∈ Γ
+- v ≠ ɛ
+- v a maradék szó
+
+### Kezdő konfig.
+- q₀u⎵
+
+### Számolás
+- Konfigiráció átmenet
+- uqav konfig van
+    - δ(q,a) = (r, b, R), akkor uqav |- ubrv'
+    - δ(q,a) = (r, b, S), akkor uqav |- urbv
+    - δ(q,a) = (r, b, L), akkor uqav |- u'rcbv
+- Többlépéses konfig. átmeneet
+    - az egy lépéses tranz. szim. lezártja
+    - |-* 
+
+## TG által felismert nyelv
+- Azoka a szavak a mikból a kezdő konfiguráscióból többlépéses konfig. átmenettel elfogadó állapotba jutunk.
+- Felismert nyelvben az input ábécé szavai vannak, nem a szalagábécé
+- L nyelv Tring-felismerhető
+- L nyelv eldönthető ha van hozzá TG ami minden bemenetre megállási konfigurációba jut - el tudja dönteni, hogy benne van-e a nyelvben minden inputra
+
+## RE éd R
+- RE Rekurzívan felsorolható - létezik Turing gép
+- R Rekurzív nyelv - eldönthető TG-vel
+- R ⊆ RE
+- Milyen nyelv nincs benne RE-ben
+    - van olyan
+
+## TG futási ideje
+- u szóra t, ha M TG u-ból t-lépésben megállási konfigurációba lép
+- ha nincs ilyen t, akkor végtelen
+
+- f(n) időkorlátos gép, ha minden szóra mex f(n) lépésben végez
+    - elég egy jó aszimptotikus felső korlát
+
+## K-szalagos Turing Gép
+- Több szalagról is olvas
+- Konfigurációjában összes szalagon lévő fej és szöveg
+- kezdetben az első szalagon van az input, a többi üres
+- egy lépses konf. átmenet
+    - Minden szalagra megtörténik az adott szabálynak megfelelő lépés
+    - NEm kell ugyan abba az irányba mozduljanak a fejek
+- ami több szalagosan megy az egy szalagossal is
+    - egy szalagra felvesszük az összes tartalmat egymás után elválasztó karakterrel
+    - külön szimbólummal jelöli h hol lenne a többi fej
+    - oda vissza mászkál és csinálja
+    - O(n + f(n)) egy több szalagos egy lépésének szimulálása
+
+## Nemdeterminisztikus Touring gép (NTG)
+- P(X) = {Y|Y⊆X}
+- Minden ugyan az kivéve az átmenetek
+- egy állapothoz valahány állapotot rendelünk
+    - ilyenkor választani kell majd
+- Nemdeterminisztikus számítási fa
+- Eldönti ha a számítási fa véges és minden levele elfogadó vagy elutasító
+- f(n) időkorlátos ha n hosszú szóta f(n) magas max a fa
+

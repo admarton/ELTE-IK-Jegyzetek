@@ -871,4 +871,129 @@ end
         - korlátos a memóriája
     - futás ideje nagyon rossz lehet
     
+# EA 5 2021.10.10
 
+## Gráfkeresések
+- Lokális keresések
+- δ-gráf
+- minden felfedezett utat eltárol a globális mukaterültetn
+- nyílt csúcsok kiterjesztése
+- legkedzvezőbb csúcs kiterjesztése
+- terminálás
+    - sikertelen
+        - nincs nyílt csúcs
+    - sikeres
+        - célcsúcsot megtalálja és ki akarja terjeszteni
+- jelölések
+    - **Keresőgráf (G)** - felismert gráfrész
+    - **nyílt csúcsok halmaza (OPEN)**
+    - **kiértékelő fgv. (f: OPEN → ℝ)** - megfelelő kiválasztás
+- Kezdetben a startcsúcsok
+- Másodlagos stratégiákat is be lehet vezetni az egyenlő csúcsokra
+- két új függvény
+    - szűlüre mutató pionter π
+        - π(start) = nil
+        - keresőgráfon egy feszítőfa lesz ebből
+        - egyértelmű út a célból vissza
+        - legolcsóbb út kiválasztása
+    - költség fgv. g: N → ℝ
+        - megtalált odavezető út súlya
+
+- G gráf akkor korrekt ha minden csúcsa korrekt
+- csúcs korrekt ha
+    - konzisztens
+        - költség a pi-ken keresztül
+    - optimális
+        - visszamutók a legolcsóbb utat adják meg
+
+- Kezdeteben: π(start):=nil, g(start):=0
+- Az n csúcs kiterjesztése után minden m∈Γ(n) csúcsra
+    1. ha m új csúcs
+        - m ∉ G akkor  
+        π(m):=n, g(m):=g(n)+c(n,m)  
+        OPEN := OPEN ∪ {m}
+    2. ha m régi csúcs, amelyhez olcsóbb utat találunk
+        - m ∈ G és g(n)+c(n,m) < g(m) akkor  
+        π(m):=n, g(m):=g(n)+c(n,m)  
+    3. m régi és nincs jobb út
+        - m ∈ G és g(n)+c(n,m) ≥ g(m) akkor SKIP 
+- Ez lehet rossz is:
+    - elromolhat ha a csúcshoz vezető utak belselyében van változás
+    - ha van lesszármazóttja a csúcsnak akkor elromolhatnak dolgok
+    - **megoldás** lehet egy egy bejárás amivel frissítjük a dolgokat
+        - csak addig kell bejárni amíg korrekt csúcsot nem találunk
+    - **megoldás** lehet egy olyan kiértékelő fgv amivel ez elkerülhető
+    - **megoldás** az is ha ezt a csúcsot megint berakjuk a nyílt csúcsokba
+        - így majd helyreállnak a dolgok
+        - de így lehet, hogy többször is eljutunk ugyanabba a csúcsba, de csak véges sokszor
+        - ez tud lenni a legjobb sokszor
+
+```SQL
+1.  G := ({start}, ∅); OPEN:={start}; g(start):=0; π(start):=nil
+2.  loop
+3.      if empty(OPEN) then return -- nincs megoldás
+4.      n := arg min(OPNE)
+5.      if cél(n) then return -- megoldás
+6.      OPEN := OPRN-{n}
+7.      for ∀m∈Γ(n)-π(n) loop
+8.          if m∉G or g(n)+c(n,m)<g(m) then
+9.              π(m):=n; g(m):=g(n)+c(n,m); OPEN:=OPEN∪{m}
+10.     end loop
+11.     G := G ∪ {(n,m) ∈ A | m ∈ Γ(n)-π(n)}
+12. end loop
+```
+
+- Bizonyítható
+    - A GK δ-gráfban a működése során egy csúcsot legfeljebb véges sokszor terjeszt ki.
+    - A GK véges δ-gráfban mindig terminál
+    - Ha GK véges δ-gráfban létezik megoldás, akkor megtalálja azt
+
+- Akkor lesz jó ha jó a kiértékelő fgv
+
+## Nevezetes gráfkereső algoritmusok
+- Nem-informált 
+    - mélységi
+    - szélességi
+    - egyenletes
+- Heurisztikus
+    - előre tekintő
+    - A, A*, Aᶜ
+    - B, B', A**
+
+- Másodlagos vezérlési stratégia lehet heurisztikus függetlenül a elsődlegestől
+    - egyenlőséget feloldó szabályok, tie-breaking rule
+
+- Csökkenő kiértékelő függvény
+    - akkor csökken ha jobb utat találunk
+    - soha nem terjeszt ki inkorrekt csúcsot
+    - időről időre helyreállítja a korrektséget
+    - működési grafikon, küszöbértékek
+        - küszöbhöz ér akkor helyreáll, korrekt lesz
+
+## Nem-informáltak
+| Algoritmus     | Definíció     | Eredmény  |
+| ----------     | ---------     | --------  |
+| Mélységi <br> MGK  | f = -g <br> c(n,m) = l | - végtelen gráfokban csak mélységi korláttal garantál megoldást |
+| Szélességi <br> SZGK| f = g <br> c(n,m) = l | - optimális (legrövidebb) megoldást ad, ha van (még végtelen δ-gráfban  is) <br> - egy csúcs kiterjesztésekor ismeri az odavezető legrövidebb utat (legfeljebb egyszer terjeszti ki) |
+| Egyenletes <br> EGK | f = g| - optimális (legrövidebb) megoldást ad, ha van (még végtelen δ-gráfban  is) <br> - egy csúcs kiterjesztésekor ismeri az odavezető legolcsóbb utat (legfeljebb egyszer terjeszti ki) |
+
+- Mélységit sokszor visszalépésesnek hívják, de nem ugyan az
+
+## Heurisztikus gráfkeresés
+- A h heur. fgv. megbecsüli a hátralévő optimális út költsége
+  - h* ami pontosan megmondja - tökéletes heurisztika
+- Nevezetes tulajdonságok
+    - Nem negatív
+    - Megengedhető
+        - alulról becsüli a h*-ot
+    - Monoton megszorítás
+        - a változás nem lehet nagyobb mint választott él súlya
+
+Algoritmus | Definíció | Eredmények
+---------- | --------- | ----------
+Előre tekintő gráfkeresés | f = h | nincs említhető extra tulajdonsága
+A algoritmus | f = g+h és h ≧0 | - megoldást ad, ha van megoldás (még végtelen δ-gráfban is)
+A* algoritmus |  f = g+h és h ≧0 és <br> h ≦h* | - optimális megoldást ad, ha van (még végtelen δ-gráfban  is)
+Aᶜ algoritmus | f = g+h és h ≧0 és <br> h ≦h* és <br> h(n)−h(m) ≦c(n,m) | - optimális megoldást ad, ha van (még végtelen δ-gráfban  is) <br> - egy csúcs kiterjesztésekor ismeri az odavezető legolcsóbb utat (legfeljebb egyszer terjeszt ki)
+
+- Magasabb memóriaigény, futási idő lehet jobb

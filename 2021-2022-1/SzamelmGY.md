@@ -605,5 +605,128 @@ ZH-ig teamsen
 | h | i |    i    |
 | h | h |    i    |
 
+
+# Gyak 5 2021.10.05
+
+## ZH
+- jövőhét
+- élőben papír
+- online nem kell papír
+- zh közben is lehet kérdezni
+- első 5 gyak anyaga
+- CNF, CYK, Veremautómata, Nulladrandű logika
+
+## Logika
+
 #### Feladat 
 - Lássuk be: ¬(x ∨ (y ∧ (z → x))) ~₀ ¬x ∧ (y → z)
+- Tautológikusan ekviv.
+- Jó szabály: implikáció, negáció bevitel, disztribúció
+- ~₀ ¬(x ∨ (y ∧ (¬z ∨ x)))
+- ~₀ ¬x ∧ ¬(y ∧ (¬z ∨ x))
+- ~₀ ¬x ∧ (¬y ∨ ¬(¬z ∨ x))
+- ~₀ ¬x ∧ (¬y ∨ (z ∧ ¬x))
+- ~₀ ¬x ∧ ((¬y ∨ z) ∧ (¬y ∨ ¬x))
+- ~₀ ¬x ∧ (y → z) ∧ (¬y ∨ ¬x)
+- ~₀ ¬x ∧ (¬y ∨ ¬x) ∧ (y → z)
+- ~₀ (¬x ∧ (¬y ∨ ¬x)) ∧ (y → z)
+- ~₀ ¬x ∧ (y → z)
+- kijött
+
+## Konjunktív és diszjunktív normál forma
+- Literál
+    - Prímformula vagy negáltja (x, ¬x). Alapja: x
+    - Komplemens párja, a negáltja
+- Elemi konjungció  ∧
+    - különböző alapú literálok konjungciója
+- Elemi diszjunkció (klóz) ∨
+    - különböző alapú literálok diszjunkciója
+- Teljes ha a bázis minden változója benne van
+- DNF - elemi konj. diszjunkciója
+- KNF - elemi diszj. konjunkciója
+- KKNF, KDNF - kitűntetett, összed elemi cucc teljes
+
+### Feladat
+- a. x → y                          - semmi
+- b. ¬z                             - literál, elemi dis/kon, KNF/DNF
+- c. x ∧ ¬y ∧ z                     - teljes elemi kon, KNF/KDNF
+- d. (x ∨ ¬y) ∧ z                   - KNF
+- e. (x ∧ y ∧ ¬z) ∨ (¬x ∧ y ∧ z)    - KDNF
+
+## Ítélettáblából lehet DNF/KNF-et csinálni
+- Most kimarad
+
+### Feladat - KNF-re hozás
+- x → y → ¬(x ∧ ¬y)
+- ¬(¬x ∨ y) ∨ ¬(x ∧ ¬y)
+- (x ∧ ¬y) ∨ (¬x ∨ y)
+- (x ∧ ¬y) ∨ ¬x ∨ y <-> DNF
+- (x ∨ ¬x ∨ y) ∧ (¬y ∨ ¬x ∨ y) <-> KNF
+- (⊤ ∨ y) ∧ (⊤ ∨ ¬x)
+- ⊤ ∧ ⊤
+- ⊤
+
+## Rezolúció
+- Tét.: F ⊧₀ ϕ akkor és csak akkor ha F∪{¬ϕ} kielégíthetetlen.
+- Rezolóció klóz halmazról eldönti, hogy kielégíthetetlen-e
+- Rezolúciós levezetés lényege, hogy kijöjjön az üres klóz
+- Komplemens literálpárt ki kell venni
+- res(x ∨ z, ¬y ∨ z) = x ∨ z
+
+S={¬x∨y, x, ¬y}
+|   |        |
+|:-:| :----: |
+| 1 |  ¬x∨y  |
+| 2 |    x   |
+| 3 |res(1,2)|
+| 4 |  ¬y    |
+| 3 |res(3,4)|
+
+### Feladat
+Igazold, hogy {A1, A2, A3} következménye B
+- Változók
+    - P : elmegyünk Pécsre
+    - H : elmegyünk Hévízre
+    - K : elmegyünk Keszthelyre
+- A1 - Ha elmegyünk Pécsre, akkor Hévízre és Keszthelyre is.
+    - P → H ∧ K
+- A2 - Ha nem megyünk Keszthelyre, akkor elmegyünk Hévízre.
+    - ¬K → H
+- A3 - Ha elmegyünk Keszthelyre, akkor Pécsre is.
+    - K → P
+- B  - Tehát elmegyünk Hévízre
+    - H
+
+- Írélettábla
+    - Ha az előzmények teljesülnek, akkor a következmény is teljesül
+
+| P | H | K |   | P → H ∧ K | ¬K → H | K → P |   | H |
+|:-:|:-:|:-:| - |:---------:|:------:|:-----:| - |:-:|
+| i | i | i |   |   **i**   | **i**  | **i** |   | **i** |
+| i | i | h |   |     h     |   i    |   i   |   | i |
+| i | h | i |   |     h     |   i    |   i   |   | h |
+| i | h | h |   |     h     |   h    |   i   |   | h |
+| h | i | i |   |     i     |   i    |   h   |   | i |
+| h | i | h |   |   **i**   | **i**  | **i** |   | **i** |
+| h | h | i |   |     i     |   i    |   h   |   | h |
+| h | h | h |   |     i     |   h    |   i   |   | h |
+
+- Rezolúció
+    - A következmény tagadását hozzávesszük az előzményekhet
+    - Normálformára hozás
+    - És-enként szét lehet szedni
+
+S = {P → (H ∧ K), ¬K → H , K → P , ¬H}  
+S = {¬P ∨ (H ∧ K), K ∨ H , ¬K ∨ P , ¬H}  
+S = {(¬P ∨ H) ∧ (¬P ∨ K), K ∨ H , ¬K ∨ P , ¬H}  
+S = {(¬P ∨ H), (¬P ∨ K), K ∨ H , ¬K ∨ P , ¬H}  
+|   |        |     |
+|:-:| :----: | :-: |
+| 1 |   ¬H   |     |
+| 2 | K ∨ H  |     |
+| 3 |res(1,2)| = K |
+| 4 | ¬K ∨ P |     |
+| 5 |res(3,4)| = P |
+| 6 |(¬P ∨ H)|     |
+| 7 |res(5,6)| = H |
+| 8 |res(1,7)|= ▭ |
