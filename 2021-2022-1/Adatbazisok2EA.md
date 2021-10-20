@@ -850,7 +850,114 @@ vége
 - Összeadjuk
 - És ebből próbálunk jobbat csinálni
 - Esetleg párhuzamosítás
-- Tetszőleges sorrend lehet sok helyen, lehet variálni
+- Tetszőleges orrend lehet sok helyen, lehet variálni
+
+# EA 6 2021.10.12
+
+## Több tábla összekapcsolása 
+- Több fizikai terv is lehet
+- Összekapcsolások nagyon gyakoriak
+- Kommutatív asszociatív, sorrendjük nem számít, de költségben lehet különbség
+- Összekapcsolások végrehajtási fában ábrázolható
+- Rendezéseshez negy memória kell + lehet rendezni kell a táblát
+- Zárójelezéssel mindig csak két táblát kapcsolunk össze
+- Direkt szorzat nem jó nekünk, sok elem lesz
+- Hány zárójelezés van?
+    - T(1) = 1
+    - T(n) = \sum T(i)T(n-1), T(6) = 42
+    - n tánblára
+    - lehetne a sorrendet is változtatni, permutáció
+    - 6 táblaánál - 42*6!
+- Csak speciális zárójelezéseket néz
+    - Left-deep tree
+    - Bushy tree
+    - Valaminek az újrafelhasználása
+    - Csak a kb legjobbat keressük heurisztikával
+        - pl 4 tábla legjobbját megkeressük és ahhoz hozzáveszük a következőt
+            - ez nem mindig a legjobb, de általában elég jó
+- Selinger Algoritmus
+    - Mindig a legkisebbet nézi
+    - melyik a legkisebb tábla
+    - melyik a legkisebb két táblás amiben a legkisebb tábla benne van
+    - melyik a legkisebb három táblás összekapcsolás amiben a legkisebb kettes benne van
+    - így tovább addig amennyi kell
+
+- Három tábla, kettőre van klaszterindex
+    - Stratégiák
+        1. balról jobbra
+        2. balról jobbra, eredmény a memóriában marad
+        3. középső táblához kapcsoljuk a szépsőket
+    - Feltételezések
+        - ugyan annyi soruk van : T
+        - ugyan annyi memóriát  : B
+        - ugyan annyi a gyakori : I
+        - Összetartozók elférnek a memóriába
+    - Számolások
+        1. B + 5 * T * B / I + 4 * T^2 * B / I^2
+        2. B + T * B / I + 4 * T^2 * B / I^2
+        3. B + 2 * T * B / I + 3 * T^3 * B / I^2
+
+## Oracle SQL Tuning
+- Régen volt szabály alapú optimalizálások, heurisztikákkal
+    - Nem volt olyan jó mint a mostani Költség alapú optimalizálás
+- Egyet könnyebb megtalűlni: First_rows_n(1, 10, 100, 1000), All_rows
+- Session szinten ehet állítani
+- Adatnak van cím része - (melyik tábla, melyik blokk, melyik sor)
+- Blokkokban tárolódik, üres helyek vannak
+- Index is egy fájl, blokkokban
+- Lemezről blokkok beolvasása az SGA-ba (puffer memória, gyorsítótár)
+- SGA-ból vannak végrahajtva a műveletek
+- `Explain plan for <SQL utasítás>`
+- Oracle esetek
+    - Egyetlen tábla, nincs index 
+        - select * from _
+        - Select Statement; Table Access full _
+        - where feltétel nem ad hozzá, utólag lesz leszűrve
+        - order by -> SORT order by
+        - ha rendezésre van index akkor azon megyünk -> INDEX full scan _index_
+        - group by -> SORT group by
+        - having -> filter
+        - where rowid='_memóriacím_' -> TABLE ACCESS by rowid _tábla_, jó ha sokszor keressük ugyan azt
+    - Egy tábla, index
+        - van unique index -> INDEX unique scan _index_
+        - nincs unique -> INDEX range scan _index_
+        - unique index de egyenlőtlenség -> INDEX range scan _inde_
+        - összetett index - ha több feltétel van akkor jó lehet
+            - ha nem az összes részére szűrünk akkor is jobb mint a semmi
+        - több index is van - az egyedire szűrtet használja
+        - van amikor több stratégiát vesz és összehasonlítja
+            - számít hogy milyen távol van egymástól a több megeggyező
+        - több indexnél a mutatókat össze kell metszeni, mindkét indexet használja -> AND-EQUAL
+        - count(*) -> INDEX fast full scan _index_ - a sűrű indexben benne van a count
+    - Összekapcsolás, skatulyata
+        - NESTED LOOPS és két TABLE ACCESS ful
+        - Ha van feltétel
+        - MERGE JOIN; SORT join; full access...
+        - indexelt -> nested loops, full, tableacc by rowid; INDEX range...
+        - össze kell hasonlítani h melyik irány a jobb
+        - hasításost találja a legjobbnak -> HASH JOIN
+    - Alkérdések
+        - nézetet csinál belőle
+        - kioptimalizál és összekapcsol, nem lesz allekérdezés
+        - or pointerek uniója -> CONCATENATE
+        - metszet -> INTERSECT
+        - minus -> MINUS, SORT
+- Konkrét értékek lekérdezhetőel
+- Beágyazott megjegyzések
+    - SELECT /* +<tipp> */
+    - tippek
+        - full
+        - index
+        - ordered
+        - use_nl
+        - use_merge
+        - use_hash
+        - leading
+        - first_rows, all_rows            
+    - Analizáló utasítások
+- BITMAP index
+    - értékek helyett bitmap van
+    - csak bináris értékek ha kevés dolog van az oszlopban
 
 # EA 7 2021.10.19
 - Az algoritmus nem biztos, hogy a legjobbat adja, de elég jót
@@ -1012,6 +1119,3 @@ vége
 - Új érték van benn
 ## Kombinált Naplózás (Undo-Redo)
 - Előző kettő kombináltja
-
-
-
