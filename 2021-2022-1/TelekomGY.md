@@ -450,3 +450,4 @@ for s in readable:
 - Gyakorlás
     - Filterezés
     - Naplózás
+    

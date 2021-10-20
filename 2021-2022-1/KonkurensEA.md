@@ -498,3 +498,49 @@ List lst = Collections.synchronizedList(new ArrayList<Integer>());
 
 - Integer, String módosíthatatlanok
 
+# EA 7 2021.10.20
+
+## Példa végigmagyarázása
+- Java Concurency In Practice könyvből egy példa
+- creative commons
+- Járműflotta adatai
+- Funkciók
+    - getLocation() -> hol van
+    - setLoaction(id,x,y) -> jármű írja hogy hol jár
+- MutablePoint-al tartja számon
+- Monitoros megoldás
+    - Belső állapot megvédése a külső dolgoktól
+    - Belső adatról (Map) csak deepCopy-val kapcsolódik a külvilághoz
+    - syncronized metódusok
+- Collection.unmodifiableMap
+    - unmodifiable wrapper osztályok
+    - put, remove kivételt dob
+    - get működik
+    - Mély másolat + unmodifiable = biztos nem kerül ki a belső állapot
+- Pontok cseréje ImmutablePointra
+    - final int x, y;
+- java.util.concurent.ConcurentMap
+    - konkurens programban használható
+    - ez nem sync
+    - egyszerre többen dolgozhatnak rajta ha nem zavarják egymást
+    - java.util.concurent.ConcurentHashMap
+        - tuningolt hash map
+        - ugyanúgy lehet használni mint a hash map-et
+        - a háttérben más történik
+- Ezekkel
+    - konstruktor a kapott map-ből egy concurentHashMap-et csinál
+        - ez shalow copy de nem baj mert ImmutablePoint meg String van benne, azok módosíthatatlanok
+    - getLocation csak visszaad egy unmodifiableMap-et
+        - nem kell copy mert nem tudják módosítani
+        - Pontokról sem kell copy mert ImmutablePoint-ok
+    - másolásokat lehet spórolni
+    - getLocation - ImmutablePoint-ot visszaad
+    - setLocation - ki kell dobni a régi pontot egy újjal
+
+- SafePoint
+    - sync set, get
+
+- Concurent dolgok:
+    - ...
+    - BlockingQueue
+    - BlockingDequeu

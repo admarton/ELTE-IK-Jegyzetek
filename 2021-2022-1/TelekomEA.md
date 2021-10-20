@@ -954,4 +954,128 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
             - Közben detektálni kell
             - minimális keretméret - hálózat hosszától függ
             - csomag legyen nagyobb mint a propagációs késés
+            - min_keret = ráta(b/s) * 2 * d(s)
+                - ethernet: 64 bájt
+                - 10 Mbps
+                - (64B * 8) * (2 * 10⁸mps) / (2 * 10⁷) ≈ 5 km hosszú
+                - de ma már nincs ütközés
             
+# EA 7 2021.10.20
+
+## Mit kell csinálni ütközés detektálásnál?
+- Binary Exponential Backoff algoritmus
+    - Mekkora lehet a terhelés
+    - Ez az érték alapján vár és újraküld
+    - Szinkronizáció megtörése állomások között
+    - k ∈ [0, 2ⁿ-1], n ütközések száma
+    - várunk k egységet
+    - n max 10, 16 sikertelen próba után eldobja a keretet
+- max_keret
+    - túl nagy akkor sok hiba lehet
+    - ethernet:
+        - default: 1500 bájt
+        - adatközpont: jumbo frame: 9000 bájt
+    - infiniband
+        - sokkal nagyobb teljesítmény
+        - HPC-ben külön tár és számoló egység 
+        - közöttük vannak infiniband-ek
+        - 64 KB frame-ek
+
+## Ütközésmentes protokollok
+- Ütközések hátráltatják
+- Állomások megszámozva
+- Réselt időmodell
+- Nem történhet ütközés
+- Teknikai megoldás nehezebb
+- Bittérkép protokoll
+    - Helyfoglalási periódus és adatküldési periódusok
+    - Helyfoglalás
+        - Időosztás- résztvevők száma szerint
+        - Bitmap réseiben az adott időállomás jelzett-e h van igénye
+        - Ezt mindenki tudja
+    - Adatidőréseket a bejelentetteknek
+        - Ebben az időben tudnak küldeni
+    - Újra helyfoglalád és küldés
+- Bináris visszaszámlálás protokoll
+    - Egy időrésben több állomás is ad 
+    - Ki kell használni a konstruktív interferenciát
+    - Mindenki sugározza a bitjét
+    - Mindig a legnagyobb azon nyer
+    - kiéheztetés lehetséges
+- Javítás
+    - Azonosítók permutálása
+    - Aki nyert az kapja a legkisebbet
+    - A többi növeli
+    - Azé a legnagyobb aki a legrégebb kapott hozzáférést
+    - *Mock és Ward módosítás*
+
+## Korlátozott versenyes protokollok
+- Lehet ütközés
+- Feoldás: korlátozzák a küldők számát
+- Ötvözi az előző két családot
+- Kis terhelésnél a verseny során nincs interferencia és gyorsabb
+- Adaptív fabejárás protokoll
+    - Nem hálózatból jön
+    - Vérvizsgálatból jön az ötlet
+    - Szifilisz vizsgálat - 1943
+    - Feltették, hogy nem mindenki beteg
+    - Kis számú beteg
+    - Költséges a teszt
+    - Kevés tesztet akartak és minden beteg megtalálása
+    - Embercsoportoktól vesznek mintát, összekeverik és úgy vizsgálják
+    - Ha negatív akkor mindenki negatív
+    - Ha pozitív akkor kisebb csoportra bonás és úgy
+    - Addig amíg egy emberhez nem jutnak
+    - Átment a hálózatokhoz 1971-ben
+    - Minden tesztel egy időrést elbukunk
+    - Állomásokat csoportosítjuk
+    - Csoportot bontjuk az ütközés szerint
+    - Részcsoport küldhet
+    - Ha nincs ütközés akkor jó
+    - hs van akkor részcsoport és ők küldenek
+
+## Hogyan kötünk össze lanokat?
+- Bridge korlátozza az ütközéseket
+- Layer 2 eszközök
+- Switch-ek is Bridge-ek, de Bridge többet tud
+- Ütközési tartomány csükkentése
+- Teljes transparencia
+- Plug n play
+- Funkciók
+    1. Keretek továbbítása
+    2. (MAC) címek tanulása
+    3. Feszítőfa (Spanning Tree) Algoritmus (a hurkok kezelésére)
+- Továbbító tábla 
+    - MAC cím
+    - Port
+    - Kor
+        - Dinamikusan változik
+        - Jönnek mennek az eszközök
+        - Ha rég nem frissül akkor elfelejtjük
+- Kézi beállítás
+    - Időigényes
+    - Hiba lehetőség
+    - Nem dinamikus
+- Címek tanulása
+    - Kitől honnan jön forgalom
+    - Frame feladóját megnézi
+    - Továbbító táblába bekerül
+    - Ha nincs a táblában a cél
+        - broadcart
+        - minden portra kiküldi
+- Körökben cirkulál a csomag, rossz irányt tanul meg
+- Feszítőfa algoritmus
+    - Lefed minden csomópontot
+    - Nincs benne kör
+    - Elosztott algoritmus
+    - Egymás közötti kommunikáció
+    - Gyökér hotspot
+    - BPDU - config üzenet
+        - BridgeID, GyökérID, Út költség a gyökérhez
+        - Lehet A gyökérID-t frissíteni az út hossza a lapján
+        - Kezdetben minden állomás felteszi h ő a gyökér
+- Switch-nél
+    - Minden port egy hosthoz
+    - Vagy kliens terminál
+    - Vagy másik switch
+    

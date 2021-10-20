@@ -501,3 +501,99 @@ uqv szó
 - megszámlálhatóan végtelen, continum végtelen szó van
 - túl sok halmaz
 - 
+
+# EA 7 2021.10.20
+
+## RE és R
+- RE nem zárt a komplementer-képzésre
+- R zárt a komplementer-képzésre
+
+## Számítási feladatok megoldása TG-pel
+- Szófüggvények
+- f : Σ* → Δ*
+
+- **Def:** Az M=< Q, Σ, Δ, ...> TG kiszámolja az f : Σ* → Δ* szófüggvényt, ha minden u ∈ Σ* szóra megáll, és ekkor f(u) ∈ Δ* olvasható az utolsó szalagján
+
+- **Def:** f szófüggvény kiszámítható ha van TG ami kiszámítja
+- **Def:** L₁ visszavezethető L₂-re, ha van olyan f kiszámítható szófgv., hogy w∈L₁ ⇔ ...
+
+- Ha L₁ ≤ L₂ és L₂ ∈ RE, akkor L₁ ∈ RE
+- Ha L₁ ≤ L₂ és L₂ ∈ R, akkor L₁ ∈ R
+
+- M visszavezető gép, M₂ felismeri L₂
+- Ezekből építünk M₁-et ami felismeri L₁-et
+
+- Ha L₁ ≤ L₂ és L₂ ∉ RE, akkor L₁ ∉ RE
+- Ha L₁ ≤ L₂ és L₂ ∉ R, akkor L₁ ∉ R
+
+## Turing gépek megállási problémája
+- Megáll-e valaha az inputon
+- Lₕ ~ Lₕₐₗₜ = {< M, w > | M megáll w bemeneten}
+- Lᵤ ⊆ Lₕ
+
+- **Tét:** Lₕ ∉ R
+- **Tét:** Lₕ ∈ RE
+
+## Rice tétel
+- **Def:** P⊆RE halmaz a rekurzívan felsorolható nyelvek egy **tulajdonságának** nevezzük.
+    - P triviális, ha P=∅ vagy P=RE
+    - L_P = {< M > | L(M) ∈ P}
+- **Rice tétele:** Ha P⊆RE egy nem triviális tulajdonság, akkor L_P ∉ R
+- Bizonyítás:
+    1. eset ∅ ∉ P
+        - tudjuk hogy Lᵤ ∉ R, elég belátni h Lᵤ ≤ L_P
+        - L ∈ P (L ≠ ∅)
+        - L∈RE M_L TG, L(M_L) = L
+        - < M, w > TG hez készítünk M'
+            1. Szimulálja M-et w-re
+            2. M nem áll meg akkor M' sem
+            3. Ha megáll akkor elemzi az x szót
+            4. ...
+        - < M, w > ∈ Lᵤ ⇔ < M'> ∈ L_P
+    2. eset
+        - P komplementer = RE/P
+        - L_(P komplementer) = (L_P komplementer)
+        - L_(P komplementer) ∉ R
+        - ezért (L_P komplementer) ∉ R
+        - így L_P ∉ R
+
+- M TG-ről eldönthetetlen, hogy 
+    - csak az üres nyelvet ismeri fel
+    - véges nyelvet ismer-e fel
+    - környezetfüggetlen nyelvet ismer-e fel
+    - elfogadja-e az üres szót
+    - stb
+
+## Post Megfeledkezési Probléma
+- **Def:** Σ egy ábécé, u_1..u_n, v_1..v_n ∈ Σ⁺ (n ≥ 1)
+- A D={u_1/v_1,..,u_n/v_n} halmazt **dominókészletnek** nevezzük.
+- Egy dominósorozat megoldása egy készletnek ha alul és felül ugyan az a szó van
+- Megoldások véges hosszú sorozatok
+- pl: (a/ab),(bc/ca),(aa/a) egy megoldás
+
+- **Tét:** L_PMP ∈ RE
+- **Tét:** L_PMP ∉ R
+- Biz:
+    - PMP = { < D > | D-nek van megoldása}
+    - MPMP = {< D,d > | D-nek van d-vel kezdődő megoldása}
+    - L_MPMP ≤ L_PMP
+    - balcsillag(u): * x * x * x
+    - jobbcsillag(h): x * x * x *
+    - baljobbcsillag(h): * x * x * x *
+    - dominók felső szavát balcsillag, alsót jobbcsillag
+    - az első dominó: balcsillag/baljobbcsillag
+    - utolsó dominó: *#/#
+    - Ezekkel létrehozzuk a D'-t
+    - < D,d_₁ > ∈ L_MPMP ⇔ < D'> ∈ L_PMP
+    
+## Környezetfüggetlen
+- L_ECF = {< G > | G egyértelmű CF grammatika}
+- P_A = {A->u₁Aa₁,..,A->uₙAaₙ,A->ε}
+- P_B hasonlóan, u helyett v
+- G_A = < A, {A}, Σ∪Δ, P_A>, G_B hasonlóan
+- G_D = < S, {S,A,B}, Σ∪Δ, {S->A, S->B}∪P_A∪P_B>
+- f: < D > -> < G_D > visszavezetés
+
+- L(G_A) komplementer környezetfüggetlen, G_B-re is
+
+- nem értem miről van szó
