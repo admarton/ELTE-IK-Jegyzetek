@@ -456,3 +456,45 @@ List lst = Collections.synchronizedList(new ArrayList<Integer>());
     - de ez át lesz alakítva
     - biztos
     
+# EA 6 2021.10.13
+- fial kulcsszó
+    - osztály: nem lehet leszármazni
+    - metódus: nem lehet felüldefiniálni
+    - változó: nem lehet módosítani, nem lehet nem lokális, nem igényel szinkronizálást
+        - másolatot csinál a final local-ról ha márhova továbbadódik
+        - szálaknál is másolódik
+        - ha referencia típusú akkor már lehet ban
+            - amire hivatkozik azt szinkronizálni kell
+    - mezők: általában nincs probléma ezekkel szinkronizálás szintjén 
+        - módosíthatatlanok
+        - ha referencia, akkor a hivatkozott objektum is legyen módosíthatatlan vagy szinkronizált
+    
+- Helyes működést nem áldozzuk fel a hatékonyságért
+    - helyes, egyszerű és karbantartható fontasobb mint gyors
+    - kód 10% fut az idő 90%-ában
+        - csak ezt kell gyorsabbraírni
+        - nem kell az egészet
+        - fontosabb a helyesség, olvashatóság, tesztelhetőség
+    - helyesság:
+        - hibás az a program ami szink. nélkül oszt meg változtatható adatokat, erőforrásokat
+        - jó minta:
+            - feladatok kiosztása
+            - végül adatok begyűjtése
+        - megosztott változó ne legyen módosítható
+        - használni kell szinkronizációt
+
+- Módosíthatatlan adatok
+    - Obj. aminek minden mezője final, hivatkozott objektumok is módosíthatatlanok
+    - Funkcionális stílusú programozás
+    - Új értékek új objektumban jönnek létre
+    - Szekvenciális programban: overhead
+
+- Szálak gyorsítják
+    - szinkronizáció lassítja
+    - ezért jó a funkcionális stílus
+        - több memória
+        - szemétgyűjtő sokat dolgozhat
+        - de még így is jobb lehet mint a szinkronizálgatás
+
+- Integer, String módosíthatatlanok
+

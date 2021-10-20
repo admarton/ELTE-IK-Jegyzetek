@@ -386,3 +386,67 @@ for s in readable:
 - Minden TCP előtt Kell UDP kulcs
 - Vagy kap egy címet meg portot amivel tud kapcsolódni
 - min 3 feladat amiből egy több protkollt használ
+
+# Gyak 6 2021.10.12
+
+## CRC
+- Generáló bitsorozat
+- Generáló polinomból ki lehet számolni a nem detektálható hiba polinomoat
+- `import binascii`
+- `import zlib`
+- `import hashlib`
+
+## UDP
+- sendto(), recvfrom()
+- servernél kell bind()
+- select-et lehet használni
+- függetlenül jönnek a csomagok
+    - nincs akkora szükség a kvázi paralel működésre
+    
+# Gyak 7 2021.10.19
+
+## ZH
+- Szünet után B hét lesz
+- Ők írnak először
+- A hetesek a második gyakon írják
+- Akinek nem kell bejárni az választhat
+- Indokkal lehet választani
+- ZH alatt az otthoniak telepítik a minimet cuccokat
+- Mindent tudunk a ZH-hoz
+- Socket programmozási feladat lesz
+- Több részfeladat
+- NetCopy házi olyan volt mint a zh
+- Futtatni kell mind3-4 komponenst, működnie kell
+    - Ez a magfelfet/nem felelt meg
+    - Ha el van fogadva akkor legalább kettes megvan
+- A maradék jegy ezután jön
+- Forrásokat kell elküldeni
+- 50-100% között döntenek
+- Minden socket fel legyen szabadítva
+- Szabványos legyen a hálózati pufferkezelés, kódolás, encódolás
+
+## Órai
+- UDP calc -> TCP calc
+- Üzleti logikát egy tcp-vel alrébb raktuk
+- Valamitől függően udp/tcp között vált, egy programban
+- Le kell kérdezni egy UDP szervertől hogy ezután milyen szervert, milyen porton, milyen protokollal kell elérnie
+- Connect után küldés kell
+    - Nem szabad kisajátítani a szervert
+- Kliensnél is lehet select, de nincs sok haszna
+- UDP-nél leginkább akor van értelme a select-nek ha nem ismerem a klienst, pl rosszindulatú kliens
+
+
+## Proxy
+- Vonal elvágás 
+- Fizikailag a szálltási rétegben egy szűrés
+- Lehet cím szerint filterezni
+- Tartalmi szűrés - bizonyos kérések kimehetnek, bizonyosak nem
+- **ZH-n** lesz szűrés, uh valszeg proxy lesz, elszólta valszeg magát
+- Valamilyen funkciója van az életben - órai példában nincs
+- Sokszor naplózásra használják
+    - logolja a kérést és továbbküldi
+    - logolja a választ és tovább
+    - **tipik ZH feladat**, pl json-ba
+- Gyakorlás
+    - Filterezés
+    - Naplózás

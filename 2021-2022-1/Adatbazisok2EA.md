@@ -850,4 +850,168 @@ vége
 - Összeadjuk
 - És ebből próbálunk jobbat csinálni
 - Esetleg párhuzamosítás
-- Tetszőleges orrend lehet sok helyen, lehet variálni
+- Tetszőleges sorrend lehet sok helyen, lehet variálni
+
+# EA 7 2021.10.19
+- Az algoritmus nem biztos, hogy a legjobbat adja, de elég jót
+- Osztott adatbázisokról nem beszéltünk
+    - Ott a hálózati művelet a lassú
+    - Arra kell optimalizálni
+
+## Tranzakciókezelés
+(Helyreállítás, naplózás; konkurencia)
+- Tranzakció
+    - Adatbázis kezelő műveletek egy sorozata
+    - Beszúrási, törlési, módosítási
+    - Röviden írás, olvasás
+- Program jó adatbázisból jót képezzen
+    - Szabályokat ne sértse meg
+    - pl.: Unique oszlop maradjon az beszúrás után is.
+- Több tranzakció között van probléma
+- Vagy ha tranzakció közben elromlik valami
+- **Konzisztencia**
+    - Adott feltételek amkinek meg kell felelnie
+    - Kulcs, FF(funkcionális függ), érték megszorítások
+    - Adatstruktúrák karban tartása, pl indexek
+    - Több rekordra szóló megszorítások (az átlag kétszeresénél nem lehet több egyik érték sem)
+- **Konzisztens állapot**
+    - kielégíti a feltételeket
+- **Konzisztens adatbázis**
+    - konzisztens állapotban van
+- **Tranzakció megszorítás**
+    - Ha módosítás van akkor növelni kell
+    - Törlés után valami legyen
+    - Törlési bit beállítás
+
+- Megszorításokat ellenőrizni kell a tranzakcióban
+- Megszorításokat előre meg kell tervezni
+- Adatbázis a valóságot próbálja modellezni
+    - Fontosabb adatokkal és összefüggéseikkel
+
+- Tranzakció közben lehet nem konzisztens állapot
+- Az elején és a végén kell konzisztens legyen
+
+- Rendszerhiba miatt megállhatna, vagy más miatt is abortálhat, így megmaradna egy hibás állapotban
+- Vissza kell állítani az előző konzisztens állapotba
+
+## Naplózási és helyreállítási modul
+- Biztosítja, hogy az adabázisban mindig helyes állapot legyen
+- Mit tároljunk el, hogy vissza lehessen állítani
+- Atomiságot biztosítja
+- Tartósságot is
+
+
+## Konkurenciakezelő
+- Úgy fut több tranz. egy időben mintha mindegyik külön futna
+- Ütemezéssel össze is lehet fésülni a tranzakciókat
+
+
+## Tranzakció feldolgozás
+- Mindegyik izoláltan fut
+- Mások adatait nem látja és más sem látja az övét
+- Véglegesítésnél 'commit'-nál kerülnek be az adatbázisba
+- Onnantól kezdve másoknak is elérhető
+
+## ACID
+- Atomosság - vagy teljesen vagy semmennyire legyen végrehajtva
+- Konzisztencia - konzisztensből konzisztensbe
+- Elkülönítés (isolation) - minden tranzakció úgy fut mintha csak ő használná
+- Tartósság ()
+
+## Commit és Rollback
+- Trigger típúsu műveletek miatt
+    - sima adatművelet is tranzakciószerű lesz
+
+## Tranzakció feldolgozása
+1. Naplózás
+    - Nem ír ki a lemezre 
+    - Pufferba ír, oda gyújti azt ami kell neki
+    - Majd eldönti az adatbázis, hogy mikor lesz kiírva
+2. Konkurenciavezérlés
+    - Több tranzakció az több művelet sorozat
+    - Össze lehet fésülni őket, megfelelő sorrendbe
+    - Ütemezőnek az  összefésülések közül ki kell választani a jó ütemezéseket - legjobbat
+    - Egymás utáni végrehajtás biztos jó lenne
+        - de lehet ennél jobbat csinálni
+        - gyorsabbat, másodiknak ne kelljen olyan sokat várni, stb..
+    - Megoldások
+        1. Zárak - tiltanak hozzáférést, zártábla
+3. Holtpont
+    - Egymásra várakozásba akadnak
+    - Pl záraknál
+
+## Mitől sérül a konzisztencia?
+- Tranzakcióhiba
+    - Hibásan megírt program
+    - Ütemezési hiba
+- Adatbázis-kezelési hiba
+    - ABKezelő komponenese rosszul csinál valamit
+- Hardverhiba
+    - Sérült adat
+- Adatmegosztásból származó hiba
+
+## Helyreállítás
+- Hiba modellezése
+- Memória hiba
+    - Megszakadt futás
+- Lemezhiba
+- Rossz adatbevitel
+    - Tartalmi hiba: nehéz észleleni
+    - Formai hiba
+    - Triggerekkel ha több minden kell autómatikusan
+- Készülékhiba
+    - Kis hiba: több bit sérül, paritás ellenőrzés, helyi javítás
+    - Nagy hiba: jelentős sérülés, vannak megoldások
+        1. RAID
+            - elveszett lemez adatai visszaállíthatóak
+        2. Archiválás
+            - menet közbeni archiválás nem biztos hogy jó állapotot tárolna el
+            - napló segíthet
+        3. Osztott másolat
+            - költséges szinkronizálás
+            - szinkronizálás közben is lehet probléma
+- Katasztrófális hibák
+- Rendszerhibák
+
+## Naplózás
+- Állományok jönnek létre
+- Memóriában és a lemezen is van adata
+- Napló állományban mindig jó állapot legyen
+- Helyreállítás ezt használja
+- Elérhető kell legyen
+
+## Napló és tranzakció
+- Pufferekben is kell ellenőrizni és oda írnak
+
+## Adategység (adatbáziselem)
+- Bármi lehet, rekord, táblarész
+
+## Adatműveletek
+- INPUT(X) - lemez beolvasás, X-et a pufferba 
+- OUTPUT(X) - lemezre kiírás
+- READ(X,t) - pufferből olvasás, X-et a t tranzakcióba  olvassa
+- WRITE(X,t) - pufferbe ír
+
+## Naplóbejegyzés
+- Tranzakció kap egy számot
+- Sorrendiség is van
+- Ti - i-edik tranzakció
+- Bejegyzések:
+    - Ti kezdődik: (Ti. START)
+    - Ti írja A-t: (Ti, régi érték, új érték)
+    - Ti rendben befejeződött: (Ti, COMMIT)
+    - Ti a hamarabb befejeződött: (Ti, ABORT)
+- Napló mérete gyorsan nő
+- El kell dönteni, hogy mit lehet eldobni
+- Biztos lemezen kell tárolni - mindig meg legyen
+- El kell dönteni, hogy mikor lehet kiírni, mikor kell
+
+## Undo Naplózás
+- Régi érték van benn
+## Redo Naplózás
+- Új érték van benn
+## Kombinált Naplózás (Undo-Redo)
+- Előző kettő kombináltja
+
+
+

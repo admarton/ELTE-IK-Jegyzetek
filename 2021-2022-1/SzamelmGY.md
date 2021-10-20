@@ -730,3 +730,164 @@ S = {(¬P ∨ H), (¬P ∨ K), K ∨ H , ¬K ∨ P , ¬H}
 | 6 |(¬P ∨ H)|     |
 | 7 |res(5,6)| = H |
 | 8 |res(1,7)|= ▭ |
+
+
+# Gyak 7 2021.10.19
+
+## Elsődrendű logika - Predikátumkalkulus
+- Nulladrendű az állítások belselyével nem foglalkozik
+    - Halmazokkal nem foglalkozik, része, nem része
+- Szimbólumhalmaz:
+    - Pred - predikátumszimbólum
+    - Func - függvényszimb.
+    - Cnst - konstanszimb. (aritás = 0)
+    - Ind - indivídumváltozó (nincs aritás)
+    - {¬,∧,∨,→,∀,∃}
+    - ( ) ,
+    - Aritás: mennyi argumentuma van s ∈ Pred ∪ Func ∪ Cnst
+- Termek
+    - Term ami Ind vagy Cnst vagy Func ami neki megfelelő számú Term argumentummal van ellátva
+- Elsőrendű formula
+    - Pred kell a formulához, zárojelébe termeket teszek
+    - **atomi formula** : pred amiben termek vannak 
+    - kvantor hatásköre a teljes formulára kihat akkor fő logikai összekötő -> kvantált formula
+- Precedencia:
+    - ∀,∃,¬,∧,∨,→
+- Szerkezeti fa
+    - Fölogikai összekötönál lehet vágni
+    - ∀xϕ -> közvetlen ... -> ϕ
+    - ¬∀x(P(x,y)) → q(x) ∨ ∃xq(x)
+        - ¬∀x(P(x,y))
+            - P(x,y)
+        - q(x) ∨ ∃xq(x)
+            - q(x)
+            - ∃xq(x)
+                - q(x)
+    - leveleiben atomi formulák
+
+- Szemantika
+    - Interpretáció és változókiértékelés adja meg
+    - Interpretáció
+        - I = < U , I_pred, I_func, I_cnst >
+        - U - tetsz. nem üres - univerzum
+        - I_pred - reláció - eredmény : i/h
+        - I_func - művelet - eredmény : alaphalmazbeli elem
+        - I_cnst - univerzum elemét jelenti
+    - változókiértékelés
+        - κ : Ind → U
+    
+    - példa
+        - U: ℕ
+        - I_pred(p)=p^I, (m,n)∈p^I ⇔ m ≥ n
+        - I_pred(q)=q^I, (m,n)∈q^I ⇔ m = n
+        - I_func(f)=f^I, f^I(m,n):=m + n
+        - I_cnst(a)='0
+        - κ(x)=5, κ(j)=3
+
+- Értékelés
+    - |x| = κ(x), x ∈ Ind
+    - |c| = c^I,  c ∈ Cnst
+    - term értéke a részeinek értékei és a műveletek alkalmazásai
+
+    - |f(f(x,y),y)| = f(f(5,3),3) = f(5+3,3) = 8 + 3 = 11
+
+- Kiértékelés variánsa
+    - x-nek lehet több kiértékelése is 
+- Formula kiértékelése
+    - Termek kiértékelése
+    - Reláció eldöntése
+    - ∀ - összes variánsra igaz
+    - ∃ - legalább egy variánsra igaz
+
+    - |p(f(y,y),x)| = 3+3 ≥ 5 = i
+    - | ∀x p(x,a) |  = i
+    - |∀x ∃y q(f(x,y),a)| = ∀x ∃y (x+y = 0) = h
+    - |∀x(∀y q(f(y,x),y)→q(x,a))| = ∀x(∀y (y+x = y → x = a)) = i 
+
+- Ind vált. előfordulása
+    - Többször is előfordulhat, de attól még egy marad
+    - Kötött a változó  ha minden előfordulása kötött
+    - Kötött az előfordulás ha kvantor hatáskörben van
+    - Ha minden változó kötött akkor Zárt
+    - Különben nyitott
+    - Paraméter ha van nyitott előfordulása
+    - Ha zárt a formula akkor a kiértékelése nem függ a változókiértékeléstől
+
+- Prímformula ha atomi vagy kvantált
+- Prímkomponensek:
+    - szerkezetifából könnyű meghatározni
+    - Prímformula és nem részformulája prímformulának
+    - Az ágon a legmagasabb prím
+    - _x_ -> prímformula
+    - *x* -> prímkomponens
+
+```
+¬(∀x p(x,y) → ∃x r(z) ∨ r(y))
+            |
+  ∀x p(x,y) → ∃x r(z) ∨ r(y)
+          /     \
+*_∀x p(x,y)_*  ∃x r(z) ∨ r(y)
+       |           /     \
+_p(x,y)_  *_∃x r(z)_*   *_r(y)_*
+                |
+            _r(z)_
+
+Prímkomponenses felírás
+¬(A→B∨C)
+Nulladrendű lesz
+```
+
+- Kielégíthető ha van Interpretáció ami kielégíti
+- Logikailag igaz ha minden I kielégíti : **⊧ ϕ**
+- Logikailag ekvivalens ha ugyn az az interpretáció elégíti ki
+- Logikai következmény ha az I amire a halmaz i, arra a formula is i
+- Quine-táblázat - igazságtábla a prímkomponenses felírásra
+- Tautológikusan igaz ha a Quine-táblázatban van csupa i-s sor : **⊧₀ ϕ**
+- Tautológikus erősebb mint a logikai
+
+- Értéktábla
+    - Ítélettáblához hasonlít
+    - Csak a paramétereket sorolja fel
+    - Oszlopba felírni
+    - A paramétert az univerzum minden elemén vizsgálni kell
+
+- Nulladrendű törvények Elsőrendűek is 
+    - x ∉ Par(ϕ) - x kötve van ϕ-ben
+        - ∀xϕ ~ ϕ és ∃xϕ ~ ϕ
+
+    - ∀x∀yϕ ~ ∀y∀xϕ
+    - ¬∃ϕ ~ ∀x¬ϕ
+    - x ∉ Par(ϕ)
+        - kihozható a kvantor az x elé
+        - ϕ ∧ ∀xδ ~ ∀x(ϕ ∧ δ)
+
+### Feladat
+- ZH-ban lehet
+
+- U : {0,1,2}
+- I_pred: P→P^I, Q→Q^I
+- I_func: f→f^I
+- I_cnsrt: a → 0, b → 1
+- P^I = {(0,1),(0,2),(2,1),(2,2)}
+- Q^I = {(0),(2)}
+- f^I a mod 3 összeadás
+
+- (∀x(P(a,y) ∨ Q(x)) → ¬∀x∃yP(x,y)) ∧ P(f(y,y),b)
+
+y | A | B | C | A → ¬B ∧ C
+--|---|---|---|------------
+0 | h | h | i | i
+1 | i | h | i | i
+2 | i | h | h | h
+
+### Bizonyítás h nem törvény
+- ϕ ∧ ∀xδ ~ ∀x(ϕ ∧ δ)
+- ϕ = p(x)
+- δ = q(x)
+- p(x) ∧ ∀xq(x) ~ ∀x(p(x) ∧ q(x))
+- U = ℕ
+- q^I := {(x) | x ∈ ℕ}
+- p^I := {(x) | x páros}
+- κ: x → -4
+- p(x) ∧ ∀xq(x) ~ ∀x(p(x) ∧ q(x))
+

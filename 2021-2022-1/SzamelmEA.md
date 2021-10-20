@@ -485,3 +485,19 @@ uqv szó
 - Eldönti ha a számítási fa véges és minden levele elfogadó vagy elutasító
 - f(n) időkorlátos ha n hosszú szóta f(n) magas max a fa
 
+# EA 6 2021.10.13
+
+## Lexikografikus rendezés
+- szavak rendezése
+
+## Nemdeterminisztikus TG
+- szimulálható detereminisztikus TG-vel
+- exponenciális teljesítmény romlással
+- számítás szelectora
+    - gyökér - üres szó
+    - a lehetséges lépések közül sorszám minden szinten
+- (input, számolás, szelektorok)
+- másolgatás a szalagokon
+- megszámlálhatóan végtelen, continum végtelen szó van
+- túl sok halmaz
+- 

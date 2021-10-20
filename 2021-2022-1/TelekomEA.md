@@ -845,5 +845,113 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
             - majd akkor küldöm a nagyobbat ha a hiányzó is megjön
             - ami megjött azt megtartja a fogadó és egyszerre nyugtázhatja az egészet ha megjön a hiányzó
             
+# EA 6 2021.10.13
 
+## Adatkapcsolati réteg és MAC alréteg
 
+### Visszalépés N-el
+- Go back N
+- mennek a csomagok
+- ha hiba van akkor sokat kell újraküldeni
+- vételi oldalon kicsi puffer
+
+### Szelektív ismátlás
+- SRCK
+- Hiba esetén jelzi, hogy mi nem volt jó és csak azt küldik újra
+
+## Ethernet keret
+- MAC azonosító, átkonfigurálható
+    - lokálisan azonosítja
+
+## Közeg hozzáférés
+- Ethernet és Wifi is többszörös hozzáférés
+- Közegen több résztvevő osztozik
+    - Adatszórás
+- Egyidejű átvitel ütközés
+    - Lényegében meghiúsítja az átvitelt
+- Követelmények a Media Access Control (MAC)
+    - szabályok a közeg megosztásra
+    - ütközések detektálása és elkerülése
+
+## MAC alréteg
+- Dinamukus felosztási protokollok
+    - verseny vagy ütközés alapú protokollok (ALOHA, CSMA, ..)
+    - verseny mentes protokoll (bittérkép-alapú)
+    - korlátozott verseny 
+- Dinamikus catornakiosztás
+    1. Állomás modell
+        - N terminál/állomás
+        - valószínűség hogy Δt idő alatt csomag jön: λΔt, 
+    2. Egyetlen csatorna
+        - Minden állomás egyenrangú
+        - Egy csatornán minden kommunikáció
+        - Minden állomás tud küldeni és fogadni
+    3. Ütközés feltételezés
+        - Ha két keret egy időben megy akkor kiütik egymást
+    4. Időmodell
+        - Folytonos
+        - Diszkrét
+            - szlot elején lehet küldeni
+    5. Vivőjel értékelés
+        - El lehet dönteni, hogy valaki használja-e a csatornát
+- Terhelés (G)
+    - A protokoll által kezelendő csomagok száma egy időegységben
+    - G>1 : túlterhelés
+    - A csatorna egy kérést tud elvégezni
+- Ideális eset
+    - Ha G<1, S=G
+    - Ga G≥1, S=1
+    - Ahol egy csomag küldése egy időegység
+
+- Tiszta ALOHA
+    - hawaii egyetem 70-es évek
+    - Ha van adat akkor elküldi
+    - Alacsony költségű, egyszerű
+    - Mindent nyugtáz
+    - Vár a nyugtára, idő után újraküldi
+    - Teljesítmény elemzés - Poisson eloszlás
+        - Pₖ(t)=((λt)ᵏe^(-λk))/k!
+        - T_f = keret-idő
+        - S : sikeres átvitelek száma
+        - G : összes kísérlet
+        - D : küldés és vétel közötti idő
+        - Feltesszük:
+            - Minden keret azonos méretű
+            - A csatorna zajmentes, csak üthözési hiba van
+            - A keretek nem kerülnek sorokba
+            - A csatorna egy Poisson folyamt
+    - S = S(G) = G × (A "jó" átvitelek valószínűsége)
+    - Sebezhetőségi idő : 2T_f
+    - Sebezhető idő alatt más ne küldjön
+
+- Réselt ALOHA
+    - Diszkért időmodell bevezetése
+    - Sebezhetőségi idő fele akkora lett
+    - 0,37% kiszolgálás, egyszerre 1
+
+- Adatszóró (bradcast) Ethernet
+    - Adathordozó teknológia
+    - Carriar Sense Multiple Accesss
+        - belhallgat a csatornába és eldönt hogy használhatja-e
+        - 1- perzisztens CSMA protokoll
+            - mindenki hallgatózha
+            - perzisztens módon várjuk, hogy mikor lesz szabad a csatorna
+            - ha szabad akkor egyből küld
+        - Non-perzisztesn CSMA protokoll
+            - folyamatos időmodell
+            - mohóság kerülése
+            - mindenki hallgatózik
+            - random időt vár
+            - lehet hogy felszabadul a csatorna de még vár mert random ideig kellett
+        - p-perzisztens protokoll
+            - Diszkrét modell
+            - Kövi időrésig vár
+
+        - CSMA/CD - collision detection
+            - Nehéz dolog
+            - Egymástol távoli eszközök
+            - Mikor elkezdi akkor még nem használta senki, de közben elkezdte
+            - Közben detektálni kell
+            - minimális keretméret - hálózat hosszától függ
+            - csomag legyen nagyobb mint a propagációs késés
+            
