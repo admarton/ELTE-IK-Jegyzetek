@@ -522,3 +522,21 @@ public class SemaphoreRace {
 
 }
 ```
+
+# Gyak 7 2021.10.21
+- assert-hez 
+    - VM option -ea
+    - java -ea < class name >
+
+- Lock
+    - semaphore-al ki tudja zárni magát az ember
+    - még bonyolultabb eszköz, könnyebb használni, lassabb
+    - szálon belül lehet lock-olni akárhányszor
+    - számolja egy szál lock-jait
+        - ha nincs unlock 
+    - lock() - nem megszakítható
+    - lockInterruptibly() - megszakítható
+    - tryLock()
+    - ReentrantLock lehet fair vagy unfair
+        - fair kicsit lassabb
+    

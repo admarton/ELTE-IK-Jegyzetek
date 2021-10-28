@@ -274,3 +274,128 @@ CREATE VIEW NÉV AS ALLEKÉRDEZÉS;
 
 ## Jövőhét
 - papír kell majd
+
+# Gyak 6 2021.10.14
+- PAPÍRON
+
+# Gyak 7 2021.10.21
+
+## Spec táblák
+### Partícionált tábla
+- Egy tábla túl nagy akkor partícionált
+- Tábla részeit megmondhatjuk h melyik táblatérre
+- Fájlt nem lehet megmondani
+- Téblateret csak rendszergazda tud csinálni
+- Rendszergazda engedélyezhet adattárolást
+- Partíciókkal lehet optimalizálmi a lekérdezéseket
+- Alábbiakat lehet kombinálni
+    - érték szerinti után hash-es
+    - 3 érték bontás, azon belül 3 hash = 9 partíció
+- RANGE -> LESS THAN MAXVALUE
+    - minden nagyobb kerüljön ide
+- LIST -> VALUES DEFAULT
+    - minden ami nincs egyik listában sem
+
+```SQL
+PARTITION BY RANGE (<COLUMN NAME>)
+    (PARTITION <PARTITION NAME> VALUES LESS THAN (<VALUE>) SEGMENT CREATION IMMEDIATE STORAGE (INITIAL 0K NEXT 0K) TABLESPACE <NAME>,
+    (PARTITION <PARTITION NAME> VALUES LESS THAN (<VALUE>) SEGMENT CREATION IMMEDIATE STORAGE (INITIAL 0K NEXT 0K) TABLESPACE <NAME>,
+    (PARTITION <PARTITION NAME> VALUES LESS THAN (<VALUE>|MAXVALUE) SEGMENT CREATION IMMEDIATE STORAGE (INITIAL 0K NEXT 0K) TABLESPACE <NAME>,);
+
+PARTITION BY HASH (<COLUMN NAME>)
+    (PARTITION <PARTITION NAME> SEGMENT CREATION IMMEDIATE TABLESPACE <NAME>,
+    (PARTITION <PARTITION NAME> SEGMENT CREATION IMMEDIATE TABLESPACE <NAME>,
+    (PARTITION <PARTITION NAME> SEGMENT CREATION IMMEDIATE TABLESPACE <NAME>,);
+
+PARTITION BY LIST (<COLUMN NAME>)
+    (PARTITION <PARTITION NAME> VALUES (<VALUES LIST>) SEGMENT CREATION IMMEDIATE STORAGE (INITIAL 0K NEXT 0K) TABLESPACE <NAME>,
+    (PARTITION <PARTITION NAME> VALUES (<VALUES LIST>) SEGMENT CREATION IMMEDIATE STORAGE (INITIAL 0K NEXT 0K) TABLESPACE <NAME>,
+    (PARTITION <PARTITION NAME> VALUES (<VALUES LIST>) SEGMENT CREATION IMMEDIATE STORAGE (INITIAL 0K NEXT 0K) TABLESPACE <NAME>,);
+```
+
+- rowid
+    - hol van az adatbázisban
+- dba_part_tables - partícionált táblák
+    - főpartíció és alpartíció típusa
+- partíció szabályának lekérdezése
+    - dba_tab_partition
+    - hash-nél nem mondja meg a szabályt (null)
+    - partíciók neve is benne van
+    - dba_tab_subpartition
+- melyik oszlop alapján csinálta a partíciót
+    - dba_part_key
+        - főpartíció oszlopa
+    - dba_subpart_key
+        - alpartíció oszlopa
+- hol tárolja az adatokat
+    - dba_segments
+
+### Index szervezett tábla
+- rowid van hogy megtalálja
+- rowid helyett iot-ben az adat van
+    - row header
+    - kulcs oszlop
+    - nem kulcs oszlop
+    - ha túl sok adat akkor muató a maradékra
+- indexek
+    - dba_indexes
+- indexelt oszlopok
+    - dba_ind_columns
+    - sys szám$ - függvény
+- függvény magyarázat
+    - dba_ind_expressions
+    - oszlop desc - olyan mint egy függvény mert számolni kell
+
+- index szervezett tábla
+```SQL
+CREATE TABLE <NAME> (<COLUMNS>)
+ORGANIZATION INDEX
+PCTRESHOLD <VALUE> INCLUDING <COLUMN>
+OVERFLOW TABLESPACE <TABLESPACE NAME>;
+```
+- iot oszlopból lehet tudni h index szervezett
+- fel lesz véve a kicsorgó rész táblaként
+- az iot nincs tárolva - a túlcsorgóban van
+- dba_objects -> data_object_id -nál null van - nem tartalmaz adatot
+    - segmense sincs
+        - a túlcsordulásának és az indexének van
+
+### Clustered table
+- Összekötéshez nem kell ide oda rakni
+- Össze vannak rakva egy fájlba az összekötött adatokat
+- Oszlop érték alapján lehet összekötni táblákat
+```SQL
+CREATE CLUSTER <NAME> (<SHARED SPACE> <TYPE>) SIZE <x>K;
+
+CREATE TABLE <NAME> (...)
+CLUSTER <CLUSTER NAME> (<COLUMN>);
+
+--SEGÍTENI KELL AZ ADAT MEGTALÁLÁST
+-- INDEX VAGY HASH
+CREATE INDEX <NAME> ON CLUSTER <CLUSTER NAME>;
+CREATE CLUSTER <NAME> (<SHARED SPACE> <TYPE>) SIZE <x>K HASHKEY ...;
+
+```
+- Minden táblából van egy elsődleges adat ami egy helyen van
+    - a többi megegyező is egy blokkba kerül de nem ugyan abban az adatban
+- dba_clusters
+- melyik tábla van a clusterben
+    - dba_tables -> cluster_name nem null
+- mi a közös
+    - dba_clu_columns
+    - table_name, table_column_name
+- hash függvény
+    - dba_cluster_hash_expression
+- hol tárolódik az adat
+    - dba_objects
+        - a beépített tábla ott tartja az adatát a cluster adatban
+    - dba_segments
+        - egy szegmensben vannak
+        - a cluster szegmensében
+
+## ZH
+- első 5 hét feladatai lesznek
+- gépeshez mindent lehet használni
+- szünetben lehet tanulni
+
+
