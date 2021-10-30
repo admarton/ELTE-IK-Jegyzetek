@@ -997,3 +997,158 @@ A* algoritmus |  f = g+h és h ≧0 és <br> h ≦h* | - optimális megoldást a
 Aᶜ algoritmus | f = g+h és h ≧0 és <br> h ≦h* és <br> h(n)−h(m) ≦c(n,m) | - optimális megoldást ad, ha van (még végtelen δ-gráfban  is) <br> - egy csúcs kiterjesztésekor ismeri az odavezető legolcsóbb utat (legfeljebb egyszer terjeszt ki)
 
 - Magasabb memóriaigény, futási idő lehet jobb
+
+# EA 6 ~2021.10.15
+
+- Speciális heurisztikával nevezetes gráfkeresés lehet
+
+## A algoritmus család
+- A
+    - f = g + I
+    - a távolság és a heurisztika is számít
+    - nem távolodik el egyik ágon sem
+- A súlyozás, mágikus együtthatók
+    - f = g + 2*I
+    - néha jobb eredményeket lehet kapni
+- Speciális plussz pontok
+    - f = g + 2*I - (1 ha van BW_ vagy _BW)
+- Aᶜ algoritmusok ha megengedhető, nem negatív, és monoton megszorításos
+
+## A* algoritmus
+- f = g + h
+- nem negatív és megengedhető
+
+## Mérések
+- Végtelen gráfon csak relatív összehasonlítás
+- Feltérképezett csúsok
+- CLOSED_S - S alg. által lezárt csúcsok
+- Memória igény
+    1. X nem rosszabb Y alg.-nál ha CLOSED_X ⊆ CLOSED_Y
+    2. X jobb Y alg.-nál ha CLOSED_X ⊂ CLOSED_Y
+- Jobban informált nem feltétlenül lesz jobb
+- Jobban informálttal kisebb memóriaigény
+- A*-hoz hasonlíthatóak
+    - Egyenletes gráfkeresés
+    - A** az egész utat méri és onnan váaszt max-ot
+    - B algoritmusok
+- Nem lehet belátni hogy általánosan jobb lenne bármelyik
+- Nem patológikus problémákon nem rosszabb 
+- Monoton megszorításos feladatokon sem rosszabb
+
+- Futási idő
+    - k = |CLOSED|
+    - Alsókorlát: k
+    - Felső korlát: 2^(k-1)
+    - Más heurisztika tud javítani a korláton, de a memóriaigény nőhet
+
+    - Küszöb
+    - Küszöb között árok
+    - Árkon brlül lehet más kiterjesztési sorrendet választani, pl g(él súly)
+    - A futás idő attól lesz rossz ha egy csúcs sokszor ki lesz terjesztve
+    - B algoritum lesz ez a módosítás
+        1. F = f(s)
+        4. ha van kisebb mint az F akkor g lesz a kiterjesztési szabály
+        - Egy csúscot egy árokban egyszer terjeszt ki
+        - Így legrosszab esetben k² lesz a felső korlát
+
+- Jó heurisztika nélkül nem lesz megoldás
+    - Megengedhető heurisztika garantája a legjobb megoldást
+    - Hatékolyabb lehet egy gyengébb heurisztika
+    - Monoton megszorításos heur.-nál egy csúcs egyszer lesz kiterjesztve 
+    - Menet közben lehet módosítani: változó heurisztika
+    - B' algoritmus:
+        - magyar
+        - tanul
+        - menet közen megváltoztatja a heurisztika értékét
+        - megengedhető marad
+        - monoton megszorításosra próbálja rendezni a heurisztikát
+
+# EA 7 2021.10.22
+
+## Kétszemélyes játékok
+- két személyes
+- teljes információjú 
+    - mindkét játékos ismeri az összes lehetséges és elérhető állást
+    - kártyajáték kizárva, mert az ellenfél lapjait nem ismerjük
+    - táblás játékban látjuk a dolgokat
+- véges
+- determinisztikus
+    - véletlennek nincs szerepe
+    - determinisztikus egy lépés következménye
+- zéró összegű
+    - nyeremény megegyezik a veszteséggel
+    - nem nyerhet mindenki, stb.
+- csak ezekkel foglalkozunk
+    - de lehet ezeket továbbvinni a más játékokra is
+
+- Állapottér modellel lehet modellezni
+    - játéknak állapota + melyik játék jön
+    - művelet - lépés
+    - irányított gráf
+    - játékfává lehet alakítani
+        - egy lehetséges játszma egy ág
+        - szintjeiből lehet tudni, hogy ki jön
+
+
+- Grundy mama játéka
+    - x érme egy oszlopban
+    - nem egyenlő részre kell bontani
+    - akinek nem megy az veszít
+
+- Amikor az adott játékos jönn, akkor kell úgy lépni, hogy később biztosan nyerhessen
+- Játékfa egy részfája
+- Nyerő stratégia
+    - mindig jó lépés a győzelemig
+- Nem vesztő stratégia
+    - legalább döntetlenre visz
+
+- ÉS/VAGY fa élíthető egy adott játékosra nézve
+    - ellenfél lépésénél hiperél van az összes állapotba ahova léphet
+    - hiperutat kell keresni a győzelembe
+    - Általában csak az egyik játékosnak lehet nyerő stratégia
+        - az egyik játékosnak biztosan létezik nyerő stratégia
+            - alulról fölfelé lehet cimkézni
+            - ki fogja onnan meggnyerni
+            - a startban valakinek lesz cimkéje
+
+- Játékfa egy része kell csak, azt a részét egy jeurisztikával kiértékelik és meghatározzák a "jó" lépést
+- Pozitív csúcs nekem jó, negatív az ellenfélnek, ha nulla közeli akkor döntetlen
+- MINIMAX algoritmus
+    - Részfa leveleit kiértékeli
+    - Közbenső csúcsokra is kicsámolja
+        - nálunk MAX, ellenfél MIN
+        - ellenfélnek minnél kevesebbet akarunk
+        - magunknak minnél többet
+        - olyan irányba kell lépni ami nekünk a legjobb
+        - Minden lépésben új fát kell építeni, kiértékelni és felfuttatni
+- Átlagoló kiértékelés
+    - Heurisztika rossz is lehet adott pontban
+    - A környezetéhez hasonlítjuk és úgy lehet jobb felfuttatást kapunk
+- Váltakozó méylségű kiértékelés
+    - ahol el akarom vágni ott nyugalomban van-e
+    - A szülő állapottól nem sokat változott
+    - Ha sokat változott akkor még meg lehet nézni ott pár szintet
+- Szelektív kiértékelés
+    - lényeges és nem lényeges lépéseket szétválasztjuk
+    - addot idő alatt több csúcsot tudunk kiértékelni (ami fontos csúcs)
+- Negamax
+    - -1 -el beszorozzuk a min szinteket
+    - minden lépésben negálás és max keresés
+- Alfa-béte algoritmus
+    - visszalépéses keresés szerű
+    - mélységi bejárás
+    - egy út van csak a memóriában
+    - út mentén, max-nél alfa, min-nál béte
+        - alfa-nál rosszabb nem lehet
+        - béte-nál jobb nem lehet
+    - visszalépésnél hozza felfele az értékeket
+    - ideiglenes értékeket összehasonlítani a hozott értékkel
+    - vágás:
+        - két csúcsnál az alfa nagyobb egyenlő mint béta akkor a maradékot levághatjuk
+        - nem kell egymás fölött közvetlen legyenek
+    - ugyan azt állítja elő mint a minimax
+    - kevesebb memória kell
+    - futás idő jobb a vágások miatt
+
+- Algoritmus nem elég
+    - jó modell és jó heurisztika kell ahhoz, hogy tényleg jó legyenr
