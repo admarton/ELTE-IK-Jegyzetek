@@ -4,7 +4,7 @@ https://people.inf.elte.hu/branyi/ora/gyak2/
 https://branyi.hu
 
 ## Jegy
-- 2 * 2 * 45 prec (papíros, gépes)
+- 2 * 2 * 45 perc (papíros, gépes)
 - 4 jegy átlaga
 - mind min 2
 - 8 alkalom javítás - egy alkalom 2 zh-t lehet javítani
@@ -30,7 +30,7 @@ https://branyi.hu
 
 # Nevezés
 - Oracle nagybetűsít
-- LiteSQl nem foglalkozik ilyesmive
+- LiteSQl nem foglalkozik ilyesmivel
 - x név ≠ "x" név
 
 
@@ -120,11 +120,11 @@ SELECT DISTINCT OWNER FROM DBA_OBJECTS WHERE OBJECT_TYPE="INDEX" GROUP BY OWNER 
 -- Oszlopok tulajdonságai
 select * from dba_tab_columns;
 
--- Fordító eszköz - megadja az oszlopokat és a típúsaikat, meg hogy lehet-e null
+-- Fordító eszköz - megadja az oszlopokat és a típusaikat, meg hogy lehet-e null
 desc dual;
 ```
 
-- Ha olyan típust ad meg az ember ami nincs de ansi-ban van, akkor azt is feldolgozza
+- Ha olyan típust ad meg az ember, ami nincs de ansi-ban van, akkor azt is feldolgozza
     - smallint  -> number, 0 tizedes jegy
     - int       -> number, 0 tizedes jegy
     - float     -> float, 126 jegy
@@ -250,15 +250,15 @@ CREATE VIEW NÉV AS ALLEKÉRDEZÉS;
 - Adatbazis blokkok, fix méretek, itt vannak a konkrét adatok
 - Extets - részek, változó méretek
 - Segments - az adattábla, index, cluster
-- Tablespaces - táblaterk, az azonos célra használt tábláhat összecsoportosítja, ebben vannak a szegmensek, jogokat leht hozzárendelni
+- Tablespaces - táblaterek, az azonos célra használt táblákat összecsoportosítja, ebben vannak a szegmensek, jogokat leht hozzárendelni
 
 ## Adatbázis blokkok
 - Van blokk header
 - Vannak sorok
 - Közöttük van hely a növekedéshez 10% megmarad
 - Ha 40% felszabadul akkor lesz megint használható a felszabadítás után
-- `dba_data_files` és `dba_TEMP_file` listázza fájlokat ahol a blokok vannak
-- user verzió nencs mert oracle-ben nem tud saját táblateret csinálni
+- `dba_data_files` és `dba_TEMP_file` listázza fájlokat, ahol a blokok vannak
+- user verzió nincs, mert oracle-ben nem tud saját táblateret csinálni
 
 ## Szegmensek
 - `dba_segments` 
@@ -285,16 +285,16 @@ CREATE VIEW NÉV AS ALLEKÉRDEZÉS;
 - Egy tábla túl nagy akkor partícionált
 - Tábla részeit megmondhatjuk h melyik táblatérre
 - Fájlt nem lehet megmondani
-- Téblateret csak rendszergazda tud csinálni
+- Táblateret csak rendszergazda tud csinálni
 - Rendszergazda engedélyezhet adattárolást
-- Partíciókkal lehet optimalizálmi a lekérdezéseket
+- Partíciókkal lehet optimalizálni a lekérdezéseket
 - Alábbiakat lehet kombinálni
     - érték szerinti után hash-es
     - 3 érték bontás, azon belül 3 hash = 9 partíció
 - RANGE -> LESS THAN MAXVALUE
     - minden nagyobb kerüljön ide
 - LIST -> VALUES DEFAULT
-    - minden ami nincs egyik listában sem
+    - minden, ami nincs egyik listában sem
 
 ```SQL
 PARTITION BY RANGE (<COLUMN NAME>)
@@ -376,8 +376,8 @@ CREATE INDEX <NAME> ON CLUSTER <CLUSTER NAME>;
 CREATE CLUSTER <NAME> (<SHARED SPACE> <TYPE>) SIZE <x>K HASHKEY ...;
 
 ```
-- Minden táblából van egy elsődleges adat ami egy helyen van
-    - a többi megegyező is egy blokkba kerül de nem ugyan abban az adatban
+- Minden táblából van egy elsődleges adat, ami egy helyen van
+    - a többi megegyező is egy blokkba kerül, de nem ugyan abban az adatban
 - dba_clusters
 - melyik tábla van a clusterben
     - dba_tables -> cluster_name nem null

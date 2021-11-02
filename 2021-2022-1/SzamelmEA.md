@@ -1,4 +1,4 @@
-# SZámításelmélet EA 2021.09.08
+# Számításelmélet EA 2021.09.08
 
 ## Vizsga
 - Beugró: def, tét
@@ -29,26 +29,26 @@
     3. A → uB vagy A → u, A,B ∈ N, u ∈ T*
 
 - Nyelvek osztályozása  
-    A grammatika által generált nyelv osztálya megeggyezik a grammatika osztályával.
+    A grammatika által generált nyelv osztálya megegyezik a grammatika osztályával.
 
     L₃ ⊂ L₂ ⊂ L₁ ⊂ L₀
 
 - Formális nyelvek megadása  
     - Generatív grammatikával előállítható.
-    - Matematikai gépek, autómaták
+    - Matematikai gépek, automaták
     - Egyéb: felsorolás, regexp
 
-- Véges autómata
+- Véges automata
     - Input szalagról olvas, belső állapota változik
 
 - 3-as típusú nyelvek
     - 3-as t. grammatikák
-    - 3-as norm.f. grmmatikák
+    - 3-as norm.f. grammatikák
     - regexp
-    - determinisztikus, n.d. véges autómaták
+    - determinisztikus, n.d. véges automaták
 
-- Veremautómata
-    - input szallag + verem szerkezetű memória, belső állapota + verem változik
+- Veremautomata
+    - input szalag + verem szerkezetű memória, belső állapota + verem változik
     - egylépéses redukció
 
 ## Chomsky normálforma
@@ -63,7 +63,7 @@
     - Terminális helyett neki létrehozott nemterminális lesz
     - felvesszük az új nt-ből a terminálisba vezető szabályt
 3. Hosszredukció
-    - X -> Y₁Y₂...Yₖ, k ≥ 3 szabályt kelyettesítjük:
+    - X -> Y₁Y₂...Yₖ, k ≥ 3 szabályt helyettesítjük:
         - { X -> Y₁Z₁, Z₁->Y₂Z₂,...Zₖ-₁->Yₖ}
 4. ɛ-mentesítés
     - Uᵢ ⊆ N
@@ -92,7 +92,7 @@ p : X → Y₁...Yₘ ∈ P, |p| = m + 1
 - S → ɛ, S nem szerepel jobb oldalon
 - u → v, ahol u,v ∈ (T ∪ N)+ és |u|≤|v|
 
-**Tét.:** Minden hossz-nemszökkentő grammatika környezetfüggő nyelvet generál.
+**Tét.:** Minden hossz-nemcsökkentő grammatika környezetfüggő nyelvet generál.
 1. Álterminálisok bevezetése
     - A → a
 2. Környezetfüggő szabályokkal való helyettesítés
@@ -146,7 +146,7 @@ Lᵢ zárt a reguláris műveletekre.
 L₃ zárt a komplementer, metszet és különbségre is.
 
 **Tét.:**
-Eldönthető, hogy egy G₃ az üres nyelvet kenerálja-e.  
+Eldönthető, hogy egy G₃ az üres nyelvet generálja-e.  
 **Biz.:**
 Szélességi keresés.
 
@@ -157,7 +157,7 @@ Eldönthető, hogy két G₃ által generált nyelv diszjunkt-e.
 Eldönthető, hogy két G₃ ugyan azt a nyelvet generálja.
 
 **Tét.:**
-Eldönthető, hogy egy G₃ bővebb nyelvet generál-e mint a másik.
+Eldönthető, hogy egy G₃ bővebb nyelvet generál-e, mint a másik.
 
 ### Szóprobléma (membership problem)
 **Tét.:** G₃-nál lineáris időben eldönthető, hatékonyan.
@@ -165,11 +165,11 @@ Eldönthető, hogy egy G₃ bővebb nyelvet generál-e mint a másik.
 - H₀ := {S}
 - Hᵢ₊₁ := { A ∈ N | ∃B ∈ Hᵢ ∧ B → tᵢ₊₁A ∈ P}
 - Hᵢ az i. lépésben a szó végén álló terminálisok halmaza 
-- VDA-val autómatizálható a H-k kiszámítása
-- Ha a szavunk kisebb mint a grammatika jóval, akkor hatékonyabb a H-k kiszámolása mint a VDA elkészítés és futtatás.
+- VDA-val automatizálható a H-k kiszámítása
+- Ha a szavunk kisebb, mint a grammatika jóval, akkor hatékonyabb a H-k kiszámolása mint a VDA elkészítés és futtatás.
 
 
-**Áll.:** G₂ generálje-e a szót eldönthető.  
+**Áll.:** G₂ generálja-e a szót eldönthető.  
 CYK-algoritmus |G|*n³ lépésben eldönti, ahol n a szó hossza.
 
 ## CYK-algoritmus
@@ -211,7 +211,7 @@ CYK-algoritmus |G|*n³ lépésben eldönti, ahol n a szó hossza.
 
 ## 0-ás típusú grammatika esetén a szóprobléma algoritmikusan nem eldönthető
 - De van parciálisan eldöntő algoritmus
-- a pozitív eleteket felismeri
+- a pozitív elemeket felismeri
 - a negatívat nem biztos
 - gráfot lehet csinálni
 - ???
@@ -260,9 +260,9 @@ CYK-algoritmus |G|*n³ lépésben eldönti, ahol n a szó hossza.
 
 - Minden formulához lehet adni igazságtáblát
 - Interpretáció kielégít egy formulát ha felvesz igaz értéket
-- Kielégíthetó ha van olyan eterpretáció ami kielégíti
-- Tautologia ha minden interetáció kielégíti
-- tautologikusa nekvivalensek ha pontosan ugyanazok az interpretációk elégítik ki
+- Kielégíthető ha van olyan interpretáció ami kielégíti
+- Tautologia ha minden interpretáció kielégíti
+- tautologikusan ekvivalensek ha pontosan ugyanazok az interpretációk elégítik ki
 - ⊤ : tautológia, ⊥ : kielégíthetetlen
 - Szabályok:
     1. ¬¬a = a
@@ -283,24 +283,24 @@ CYK-algoritmus |G|*n³ lépésben eldönti, ahol n a szó hossza.
 
 - **Tételek**
     - a kielégíthetetlen, ha ¬a ~₀ ⊤
-    - F ⊧(\models)₀ a akkor és csak akkor ha F∪{¬a} kilégíthetetlen
+    - F ⊧(\models)₀ a akkor és csak akkor ha F∪{¬a} kielégíthetetlen
 
 - Literál : x és ¬x
-- Elemi diszjunkció (klóz) : a₁ ∨ ... ∨ aₙ, aᵢ-k kölönböző literálok
+- Elemi diszjunkció (klóz) : a₁ ∨ ... ∨ aₙ, aᵢ-k különböző literálok
 - Konjunktív normálforma (KNF) : k₁ ∧ ... ∧ kₙ ahol kᵢ klóz
 - Elemi konjunkció : hasonlóan
 - Diszjunktív normálforma (DNF) : hasonlóan 
 
 - Ítéletkalkulusbeli formulához megadható vele ekviv. DNF
     - Az igazságtábla igaz sorai adják hogy mi kell bele
-- Ítéletkalkulusbeli formulához megadható vele tautológikusan ekviv. KNF
+- Ítéletkalkulusbeli formulához megadható vele tautologikusan ekviv. KNF
     - A hamis sorok negáltjai kellenek
     1. implikáció eliminálás
-    2. negációs operátorok csak ítéletváltozólk előtt legyenek
+    2. negációs operátorok csak ítéletváltozók előtt legyenek
     3. disztributív szabályokkal 2 szintűvé lapítjuk
 
 - Rezolvens
-    - 1 komplemens literálpárt tartalmaz klózoknak lehet rezolvense kivesszük  belőlük a komplemens literálpárt és összevagyoljuk 
+    - 1 komplemens literálpárt tartalmaz klózoknak lehet rezolvense kivesszük belőlük a komplemens literálpárt és összevagyoljuk 
     (x ∨ y, ¬y ∨ z) = x ∨ z
 
 # EA 4 2021.09.29
@@ -364,12 +364,12 @@ S = {y ∨ z, ¬x ∨ W ∨ ¬z, y ∨ ¬z ∨ ¬w, x ∨ z}
 - |q(f(y,y),x)|^(I,κ) = h : y=3, x=2
 
 ### Szabad és kötött előfordulás
-- Kötött: ∃xϕ -> x zárt előfordulés
+- Kötött: ∃xϕ -> x zárt előfordulás
 - Szabad: különben
 - Ha ϕ minden változója kötött akkor zárt
 
 ### Szemantikus fogalmak
-- Kiélégíthető, kielégíthetetlen
+- Kielégíthető, kielégíthetetlen
 - Logikailag igaz(érvényes) ha minden kielégíti
 - Logikai ekvivalens
 - ...
@@ -406,7 +406,7 @@ S = {y ∨ z, ¬x ∨ W ∨ ¬z, y ∨ ¬z ∨ ¬w, x ∨ z}
 
 ## Algoritmikus megoldás
 - Véges utasítással megoldja a problémát minden inputra
-- Eldöntés algoritmusnaál
+- Eldöntés algoritmusnál
     - nem eredménynél nem mindig terminál akkor parciális algoritmus
 - Kurt Göbel - rekurzív függvényi
 - Alonso Church - λ kalkulus
@@ -419,7 +419,7 @@ S = {y ∨ z, ¬x ∨ W ∨ ¬z, y ∨ ¬z ∨ ¬w, x ∨ z}
 
 ## Turing gép
 M = < Q, ∑, Γ, δ, q₀, qᵢ, qₙ >
-- Q - állaptotok halmaza
+- Q - állapotok halmaza
 - q_0 kezdő, q_i elfogadó, q_n elutasító állapot
 - ∑,Γ - ábécé
 
@@ -434,20 +434,20 @@ uqv szó
 - q₀u⎵
 
 ### Számolás
-- Konfigiráció átmenet
+- Konfiguráció átmenet
 - uqav konfig van
     - δ(q,a) = (r, b, R), akkor uqav |- ubrv'
     - δ(q,a) = (r, b, S), akkor uqav |- urbv
     - δ(q,a) = (r, b, L), akkor uqav |- u'rcbv
-- Többlépéses konfig. átmeneet
+- Többlépéses konfig. átmenet
     - az egy lépéses tranz. szim. lezártja
     - |-* 
 
 ## TG által felismert nyelv
-- Azoka a szavak a mikból a kezdő konfiguráscióból többlépéses konfig. átmenettel elfogadó állapotba jutunk.
+- Azokat a szavak, amikből a kezdő konfigurációból többlépéses konfig. átmenettel elfogadó állapotba jutunk.
 - Felismert nyelvben az input ábécé szavai vannak, nem a szalagábécé
 - L nyelv Tring-felismerhető
-- L nyelv eldönthető ha van hozzá TG ami minden bemenetre megállási konfigurációba jut - el tudja dönteni, hogy benne van-e a nyelvben minden inputra
+- L nyelv eldönthető, ha van hozzá TG ami minden bemenetre megállási konfigurációba jut - el tudja dönteni, hogy benne van-e a nyelvben minden inputra
 
 ## RE éd R
 - RE Rekurzívan felsorolható - létezik Turing gép
@@ -460,16 +460,16 @@ uqv szó
 - u szóra t, ha M TG u-ból t-lépésben megállási konfigurációba lép
 - ha nincs ilyen t, akkor végtelen
 
-- f(n) időkorlátos gép, ha minden szóra mex f(n) lépésben végez
+- f(n) időkorlátos gép, ha minden szóra max f(n) lépésben végez
     - elég egy jó aszimptotikus felső korlát
 
 ## K-szalagos Turing Gép
 - Több szalagról is olvas
 - Konfigurációjában összes szalagon lévő fej és szöveg
 - kezdetben az első szalagon van az input, a többi üres
-- egy lépses konf. átmenet
+- egy lépéses konf. átmenet
     - Minden szalagra megtörténik az adott szabálynak megfelelő lépés
-    - NEm kell ugyan abba az irányba mozduljanak a fejek
+    - Nem kell ugyan abba az irányba mozduljanak a fejek
 - ami több szalagosan megy az egy szalagossal is
     - egy szalagra felvesszük az összes tartalmat egymás után elválasztó karakterrel
     - külön szimbólummal jelöli h hol lenne a többi fej
@@ -482,8 +482,8 @@ uqv szó
 - egy állapothoz valahány állapotot rendelünk
     - ilyenkor választani kell majd
 - Nemdeterminisztikus számítási fa
-- Eldönti ha a számítási fa véges és minden levele elfogadó vagy elutasító
-- f(n) időkorlátos ha n hosszú szóta f(n) magas max a fa
+- Eldönti, ha a számítási fa véges és minden levele elfogadó vagy elutasító
+- f(n) időkorlátos, ha n hosszú szóta f(n) magas max a fa
 
 # EA 6 2021.10.13
 
@@ -491,7 +491,7 @@ uqv szó
 - szavak rendezése
 
 ## Nemdeterminisztikus TG
-- szimulálható detereminisztikus TG-vel
+- szimulálható determinisztikus TG-vel
 - exponenciális teljesítmény romlással
 - számítás szelectora
     - gyökér - üres szó
@@ -567,7 +567,7 @@ uqv szó
 ## Post Megfeledkezési Probléma
 - **Def:** Σ egy ábécé, u_1..u_n, v_1..v_n ∈ Σ⁺ (n ≥ 1)
 - A D={u_1/v_1,..,u_n/v_n} halmazt **dominókészletnek** nevezzük.
-- Egy dominósorozat megoldása egy készletnek ha alul és felül ugyan az a szó van
+- Egy dominósorozat megoldása egy készletnek, ha alul és felül ugyan az a szó van
 - Megoldások véges hosszú sorozatok
 - pl: (a/ab),(bc/ca),(aa/a) egy megoldás
 

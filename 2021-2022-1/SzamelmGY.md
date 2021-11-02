@@ -614,13 +614,13 @@ ZH-ig teamsen
 - online nem kell papír
 - zh közben is lehet kérdezni
 - első 5 gyak anyaga
-- CNF, CYK, Veremautómata, Nulladrandű logika
+- CNF, CYK, Veremautómata, Nulladrendű logika
 
 ## Logika
 
 #### Feladat 
 - Lássuk be: ¬(x ∨ (y ∧ (z → x))) ~₀ ¬x ∧ (y → z)
-- Tautológikusan ekviv.
+- Tautologikusan ekviv.
 - Jó szabály: implikáció, negáció bevitel, disztribúció
 - ~₀ ¬(x ∨ (y ∧ (¬z ∨ x)))
 - ~₀ ¬x ∧ ¬(y ∧ (¬z ∨ x))
@@ -712,7 +712,7 @@ Igazold, hogy {A1, A2, A3} következménye B
 | h | h | h |   |     i     |   h    |   i   |   | h |
 
 - Rezolúció
-    - A következmény tagadását hozzávesszük az előzményekhet
+    - A következmény tagadását hozzávesszük az előzményeket
     - Normálformára hozás
     - És-enként szét lehet szedni
 
@@ -748,13 +748,13 @@ S = {(¬P ∨ H), (¬P ∨ K), K ∨ H , ¬K ∨ P , ¬H}
 - Termek
     - Term ami Ind vagy Cnst vagy Func ami neki megfelelő számú Term argumentummal van ellátva
 - Elsőrendű formula
-    - Pred kell a formulához, zárojelébe termeket teszek
+    - Pred kell a formulához, zárójelébe termeket teszek
     - **atomi formula** : pred amiben termek vannak 
     - kvantor hatásköre a teljes formulára kihat akkor fő logikai összekötő -> kvantált formula
 - Precedencia:
     - ∀,∃,¬,∧,∨,→
 - Szerkezeti fa
-    - Fölogikai összekötönál lehet vágni
+    - Főlogikai összekötönél lehet vágni
     - ∀xϕ -> közvetlen ... -> ϕ
     - ¬∀x(P(x,y)) → q(x) ∨ ∃xq(x)
         - ¬∀x(P(x,y))
@@ -806,11 +806,11 @@ S = {(¬P ∨ H), (¬P ∨ K), K ∨ H , ¬K ∨ P , ¬H}
 
 - Ind vált. előfordulása
     - Többször is előfordulhat, de attól még egy marad
-    - Kötött a változó  ha minden előfordulása kötött
-    - Kötött az előfordulás ha kvantor hatáskörben van
+    - Kötött a változó, ha minden előfordulása kötött
+    - Kötött az előfordulás, ha kvantor hatáskörben van
     - Ha minden változó kötött akkor Zárt
     - Különben nyitott
-    - Paraméter ha van nyitott előfordulása
+    - Paraméter, ha van nyitott előfordulása
     - Ha zárt a formula akkor a kiértékelése nem függ a változókiértékeléstől
 
 - Prímformula ha atomi vagy kvantált
@@ -837,13 +837,13 @@ Prímkomponenses felírás
 Nulladrendű lesz
 ```
 
-- Kielégíthető ha van Interpretáció ami kielégíti
+- Kielégíthető, ha van Interpretáció ami kielégíti
 - Logikailag igaz ha minden I kielégíti : **⊧ ϕ**
-- Logikailag ekvivalens ha ugyn az az interpretáció elégíti ki
-- Logikai következmény ha az I amire a halmaz i, arra a formula is i
+- Logikailag ekvivalens, ha ugyn az az interpretáció elégíti ki
+- Logikai következmény, ha az I amire a halmaz i, arra a formula is i
 - Quine-táblázat - igazságtábla a prímkomponenses felírásra
-- Tautológikusan igaz ha a Quine-táblázatban van csupa i-s sor : **⊧₀ ϕ**
-- Tautológikus erősebb mint a logikai
+- Tautologikusan igaz ha a Quine-táblázatban van csupa i-s sor : **⊧₀ ϕ**
+- Tautologikus erősebb, mint a logikai
 
 - Értéktábla
     - Ítélettáblához hasonlít

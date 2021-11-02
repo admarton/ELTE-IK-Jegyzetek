@@ -61,7 +61,7 @@ Egymásra várnak a tranzakciók.
 ### Tranzakció érvényesítés
 
 ### Ütemező
-Végrahajtás sorrendjét adja meg.
+Végrehajtás sorrendjét adja meg.
 
 ### Szerializálhatóság
 Ekvivalens tranzakciók egymás utáni végrehajtása.
@@ -310,7 +310,7 @@ WHERE starName IN (
 
 ## Heurisztikus elvek
 1. Minél hamarabb szelektáljuk
-2. Összekapcsolások jobbak mint a szorzások
+2. Összekapcsolások jobbak, mint a szorzások
 3. Unáris műveletek összevonása
 4. Keressünk közös rész kifejezéseket
 
@@ -364,7 +364,7 @@ WHERE starName IN (
 
 ## Miért jó?
 - Ez egy általános módszer
-- Mi lehet tudunk speckó infókat amivel jobb végrehajtást tudunk adni
+- Mi lehet tudunk speckó infókat amivel, jobb végrehajtást tudunk adni
 - Ha megértettük, akkor lehet javítani
 
 ## Indexelés
@@ -378,7 +378,7 @@ WHERE starName IN (
     - statikus (ritkán módosul, komplex lekérdezések) - pl.: adattárház
     - dinamikus (sok módosítás, egyszerű lekérdezések) - pl.: bank felhasználói rendszere
 - Hogyan mérjük költségeket?
-- Memória műveletek gyorsabbak mint a háttértár műveletek
+- Memória műveletek gyorsabbak, mint a háttértár műveletek
 - Blokkokat ír,olvas, blokkokban számolunk
     - Írnia kell az eszköz dobozán a blokk sebességet, azzal kell felszorozni az aktuális hardveren
     - blokkméretet fixnek tekintjük (pl OP rendszer is meghatároz, író/olvasó fej is meghatároz ilyet, adatbázis is meghatároz)
@@ -471,7 +471,7 @@ WHERE starName IN (
 - blokkláncok egyforma hosszúak legyenek, blokklánc B/K blokkból álljon
 - Keresés A=a:
     - Túl nagy K sem segít
-    - Túl kicsi sem biztos hogy jó
+    - Túl kicsi sem biztos, hogy jó
 - Beszúrás
     - Blokk telítődik, akkor hozzáláncol egy újat
 - Módosítás:
@@ -518,7 +518,7 @@ WHERE starName IN (
 - Blokkos keresés
     - Beolvassa a középső blokkot
     - Bináris keresés
-    - Vagy az adott blokkban van, vagy el tudjuk dönteni hogy melyik felében van az érték a maradék résznek
+    - Vagy az adott blokkban van, vagy el tudjuk dönteni, hogy melyik felében van az érték a maradék résznek
 - Keresési idő: **log₂(B)** // B = blokkok száma
 - Beszúrás
     - Hova kell beszúrni
@@ -530,7 +530,7 @@ WHERE starName IN (
         - pl a felét üresen hagyjuk
             - 2× akkora hely
             - Keresés: log₂(2*B) = **1 + log₂(B)**
-            - Ha betelik akkor újrarendezés
+            - Ha betelik akkor újra rendezés
 
     - Túlcsordulási blokkok
         - Keresés több helyen
@@ -540,12 +540,12 @@ WHERE starName IN (
             - \+ a rendezetlen rész
             - **log₂(B) + K**
             - K minél kisebb kell legyen
-                - Ha nagy a K akkor újrarendezés
+                - Ha nagy a K akkor újra rendezés
                     - B*log₂(B)
 - Törlés
     - Keresés
     - \+ törlés bit átállítása
-    - Sok törölt esetén újrarendezés
+    - Sok törölt esetén újra rendezés
 
 - Akkor jó ha inkább keresünk
 - Több mezőre keresés
@@ -570,7 +570,7 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
 - Statisztikák
     - egy oszlopban hány féle érték stb.
 
-### Elsődleges index - Primari
+### Elsődleges index - Primary
 - Arra a mezőre amire rendezve van a fájl
 - Csak egy mezőre lehet
 - Csak egy lehet
@@ -609,7 +609,7 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
 - Nem foglalkozunk és felvesszük többször
     - Mindet ki kell szedni
 - Ritka indexxel nem túl hatékony mert több irányba is lehet, hogy kell keresni
-    - Javítás ha az első előfordulást tároljuk el
+    - Javítás, ha az első előfordulást tároljuk el
     - Összeláncoljuk a blokkokat
 - Közös index, de több mutató hozzá
     - Nem fix hosszú rekordok
@@ -657,7 +657,7 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
     - n index érték
     - az index értékek intervallumokat jelentenek
 - Fa magassága blokk művelet
-- Beszúrásnál ha nincs hely akkor karbantartás
+- Beszúrásnál, ha nincs hely akkor karbantartás
     - Ha nincs hely akkor kettéválasztja a blokkot és beszúrja
         - Egy szinttel feljebb is be kell kötni az új blokkot
         - Tovább gyűrűzhet
@@ -670,8 +670,8 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
 # EA 5 2021.10.05
 
 ## Optimalizálás
-- Több féle végrehajtás
-    - szevenciális, index alapú keresés
+- Többféle végrehajtás
+    - szekvenciális, index alapú keresés
     - Primari key-ből egy van
 π_name(σ_cours=AdvancedDBs((student |X|_cid takes) |X|_courseid course))
     - költségeket alulról számoljuk
@@ -681,7 +681,7 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
     - az utolsó a végeredmény
     - Teljes költség:
         - ∑_i=1..n K_i + O_n
-- Optimalizáscónál
+- Optimalizációnál
     - K költségek közül választunk
     - a legkisebb költségűt választjuk
     - nem számolja ki az összeset és keresi a legjobbat
@@ -693,10 +693,10 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
 - Hálózati kommunikáció (nem számolunk vele)
 - Idő, költség és méret becslés
 - SQL developerben meg lehet nézni
-    - később lehet megtanuljuk hogy a felhasználó is befolyásolhatja
+    - később lehet megtanuljuk, hogy a felhasználó is befolyásolhatja
 - Műveletek
     - σ, π, ∪, -, x, |X|, ∩
-- Költésgek
+- Költségek
     - N_R: Rekordok szám (Eddig T_R)
     - L_R: Rekordok mérete (eddig I_R)
     - F_R: blokkolási tényevő (eddig bf_R)
@@ -717,7 +717,7 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
     - átlagos költség:
         - m további lapot kell beolvasni
         - m = ⌈SC(A,R)/F_R⌉ -1
-    - (inkábbb attól függ hogy hány találat van)
+    - (inkább attól függ hogy hány találat van)
 - Elsődleges/cluster index
     - átlagos: 
         - egy: HT_i + 1
@@ -734,7 +734,7 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
     - egyik feltételre az egyszerű költség
         - a találatokra megy a többi ellenőrzés
         - a leggyorsabb indexet kell kiválasztani
-    - Több index és találtaok metszete
+    - Több index és találatok metszete
 - diszjunkciós kiválasztás
     - indexek nem gyorsítanak
     - szekvenciális keresés és ellenőrzés
@@ -758,8 +758,8 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
 - Rendezésekre visszavezetve
 - Ha minden befér a memóriába akkor ott rendezünk és kiírjuk : 2*B_R
 - Ha nem fér be akkor bonyolultabb, rendezett részek
-    - futamokat kőpzönk
-    - bolvasunk annyit ami befér a memóriába és lerendezzük
+    - futamokat képzünk
+    - beolvasunk annyit ami befér a memóriába és lerendezzük
     - kiírjuk
     - rendezett részeket összefésüléssel hosszabbakat csinálunk
     - Rendezett futam: 2*B_R
@@ -793,8 +793,8 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
 - sorok: N_R
 - blokk: B_R
         
-## Öaazekapcsolások
-- Nested-loop join - Skatulyásott ciklusos
+## Összekapcsolások
+- Nested-loop join - Skatulyázott ciklusos
     - B_R + B_S
     - ha csak egy blokk fér a memóriába
     - R minden sorához végig kell olvasni a másik táblát
@@ -820,7 +820,7 @@ vége
 ```
 - Index nested join - Inexelt skatulyázott
     - jobb a klaszter index
-    - külsőn végigmegyünk és index alapján keresünk hozzá értéket
+    - külsőn végig megyünk és index alapján keresünk hozzá értéket
     - B_R + N_R * c
         - c kiválasztási költség
     - Kisebb tábla legyen a külső
@@ -859,34 +859,34 @@ vége
 - Összekapcsolások nagyon gyakoriak
 - Kommutatív asszociatív, sorrendjük nem számít, de költségben lehet különbség
 - Összekapcsolások végrehajtási fában ábrázolható
-- Rendezéseshez negy memória kell + lehet rendezni kell a táblát
+- Rendezéseshez nagy memória kell + lehet rendezni kell a táblát
 - Zárójelezéssel mindig csak két táblát kapcsolunk össze
 - Direkt szorzat nem jó nekünk, sok elem lesz
 - Hány zárójelezés van?
     - T(1) = 1
     - T(n) = \sum T(i)T(n-1), T(6) = 42
-    - n tánblára
+    - n táblára
     - lehetne a sorrendet is változtatni, permutáció
-    - 6 táblaánál - 42*6!
+    - 6 táblánál - 42*6!
 - Csak speciális zárójelezéseket néz
     - Left-deep tree
     - Bushy tree
-    - Valaminek az újrafelhasználása
+    - Valaminek az újra felhasználása
     - Csak a kb legjobbat keressük heurisztikával
         - pl 4 tábla legjobbját megkeressük és ahhoz hozzáveszük a következőt
             - ez nem mindig a legjobb, de általában elég jó
 - Selinger Algoritmus
     - Mindig a legkisebbet nézi
     - melyik a legkisebb tábla
-    - melyik a legkisebb két táblás amiben a legkisebb tábla benne van
-    - melyik a legkisebb három táblás összekapcsolás amiben a legkisebb kettes benne van
+    - melyik a legkisebb két táblás, amiben a legkisebb tábla benne van
+    - melyik a legkisebb három táblás összekapcsolás, amiben a legkisebb kettes benne van
     - így tovább addig amennyi kell
 
 - Három tábla, kettőre van klaszterindex
     - Stratégiák
         1. balról jobbra
         2. balról jobbra, eredmény a memóriában marad
-        3. középső táblához kapcsoljuk a szépsőket
+        3. középső táblához kapcsoljuk a szélsőket
     - Feltételezések
         - ugyan annyi soruk van : T
         - ugyan annyi memóriát  : B
@@ -900,13 +900,13 @@ vége
 ## Oracle SQL Tuning
 - Régen volt szabály alapú optimalizálások, heurisztikákkal
     - Nem volt olyan jó mint a mostani Költség alapú optimalizálás
-- Egyet könnyebb megtalűlni: First_rows_n(1, 10, 100, 1000), All_rows
+- Egyet könnyebb megtalálni: First_rows_n(1, 10, 100, 1000), All_rows
 - Session szinten ehet állítani
 - Adatnak van cím része - (melyik tábla, melyik blokk, melyik sor)
 - Blokkokban tárolódik, üres helyek vannak
 - Index is egy fájl, blokkokban
 - Lemezről blokkok beolvasása az SGA-ba (puffer memória, gyorsítótár)
-- SGA-ból vannak végrahajtva a műveletek
+- SGA-ból vannak végrehajtva a műveletek
 - `Explain plan for <SQL utasítás>`
 - Oracle esetek
     - Egyetlen tábla, nincs index 
@@ -921,15 +921,15 @@ vége
     - Egy tábla, index
         - van unique index -> INDEX unique scan _index_
         - nincs unique -> INDEX range scan _index_
-        - unique index de egyenlőtlenség -> INDEX range scan _inde_
+        - unique index, de egyenlőtlenség -> INDEX range scan _inde_
         - összetett index - ha több feltétel van akkor jó lehet
-            - ha nem az összes részére szűrünk akkor is jobb mint a semmi
+            - ha nem az összes részére szűrünk akkor is jobb, mint a semmi
         - több index is van - az egyedire szűrtet használja
         - van amikor több stratégiát vesz és összehasonlítja
-            - számít hogy milyen távol van egymástól a több megeggyező
+            - számít, hogy milyen távol van egymástól a több megegyező
         - több indexnél a mutatókat össze kell metszeni, mindkét indexet használja -> AND-EQUAL
         - count(*) -> INDEX fast full scan _index_ - a sűrű indexben benne van a count
-    - Összekapcsolás, skatulyata
+    - Összekapcsolás, skatulya
         - NESTED LOOPS és két TABLE ACCESS ful
         - Ha van feltétel
         - MERGE JOIN; SORT join; full access...
@@ -942,7 +942,7 @@ vége
         - or pointerek uniója -> CONCATENATE
         - metszet -> INTERSECT
         - minus -> MINUS, SORT
-- Konkrét értékek lekérdezhetőel
+- Konkrét értékek lekérdezhetőek
 - Beágyazott megjegyzések
     - SELECT /* +<tipp> */
     - tippek
@@ -977,7 +977,7 @@ vége
 - Több tranzakció között van probléma
 - Vagy ha tranzakció közben elromlik valami
 - **Konzisztencia**
-    - Adott feltételek amkinek meg kell felelnie
+    - Adott feltételek amiknek meg kell felelnie
     - Kulcs, FF(funkcionális függ), érték megszorítások
     - Adatstruktúrák karban tartása, pl indexek
     - Több rekordra szóló megszorítások (az átlag kétszeresénél nem lehet több egyik érték sem)
@@ -1002,7 +1002,7 @@ vége
 - Vissza kell állítani az előző konzisztens állapotba
 
 ## Naplózási és helyreállítási modul
-- Biztosítja, hogy az adabázisban mindig helyes állapot legyen
+- Biztosítja, hogy az adatbázisban mindig helyes állapot legyen
 - Mit tároljunk el, hogy vissza lehessen állítani
 - Atomiságot biztosítja
 - Tartósságot is
@@ -1020,27 +1020,27 @@ vége
 - Onnantól kezdve másoknak is elérhető
 
 ## ACID
-- Atomosság - vagy teljesen vagy semmennyire legyen végrehajtva
+- Atomosság - vagy teljesen vagy semennyire legyen végrehajtva
 - Konzisztencia - konzisztensből konzisztensbe
 - Elkülönítés (isolation) - minden tranzakció úgy fut mintha csak ő használná
 - Tartósság ()
 
 ## Commit és Rollback
-- Trigger típúsu műveletek miatt
+- Trigger típusú műveletek miatt
     - sima adatművelet is tranzakciószerű lesz
 
 ## Tranzakció feldolgozása
 1. Naplózás
     - Nem ír ki a lemezre 
-    - Pufferba ír, oda gyújti azt ami kell neki
+    - Pufferbe ír, oda gyűjti azt, ami kell neki
     - Majd eldönti az adatbázis, hogy mikor lesz kiírva
 2. Konkurenciavezérlés
     - Több tranzakció az több művelet sorozat
     - Össze lehet fésülni őket, megfelelő sorrendbe
-    - Ütemezőnek az  összefésülések közül ki kell választani a jó ütemezéseket - legjobbat
+    - Ütemezőnek az összefésülések közül ki kell választani a jó ütemezéseket - legjobbat
     - Egymás utáni végrehajtás biztos jó lenne
         - de lehet ennél jobbat csinálni
-        - gyorsabbat, másodiknak ne kelljen olyan sokat várni, stb..
+        - gyorsabbat, másodiknak ne kelljen olyan sokat várni, stb...
     - Megoldások
         1. Zárak - tiltanak hozzáférést, zártábla
 3. Holtpont
@@ -1063,21 +1063,21 @@ vége
     - Megszakadt futás
 - Lemezhiba
 - Rossz adatbevitel
-    - Tartalmi hiba: nehéz észleleni
+    - Tartalmi hiba: nehéz észlelni
     - Formai hiba
-    - Triggerekkel ha több minden kell autómatikusan
+    - Triggerekkel ha több minden kell automatikusan
 - Készülékhiba
     - Kis hiba: több bit sérül, paritás ellenőrzés, helyi javítás
     - Nagy hiba: jelentős sérülés, vannak megoldások
         1. RAID
             - elveszett lemez adatai visszaállíthatóak
         2. Archiválás
-            - menet közbeni archiválás nem biztos hogy jó állapotot tárolna el
+            - menet közbeni archiválás nem biztos, hogy jó állapotot tárolna el
             - napló segíthet
         3. Osztott másolat
             - költséges szinkronizálás
             - szinkronizálás közben is lehet probléma
-- Katasztrófális hibák
+- Katasztrofális hibák
 - Rendszerhibák
 
 ## Naplózás
@@ -1094,7 +1094,7 @@ vége
 - Bármi lehet, rekord, táblarész
 
 ## Adatműveletek
-- INPUT(X) - lemez beolvasás, X-et a pufferba 
+- INPUT(X) - lemez beolvasás, X-et a pufferbe
 - OUTPUT(X) - lemezre kiírás
 - READ(X,t) - pufferből olvasás, X-et a t tranzakcióba  olvassa
 - WRITE(X,t) - pufferbe ír
@@ -1119,3 +1119,104 @@ vége
 - Új érték van benn
 ## Kombinált Naplózás (Undo-Redo)
 - Előző kettő kombináltja
+
+
+# EA 8 2021.11.02
+
+## Vizsga
+- Írásbeli
+- Weboldalon
+- Elméleti anyag 
+- Jelenléti formában
+- Keddi napok lesznek vizsganapok
+- 8:15-10:00
+
+## Naplózás
+
+### Undo log (Semmiségi naplózás)
+- Régi értéket naplózzuk
+- Azonnali kiírás, ne vesszen el a naplózás
+- Ha minden rendben akkor commit üzenet a naplóba 
+    - Itt a commit azt jelenti, hogy a tranzakció véget ért és minden változtatás a lemezre is került
+    - Csak akkor, ha tényleg minden rendben van
+- Undo naplózás szabályai:
+    - U1. (T, X, régi érték) kerül a naplóban, hamarabb, mint hogy módosulna
+    - U2. COMMIT csak, akkor, ha minden módosítás bekerült az adatbázisba
+- Sorrend
+    1. Változás naplója
+    2. Változás
+    3. COMMIT
+- Helyreállítás
+    - Olyan tranzakciókat amiknek nincs COMMIT vagy ABORT bejegyzése
+    - Végig kell menni a bejegyzésein és be kell állítani a régi értékeket
+- Ellenőrző pontok képzése
+    - Ellenőrző pont előtti részt el lehet dobni
+    - Checkpoint megállítással
+        - Megállítjuk a rendszert
+        - Ha minden rendben volt addig akkor az előtte lévő részt már nem kell napló visszaállításnál vizsgálni
+        - Indítjuk a rendszert
+        - Utána csak a CHECKPOINT-ig kell visszamenni a helyreállításnál
+    - Checkpoint megállítás nélkül
+        - Hosszú idő lenne a folyamatok leállítása
+        - Aktív tranzakciókat figyelembe véve készít checkpointot
+        - < START CKPT(T1,..,Tk) > napló bejegyzés ha T1,..,Tk befejeződött
+        - Közben indulhatnak újak
+        - < END CKPT > a vége
+        - Köztes rész a "piszkos" rész
+
+### Redo logging (Helyrehozó naplózás)
+- Az új értéket naplózzuk
+- commit:
+    - tranzakciós lépések a start és a commit között vannak
+    - írások a commit után lehetnek csak
+- end:
+    - az írás is megtörtént
+- szabályok
+    - R1. Naplóbejegyzés módosítás előtt, commit után írások
+- Ha nincs end csak commit 
+    - újra ki kell írni az adatokat
+    - commit előtti lépések újra végrehajthatóak
+- Ha nincs commit
+    - nem voltak írások
+    - nem probléma
+    - abort-áljuk
+- Módosított redo napló
+    - nincs end
+    - commit-ot látunk, mindig végrehajtjuk
+    - vizsgálat nélkül fut minden
+    - abort-al is jelezhetjük a commit-ig nem eljutó tranzakciókat
+- Különbség UNDO-val
+    - commit mást jelent
+
+- Ellenőrzőpont
+    - < START CKPT(T2,..,Tk) > ha T2,..,Tk előttiek már befejeződtek(commit)
+    - T2,..,Tk előtti tranzakciók módosításait kiírjuk
+    - < END CKPT > -ig kell csak visszamenni
+        - ha van end akkor előtte lezárt tranzakciók már kiíródtak
+    
+### Undo/Redo log (Semmiségi/helyrehozó naplózás)
+- Későbbi jó állapotba lehet hozni
+- Hátrányok
+    - Undo-nál nagy az log mérete
+    - Redo-nál buffereket kellett üríteni
+- Megoldás:
+    - < T,X,v,w > - v régi, w új érték
+    - Bárhol lehet a COMMIT
+        - Ha nem volt Commit -> Undo visszaállítás
+        - Ha volt -> Redo visszaállítás
+        - Mettől meddig tart a tranzakció
+- Szabály:
+    - UR1: naplóbejegyzés hamarabb legyen kiírva, mint a módosítása
+    - WAL: Write After Log elv
+- Nagyobb napló: több adat benne
+- Helyreállítás:
+    - UR2: A commit minél hamarabb kikerüljön a lemezre
+        - későbbi állapotra állítás valószínűsége nagyobb
+- Checkpoint
+    - Összes piszkos puffert kiírjuk
+    - Ha ki van írja akkor END CKPT
+    - Startig kell visszamenni
+    - Akinek volt COMMIT azt kiírjuk
+    - Akinek nem azt visszaállítjuk
+    - Visszaállításnál kevesebbet kell újra végrehajtani
+    

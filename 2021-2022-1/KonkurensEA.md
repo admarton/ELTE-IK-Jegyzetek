@@ -19,12 +19,12 @@ Alkalmazás több független részből áll össze.
 - A processzorok váltogatnak a folyamatok között
 - Mindegyiket csak kis ideig futnak
 - Párhuzamosság látszata
-- Ütememző
+- Ütemező
 - A folyamatok ne tartsák fel egymást
 
 ## Párhuzamosság
 - Végrahajtási szálak (thread)
-- JVM szálakkal fogakozunk
+- JVM szálakkal foglalkozunk
 - Shaered memory model
 
 ## Szálak a Javában
@@ -35,14 +35,14 @@ Alkalmazás több független részből áll össze.
 - Nemdeterminisztikusság
 - Nehéz/lehetetlen átlátni
 - Kezelendő
-    - ütememzés
+    - ütemezés
     - interferencia - önállóan jók, de együtt összeakadnak
     - szinkronizáció
     - kommunikáció
 - Probléma: tesztelés, reprodukálhatóság
 
 ## Végrehajtási szálak létrehozása
-- Főprogram egy végrahajtási szál
+- Főprogram egy végrehajtási szál
 - Továbbiak létrehozhatóak
 - A Thread osztály példányosítható
 - Az objektum start() metóduasival indítjuk a szálat
@@ -74,7 +74,7 @@ class Main {
 - Ütemezéstől függ
 - A nyelv nem tesz az ütemezőre megkötést
 - Különböző platformokon máshogy működhetnek
-- A VM meghatározhatja a stratégiát de azon belül is sok lehetőség van
+- A VM meghatározhatja a stratégiát, de azon belül is sok lehetőség van
 - Sok mindentől függ (pl.: milyen meleg van)
 
 ## Ütemezési stratégia
@@ -168,7 +168,7 @@ public void sort ( int[] data ) throws InterruptedException {
     - pl sleep()-el egy ideig vár
     - pl IO várakozás, java.io blokkolt io rendszer
     - Futtathatóba juthat
-- Vannak létező de depricated műveletek
+- Vannak létező, de depricated műveletek
     - stop() -> Véget ért állapotba viszi mindig, 
         - kinyírja akármit is csinál, 
         - blokkolt erőforrást nem tud felszabadítani
@@ -279,11 +279,11 @@ class MyAnim extends ... implements Runnable {
 ```
 
 ## Szinkronizált blokkok
-- Nem csak metódus de utasítás is lehet szinkronizált
+- Nem csak metódus, de utasítás is lehet szinkronizált
     - csak kisebb része kritikus
     - felesleges várakoztatás lenne a többi
     - elég csak a kritikus részt bezárni
-- blokk utasításnal van ilyen extra verziója
+- blokk utasításnál van ilyen extra verziója
 - `synchronized(obj){...}`
     - az adott objektum kulcsát kéri
     - ha megvan a kulcs, akkor megcsinálja a blokkbeli cuccokat
@@ -342,20 +342,20 @@ class B {
 - Timeout, ne várakozzon végtelenségig
     - Mondjon le az erőforrásról
     - Próbálja újra
-        - Lehet végtelen újarpróbálás "ciklus"
+        - Lehet végtelen újra próbálás "ciklus"
 - Gráfos ábrázolásban látszódhatnak problémák
     - lassítások 
 - Megelőzés
-    - Figyeljünk arra hogy ne alakuljon ki
-    - erőforrások, folyamatok sorbaállítása
+    - Figyeljünk arra, hogy ne alakuljon ki
+    - erőforrások, folyamatok sorba állítása
     - Szimmetriák megtörése
     - Folyamatok súlyozása
         - Erősebb kapja meg az erőforrást hamarabb
         - Kiéheztetés veszélye
     - Erőforrások súlyozása
         - pl Oprendszereknél
-        - Kissebb utána a nagyobb erőforrás
-        - Általánasan holtpont elkerülő stratégia
+        - Kisebb utána a nagyobb erőforrás
+        - Általánosan holtpont elkerülő stratégia
         - Csak akkor működik ha előre lehet tudni az erőforrás szükségletet
 - Központi irányítás
 - Véletlen szüneteltetés
@@ -406,7 +406,7 @@ class Bank {
     }
 } 
 ``` 
-- Ha az egész bank szink. akkor nem lehet több utalás egyzserre
+- Ha az egész bank szink. akkor nem lehet több utalás egyszerre
 
 ## Több erőforrás szinkronizált blokkokkal
 - Egy közös Objektum Lock az összes erőforráshoz
@@ -429,7 +429,7 @@ List lst = Collections.synchronizedList(new ArrayList<Integer>());
 - ArrayList lesz használva belül
     - kívülről szálbiztos
 - ArrayList-re nem szabad megtartani a referenciát
-    - ne lehessen a wrapper nálkül belenyúlni
+    - ne lehessen a wrapper nélkül belenyúlni
 - Iterátorokkal baj lehet
     - többszálú iteráció problémás lehet
     - külön kell szinkronizálni pl sync. blokk a listára
@@ -438,19 +438,19 @@ List lst = Collections.synchronizedList(new ArrayList<Integer>());
 # EA 5 2021.10.06
 
 ## Memoriafelhasználás
-- JAva a stack-et meg a Heap-et használja
+- Java a stack-et meg a Heap-et használja
 - Stack-en a szálak cucca
 - Heap-en a mindenki által elérhetőek
 - Stack-en a run metódus kerül be
 - Daemon szálak futhatnak a main után is
     - setDeamon(true)
 - Erőszakos leállításnál megáll minden
-- Típus alapján  dől el hogy hova kerül
+- Típus alapján dől el hogy hova kerül
 - A stack-re kerül egy referencia a Heap-beli cuccról
 - Cache memória fontos
 - egy adathoz hány szál fér hozzá a heap-ről
 - Referenciák nem kell kiszökjenek a szálból
-- Stack adatai biztonségban - biztos?
+- Stack adatai biztonságban - biztos?
     - nem fér hozzá más
     - szintaktikus dolgok vannak
     - de ez át lesz alakítva
@@ -461,7 +461,7 @@ List lst = Collections.synchronizedList(new ArrayList<Integer>());
     - osztály: nem lehet leszármazni
     - metódus: nem lehet felüldefiniálni
     - változó: nem lehet módosítani, nem lehet nem lokális, nem igényel szinkronizálást
-        - másolatot csinál a final local-ról ha márhova továbbadódik
+        - másolatot csinál a final local-ról ha bárhova tovább adódik
         - szálaknál is másolódik
         - ha referencia típusú akkor már lehet ban
             - amire hivatkozik azt szinkronizálni kell
@@ -472,10 +472,10 @@ List lst = Collections.synchronizedList(new ArrayList<Integer>());
 - Helyes működést nem áldozzuk fel a hatékonyságért
     - helyes, egyszerű és karbantartható fontasobb mint gyors
     - kód 10% fut az idő 90%-ában
-        - csak ezt kell gyorsabbraírni
+        - csak ezt kell gyorsabbra írni
         - nem kell az egészet
         - fontosabb a helyesség, olvashatóság, tesztelhetőség
-    - helyesság:
+    - helyesség:
         - hibás az a program ami szink. nélkül oszt meg változtatható adatokat, erőforrásokat
         - jó minta:
             - feladatok kiosztása
@@ -494,7 +494,7 @@ List lst = Collections.synchronizedList(new ArrayList<Integer>());
     - ezért jó a funkcionális stílus
         - több memória
         - szemétgyűjtő sokat dolgozhat
-        - de még így is jobb lehet mint a szinkronizálgatás
+        - de még így is jobb lehet, mint a szinkronizálgatás
 
 - Integer, String módosíthatatlanok
 
@@ -522,10 +522,10 @@ List lst = Collections.synchronizedList(new ArrayList<Integer>());
 - java.util.concurent.ConcurentMap
     - konkurens programban használható
     - ez nem sync
-    - egyszerre többen dolgozhatnak rajta ha nem zavarják egymást
+    - egyszerre többen dolgozhatnak rajta, ha nem zavarják egymást
     - java.util.concurent.ConcurentHashMap
         - tuningolt hash map
-        - ugyanúgy lehet használni mint a hash map-et
+        - ugyanúgy lehet használni, mint a hash map-et
         - a háttérben más történik
 - Ezekkel
     - konstruktor a kapott map-ből egy concurentHashMap-et csinál

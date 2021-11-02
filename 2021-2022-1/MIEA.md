@@ -10,7 +10,7 @@
     - Heti teszt kvízek
     - Fórum
 - Vizsga
-    - oldalom van minta
+    - oldalon van minta
     - online vizsgánál heti kvízhez hasonló
 
 ## MI és sci-fi irodalom
@@ -29,7 +29,7 @@
 - Isac Asimov - Robot álmok (Robot univerzum) 1986
     - Az álmáról kikérdezi
     - Egy ember felszabadítja a robotokat
-    - (Az ember a robot akia a felszabadító)
+    - (Az ember a robot aki a felszabadító)
     - Ezért lelövik
 
 
@@ -45,7 +45,7 @@
 - Az if-then-else elágazás is MI projekt mentén jött létre
 - OOP is MI projekt mentén jött létre
 - Gondolkodási, kutatási előörs
-- Megoldhatatlannak tűnő problémát próbál megoldani és ementén létrejönnek hasznos teknológiát
+- Megoldhatatlannak tűnő problémát próbál megoldani és ementén létrejönnek hasznos technológiát
 ## MI kutatók csoportjai
 - Erős MI
     - Szélsőséges Redukció
@@ -54,16 +54,16 @@
         - Kapcsolataik jellemzése
         - Így minden pontosan leírható és megérthető
     - Church-Turing tézis
-        - Adott folyamatot kellő pontossággal le tudunk írni, úgy hogy mindenkinek egyértelmű legyen, akkor az algoritmussal is leírható
-    - Ha az emberi inteligenciát részekre tudjuk bontani és kellő pontossággal le tudjuk írni, akkor algoritmizálható
+        - Adott folyamatot kellő pontossággal le tudunk írni, úgyhogy mindenkinek egyértelmű legyen, akkor az algoritmussal is leírható
+    - Ha az emberi intelligenciát részekre tudjuk bontani és kellő pontossággal le tudjuk írni, akkor algoritmizálható
 - MI szkeptikusok
-    - A számítógép soha sem lesz okosabb az embernél
+    - A számítógép sohasem lesz okosabb az embernél
 - Gyenge MI - Közép csoport - Technokrata, mérnök szemlélet
     - Probléma megoldásához sokszor mesterséges intelligencia szerű megoldások jönnek lére
 ## MI története
 - 1956. Nyara - Deklarálták az MI létrejöttét
     - Kutatási irány elindult
-    - Az emberi gondolkorás számítógépes reprodukálása
+    - Az emberi gondolkodás számítógépes reprodukálása
 - Romantikus kor (60-as problémák)
     - Mindenféle problémát megpróbáltak megoldani MI-vel
     - Sakkprogramokkal mérték az MI fejlettségét
@@ -114,7 +114,7 @@
     - AM
         - Matematikai állításokat keresett logikai állítások alapján
         - Prím számok fogalmát kereste
-        - Két általános fogalomat összeéselt
+        - Két általános fogalmat összeéselt
         - Két szigorút szét vagyolt
         - Így keresett izgalmas szabályokat
     - DENDRAL 1969-1978, MYCIN 76
@@ -165,7 +165,7 @@ Mérő László - jó könyvek a témában
     - Nehéz feladatok, még embernek is
     - Sakk, Go, kell a kövi még nehezebb
     - Orvosi diagnózis
-    - Olyan terület ami olyan problémákkal foglalkozik amit nem lehet számítógéppel megoldani
+    - Olyan terület, ami olyan problémákkal foglalkozik amit nem lehet számítógéppel megoldani
     - Számológép (60-as években cirkuszban fejszámoló)
     - Nagy a problématér
         - Utazó ügynök problémája
@@ -177,11 +177,11 @@ Mérő László - jó könyvek a témában
                 - ennek a mérete most n városra (n-1)! 
                 - 5 város 24 út
                 - 51 város 6.10⁶² //nagyon sok
-        - Feladat megoldásához a problématérban keresünk egy bizonyos megoldást
+        - Feladat megoldásához a problématérben keresünk egy bizonyos megoldást
     - Brute force nem ad megoldást
     - Ötlet, intuíció kell, **heurisztika**
         - Utazó ügynök
-            - ugyan azok a városok között ugyan az lesz a  legjobb út
+            - ugyan azok a városok között ugyan az lesz a legjobb út
             - új infók felvétele
                 - megoldás halmaz helyett valami jobb szerkezet
                 - szomszédos elemek felcserélése
@@ -232,7 +232,7 @@ Mérő László - jó könyvek a témában
 ## Modellezés fókusza
 - problématér a központban
 - heurisztikák beépítése
-- hasznos ill. haszintalan elemek
+- hasznos ill. haszontalan elemek
 - kiinduló elemek
 - szomszédsági kapcsolatok
 - adott pillanatban lehessen rangsorolni
@@ -278,7 +278,7 @@ Ez a gráf (δ-gráf) lehet végtelen nagy, de
 
 - hiperút:
     - egy csúcsból csúcsok sorozatába vezet
-    - egyértelmú haladási irány
+    - egyértelmű haladási irány
     - véges részgráf
     1. M csúcsaiból nem indul hiperél
     2. M-en kívüli csúcsokból pontosan egy hiperút indul
@@ -290,8 +290,8 @@ Ez a gráf (δ-gráf) lehet végtelen nagy, de
 
 ## Hiperút bejárása
 - Az első sorozat <n>
-- C sorozatot a Cᵏ←ᴷ sorozat követi, amiben a *k* helyére *K* kerül, ahol k⟶K a hiperút által tartalmazott hiperélel
-- Így egy hiperutat közönséges irányított útként foghtunk fel, de nem egyértelmű, mert lehet több bejárása is
+- C sorozatot a Cᵏ←ᴷ sorozat követi, amiben a *k* helyére *K* kerül, ahol k⟶K a hiperút által tartalmazott hiperéllel
+- Így egy hiperutat közönséges irányított útként foghatunk fel, de nem egyértelmű, mert lehet több bejárása is
 
 ## Gráfreprezentáció fogalma
 - Minden útkeresési probléma rendelkezik egy gráfreprezentációval, ami egy (R, s, T) hármas:
@@ -300,16 +300,16 @@ Ez a gráf (δ-gráf) lehet végtelen nagy, de
     - T ⊆ N, célcsúcsok
 - és a probléma megoldásával:
     - t cél vagy <t₁,...,tₘ> célcsúcssorozat megtalálása vagy
-    - s⟶t vagy s⟶<t₁,...,tₘ> esetleg efy ooptimális s⟶*T út megtalálása
+    - s⟶t vagy s⟶<t₁,...,tₘ> esetleg egy optimális s⟶*T út megtalálása
 
 ## Útkeresés δ-gráfban
-Algoritmus ami elindul a **kezdeti aktuális csúcsból** és minden *nem-determinisztikus* módon új aktuális csúcsot *választ* (gyakran az akt. gyerekei).  
+Algoritmus, ami elindul a **kezdeti aktuális csúcsból** és minden *nem-determinisztikus* módon új aktuális csúcsot *választ* (gyakran az akt. gyerekei).  
 Ezeket a lépéseket tárolja, de felejthet is (memória spórolás).  
-Megáll ha célcsúcsot talál vagy tudja hogy nem lesz meg.  
+Megáll, ha célcsúcsot talál vagy tudja hogy nem lesz meg.  
 
 ## Útkeresés ÉS/VAGY gráfban
 Visszavezetés δ-gráfos megoldásra.
-A startbúl induló hiperútak bejárásai δ-gráfot alkotnak.
+A startból induló hiperútak bejárásai δ-gráfot alkotnak.
 - Csúcsai az eredeti gráf csúcssorozatai
 - Startcsúcs az eredti g. startcs.-ból álló sorozat
 - Célcsúcsai az e. g. célcs.-ból álló sorozat
@@ -322,14 +322,14 @@ A startbúl induló hiperútak bejárásai δ-gráfot alkotnak.
 - Kizárjuk azt hogy a végtelen hosszú út legyen a legrövidebb
 - Általában magától adódik ez a tulajdonság
 - nem végtelen feladatban sem lesz végtelen kifok
-- súlyok alsó korlátja általában műveleti költségből jönű
+- súlyok alsó korlátja általában műveleti költségből jön
     - annak van minimuma általában
 - gráf lehet kb végtelen nagy is
 
 ## ÉS/VAGY gráf
-- Kövönséges gráfnak megfeleltethető
+- Közönséges gráfnak megfeleltethető
     - át lehet alakítani
-- ÉS él a kiperés
+- ÉS él a hiperés
 - VAGY él a sima él
 - Hiperutak rendes utakká lesznek alakítva
 - Hiperút bejárása szekvenciával
@@ -345,7 +345,7 @@ A startbúl induló hiperútak bejárásai δ-gráfot alkotnak.
     - általában elég néhány bejárása
     - Hamis bejárások is belekerülhetnek
     - Célcsúcsból kiinduló utakat el lehetne hagyni, felesleges
-    - Irányított fát jobb építeni mint gráfot
+    - Irányított fát jobb építeni, mint gráfot
 
 # 2.előadás ~2021.09.17
 
@@ -374,7 +374,7 @@ A startbúl induló hiperútak bejárásai δ-gráfot alkotnak.
     - pl.: n-királynő
         - állapottér: {királynő, _}ⁿ×ⁿ
         - művelet:
-            - áthelyet(x,y,u,v)
+            - áthelyez(x,y,u,v)
         - hatalmas problématér
         - tetszőlegest start állapot
         - megoldás a célállapot
@@ -382,7 +382,7 @@ A startbúl induló hiperútak bejárásai δ-gráfot alkotnak.
 ## Reprezentációs gráf bonyolultsága
 - repr. gráf -> problématér -> keresés számításigénye
 - Start csúcsból kivezető utak száma
-- minnél kisebb problématér kell
+- minél kisebb problématér kell
     - akár az állapottér bővítéssel is lehet javítani
     - műveletek előfeltételének szigorítása
     - pl.: n-királynő
@@ -409,13 +409,13 @@ A startbúl induló hiperútak bejárásai δ-gráfot alkotnak.
 - állapotok: mártix
     - rec(m:{0..8}^3×3, üres:{1..3}×{1..3})
 - művelet:
-    - "üres hely eltolás", kevesebb művelet mint az összes lap eltolása
+    - "üres hely eltolás", kevesebb művelet, mint az összes lap eltolása
     - Tol(irány)
         - nem szabad kitolni
 - sok kör és út
 
 ## Visszafelé haladó keresés
-- meg kell találni aztén át kell fordítani
+- meg kell találni aztán át kell fordítani
 - nem minden célból lehet visszajutni
 - kétirányú élek kellenek
 - ha ezek nem állnak fenn akkor probléma redukció kell
@@ -473,7 +473,7 @@ A startbúl induló hiperútak bejárásai δ-gráfot alkotnak.
             - D: on(x,y), clear(x), handempty
             - A: holding(x), clear(y)
         - a P,D,A meghatározza az új állapotot
-        - ha tezdetben teljes és ellentmondásmentes volt akkor ezek is ilyeneket genrálnak
+        - ha tezdetben teljes és ellentmondásmentes volt akkor ezek is ilyeneket generálnak
 - Program generálás modellezés
     - változó értékének megváltoztatása
     - cont(v,e) - v tartalma e
@@ -488,7 +488,7 @@ A startbúl induló hiperútak bejárásai δ-gráfot alkotnak.
 - Probléma Redukciós modellezés
     - célból a startba, de nem invertálható műveletek
     - tud hiányos leíráson is működni
-    - ha L nincs a művelet D,A-ban akkor benne ven az előző lépésben
+    - ha L nincs a művelet D,A-ban akkor benne van az előző lépésben
     - ha L csak A-ban van akkor előző lépésben `true`
     - ha L a D-ben benne van akkor előzőben `false`
     - ha van egy állapotban `false` akkor az zsákutca, nem valid állapot
@@ -512,9 +512,9 @@ A startbúl induló hiperútak bejárásai δ-gráfot alkotnak.
         -visszalépéses keresés
     - Összefésülés
         - vagy párhuzamosan hajtja végre az ágakat
-            - ha van olyan erőforrás amit minden használ akkor ez nem lehetséges (pl egy robotkar a kockavilágban)
+            - ha van olyan erőforrás, amit minden használ akkor ez nem lehetséges (pl egy robotkar a kockavilágban)
             - vannak műveletek amik párhuzamosak lehetnek
-        - vagy úgy fésűli össze, hogy műveleteket rak hozzá vagy elvesz
+        - vagy úgy fésüli össze, hogy műveleteket rak hozzá vagy elvesz
             - visszalépéses keresés
     
 # EA 3 2021.09.26
@@ -545,7 +545,7 @@ end
 1. Általános
     - nem függ a feladattól, modelltől, modellezéstől
     1. Nem módosítható
-        - Mindig ugyan úgy, programmozó visszatérhet és dönthet máshogy
+        - Mindig ugyan úgy, programozó visszatérhet és dönthet máshogy
         - *lokális keresések*
         - *evolúciós algoritmusok*
         - *rezolúció*
@@ -555,15 +555,15 @@ end
         - *gráfkeresés*
         - *szabályalapú köv.*
 2. Modellfüggő
-    - adott modellezési teknikához kapcsolódik
+    - adott modellezési technikához kapcsolódik
 3. Heurisztika
-    - Megoldó algoritmusba álül be
+    - Megoldó algoritmusba épül be
 
 ## Lokális keresések
 - A probléma reprezentációs gráfjának csak kis részét tárolja
 - Kezdetben a startcsúcsot ismeri
 - akkor áll meg ha a célcsúcs megjelenik a látómezőben
-- helyi csúcsok helyébe a szűk környezetéből válszt újakat, "jobbakat"
+- helyi csúcsok helyébe a szűk környezetéből választ újakat, "jobbakat"
 - kiértékelő függvény (cél-, rátermettségi-, heurisztikus függvény) dönti el, hogy mi a "jobb"
 
 ### Hegymászó keresés
@@ -572,7 +572,7 @@ end
 - Célba vagy zsákutcába jut
 - Akt csúcsot a gyerekére cseréli
 - Azt a gyereket választja amelyik a legjobb és nem szülő
-- Van olyan ahol rosszabbra sem lehet lépni
+- Van olyan, ahol rosszabbra sem lehet lépni
 - Memóriában kevés dolgot tárol, végtelen ciklusba kerülhet
 - Hanoi tornyain lehet használni
     - Fgv min összeget keres
@@ -598,9 +598,9 @@ end
 - Fává egyenesedett gráfot "lát"
     - duplikátumok jönnek létre
 
-- Künnyú implementálni
+- Künnyű implementálni
 - Csak jó fitnessfüggvény esetén lesz hasznos
-    - újra lehet indítani egy másik véletlenyszerű csúcsból
+    - újra lehet indítani egy másik véletlenszerű csúcsból
         - **random restart locak search**
     - k akt csúcsa legyen é k legjobb gyereket választjuk
         - **local beam search**
@@ -615,7 +615,7 @@ end
     - akt - akt csúcs
     - Tabu - utoljára érintett néhány csúcs
     - opt - az eddigi legjobb
-- Ha az opt célcsú vagy régóta nem változott vagy zsákutca van, akkor van vége
+- Ha az opt célcsúcs vagy régóta nem változott vagy zsákutca van, akkor van vége
 - Minden lépésben akt gyerekét választja, tabu és opt frissül
 - Tabu halmazon kívüli gyereket választ
 ```sql
@@ -630,7 +630,7 @@ end
 - Hanoi tornyai
     - két elemű tabu halmaz
     - már megoldja a (2,2,2)-ből
-- Tabu méreténél kisebb köröke elketüli
+- Tabu méreténél kisebb köröket elkerüli
     - Repr. gráfról kell infó
     - vagy sok kísérletezéssel
 - Zsákutcával itt sem lehet mit kezdeni
@@ -639,7 +639,7 @@ end
 - Ne legyen mohó a stratégia
 - véletlenszerűen választ és megvizsgálja
     - ha a heurisztikája viszonylag jó akkor elfogadja
-    - általában ha jobb vagy ha nem sokkal rosszabb
+    - általában, ha jobb vagy ha nem sokkal rosszabb
     - e^(f(akt)-f(új))/T > random[0,1]
     - T-t lehet állítani, szabályozható működés
 - Hűtési ütemterv
@@ -647,7 +647,7 @@ end
     - szig mon csökk - kezdetben inkább elfogadja a rossz csúcsot
 - Azért ez a neve, mert
     - Grafikont rajzolva monoton cökken, de van ahol nő (az elején inkább)
-    - Optimális kristály szerkezetrre hozni egy folyadákot
+    - Optimális kristály szerkezetre hozni egy folyadékot
         - ott is kellenek visszamelegítési szakaszok
         - az elején nagyobbak, később kisebbek
 ```sql
@@ -665,7 +665,7 @@ end
 - Gráfszínezés feladata
     - gráf csúcsait osztályozzuk
         - osztályon belüli tagok között ne legyen él
-    - minnél kevesebb osztály kell
+    - minél kevesebb osztály kell
     - Állapotok:
         - gyengített osztályozás
         - erősíteni kell, meg kell találni a legjobbat
@@ -678,8 +678,8 @@ end
     - Áll.-gráf:
         - Exponenciális az eredeti gráfhoz képest
     - Kiértékelő függvény:
-        - Annál jobb minnél több van az első pár osztályban
-        - Minnél kevesebb él van egy osztályon belül
+        - Annál jobb minél több van az első pár osztályban
+        - Minél kevesebb él van egy osztályon belül
         - f(n) = ∑ⱼ wⱼ(λ|A(Oⱼ)| - |Oⱼ|)
 
 ## Lokális keresés
@@ -694,7 +694,7 @@ end
     - algoritmusba építjük
     - általában egyszerre javítja a futási és memória igényt
 - nehéz jó heurisztikát találni
-- iterációs lépések száma és egy lépés kültsége határozza meg
+- iterációs lépések száma és egy lépés költsége határozza meg
 - nem jó a túl sok heurisztika sem
     - túl sok lesz egy iterációs lépés értéke
     - átlagos mennyiség kell
@@ -707,8 +707,8 @@ end
             - Lapkák Manhattan-távolsága a helyüktől
         - Keret, frame (**F**)
             - bűntetőpontok
-            - +1 pont ha a szélén van és nem a helyén
-            - +2 ha sarokban van de nem a helyén
+            - +1 pont, ha a szélén van és nem a helyén
+            - +2 ha sarokban van, de nem a helyén
     - Hannoi tornyai heurisztikák:
         - Darab **C** = ∑1 ha nem a megfelelő
             - mennyi van a megfelelőn
@@ -733,7 +733,7 @@ end
             - inverziószám
                 - min hány csere kell
             - mod inv.
-                - *teknika*: meglévő súlyozása, büntető pont rendszer
+                - *teknika*: meglévő súlyozása, büntető pontrendszer
             - 
 
 # Konzi 4 2021.09.30
@@ -763,12 +763,12 @@ end
 # EA 4 2021.10.03
 
 ## Visszalépéses keresés
-- Ariadné és Theseus a minotaur labirintusában
+- Ariadné és Theseus a minotaurusz labirintusában
 - Módosítható stratégiájú keresés
 - Egy utat tartalmaz
 - Start-Start
     - bele kerülnek a lépések
-- Terminál ha megvan a cél vagy ha mindent leellenőrzött.
+- Terminál, ha megvan a cél vagy ha mindent leellenőrzött.
 - Szabályok
     - Hozzá lehet venni élt
     - Ki lehet törölni élt - visszalépés
@@ -784,8 +784,8 @@ end
         - Előbb próbál ki egy jobb élt
     - Vágó szabály
         - Kizár utakat
-- Drágább mint a hegymászó
-- Van olyan verzió amiben csak
+- Drágább, mint a hegymászó
+- Van olyan verzió, amiben csak
     - Zsákutca és torkolat szabály van
     - véges körmentes irányított gráfon működik
 - megoldás := VL1(startccsúcs);
@@ -801,7 +801,7 @@ Recursive procedure VL1(akt: N) return (A*; hiba)
 end
 ```
 - n-királynő második állapottér modellje fa ezért működik rajta
-- Heurisztikák az algpritmusba
+- Heurisztikák az algoritmusba
     - n-királynőnél sorrendi heurisztika
         - hosszabbik átló hossza
             - ha nagy az érték akkor sokat kilő
@@ -811,24 +811,24 @@ end
         - Ütés alá kerülő szabad mezők száma
             - dinamikus heurisztika, a többi statikus
     - n-királynő vágó heur.
-        - azokat ahova már nem lehet lerakni ki lehet vágni
+        - azokat, ahova már nem lehet lerakni ki lehet vágni
         - részleges előre tekintés
             - szűrés
             - a következő sorba adott helyre rakás kiüti-e valamelyik sort
-            - ha valamielyik sort teljesen kiüti akkor már vissza kell lépni
+            - ha valamelyik sort teljesen kiüti akkor már vissza kell lépni
         - előre tekintés
             - mindent leellenőriz
             - összes kövi sorra ellenőriz, nem csak a 1-re
 - Új modell az n-királynőhöz
-    - folyamtosan töröljük a domain-eket
+    - folyamatosan töröljük a domain-eket
     - ha nincs már domain akkor visszalépés
     - **Bináris korlát-kielégítési modell**
         - Keressük (x₁,..,xₙ) ∈ D₁×..×Dₙ n-est ami kielégít néhány Cᵢⱼ⊆Dᵢ×Dⱼ bináris korlátot.
-    - Töröl/szűr nem a visszalépéses kereséshez csatlakozik hanem a modellhez
+    - Töröl/szűr nem a visszalépéses kereséshez csatlakozik, hanem a modellhez
     - nem heurisztikák
 
 - Második változat
-- Mineden feltétel beépítve a keresésbe
+- Minden feltétel beépítve a keresésbe
 - ***VL2* δ-gráfban mindig terminál**
 - Ha létezik a mélységi korlátnál nem hosszabb megoldás ó, akkor megtalál egy megoldást.
 - rekurzió az alap implementáció
@@ -852,20 +852,20 @@ end
 - Körfigyelés nem szükséges
     - Csak hamarabb megtalálja a visszalépést
     - Ha nincs vagy nagy körök vannak akkor nem általában optimálisabb kihagyni
-- A mélységi korlátnál hosszabb a célhoz vezető útat nem találja meg
+- A mélységi korlátnál hosszabb a célhoz vezető utat nem találja meg
 - tologatós játék
     - vágó heurisztika
-        - ha az aktuális út hossza és a becsült lépésszám nagyobb mint a mélységi korlát akkor vágás
+        - ha az aktuális út hossza és a becsült lépésszám nagyobb, mint a mélységi korlát akkor vágás
 
 - **előnyök**
     - terminál
-    - talál megoldást ha van a korláton belül
+    - talál megoldást, ha van a korláton belül
     - könnyen implementálható
     - kicsi memóriaigény
     - az egyik legfontosabb megoldási módszer
 - **hátrányok**
     - nem garantál optimális megoldást
-        - lehet ennek megfeleően módosítani
+        - lehet ennek megfelelően módosítani
     - kezdeti rossz döntést sok lépés után lehet kijavítani
     - egy zsákutcát többször is megtalálhat
         - korlátos a memóriája
@@ -876,9 +876,9 @@ end
 ## Gráfkeresések
 - Lokális keresések
 - δ-gráf
-- minden felfedezett utat eltárol a globális mukaterültetn
+- minden felfedezett utat eltárol a globális mukaterültet
 - nyílt csúcsok kiterjesztése
-- legkedzvezőbb csúcs kiterjesztése
+- legkedvezőbb csúcs kiterjesztése
 - terminálás
     - sikertelen
         - nincs nyílt csúcs
@@ -891,7 +891,7 @@ end
 - Kezdetben a startcsúcsok
 - Másodlagos stratégiákat is be lehet vezetni az egyenlő csúcsokra
 - két új függvény
-    - szűlüre mutató pionter π
+    - szűlőre mutató pionter π
         - π(start) = nil
         - keresőgráfon egy feszítőfa lesz ebből
         - egyértelmű út a célból vissza
@@ -904,7 +904,7 @@ end
     - konzisztens
         - költség a pi-ken keresztül
     - optimális
-        - visszamutók a legolcsóbb utat adják meg
+        - visszamutatók a legolcsóbb utat adják meg
 
 - Kezdeteben: π(start):=nil, g(start):=0
 - Az n csúcs kiterjesztése után minden m∈Γ(n) csúcsra
@@ -919,11 +919,11 @@ end
         - m ∈ G és g(n)+c(n,m) ≥ g(m) akkor SKIP 
 - Ez lehet rossz is:
     - elromolhat ha a csúcshoz vezető utak belselyében van változás
-    - ha van lesszármazóttja a csúcsnak akkor elromolhatnak dolgok
-    - **megoldás** lehet egy egy bejárás amivel frissítjük a dolgokat
+    - ha van leszármazottja a csúcsnak akkor elromolhatnak dolgok
+    - **megoldás** lehet egy-egy bejárás, amivel frissítjük a dolgokat
         - csak addig kell bejárni amíg korrekt csúcsot nem találunk
     - **megoldás** lehet egy olyan kiértékelő fgv amivel ez elkerülhető
-    - **megoldás** az is ha ezt a csúcsot megint berakjuk a nyílt csúcsokba
+    - **megoldás** az is, ha ezt a csúcsot megint berakjuk a nyílt csúcsokba
         - így majd helyreállnak a dolgok
         - de így lehet, hogy többször is eljutunk ugyanabba a csúcsba, de csak véges sokszor
         - ez tud lenni a legjobb sokszor
@@ -948,7 +948,7 @@ end
     - A GK véges δ-gráfban mindig terminál
     - Ha GK véges δ-gráfban létezik megoldás, akkor megtalálja azt
 
-- Akkor lesz jó ha jó a kiértékelő fgv
+- Akkor lesz jó, ha jó a kiértékelő fgv
 
 ## Nevezetes gráfkereső algoritmusok
 - Nem-informált 
@@ -960,11 +960,11 @@ end
     - A, A*, Aᶜ
     - B, B', A**
 
-- Másodlagos vezérlési stratégia lehet heurisztikus függetlenül a elsődlegestől
+- Másodlagos vezérlési stratégia lehet heurisztikus függetlenül az elsődlegestől
     - egyenlőséget feloldó szabályok, tie-breaking rule
 
 - Csökkenő kiértékelő függvény
-    - akkor csökken ha jobb utat találunk
+    - akkor csökken, ha jobb utat találunk
     - soha nem terjeszt ki inkorrekt csúcsot
     - időről időre helyreállítja a korrektséget
     - működési grafikon, küszöbértékek
@@ -975,7 +975,7 @@ end
 | ----------     | ---------     | --------  |
 | Mélységi <br> MGK  | f = -g <br> c(n,m) = l | - végtelen gráfokban csak mélységi korláttal garantál megoldást |
 | Szélességi <br> SZGK| f = g <br> c(n,m) = l | - optimális (legrövidebb) megoldást ad, ha van (még végtelen δ-gráfban  is) <br> - egy csúcs kiterjesztésekor ismeri az odavezető legrövidebb utat (legfeljebb egyszer terjeszti ki) |
-| Egyenletes <br> EGK | f = g| - optimális (legrövidebb) megoldást ad, ha van (még végtelen δ-gráfban  is) <br> - egy csúcs kiterjesztésekor ismeri az odavezető legolcsóbb utat (legfeljebb egyszer terjeszti ki) |
+| Egyenletes <br> EGK | f = g| - optimális (legrövidebb) megoldást ad, ha van (még végtelen δ-gráfban is) <br> - egy csúcs kiterjesztésekor ismeri az odavezető legolcsóbb utat (legfeljebb egyszer terjeszti ki) |
 
 - Mélységit sokszor visszalépésesnek hívják, de nem ugyan az
 
@@ -987,7 +987,7 @@ end
     - Megengedhető
         - alulról becsüli a h*-ot
     - Monoton megszorítás
-        - a változás nem lehet nagyobb mint választott él súlya
+        - a változás nem lehet nagyobb, mint választott él súlya
 
 Algoritmus | Definíció | Eredmények
 ---------- | --------- | ----------
@@ -1010,9 +1010,9 @@ Aᶜ algoritmus | f = g+h és h ≧0 és <br> h ≦h* és <br> h(n)−h(m) ≦c(
 - A súlyozás, mágikus együtthatók
     - f = g + 2*I
     - néha jobb eredményeket lehet kapni
-- Speciális plussz pontok
+- Speciális plusz pontok
     - f = g + 2*I - (1 ha van BW_ vagy _BW)
-- Aᶜ algoritmusok ha megengedhető, nem negatív, és monoton megszorításos
+- Aᶜ algoritmusok, ha megengedhető, nem negatív, és monoton megszorításos
 
 ## A* algoritmus
 - f = g + h
@@ -1020,16 +1020,16 @@ Aᶜ algoritmus | f = g+h és h ≧0 és <br> h ≦h* és <br> h(n)−h(m) ≦c(
 
 ## Mérések
 - Végtelen gráfon csak relatív összehasonlítás
-- Feltérképezett csúsok
+- Feltérképezett csúcsok
 - CLOSED_S - S alg. által lezárt csúcsok
 - Memória igény
     1. X nem rosszabb Y alg.-nál ha CLOSED_X ⊆ CLOSED_Y
     2. X jobb Y alg.-nál ha CLOSED_X ⊂ CLOSED_Y
 - Jobban informált nem feltétlenül lesz jobb
-- Jobban informálttal kisebb memóriaigény
+- Jobban informáltak kisebb memóriaigény
 - A*-hoz hasonlíthatóak
     - Egyenletes gráfkeresés
-    - A** az egész utat méri és onnan váaszt max-ot
+    - A** az egész utat méri és onnan választ max-ot
     - B algoritmusok
 - Nem lehet belátni hogy általánosan jobb lenne bármelyik
 - Nem patológikus problémákon nem rosszabb 
@@ -1043,17 +1043,17 @@ Aᶜ algoritmus | f = g+h és h ≧0 és <br> h ≦h* és <br> h(n)−h(m) ≦c(
 
     - Küszöb
     - Küszöb között árok
-    - Árkon brlül lehet más kiterjesztési sorrendet választani, pl g(él súly)
-    - A futás idő attól lesz rossz ha egy csúcs sokszor ki lesz terjesztve
-    - B algoritum lesz ez a módosítás
+    - Árkon belül lehet más kiterjesztési sorrendet választani, pl g(él súly)
+    - A futás idő attól lesz rossz, ha egy csúcs sokszor ki lesz terjesztve
+    - B algoritmus lesz ez a módosítás
         1. F = f(s)
-        4. ha van kisebb mint az F akkor g lesz a kiterjesztési szabály
-        - Egy csúscot egy árokban egyszer terjeszt ki
-        - Így legrosszab esetben k² lesz a felső korlát
+        4. ha van kisebb, mint az F akkor g lesz a kiterjesztési szabály
+        - Egy csúcsot egy árokban egyszer terjeszt ki
+        - Így legrosszabb esetben k² lesz a felső korlát
 
 - Jó heurisztika nélkül nem lesz megoldás
-    - Megengedhető heurisztika garantája a legjobb megoldást
-    - Hatékolyabb lehet egy gyengébb heurisztika
+    - Megengedhető heurisztika garantálja a legjobb megoldást
+    - Hatékonyabb lehet egy gyengébb heurisztika
     - Monoton megszorításos heur.-nál egy csúcs egyszer lesz kiterjesztve 
     - Menet közben lehet módosítani: változó heurisztika
     - B' algoritmus:
@@ -1079,7 +1079,7 @@ Aᶜ algoritmus | f = g+h és h ≧0 és <br> h ≦h* és <br> h(n)−h(m) ≦c(
     - nyeremény megegyezik a veszteséggel
     - nem nyerhet mindenki, stb.
 - csak ezekkel foglalkozunk
-    - de lehet ezeket továbbvinni a más játékokra is
+    - de lehet ezeket tovább vinni a más játékokra is
 
 - Állapottér modellel lehet modellezni
     - játéknak állapota + melyik játék jön
@@ -1102,20 +1102,20 @@ Aᶜ algoritmus | f = g+h és h ≧0 és <br> h ≦h* és <br> h(n)−h(m) ≦c(
 - Nem vesztő stratégia
     - legalább döntetlenre visz
 
-- ÉS/VAGY fa élíthető egy adott játékosra nézve
-    - ellenfél lépésénél hiperél van az összes állapotba ahova léphet
+- ÉS/VAGY fa építhető egy adott játékosra nézve
+    - ellenfél lépésénél hiperél van az összes állapotba, ahova léphet
     - hiperutat kell keresni a győzelembe
     - Általában csak az egyik játékosnak lehet nyerő stratégia
         - az egyik játékosnak biztosan létezik nyerő stratégia
-            - alulról fölfelé lehet cimkézni
-            - ki fogja onnan meggnyerni
-            - a startban valakinek lesz cimkéje
+            - alulról fölfelé lehet címkézni
+            - ki fogja onnan megnyerni
+            - a startban valakinek lesz címkéje
 
-- Játékfa egy része kell csak, azt a részét egy jeurisztikával kiértékelik és meghatározzák a "jó" lépést
+- Játékfa egy része kell csak, azt a részét egy heurisztikával kiértékelik és meghatározzák a "jó" lépést
 - Pozitív csúcs nekem jó, negatív az ellenfélnek, ha nulla közeli akkor döntetlen
 - MINIMAX algoritmus
     - Részfa leveleit kiértékeli
-    - Közbenső csúcsokra is kicsámolja
+    - Közbenső csúcsokra is kiszámolja
         - nálunk MAX, ellenfél MIN
         - ellenfélnek minnél kevesebbet akarunk
         - magunknak minnél többet
@@ -1124,7 +1124,7 @@ Aᶜ algoritmus | f = g+h és h ≧0 és <br> h ≦h* és <br> h(n)−h(m) ≦c(
 - Átlagoló kiértékelés
     - Heurisztika rossz is lehet adott pontban
     - A környezetéhez hasonlítjuk és úgy lehet jobb felfuttatást kapunk
-- Váltakozó méylségű kiértékelés
+- Váltakozó mélységű kiértékelés
     - ahol el akarom vágni ott nyugalomban van-e
     - A szülő állapottól nem sokat változott
     - Ha sokat változott akkor még meg lehet nézni ott pár szintet
@@ -1144,11 +1144,11 @@ Aᶜ algoritmus | f = g+h és h ≧0 és <br> h ≦h* és <br> h(n)−h(m) ≦c(
     - visszalépésnél hozza felfele az értékeket
     - ideiglenes értékeket összehasonlítani a hozott értékkel
     - vágás:
-        - két csúcsnál az alfa nagyobb egyenlő mint béta akkor a maradékot levághatjuk
+        - két csúcsnál az alfa nagyobb egyenlő, mint béta akkor a maradékot levághatjuk
         - nem kell egymás fölött közvetlen legyenek
-    - ugyan azt állítja elő mint a minimax
+    - ugyan azt állítja elő, mint a minimax
     - kevesebb memória kell
     - futás idő jobb a vágások miatt
 
 - Algoritmus nem elég
-    - jó modell és jó heurisztika kell ahhoz, hogy tényleg jó legyenr
+    - jó modell és jó heurisztika kell ahhoz, hogy tényleg jó legyen

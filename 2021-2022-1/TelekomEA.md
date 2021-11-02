@@ -40,7 +40,7 @@ Hogyan működik az internet?
         - vezetéknélküli
             - lehet rádiós vagy fény(lézer)
 - További fogalmak
-    - Hálózati hoszt
+    - Hálózati host
     - Átviteli csatorna/médium/fizikai közeg
 
 ## Mértékegységek
@@ -68,7 +68,7 @@ Hálózatok hálózata
 - Hibatolerancia
     - Több útvonal a végpontok között
 - Rugalmasság
-    - Kölcséghatékony infrastruct
+    - Költséghatékony infrastruct
     - Bővíthető
     - Max link szám
 - Megfelelő csomópont-kapacitás
@@ -87,7 +87,7 @@ Hálózatok hálózata
 - Kompromisszumos megoldás az Internet
     - Van redundancia, de minimalizált
     - Terheléseknek megfelelő bővítés
-    - Dontés kell, hogy merre továbbítódik, komplex routerek kellenek
+    - Döntés kell, hogy merre továbbítódik, komplex routerek kellenek
         - Útvonaltervezés
         - Erőforrásmegosztás
         - terhelésfelmérés
@@ -107,22 +107,22 @@ Hálózatok hálózata
     - **Csomag szintű multiplexálás**
 - Csúcs és átlagos ráták
     - Flow, folyam rendelkezik
-        - CSúcsrátával (peak rate): P
+        - Csúcsrátával (peak rate): P
         - Átlagos ráta: A
     - Előre foglalásnál P-hez kell foglalni
         - A/P kicsi, akkor sok a veszteség
     - Igény szerintiben nagyobb kihasználtságot lehet elérni
 - Melyik jobb?
     - Nehéz eldönteni, helyzettől függ
-    - Ha P/A kicsi (csúcs közel az átlaghoz), akkor előrefoglalás
-        - pl telefon ilyen, folyamtos adatátvitel telefonálás közben
-    - Ha P/A nagy, akkor az előrefoglalás pazarlás
+    - Ha P/A kicsi (csúcs közel az átlaghoz), akkor előre foglalás
+        - pl telefon ilyen, folyamatos adatátvitel telefonálás közben
+    - Ha P/A nagy, akkor az előre foglalás pazarlás
         - Az adat általában BURSTY-löket szerű ezért a csúcs sokkal több mint az átlag
         - Az internet általában igény szerinti
 - Megvalósítás
     - Áramkörkapcsolt:
         - telefonálás, központban kapcsolták a kábeleket
-        - előrefoglalás
+        - előre foglalás
         - Resource Reservation Protocol
             - Swichek lefoglalják az útvonalakat, áramköröket
             - Végén bontjuk a foglalást
@@ -136,10 +136,10 @@ Hálózatok hálózata
             - alacsony kihasználtság
             - hiba érzékenység
             - kis adatnál több idő a hálózat kezelése
-    - Csomagkapcsolalt
+    - Csomagkapcsolt
         - csomagok, címinformáció
         - löketek kezelésére bufferek
-        - igényszerínti
+        - igényszerinti
 
 # Telekom EA 2021.09.15
 
@@ -158,10 +158,10 @@ Hálózatok hálózata
     - Egyszerű megvalósítás (nincs előfoglalás)
     - Hibatolerancia
 - Hátrány
-    - Kiszámíthatatln teljesítmény
+    - Kiszámíthatatlan teljesítmény
     - Puffer-kezelés és torlódás-vezérlés
 
-## Internet hierachikus struktúra
+## Internet hierarchikus struktúra
 - Tier-1 ISP nemzetközi - Pár tucat
 - Tier-2 ISP nemzeti - több ezer
 - Tier-3 (Access) ISP helyi - sok
@@ -172,10 +172,10 @@ Hálózatok hálózata
 - Olyan útvonal nincs ahol nem részesülnek az adatátvitel jutalékából
 - IXP - hatalmas csomópont - Internet eXchange Point
     - Mindenki behúz egy linket és ott vannak összekötve a hálózatok
-    - Olcsóbb mint mindenkit mindenkivel összekötni
+    - Olcsóbb, mint mindenkit mindenkivel összekötni
     - Tier-1 és Tier-2 között létezik kb
     - Földrajzilag is egy pont (Budapest, Frankfurt)
-    - Egy helyen lehet változtatni a kapcsolatokat, nem kell linkeket kiéoíteni
+    - Egy helyen lehet változtatni a kapcsolatokat, nem kell linkeket kiépíteni
 
 ## A kommunikáció
 - Különböző folyamatok különböző host-oknál és ezek között adatot akarunk cserélni
@@ -205,9 +205,9 @@ Hálózatok hálózata
     - Mikrochip szinten kb 4-5 év
     - Innovációs lánc elég lassú
 
-- Rnegeteg Protokoll van
+- Rengeteg Protokoll van
     - Együtt működnek
-    - Több kell ahhoz hogy minden működjön
+    - Több kell ahhoz, hogy minden működjön
 
 - Határokat kell definiálni
     - Ne legyen spagetti kód
@@ -246,7 +246,7 @@ Hálózatok hálózata
 
 - Nyílt rendszer hálózatának standard modelljei
     - Open System Interconnection Reference Model
-    - Általános modell, komminikációs hálózatokhoz
+    - Általános modell, kommunikációs hálózatokhoz
     - Nem feltétlenül az internethez
     - 3 dolog kell egy réteghez
         - Szolgáltatás
@@ -255,11 +255,11 @@ Hálózatok hálózata
     - 7 réteg (internet 5):
         - Fizikai
             - SZ
-                - Információ két fizikai eszköt között
+                - Információ két fizikai eszköz között
                 - 1 bitet
-                - Fizikai közegetnél máshogyan kell kódolni
+                - Fizikai közegeknél máshogyan kell kódolni
             - I
-                - Van egy függvény amivel bitet lehet küldeni
+                - Van egy függvény, amivel bitet lehet küldeni
             - P
                 - Bit kódolásának sémája
                 - Jel megfelelő dekódolása
@@ -278,9 +278,9 @@ Hálózatok hálózata
 
         - Hálózati
             - SZ
-                - CSomagtovábbítás
-                - Switch/Routerben a keretek továbbküldés
-                - A közvetlen eszözhöz küldést használja
+                - Csomagtovábbítás
+                - Switch/Routerben a keretek tovább küldés
+                - A közvetlen eszközhöz küldést használja
                 - Útvonalválasztás
                 - Puffer kezelés
             - I
@@ -293,7 +293,7 @@ Hálózatok hálózata
             - SZ
                 - Multiplexálás - továbbítás processhez
                 - Torlódásvezérlés
-                - Magbízhatóság 
+                - Megbízhatóság 
             - I
                 - Üzenet küldése egy célállomásnak
             - P
@@ -329,7 +329,7 @@ Hálózatok hálózata
     - A többi nem kell
     - De ezek igen, hogy megtalálja a célt
 - Switch-nél elég a fizikai meg adatkapcsolati réteg
-- A réteget csak akkor kell implementálni ha nem kell
+- A réteget csak akkor kell implementálni, ha nem kell
 - Routernek és switch-nek mindegy mi az adat a csomagban
 - Tűzfalnál más a rendszer
     - Ott lehet app réteg is kell
@@ -375,7 +375,7 @@ Hálózatok hálózata
 
 ## Hálózati karakterisztikák
 - Késleltetés - delay
-    - roszz felhasználó élmény
+    - rossz felhasználó élmény
     - mennyi idő az átvitel
     - link property
         - **transmission** delay 
@@ -395,7 +395,7 @@ Hálózatok hálózata
             - arrival rate, transmission rate, 
     - ezekből jön a **total** delay
 - Csomagvesztés - loss rate
-    - Elveszett csomagok újraküldése vagy minőségromlás
+    - Elveszett csomagok újra küldése vagy minőségromlás
     - mennyi csomag veszik el mennyiből
     - permanens túlterhelésnél megtelik a várakozási sor és eldobálja a maradék csomagokat
         - ha nem sikerül akkor valaki majd megoldja
@@ -405,11 +405,11 @@ Hálózatok hálózata
     - data size [bits] / transfer time [sec]
     - útvonal menti bottle neck határozza meg
         - a leggyengébb láncszem a meghatározó
-        - linket hsználók között fel kell osztani az átvitelt
+        - linket használók között fel kell osztani az átvitelt
     
 - Átvitel és a késleltetés fejlődik, de a terjedési sebesség nem nő
     - ezért replikák vannak és több helyen fut ugyan az a szerver
-    - mondenki közelébe kerül egy kiszolgáló
+    - mindenki közelébe kerül egy kiszolgáló
 
 ## Fizikai réteg
 - Villamosmérnökök terepe
@@ -447,7 +447,7 @@ Hálózatok hálózata
 
 - bitek helyett szimbólumok vannak
     - két jelszint pazarlás lenne
-    - ha négy szimbólum van, akkor több bitet is reprezentáhat - egy időben több információ megy át
+    - ha négy szimbólum van, akkor több bitet is reprezentálhat - egy időben több információ megy át
     - szimbólum ráta [BAUD] nem változik
     - Adat ráta [bps] nő
     - vevő oldalon ez probléma
@@ -455,7 +455,7 @@ Hálózatok hálózata
 
 ### Átviteli közegek
 - mágneses adathordozó
-    - sávszélesség jó, kéleltetés nagy (nem , on-line)
+    - sávszélesség jó, késleltetés nagy (nem , on-line)
     - nagyon nagy adatmennyiségnél gyorsabb
 - sodort érpár
     - ha nem sodort akkor antenna is lehet
@@ -482,13 +482,13 @@ Hálózatok hálózata
 - szinkronizálni kell mert torzult jel jön
 - órajelenként egyszer lehet mintavételezni
 - ha eltér az órajel, akkor többet tud mérni, vagy kevesebbet
-- GPS szinkronjelekkel lehet ott ahol ez nagyon fontos
+- GPS szinkronjelekkel lehet ott, ahol ez nagyon fontos
 - Kritikus időpontokban szinkronizáljuk
 - Önütemező jel
     - órajel szinkronizáció nélkül is kódolható
     - nem alacsony-magas jel, hanem változások
     - a változásokat könnyebb észrevenni
-- MAncheszter kódolás ami most fontos - 10 megabitnél
+- Mancheszter kódolás, ami most fontos - 10 megabitnél
     - minden bit jelszintváltozásba
     - 1 - magasról alacsonyra
     - 0 - alacsonyról magasra
@@ -499,7 +499,7 @@ Hálózatok hálózata
     - 0 - ugyanaz marad
     - egy órajelciklus elég a kezeléshez
     - sok nullánál el tud csúszni
-- 4-5 bit kódólás - 100 megabitnél
+- 4-5 bit kódolás - 100 megabitnél
     - max 3 nulla lehet egymás mellett
     - veszít sávszélességet de nem túl sokat és cserébe jobb
 - 8-10 kódolás gigabit-nél
@@ -512,12 +512,12 @@ Hálózatok hálózata
 
 ## PSK több szim.
 - fázis eltolás könnyen felismerhető a fogadó által
-## Amplitudo több szim.-hez
+## Amplitúdó több szim.-hez
 
 ## Multiplexitás
 - Egy fizikai közeget többen is használnak
     - átvitelek zavarhatják egymást
-    - csatorna felbontása logikai alcsatornákkra
+    - csatorna felbontása logikai alcsatornákra
     - Küldő oldalon kell egy összefésülő eszköz : **multipexer**
     - Vevőnél demultiplexálás
 
@@ -541,11 +541,11 @@ Hálózatok hálózata
     - 3G-nél jött használatba
     - minden állomás egyfolytában sugározhat
     - interferencia = lin. komb. az egyedi jeleknek
-    - jeleket úgy kell kódolni, hogy ki lehesseen majd olvasni
-    - vektor összeg, báris, projektálás a bázisra és tá-dá csak az erdmény
+    - jeleket úgy kell kódolni, hogy ki lehessen majd olvasni
+    - vektor összeg, báris, projektálás a bázisra és tá-dá csak az eredmény
     - töredék/csip vektor
     - minden állomásnak van chip
-    - ezekre ortogonalitás kell hogy vissza lehessen állítani
+    - ezekre ortogonalitás kell, hogy vissza lehessen állítani
     - 1-et chippe kódoljuk
     - 0-t a chip komplemensével kódoljuk
     - két állomás cuccai összeadódnak
@@ -553,9 +553,9 @@ Hálózatok hálózata
         - összegvektor jelenik meg a hálózaton
         - eredő az összeg
     - dekódolásnál skalárisan szorozni kell a chippel
-        - pozitívitását kell nézni
+        - pozitivitását kell nézni
         - negatív - 0
-        - pozitíz - 1
+        - pozitív - 1
         - nulla   - nem küldött semmit
 
 - Fizikai réteghez tudni kell
@@ -571,13 +571,13 @@ Hálózatok hálózata
 
 ### Keret képzés
 - Nagy adatnál egybe küldésnél hibák lesznek
-    - el kell dönteni, h jó-e
-- Kis darabokban nem kell ez egészet újraküldeni hiba esetén
+    - el kell dönteni, hogy jó-e
+- Kis darabokban nem kell ez egészet újra küldeni hiba esetén
     - gyorsabb
 - Nem akarjuk túlterhelni a vevőt
     - bufferba belefér
-    - ha feldolgozta kkor megy még keret
-- Fel kell ismerni, h hol kezdődik és hol van vége
+    - ha feldolgozta kor megy még keret
+- Fel kell ismerni, hogy hol kezdődik és hol van vége
     - itt is lehetnek hibák
     - hol volt zaj, hol van keret
 - Csomag kapcsolt hálózat
@@ -592,7 +592,7 @@ Hálózatok hálózata
     - szinkron elveszhet
 - Bájt beszúrás
     - Flag bájt az eleje és vége
-    - Kezelni kell az adaton belüli flag-szerű rászeket
+    - Kezelni kell az adaton belüli flag-szerű részeket
     - String-eknél hasonlóan működik programozási nyelvekben
     - ESC - escape
         - ESC-t is lehet ESC-elni kell
@@ -611,21 +611,21 @@ Hálózatok hálózata
     - 11111 után be kell szúrni egy 0-t
         - 6 db 1-nél hiba van
     - **teljesítmény**
-        - csupa 1-nél a legnagyobb overgead
+        - csupa 1-nél a legnagyobb overhead
 - Óra alapúak optikai hálózatokban
     - Keret mérete fix hosszú
     - Keret küldés ideje is fix
     - 810 bájt
     - Táblázat szerű
     - Speckó kezdőminta
-        - onnan tudjukaz idejét és az adat mennyiséget
-    - Vége ki lesz padddelve
-    - Tartalmazza hogx mennyi adat van - mazadék padding
+        - onnan tudjuk az idejét és az adat mennyiséget
+    - Vége ki lesz paddelve
+    - Tartalmazza hogy mennyi adat van - maradék padding
     - Elég biztonságos az optika, kevesebb hiba
 
 ## Hiba felügyelet
 - Zaj kezelés
-    - hogyan detektáljuk ahibát
+    - hogyan detektáljuk a hibát
     - hogyan állítsuk helyre
 - Bithiba
     - hiba löketek vannak
@@ -633,11 +633,11 @@ Hálózatok hálózata
     - olyan sorozat aminek az eleje és vége hibás
     - m : védelmi övezet
     - csoportos hibán belül minimum m-nek kell jónak lenni, hogy szétszedjük két másiknak
-- Naív hibadataktáló
+- Naív hibadetektáló
     - adatból nem lehet eldönteni
     - kétszer kérünk egy keretet
         - ha mind2 egyenlő akkor minden jó
-        - küllönben hiba
+        - különben hiba
     - rossz ötlet
         - minden duplázva - sávszélesség feleződik
         - hiba védelem is gyenge
@@ -651,16 +651,16 @@ Hálózatok hálózata
         - 2 bit hiba nem detektálható
 
 ## Hiba javítás
-- Annyi extra infó h helyre lehessen állítani
-- Csak detektálás és újraküldés
+- Annyi extra infó, hogy helyre lehessen állítani
+- Csak detektálás és újra küldés
 - Melyik a jobb - nem egyértelmű
     - javítóban több extra infó, extra számolások, extra hardver igény
     - ha biztos a hálózat akkor jobb a ARQ (automatic repeat request)
     - rossz hálózaton jobb az FEC (forward error correction)
-    - modil hálózatok adaptívan működnek
+    - mobil hálózatok adaptívan működnek
         - gyenge és erős hibajavító között váltogat
-    - vezetékes hálózatok inkább újraküldik
-        - várni kell addig amíg van visszajelzés hogy újra kell-e küldeni
+    - vezetékes hálózatok inkább újra küldik
+        - várni kell addig amíg van visszajelzés, hogy újra kell-e küldeni
 - Hibadetektálás nélküli átvitel
     - pl hangátvitel
     - veszteséges visszaállítás
@@ -674,9 +674,9 @@ Hálózatok hálózata
 
 ## Hamming távolság
 - Kulcsszavak jók, a többi nem
-- Hágy bitben különböznek a dolgok
-- Hibát akkor lehet felismerni ha a bithibák sokassága nem állítja véletlen helyesre
-- Halmaz min Ham-távát a legál és legál között láhet detektálni
+- Hány bitben különböznek a dolgok
+- Hibát akkor lehet felismerni, ha a bithibák sokasága nem állítja véletlen helyesre
+- Halmaz min Ham-távát a legál és legál között lehet detektálni
     - minHam = k -> k-1 bithibát lehet detektálni
 - d hiba javításásohoz 2d+1 minHam kell
     - legközellebbi jó volt az ami elromlott
@@ -695,7 +695,7 @@ Hálózatok hálózata
 # EA 5 2021.10.06
 
 Az Internet törékeny  
-Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tudta feloldani a domain-eket
+Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tudta feloldani a domain-eket
 
 ## Redundancia
 - Szükséges a hibakezeléshez
@@ -713,9 +713,9 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 
 - egy X kód legfeljebb egy helyes kód van amihez (k-1)/2 távolságra van
 
-## Hibefelismerés és javítás Hamming távolsággal
-- MEkkkora hiba lehet
-- Ebből ki lehet számolni hogy mekkora Hamming távolság kell a kódszavak között
+## Hibafelismerés és javítás Hamming távolsággal
+- Mekkora hiba lehet
+- Ebből ki lehet számolni, hogy mekkora Hamming távolság kell a kódszavak között
 
 ## Paritás bit
 - 7 bit adat, 8. bit a paritás
@@ -727,9 +727,9 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - Kettő hatvány pozíció az ellenőrző bit
     - Közötte az adatok
     - Paritás számítás
-        - Más más adatbitet figyel
+        - Más-más adatbitet figyel
         - átfedések is vannak
-        - k=13 adatbit ami =1+4+8 -ebbe a háromba tartozik bele
+        - k=13 adatbit, ami =1+4+8 -ebbe a háromba tartozik bele
         - Ha az adott pozíción 1-es adat van akkor a bináris felbontásán növeli a paritást
     - Vevő oldalon 
         - ha a k-adik paritás nem jó akkor egy számlálóhoz adok egyet
@@ -739,15 +739,15 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
             - egy bit hiba javítható
             - kettő már nem
 
-## Hibajező kódok
+## Hibajelző kódok
 - Netes protokollok tartalmaznak ilyet
 - Vezetékes átvitel elég stabil, kevés hiba
 - Kevés plusz adat
-- Ha van hiba akkor újraküldjük a keretet
+- Ha van hiba akkor újra küldjük a keretet
 - CRC kód
     - Polinom kód, ciklikus redundancia
     - bitsorozat polinom, kettes maradékosztály testek felett
-    - összas eszköz tudja a generátor polinomot
+    - összes eszköz tudja a generátor polinomot
     - generátor polinomot nehéz készíteni
     - xᵍ*keret - elshiftelem a generátor fokával
         - xᵍ*M(x)
@@ -777,7 +777,7 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 - fél-duplex komm. - több irány lehet, egyszerre csak egy
 - duplex komm. - szimultán két irány
     - két logikai alcsatorna, nem zavarják egymást
-- Protokolllok
+- Protokollok
     - Szimplex módszer
         - mindig mindenki készen áll, végtelene puffer, 0 feldolgozási idő, hiba nélkül megy
         - végtelen ciklusban küld a küldő
@@ -793,7 +793,7 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - Szimplex zajos csatornához
         - keretek elromolhatnak
         - küldő vár a nyugtára
-        - ha nem jön akkor újraküldi
+        - ha nem jön akkor újra küldi
         - ha jön nyugta akkor újat küld
         - vevő hiba esetén nem küld vissza semmit
             - ezzel jelzi a hibát és újra fogja kapni
@@ -810,7 +810,7 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
         - alternál a sorszám
         - vevő sorszámra vár
         - ha nyugtát kap akkor másik számmal küld
-        - így ha kétszer ugyan az a számláló jön akkor a nyugta nem ment vissza
+        - így, ha kétszer ugyan az a számláló jön akkor a nyugta nem ment vissza
             - újra küldjük az előző nyugtát
          - Kihasználtság
             - átérés: T_packet + d
@@ -828,22 +828,22 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
                 - Így lehet túlterhelés
                     - lehet max-ot bevezetni az egyben fogadható keretszámra
                     - várakozni kell
-    - Csúszó ablak protokkol 
+    - Csúszó ablak protokoll 
         - ennek az általánosítása az ABP
         - javítja a kihasználtságot
         - n keretet lehet egyben fogadni
         - küldő max n keretet küldhet nyugtázatlanul
-        - tödd sorszám, ciklikusan nő
+        - több sorszám, ciklikusan nő
         - nyugtákban is számít a sorszám
-            - kummulatív nyugta is lehet
+            - kumulatív nyugta is lehet
                 - az összes annál kisebb sorszámú megjött
                 - ha nyugta elveszik akkor a következő ezt helyettesíti
-                - nyugta sorszám az ami még nem jött meg
+                - nyugta sorszám az, ami még nem jött meg
         - Az ablak tolódik
             - ha az első elveszik akkor újra kell küldeni az összeset a kumulatív nyugta miatt
-            - olyan nyugtát küldök ami még nincs meg
-            - majd akkor küldöm a nagyobbat ha a hiányzó is megjön
-            - ami megjött azt megtartja a fogadó és egyszerre nyugtázhatja az egészet ha megjön a hiányzó
+            - olyan nyugtát küldök, ami még nincs meg
+            - majd akkor küldöm a nagyobbat, ha a hiányzó is megjön
+            - ami megjött azt megtartja a fogadó és egyszerre nyugtázhatja az egészet, ha megjön a hiányzó
             
 # EA 6 2021.10.13
 
@@ -852,7 +852,7 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 ### Visszalépés N-el
 - Go back N
 - mennek a csomagok
-- ha hiba van akkor sokat kell újraküldeni
+- ha hiba van akkor sokat kell újra küldeni
 - vételi oldalon kicsi puffer
 
 ### Szelektív ismátlás
@@ -874,14 +874,14 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - ütközések detektálása és elkerülése
 
 ## MAC alréteg
-- Dinamukus felosztási protokollok
+- Dinamikus felosztási protokollok
     - verseny vagy ütközés alapú protokollok (ALOHA, CSMA, ..)
     - verseny mentes protokoll (bittérkép-alapú)
     - korlátozott verseny 
-- Dinamikus catornakiosztás
+- Dinamikus csatornakiosztás
     1. Állomás modell
         - N terminál/állomás
-        - valószínűség hogy Δt idő alatt csomag jön: λΔt, 
+        - valószínűség, hogy Δt idő alatt csomag jön: λΔt, 
     2. Egyetlen csatorna
         - Minden állomás egyenrangú
         - Egy csatornán minden kommunikáció
@@ -908,7 +908,7 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - Ha van adat akkor elküldi
     - Alacsony költségű, egyszerű
     - Mindent nyugtáz
-    - Vár a nyugtára, idő után újraküldi
+    - Vár a nyugtára, idő után újra küldi
     - Teljesítmény elemzés - Poisson eloszlás
         - Pₖ(t)=((λt)ᵏe^(-λk))/k!
         - T_f = keret-idő
@@ -917,9 +917,9 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
         - D : küldés és vétel közötti idő
         - Feltesszük:
             - Minden keret azonos méretű
-            - A csatorna zajmentes, csak üthözési hiba van
+            - A csatorna zajmentes, csak ütközési hiba van
             - A keretek nem kerülnek sorokba
-            - A csatorna egy Poisson folyamt
+            - A csatorna egy Poisson folyamat
     - S = S(G) = G × (A "jó" átvitelek valószínűsége)
     - Sebezhetőségi idő : 2T_f
     - Sebezhető idő alatt más ne küldjön
@@ -932,9 +932,9 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 - Adatszóró (bradcast) Ethernet
     - Adathordozó teknológia
     - Carriar Sense Multiple Accesss
-        - belhallgat a csatornába és eldönt hogy használhatja-e
+        - belehallgat a csatornába és eldönti, hogy használhatja-e
         - 1- perzisztens CSMA protokoll
-            - mindenki hallgatózha
+            - mindenki hallgatózhat
             - perzisztens módon várjuk, hogy mikor lesz szabad a csatorna
             - ha szabad akkor egyből küld
         - Non-perzisztesn CSMA protokoll
@@ -942,18 +942,18 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
             - mohóság kerülése
             - mindenki hallgatózik
             - random időt vár
-            - lehet hogy felszabadul a csatorna de még vár mert random ideig kellett
+            - lehet, hogy felszabadul a csatorna de még vár mert random ideig kellett
         - p-perzisztens protokoll
             - Diszkrét modell
             - Kövi időrésig vár
 
         - CSMA/CD - collision detection
             - Nehéz dolog
-            - Egymástol távoli eszközök
+            - Egymástól távoli eszközök
             - Mikor elkezdi akkor még nem használta senki, de közben elkezdte
             - Közben detektálni kell
             - minimális keretméret - hálózat hosszától függ
-            - csomag legyen nagyobb mint a propagációs késés
+            - csomag legyen nagyobb, mint a propagációs késés
             - min_keret = ráta(b/s) * 2 * d(s)
                 - ethernet: 64 bájt
                 - 10 Mbps
@@ -965,7 +965,7 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 ## Mit kell csinálni ütközés detektálásnál?
 - Binary Exponential Backoff algoritmus
     - Mekkora lehet a terhelés
-    - Ez az érték alapján vár és újraküld
+    - Ez az érték alapján vár és újra küld
     - Szinkronizáció megtörése állomások között
     - k ∈ [0, 2ⁿ-1], n ütközések száma
     - várunk k egységet
@@ -986,7 +986,7 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 - Állomások megszámozva
 - Réselt időmodell
 - Nem történhet ütközés
-- Teknikai megoldás nehezebb
+- Technikai megoldás nehezebb
 - Bittérkép protokoll
     - Helyfoglalási periódus és adatküldési periódusok
     - Helyfoglalás
@@ -995,7 +995,7 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
         - Ezt mindenki tudja
     - Adatidőréseket a bejelentetteknek
         - Ebben az időben tudnak küldeni
-    - Újra helyfoglalád és küldés
+    - Újra helyfoglalás és küldés
 - Bináris visszaszámlálás protokoll
     - Egy időrésben több állomás is ad 
     - Ki kell használni a konstruktív interferenciát
@@ -1006,12 +1006,12 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - Azonosítók permutálása
     - Aki nyert az kapja a legkisebbet
     - A többi növeli
-    - Azé a legnagyobb aki a legrégebb kapott hozzáférést
+    - Azé a legnagyobb, aki a legrégebb kapott hozzáférést
     - *Mock és Ward módosítás*
 
 ## Korlátozott versenyes protokollok
 - Lehet ütközés
-- Feoldás: korlátozzák a küldők számát
+- Feloldás: korlátozzák a küldők számát
 - Ötvözi az előző két családot
 - Kis terhelésnél a verseny során nincs interferencia és gyorsabb
 - Adaptív fabejárás protokoll
@@ -1024,7 +1024,7 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - Kevés tesztet akartak és minden beteg megtalálása
     - Embercsoportoktól vesznek mintát, összekeverik és úgy vizsgálják
     - Ha negatív akkor mindenki negatív
-    - Ha pozitív akkor kisebb csoportra bonás és úgy
+    - Ha pozitív akkor kisebb csoportra bontás és úgy
     - Addig amíg egy emberhez nem jutnak
     - Átment a hálózatokhoz 1971-ben
     - Minden tesztel egy időrést elbukunk
@@ -1032,13 +1032,13 @@ Facebbok meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - Csoportot bontjuk az ütközés szerint
     - Részcsoport küldhet
     - Ha nincs ütközés akkor jó
-    - hs van akkor részcsoport és ők küldenek
+    - ha van akkor részcsoport és ők küldenek
 
 ## Hogyan kötünk össze lanokat?
 - Bridge korlátozza az ütközéseket
 - Layer 2 eszközök
 - Switch-ek is Bridge-ek, de Bridge többet tud
-- Ütközési tartomány csükkentése
+- Ütközési tartomány csökkentése
 - Teljes transparencia
 - Plug n play
 - Funkciók

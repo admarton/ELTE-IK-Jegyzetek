@@ -39,7 +39,7 @@ public class Fo {
 
 - Az állapot átmenet a problémás
 - Bárhány szál jól tud működni ameddig nem kell egymással kapcsolatba lépniük
-- Szál a java jelenlegi verziójában minden szálhoz ami a JVM-en fut akkor Windows-ban is annyi szál fut
+- Szál a java jelenlegi verziójában minden szálhoz, ami a JVM-en fut akkor Windows-ban is annyi szál fut
     - Dockerben is látja a host az összes szálat
 - Szál objektum létezik
 - Szál csak start-nál jön létre
@@ -69,7 +69,7 @@ public class Szalak {
 ```
 - Thread-et nem szabad kiterjeszteni
     - új osztály kell és implementáljuk a `Runnable` interface-t
-    - Készíts egy osztályt ami külön száloon lehet futtatni az ezt jelenti
+    - Készíts egy osztályt, ami külön szálon lehet futtatni az ezt jelenti
 ```java
 package hu.elte.marci;
 
@@ -293,7 +293,7 @@ public class WaitNotify {
 - ctrl+alt+shift+L a formázás inteliij
 
 ## Konkurencia kezelés, kizárásbiztosítás
-- szamafor
+- szemafor
 ```java
 import java.util.concurrent.Semaphore;
 Semaphore semaphore = new Semaphore(1);

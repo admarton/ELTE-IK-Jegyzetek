@@ -85,7 +85,7 @@ print(p1.communicate()) # eredménye egy tuple(stdout, stderr)
 - célgép hálózatát majd a gépet kell elérni
 - fel kell paraméterezni a gépet
 - Alap paraméterek
-    - Physical Address, MAC address -  hálózati kártya azonosítója
+    - Physical Address, MAC address - hálózati kártya azonosítója
     - IPv4 Address, IPv6 Address - szoftveres cím, telepítés során kapja
     - Subnet Mask - bitenkénti éselés az IPv4-el visszaadja a hálózat IPv4 címét
     - DNS server is be van konfigurálva min 2-3
@@ -94,23 +94,23 @@ print(p1.communicate()) # eredménye egy tuple(stdout, stderr)
     - Broadcast csomag megy ki, mindenkinek szól
         - csupa 1-es a broadcast
         - ha ismeri az ip címet akkor belerakja a MAC addressét és visszaküldi
-- ha nem a local hálón van a cél akkor egy kitüntetett gép kell aki kiküldhet a hálón kívülre - router
+- ha nem a local hálón van a cél akkor egy kitüntetett gép kell, aki kiküldhet a hálón kívülre - router
 - addig meg routerről routerre a csomag ameddig eljut a helyi hálózatáig és ott meg lesz a MAC address
 - ping - hálózati csomópont elérhetőségének tesztelése
     - localhost - hálókártyának szól
     - kölső cím
         - damain név (ip címhez rendelik, beszédesebb)
-            - osztott adatbázis rendszer amiben kikresik a domain-hez az ip-t
+            - osztott adatbázis rendszer, amiben kikresik a domain-hez az ip-t
             - DNS rendszer
     - összeállít egy teszt csomagot és elküldi
     - ha megkapta akkor visszaküldi
     - Reply - ha időn belül visszajön
-    - Corrupted - jön de sérült csomag
+    - Corrupted - jön, de sérült csomag
     - Timeout - időn belül nem jött
     - TTL=%n -> ha router tovább dobja akkor csökkenti, hány "hopp"-nyira van
 - tracert
     - ping-ben anomália van akkor jön a tracert
-    - ping-hez hasonló csomag de a TTL=1 el indul
+    - ping-hez hasonló csomag, de a TTL=1 el indul
     - kijelöl egy router útvonalat
     - vannak válaszidők
     - meg lehet találni a probléma helyét
@@ -225,7 +225,7 @@ print(p1.communicate()) # eredménye egy tuple(stdout, stderr)
         - 2. accept()
             - várakozók kiszolgálása
             - újabb connect a sorba áll
-            - kliens ip címét és portszámát megkapja - hova kell visszaküldeni
+            - kliens ip címét és port számát megkapja - hova kell visszaküldeni
             - visszaad egy kapcsolat azonosítót
             - socket descreptor - recv és send ezt használja
             - `connection, client_address = sock.accept()`
@@ -362,11 +362,11 @@ for s in readable:
 
 ## Chat kliens
 - set timeout-al nem befagyós lesz
-- két párhuzamos dolgot kell csinálnia, akkor duplácóódik
-- mindenkitők jöhet válasz
+- két párhuzamos dolgot kell csinálnia, akkor duplázódik
+- mindenkitől jöhet válasz
 - bármikor kell tudni üzenetet küldeni
 - végtelen ciklus, két try blokk, input és hálózat figyelés
-- kvázi paralell server <-> select
+- kvázi paralel server <-> select
 - read mellett a write is legyen select-elve
 - mindenkinek el kell küldeni akitől nem kaptam
 - üzenetek egy queue-ba kerülnek
@@ -378,20 +378,20 @@ for s in readable:
 - 
 
 ## UDP - Hasznos skeleton
-- Kvázi paralell - select-el
+- Kvázi paralel - select-el
 - ZH-feladat lehet
     - UDP autentikáció -> token
     - Tokennel tud TCP server-hez kapcsolódni
     - két féle működés
 - Minden TCP előtt Kell UDP kulcs
 - Vagy kap egy címet meg portot amivel tud kapcsolódni
-- min 3 feladat amiből egy több protkollt használ
+- min 3 feladat amiből egy több protokollt használ
 
 # Gyak 6 2021.10.12
 
 ## CRC
 - Generáló bitsorozat
-- Generáló polinomból ki lehet számolni a nem detektálható hiba polinomoat
+- Generáló polinomból ki lehet számolni a nem detektálható hiba polinomokat
 - `import binascii`
 - `import zlib`
 - `import hashlib`
@@ -417,7 +417,7 @@ for s in readable:
 - Több részfeladat
 - NetCopy házi olyan volt mint a zh
 - Futtatni kell mind3-4 komponenst, működnie kell
-    - Ez a magfelfet/nem felelt meg
+    - Ez a magfelelt/nem felelt meg
     - Ha el van fogadva akkor legalább kettes megvan
 - A maradék jegy ezután jön
 - Forrásokat kell elküldeni
@@ -429,11 +429,11 @@ for s in readable:
 - UDP calc -> TCP calc
 - Üzleti logikát egy tcp-vel alrébb raktuk
 - Valamitől függően udp/tcp között vált, egy programban
-- Le kell kérdezni egy UDP szervertől hogy ezután milyen szervert, milyen porton, milyen protokollal kell elérnie
+- Le kell kérdezni egy UDP szervertől, hogy ezután milyen szervert, milyen porton, milyen protokollal kell elérnie
 - Connect után küldés kell
     - Nem szabad kisajátítani a szervert
 - Kliensnél is lehet select, de nincs sok haszna
-- UDP-nél leginkább akor van értelme a select-nek ha nem ismerem a klienst, pl rosszindulatú kliens
+- UDP-nél leginkább akkor van értelme a select-nek ha nem ismerem a klienst, pl rosszindulatú kliens
 
 
 ## Proxy
@@ -444,7 +444,7 @@ for s in readable:
 - **ZH-n** lesz szűrés, uh valszeg proxy lesz, elszólta valszeg magát
 - Valamilyen funkciója van az életben - órai példában nincs
 - Sokszor naplózásra használják
-    - logolja a kérést és továbbküldi
+    - logolja a kérést és tovább küldi
     - logolja a választ és tovább
     - **tipik ZH feladat**, pl json-ba
 - Gyakorlás
