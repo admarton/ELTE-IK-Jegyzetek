@@ -540,3 +540,12 @@ public class SemaphoreRace {
     - ReentrantLock lehet fair vagy unfair
         - fair kicsit lassabb
     
+# Gyak 8 2021.11.04
+- Kajáló filozófusok
+- Több megoldás is
+- Szimmetria megtörés
+- tryLock - lock helyett
+- Szinkronalitás megtörés
+- Live lock nagyon veszélyes
+    - Úgy kerül lock-ba, hogy közben dolgozik
+    - Így nem tűnik fel, hogy elakadt

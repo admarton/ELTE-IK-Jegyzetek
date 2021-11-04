@@ -544,3 +544,75 @@ List lst = Collections.synchronizedList(new ArrayList<Integer>());
     - ...
     - BlockingQueue
     - BlockingDequeu
+
+# EA 8 2021.11.03
+
+## Feladat dekompozíció
+- Párhuzamos for ciklus
+    - Ciklusmagok egy időben végrehajtódnak
+    - Ciklusmagban új szálak
+    - Ciklus után mindenkit bevárni
+    - `Array.setAll(threads, i -> new Thread(...))`
+        - Ez után mindet el kell indítani
+        - Majd mindet bevárni
+- Több szál, mint ciklus
+    - Nem segít
+    - A sok szál létrehozása lassítja a dolgot
+    - Le lehet kérdezni a rendelkezésre álló magok számát
+        - `Runtime.getRuntime().availabelThreads()`
+- Munkát jól kell kiosztani
+    - Minden szál ugyanannyi feladattal
+    - Ne maradjanak üres járatban
+    - Ha a részfeladatok nehézsége változó, akkor nehezebb elosztani
+    - Feladatok tudjanak választani és ha kész vannak, akkor újakat kapjanak
+    - Feladat mérete kritikus
+        - túl nagy, akkor nem lehet rendesen párhuzamosítani
+        - túl kicsi, akkor versengés, ütemezési overhead
+    - Feladatok és szálak explicit összekapcsolása: skálázási probléma
+        - Ha nem explicit, akkor több magos gépen jobb lesz
+    
+### Executor Interface
+- Runnable - paraméter nélküli, visszatérés nélküli, exception nélküli run függvény
+- Executor - Runnable paraméterű, RejectedExecutionException-t dobó execute függvény
+    - sok féle executor lehet
+    - okosabb megoldás
+    - Thread pool-t használ általában
+- Factory: Executors
+    - newCachedThreadPool()
+        - semmittevő szálnak adja, vagy indít
+    - newFixedThreadPool(int nThreads)
+        - fix db szálnak adogatja, amikor van végzett szál
+    - sewSingleThreadExecutor()
+        - egy szál dolgozik
+- WebServer
+    - Ha szekvenciálisan van kiszolgálva, akkor várakozni kell a többi klienshez
+    - Ha jön kliens, akkor egy szál kiszolgálja
+        - jó amíg nincs túl sok egyszerre
+    - Ha sok kliens jön, akkor executor-ban fix szálon sorban feldolgozom
+        - N darab szálat adok az executor-nak
+            - ha nem a cpu a korlát, pl io (internet, disk)
+                - akkor lehet több szál mint mag
+        - neki bedobom a feladatokat
+        - ő majd kiosztja az adott szálaknak
+        
+#### Életciklus kezelés - ExecutorService
+- shutDown()
+    - az eddigieket befejezi
+    - de újat nem fogad
+- shutDownNow()
+    - a futókat megvárja
+    - ami nem kezdődött el azt nem indítja el
+    - újat nem fogad
+- isShutDown()
+- isTerminated()
+- awaitTermination(long, TimeUnit) throws InterruptedException
+    - vár egy bizonyos ideig, hogy minden leálljon
+    - utána lelövi
+- sunmit
+    - Future < T > - ez eredményt tud tartalmazni, amint végez
+    - várakoztat amíg nem készül el
+    - get()
+    - Általában Callable cuccot adunk
+        - call() - van return meg exception
+- invokeAll
+- invokeAny

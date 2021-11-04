@@ -597,3 +597,73 @@ uqv szó
 - L(G_A) komplementer környezetfüggetlen, G_B-re is
 
 - nem értem miről van szó
+
+# EA 8 2021.11.03
+
+## PMP
+- Turing eldönthető
+- Az igen példányoakat megadja
+- Dominókból ki lehet rakni dolgokat
+
+## Környezetfüggetlen grammatika egyértelműsége nem eldönthető
+## Két környezetfüggetlen g. által generált nyelv metszete nem eldönthető
+1. L(G1) ∩ L(G2) ≟ ∅
+2. L(G1) ≟ L(G2)
+3. L(G1) ≟ γ*  ,  γ ábécé
+4. L(G1) ⊆? L(G2)
+ 
+## Eldönthető problémák nulladrendű logikában
+- Eldönthető
+    - ϕ formula kielégíthető
+    - ... kielégíthetetlen
+    - ... tautológia
+    - két formula tautologikusan ekvivalens
+    - F ⊧₀ ϕ 
+- Brute force módszer nem hatékony, mert n változó esetén 2ⁿ eset van
+
+## Eldönthetetlen problémák elsőrendű logikában
+- ValidityPred  := {< ϕ > | ϕ logikailag igaz elsőrendű formula} ∉ R
+- UnsatPred     := {< ϕ > | ϕ kielégíthetetlen elsőrendű formula} ∈ RE -- felismerhető
+- SatPred       := {< ϕ > | ϕ kielégíthető elsőrendű formula} ∉ R
+- EqivPred      := {< ϕ,ν > | ϕ,ν elsőrendű formula ekvivalens} ∉ R
+- ConsPred      := {< F,ϕ > | F halmazból következik ϕ elsőrendű formula} ∉ R
+
+## 𝕃₀ és RE kapcsolata
+**Tét.:** Minden G grammatikához megadható egy L(G)-t felismerő NTG.
+- 3 szalag
+    - első a TG bemenete
+    - második a grammatika szabályai
+    - jelek csak olvasva
+    - harmadikon α mondatforma
+- Nem determinisztikusan választ egy szabályt meg egy helyet, ha alkalmazható a szabály, akkor alkalmazza
+- Ha az első és harmadik szalag megegyezik, akkor megáll
+
+**Tét.:** Minden M NTG-hez megadható egy L(M)-t generáló G grammatika.
+- Legyen G = < (Γ/Σ)∪Q∪{S,A,▹,◃}, Σ, P, S >
+- P szabályok
+    1. S -> ▹AqᵢA◃
+    2. A -> aA | ɛ
+    3. bq' -> qa, ha δ(q,a)=(q',b,R)
+    4. q'b -> qa, ha δ(q,a)=(q',b,S)
+    5. q'cb -> cqa, ha δ(q,a)=(q',b,L)
+    6. ⎵◃->◃, ◃->ɛ, ▹⎵->▹, ▹q0->ɛ
+
+## 𝕃₁ és R kapcsolata
+- Lineárisan korlátolt automata (LKA)
+- Van kezdő és vég szimbólum: ▹,◃
+    - Csak közötte állhat a fej
+    - Nem módosítható
+    - Közöttük van a szó
+**Tét.:**  
+1. Minden G 1-es gramm. meg lehet adni A LKA-t melyre L(A)=L(G) 
+2. Minden A LKA-hoz meg lehet adni G 1-es gramm. melyre L(G)=L(A)
+- Szabályok nem kellenek a szalagra, mert a gépbe lehet építeni
+- Lineáris korlátoltság miatt nem kell ⎵
+**Tét.:** A LKA, akkor L(A) eldönthető.
+
+## 𝕃₃ ⊂ 𝕃₂ ⊂ 𝕃₁ ⊂ R ⊂ 𝕃₀ = RE
+- 𝕃₃ - VDA
+- 𝕃₂ - Veremautomata
+- 𝕃₁ - LKA
+- R  - Minden inputra megálló TG
+- 𝕃₀ = RE - Nem determinisztikus TG

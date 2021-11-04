@@ -1152,3 +1152,175 @@ Aᶜ algoritmus | f = g+h és h ≧0 és <br> h ≦h* és <br> h(n)−h(m) ≦c(
 
 - Algoritmus nem elég
     - jó modell és jó heurisztika kell ahhoz, hogy tényleg jó legyen
+
+# EA 8 2021.11.04
+
+## Evolúciós algoritmusok
+- Globális munkaterületen egyedi populációk
+- Egyedet vagy elfogadható populációt keresünk
+- Rátermettségi függvény
+- Rossz egyedeket a rátermettekhez hasonlóra cseréljük
+
+### Evolúciós operátorok és a terminálás feltétele
+- Szelekció: rátermettebb kiválasztása -> szülő
+- Rekombináció: szülőkből gyerek
+- Mutáció: gyerek kis módosítása
+- Visszahelyezés: új populáció a gyerekekből és szülőkből
+- Terminálás:
+    - célegyed
+    - populáció egyesített rátermettségi értéke nem változik
+
+### Alapalgoritmus
+- Nem egyedi
+```SQL
+Procedure EA
+populáció := kezdeti populáció
+while terminálási feltétel nem igaz loop
+    szülők := szelekció(populáció)
+    utódok := rekombináció(szülők)
+    utódok := mutáció(utódok)
+    populáció := visszahelyezés(populáció, utódok)
+end loop
+```
+
+- nem mindegyik operátort kell beépíteni
+
+### N-Királynő
+- Modell 1
+    - Egyed: királynő elrendezés, ahol egy oszlopban egy királynő hol van
+    - Reprezentáció: királynő sorának száma az oszlopban
+    - Rátermettségi fgv: ütésben nem lévő királynő párok
+
+- Operátorok
+    - Kiválasztás:
+        - Páros darab kell
+        - Csonkolás:
+            - Korlátnál nagyobbakat választja ki
+    - Rekombináció:
+        - Keresztezés:
+            - Szülőben lévő adatokat egy indexig kicseréljük
+            - Index random
+        - Kétpontos keresztezés
+            - Két pont közötti adatok cserélődnek
+    - Mutáció:
+        - Kis valószínűséggel módosítás
+    - Visszahelyezés:
+        - Rosszabbak helyére jobbak
+        - Mohó módszer nem mindig jó
+- Modell 2
+    - Egyed: n királynő, minden sorban és oszlopban egy királynő
+    - Reprezentáció: ugyan az, így most egy permutáció
+    - Rekombinációban az invariánsokat be kell tartani
+        - Kétpontos:
+            - Gyerekek között a duplikátumokat cseréljük
+    - Mutációnál párokat kell cserélni
+
+### Kielégíthetőségi probléma
+- Boolean formula KNF alakban
+- Egyed: változók igazságértéke
+- Reprezentáció: bitek sorozata
+- Rátermettségi függvény: igaz klóz-ok száma
+
+- Szelekció
+    - Rulettkerék
+        - Rátermettség összege alapján rulett
+        - Össz rátermettség db cella
+        - Rátermettség értéke alapján hány db helyen van egy egyed
+        - sorsolunk szükséges darabszámú egyedet
+
+## Evolúciós algoritmus tervezése
+- Egyed meghatározás
+- Reprezentáció
+- Rátermettségi fgv kitalálása
+- Operátorok benne léte és implementációja
+- Kezdő populáció, megállás feltétele
+- Stratégia paraméterek
+    - populáció száma
+    - mutáció valószínűsége
+    - utódképzési ráta
+    - visszaállítási ráta
+    - stb.
+
+### Kódolás
+- "Kromoszóma"
+- Jelsorozatként kódolva
+- Egyedeket a kódokon keresztül manipuláljuk
+- Jelcsoport, kód feldarabolható kell legyen
+    - Kis változás legyen
+
+### Fitnesz fgv
+- Modellezéstől függ
+- Gráfszínezési probléma
+    - Két különböző modellhez más fgv kell
+    - Direkt kódolás
+        - I-edik szín az i-edik csúcs színe
+        - Élek, ahol különböző a két csúcs színe
+    - Indirekt kódolás
+        - Színek világosság szerint a tömb, csúcs száma a tömbben
+        - Minden él különböző színt köt össze
+        - FGV: mennyi kiszínezettlen van
+- Kő-Papír-Olló
+    - Előző lépések alapján mond valamit
+    - Stratégia kitenyésztés
+    - Kódolás: 0,1,2 sorozat
+        - Hármas számrendszer beli száma
+    - fgv: megnézzük a tavalyi eredményeket
+        - a mintához mérjük
+        - ott a mi stratégiánk nyerne-e
+
+## Evolúciós Operátorok
+### Szelekció
+- Rátermettség arányos - roulett kerék
+- Rangsorolásos - fgv érték különbsége nem meghatározó, ezért csak a sorszám számít
+- Versengő - véletlen csoportokban a legjobb kiválasztása
+- Csonkolásos v selejtező - ha alacsony érték van akkor biztosan rossz - azt ki lehet dobni
+
+### Rekombináció
+- Keresztezések
+    - Jelek/gének cseréje
+    - Egy és többpontos keresztezések
+        - Kijelölt csoportok cseréje
+    - Egyenletes
+        - Véletlen pozíción csere
+        - Ha egy pozíció egyedi tulajdonság
+    - Parciálisan illesztett keresztezés
+        - Kétpontos
+        - Majd permutáció fenntartása
+        - Duplikátumok párba állítása és csere
+    - Ciklikus keresztezés
+        - Egyenletes aztán ciklus amíg kijavul
+- Más számítások is lehetnek
+- Invariánsokat meg kell őrizni
+- Általános rekombinációk
+    - Köztes rekombináció
+        - (x, y) pont alapján kifeszített hipertéglalapból vagy szűk környezetéből kell utódot választani
+    - Lineáris rekomb.
+        - x és y pont közötti egyenesen vagy kicsit a pontokon túl lehet utódot választani
+
+### Mutáció
+- Kis méretű véletlen változtatás
+    - random számmal növeljük
+    - random bitet megfordítunk
+- Permutáció esetén be kell tartani a szabályt
+    - jelpár csere
+    - ciklikus forgatás
+    - stb
+
+### Visszahelyezés
+- Használja a kiválasztás technikáit
+- Ki kell választani a cserélendőket
+- Ki kell választani a visszarakandókat
+
+### Paraméterek
+- h - távolság az általános rekombinációban
+- p - valószínűség
+- u,v - a visszahelyezés paraméterei
+
+## Evolúciós algoritmus használata programozáshoz
+- Melyik algoritmus oldja meg legjobban a feladatot
+- Egyedek az algoritmusok
+- Rátermett a gyorsabb, pontosabb, kisebb memóriaigényű
+
+
+
+

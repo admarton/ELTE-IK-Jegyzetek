@@ -398,4 +398,51 @@ CREATE CLUSTER <NAME> (<SHARED SPACE> <TYPE>) SIZE <x>K HASHKEY ...;
 - gépeshez mindent lehet használni
 - szünetben lehet tanulni
 
+# GYAK 8 2021.11.04
 
+gyakII_9.sql
+
+emp, dept tábla kell
+
+## Hogyan hajt végre utasításokat
+- utlxplan.sql - branyi
+- expl.txt - nikovits
+- Create table PLAN_TABLE
+`expalin plan for select ... from ...`
+- Utasítások bekerülnek a plan_table-ba
+- Plan_id és id szerint sorban
+- Statement_id - név ha adunk
+    - set statement_id='név'
+- Plan_ID - minden lekérdezés kap új sorszámot
+- Operation - 
+- Parent_id - melyik utasítás szülte ezt 
+- Access_Predicate - milyen feltétel van
+- Cost - milyen költséggel jár
+- Cardinality - hány sort kellett átnéznie
+- Bytes - mennyi memória volt ez
+- Projection - hány oszlopot látott a végrehajtás során
+
+- `select plan_table_output from table(dbms_xplan.display("plan_table",null,"basic"));`
+- `select plan_table_output from table(dbms_xplan.display());`
+- `select plan_table_output from table(dbms_xplan.display("plan_table",null,"all"));`
+
+### Megjelenítés
+Példa a `gyakII_9.sql` fájlban
+SQL Developer-ben van gomb, ami grafikusan kijelzi -> Explain Plan
+
+### Hintek, tippek
+- `select /*+ use_nl(emp,dept) */ from ...` - nested loop join
+- `select /*+ use_merge(emp,dept) */ from ...` - sort merge join
+- `select /*+ use_hash(emp,dept) */ from ...` - hash join
+- `no_use_hash(...)` - akkor azt a módszert választja, ami a következő legolcsóbb megoldás
+- `/*+ no_use_hash(...) no_use_merge(...) no_use_nl(...) */` - ha hülyeséget kérdezek akkor visszatér az eredeti állapothoz, de nem jelez hibát
+
+- Oracle oldalán fent van az összes hint a manual-ban
+
+- Ne használjon indexet: `no_index(< tábla név >), full(< tábla név >)`
+- Megmondhatom melyik indexet használja, választhat: `index(< tábla név > < index név >,< index nevek >)` 
+
+### ZH-ban 
+- 3 ilyen feladat
+- serial van megadva, abból kell a lekérdezést megadni
+- ahány sor annyi pont + a feltételek 

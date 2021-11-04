@@ -1079,3 +1079,197 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - Vagy kliens terminál
     - Vagy másik switch
     
+# EA 8 2021.11.03
+
+- Switch-nél mindig 2.-es réteget megvalósító eszköz van összekötve
+    - Így nem kell CSMA
+    - Hardware is egyszerűsödik
+    - Full duplex linkek
+    - Feloldja a hurkokat
+- Nem jól skálázható
+    - Spanning tree nem jó mert 
+        - a fa elágazásainál túl nagy terhelés lenne
+        - a faság miatt csomó él kiesik
+        - nem tesz különbséget a linkek mérete között
+    - Továbbítót tábla is primitív
+        - Síktopológia
+        - Hatalmas méret lehet
+        - Ha nincs a táblán, akkor az elárasztás nem jó technika
+        - Lassú keresés
+- Az IP és a Hálózati réteg oldja meg ezt a problémát
+
+## Hálózati réteg
+- Fő funkció:
+    - Eszköz lehet bárhol a világon
+    - Ha van nete, akkor lehet nemi csomagot küldeni
+    - Forgalom irányítás
+- Forgalom irányítás
+    - Táblák feltöltése, útvonalkereső algoritmusok
+    - Továbbítás
+- Elvárások
+    - Robosztus, helyes, egyszerű
+- Algoritmus osztályok
+    1. Adaptív
+        - topológia és forgalom alapján dönt
+    2. Nem-adaptív
+        - offline meghatározás
+
+### Adaptív algoritmusok
+1. Honnan kap infót?
+    - Szomszédok, mindenki
+2. Mikor változtatja az útvonalat?
+
+- Optimalitási elv
+    - I-től K-ig optimális útvonal
+    - J I és K között van akkor J-K is I-K-n lesz
+    - Egy csúcsra lehet nyelőfát csinálni
+    - Meg lehet határozni a legjobb útvonalat
+    - Hálózat gráf ábrázolásával lehet tanult algoritmusokat alkalmazni
+    - Súlyozás pozitív értékeket rendel
+
+- Dinamikus algoritmusok két csoportja
+    - distance vector routing --- távolságvektor alapú
+    - link-state routing --- kapcsolatállapot alapú
+
+- Távolságvektor alapú
+    - Nincs központi irányítás
+    - Táblázatokat a szomszédok alapján töltjük ki
+    - Elosztott Bellman-Ford algoritmus
+        - Gráfban a legrövidebb utak fája a célállomáshoz
+        - Csomópontok számaszor kell végigmenni az összes élen
+        - Párhuzamosan történik az élbejárás
+            - Minden router bejárja a környezetét
+            - Távolságvektorok cseréje
+            - Minden állomáshoz az általa ismert legrövidebb út
+            - Ha a szomszéd ismer rövidebb utat, akkor a szomszédon keresztül rövidebb utat találtunk
+            - Ha nincs változás, akkor megáll az algoritmus
+            - Addig amíg valami meg nem változik
+                - Jó hír gyorsan terjed
+                - Rossz hírrel sok munka van, mert észlelnie kell a rendszernek majd újra kiszámolni a legrövidebb utakat
+                    - Ez a távolságvektor protokoll hibája, virtuális köröket hoz létre
+                    - Leválasztásnál Végtelenig növeli
+                    - Él növelésnél addig növeli körkörösen amíg a növelt lesz a legjobb
+                    - Inkonzisztens állapotba kerül a rendszer
+                - Megoldás a rossz hírre
+                    - Tőlünk tanult rossz infót kapjuk vissza
+                    - Split horizon with poisoned reverse
+                        - Ha tőle tanultam, akkor végtelent küldök -- nem kell számításba venni
+                        - Ha B-nek küld, akkor ahol Next az B ott végtelen súlyt küld
+                    - Így gyorsabb feldolgozás
+    - Routing Information Protocoll
+    - Kevésbé elterjedtek
+
+- Kapcsolatállapot alapú
+    - Eltérő sávszélesség figyelembevétele
+    - Dijkstra módosított változata
+        - Cél prior sorba
+        - Ha kiveszünk a sorból, akkor az a csúcs kész
+        - Kiterjesztjük
+            - Berakjuk a tőlünk vezető úttal
+    - Mindig a legkisebb csúcsot terjesztem ki
+    - Elosztottan nem lehetne célzottan választani
+    - Adatgyűjtés elosztottan
+    - Algoritmus lokálisan, nem elosztottan
+    - Link-State advertisement - szétküldi mindenkinek
+        - Router, környezete és költsége
+        - Ebből ki lehet rakni az egész topológiát
+        - Erre már mindegyik tud egy Dijkstra-t futtatni
+        - Sorszámozva a csomag, minden router növeli
+            - ha visszaér ugyan azzal a sorszámmal, akkor már nem küldi tovább
+    - Protokollok
+        - OSPF
+            - Céges adatközpont
+            - Nagy overhead
+            - Jól konfigurálható
+            - IP csomagok
+            - Átfedő területekre bontás
+            - Area0 a központ
+        - IS-IS
+            - Internet szolgáltatók használják
+            - Tömörebb, kisebb overhead
+            - Részhálózatokra bontható a nagy hálózat
+            - Nem IP csomagok
+            - 2-Szint
+            - Level2 a gerinchálózat
+
+- Két Router között többféle adatkapcsolati réteg is lehet, több eszközzel
+- Falyamok vannak (Kliens - Szerver kommunikáció)
+
+### Forgalom irányítás
+- Unicast
+    - Legegyszerűbb
+    - Csomag két végpont között
+    - Forrás cím, cél cím, IP azonosító
+- Adatszórás
+    - Broadcast "mindenhová"
+    - A lokális csoporton belül
+    - Több megoldás
+        1. Kölön csomag mindenkinek, ugyanazzal a tartalommal
+            - Nem igazi funkció
+            - Csak elfedés
+            - Ugyan azt küldök mindenkinek
+            - n * csomagméret
+        2. Elárasztás
+            - Kétpontos kommunikáció nem használható
+        3. Többcélú forgalomirányítás
+            - Cél lista van egy cél helyett
+            - Külön listákkal több felé is mehet
+            - Listákat frissíteni kell
+        4. Forrás router-hez tartozó nyelőfa használata
+            - Nyelőfa visszafele használata
+            - Broadcast üzenetet a forrásnak nem adja, a többinek igen
+        5. Visszairányú továbbítás
+- Többes-küldés (Multicasting)
+    - Nem mindenkinek, de egy csoportnak küldöm
+    - PL IPTV - akinek van ilyene azoknak mind elküldöm a TV adást
+    - Minden élen csak egyszer megy ugyan az a csomag
+        - Nem kell minden eszközhöz külön csomag
+    - Dinamikusan változhat a csoport tartalma
+    - Szervernek csak egyszer kell legenerálni a csomagot
+    - Multicast képes router fogja tudni, hogy kinek kell a csomagot küldeni
+    - Csoporthoz lehet csatlakozni, csoport azonosító kell csak
+- Hierarchikus forgalomirányítás
+    - Router táblázat növekedésének elkerülése
+    - Hálózat szétbontása, alhálózatra
+    - PL telefonszám:
+        - Azonosító nem random
+        - Országszám, Körzetszám, stb
+        - Országon belül döntik el, hogy melyik körzetbe kell küldeni
+        - Körzeten belül döntik el, hogy hova, stb
+    - Interneten is ilyen hierarchia
+
+## IPv4
+- Internet alap hálózati protokollja
+- Hiányosságai miatt jött létre IPv6
+    - DE még nem vette át a helyét
+- Fejrésze, 5*32 bit szó + option header-ek
+    - Forrás cím, cél cím 
+    - élettartam, protokoll, ellenőrző összeg
+        - élettartam: ugrások száma
+            - ha 0, akkor eldobódik a csomag
+        - protokoll: mi van beágyazva a csomagba
+        - ellenőrző összeg: check sum, CRC
+    - azonosítás, DF, MF, darabeltolás
+        - azonosítás: ip csomag darabolására használjuk
+    - Verzió, IHL, Szolgáltatás típusa, (router tud jelezni, ha túlterhelődik, 2 bit), teljes hossz
+- Cím is túlterhelt fogalom
+    - Mi a címed? sok mindent jelenthet
+- Címzési struktúra
+    - Sík - Flat
+        - Minden host-nak 48-bites sorozat, random
+        - A routernek minden host-hoz bejegyzés kell a táblához
+            - nagy, lassú, stb
+    - Hierarchikus
+        - Adott területre kell csak nézni
+        - Cím kiosztás is lokálisan történik
+        - Feladatkörök szeparálása
+        - Routing táblák kezelése
+            - Csak pár bit kell ahhoz, hogy a megfelelő helyre tovább küldjem
+            - Az a hely meg magában tovább küldi
+            
+
+    
+
+
+
+
