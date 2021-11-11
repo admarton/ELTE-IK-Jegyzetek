@@ -549,3 +549,19 @@ public class SemaphoreRace {
 - Live lock nagyon veszélyes
     - Úgy kerül lock-ba, hogy közben dolgozik
     - Így nem tűnik fel, hogy elakadt
+
+# Gyak 9 2021.11.11
+## ReadWriteLock
+- lehet fair is
+- readLock és writeLock van benne
+- lock, tryLock, interruptibly, stb
+- objektumot védhetjük
+- ha általában olvassuk és néha írjuk, akkor jó
+    - több olvasószálnál jó
+    - egyszerre több tud olvasni
+- ez a legbonyolultabb
+    - sok overhead
+    - gyors, de lassabb mint a többi megoldás
+- write lock-ban lehet read-et kérni
+- read-lock-ban nem lehet write-ot, holtpont magában
+

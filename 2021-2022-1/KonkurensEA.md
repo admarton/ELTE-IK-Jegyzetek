@@ -616,3 +616,30 @@ List lst = Collections.synchronizedList(new ArrayList<Integer>());
         - call() - van return meg exception
 - invokeAll
 - invokeAny
+
+# EA 9 2021.11.10
+
+## Életciklus kezelés
+- stop függvény
+- Nem lehet egy komponenesben sem végtelen várakozás
+    - elrontja a többit is
+
+## Future
+- Más nyleveken hasonló a `Promise`
+- Future-el meg lehet várni az eredméynt
+```java
+BigInteger compute(BigInteger input){...}
+...
+ExecutorService exec = ...
+...
+Future<BigInteger> asyncResult = exec.submit(()->compuet(input));
+...
+BigInteger result = asyncResult.get();
+// Itt várni fog a szálra és az eredméynére
+```
+- Feature of Unknown
+    - `Future<?>`
+    - Várakoztatásra lehet használni
+    - Runnable elemeknél hasonlíta join-ra
+
+ 

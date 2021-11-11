@@ -667,3 +667,45 @@ uqv szó
 - 𝕃₁ - LKA
 - R  - Minden inputra megálló TG
 - 𝕃₀ = RE - Nem determinisztikus TG
+
+
+# EA 9 2021.11.10
+
+## Időbonyolultság osztályok, P ≟ NP
+- TIME(f(n)) = 
+    {L|L eldönthető O(f(n)) időkorlátos det. TG-pen}
+- NTIME(f(n)) =
+    {L|L eldönthető O(f(n)) időkorlátos NTG-pen}
+- P=⋃_k≥1 TIME(nᵏ)
+- NP=⋃_k≥1 NTIME(nᵏ)
+- Korábbi tétel alapján:
+    - NTIME(f(n)) ⊆ TIME(2^(O(f(n))))
+- Észtevétel:
+    - P ⊆ NP, mert TG lehet speciális NTG
+- Sejtés:
+    - P ≠ NP, de nem bizonyított
+
+## Polinom idejű visszavezetés
+- f : Σ* -> Δ* szófgv. **polinom időben kiszámítható**, ha van polinom időkorlátos TG ami kiszámítja.
+- L₁ ⊆ Σ* **polinom időben visszavezethető** L₂ ⊆ Δ*-ra, ha van olyan f polinom időben kiszámítható szófgv., hogy
+    w ∈ L₁ ⇔ f(w)∈L₂. Jelölés: L₁ ⩽ₚ L₂
+- Ha L₁ polinom időben visszavezethető L₂-re
+    - L₂ ∈ P 
+        - Akkor L₁ is P beli lesz
+    - L₂ ∈ NP
+        - Akkor L₁ is NP beli lesz
+
+## C-teljesség
+- L nyelv C-nehéz (polinom idejű visszavezetésre nézve), ha minden L' ∈ C esetén L'⩽ₚ L.
+- L C-teljes ha L ∈ C és C-nehéz.
+
+## NP-Teljes
+- NP-teljes
+    - L ∈ NP
+    - L NP-nehéz
+- NP-beli problémák legnehezebbjei
+- Nem találtunk NP teljes problémát, ami P beli is lenne
+
+### Cook-Levin tétel
+- SAT ∈ NP és NP-nehéz -> NP-teljes
+

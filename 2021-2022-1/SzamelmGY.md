@@ -891,3 +891,211 @@ y | A | B | C | A → ¬B ∧ C
 - κ: x → -4
 - p(x) ∧ ∀xq(x) ~ ∀x(p(x) ∧ q(x))
 
+# Gyak 8 2021.11.02
+
+## Műveletigény - Aszimptotika
+
+**Fölső korlát**
+Tudunk adni c*g(n)-t amire n₀-tól kezdve mnagyobb mint f(n) -> műveletigény.
+
+Jel: O(n)
+
+**Alsó korlát**
+
+Jel: Ω(n)
+
+**Éles korlát**:
+- c₁* g(n) > f(n) > c₂*g(n)
+
+Jel: Θ(n)
+
+### Szabályok
+- Domináns tagot kell nézni a cuccnál
+    - n³ + n = n³
+- Összeadásra zárt
+- konstanssal szorzásra zárt
+- f és g relációja -> f/g határértéke
+    - ∞ akkor f nagyobb
+    - 0 akkor g nagyobb
+    - c akkor egyenlőek
+- kis n-ekre nem tudjuk a dolgokat
+
+## Turing-gép
+
+- Író olvasó fej
+- Jobbra-Balra tud menni nem csak jobbra
+- Helyben is tud maradni
+
+- M = < Q, Σ, Γ, δ, q₀, qᵢ, qₙ >
+    - Q állapotok
+    - kezdő, elfogadó, elutasító állapot
+    - két ábécé
+    - input karakterek és szalag karakterek
+    - állapot és inputhoz rendel egy állapotot, szalagszimbólumot és a lépést
+- kofiguráció
+    - uqv
+    - v nem lehet epszilon
+    - ⎵ van epszilon helyett (\underbracket |_| ⎵) 
+
+- állapot átmenet
+    - q₀u⎵ |- xqᵢy
+    - a/b, {R,L,S}
+    - ∀m kell a qₙ-hez ha minden más oda visz
+    
+# Gyak 9 2021.11.09
+
+## Több szalagos Turing-gép
+- k darab szalag
+- minden szalaghoz külön író olvasó fej
+- Konfiguráció
+    - két szalagod példa:
+        - (q, ɛ, u, ɛ, v)
+        - q állapot
+        - párok jönnek utána
+        - az első szalagon u-t olvas
+        - a másodikon v-t olvas
+- átmenet diagram
+    - nyilakra máshogy kerülnek dolgok
+    - olvasunk/írunk,mozgunk
+    - három szalagos példa
+        - a₁,a₂,a₃/b₁,b₂,b₃,LRS
+- standard input az első szalag
+- standard output az utolsó szalag
+
+### Palindrom 2 szalagal
+
+<svg width="800" height="300" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="64.5" cy="66.5" rx="30" ry="30"/>
+	<text x="56.5" y="72.5" font-family="Times New Roman" font-size="20">q₀</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="64.5" cy="66.5" rx="24" ry="24"/>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="294.5" cy="66.5" rx="30" ry="30"/>
+	<text x="286.5" y="72.5" font-family="Times New Roman" font-size="20">q₁</text>
+	<text x="131.5" y="180" font-family="Times New Roman" font-size="20">t∈Σ</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="493.5" cy="66.5" rx="30" ry="30"/>
+	<text x="485.5" y="72.5" font-family="Times New Roman" font-size="20">q₂</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="705.5" cy="66.5" rx="30" ry="30"/>
+	<text x="697.5" y="72.5" font-family="Times New Roman" font-size="20">qᵢ</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="658.5" cy="257.5" rx="30" ry="30"/>
+	<text x="648.5" y="263.5" font-family="Times New Roman" font-size="20">qₙ</text>
+	<path stroke="black" stroke-width="1" fill="none" d="M 77.725,93.297 A 22.5,22.5 0 1 1 51.275,93.297"/>
+	<text x="25.5" y="155.5" font-family="Times New Roman" font-size="20">t,_/t,t,R,R</text>
+	<polygon fill="black" stroke-width="1" points="51.275,93.297 42.527,96.83 50.618,102.708"/>
+	<polygon stroke="black" stroke-width="1" points="94.5,66.5 264.5,66.5"/>
+	<polygon fill="black" stroke-width="1" points="264.5,66.5 256.5,61.5 256.5,71.5"/>
+	<text x="135.5" y="87.5" font-family="Times New Roman" font-size="20">_,_/_,_,S,L</text>
+	<path stroke="black" stroke-width="1" fill="none" d="M 307.725,93.297 A 22.5,22.5 0 1 1 281.275,93.297"/>
+	<text x="257.5" y="155.5" font-family="Times New Roman" font-size="20">_,t/_t,S,L</text>
+	<polygon fill="black" stroke-width="1" points="281.275,93.297 272.527,96.83 280.618,102.708"/>
+	<polygon stroke="black" stroke-width="1" points="324.5,66.5 463.5,66.5"/>
+	<polygon fill="black" stroke-width="1" points="463.5,66.5 455.5,61.5 455.5,71.5"/>
+	<text x="348.5" y="87.5" font-family="Times New Roman" font-size="20">_,_/_,_,L,R</text>
+	<path stroke="black" stroke-width="1" fill="none" d="M 506.725,93.297 A 22.5,22.5 0 1 1 480.275,93.297"/>
+	<text x="452.5" y="155.5" font-family="Times New Roman" font-size="20">t,t/_,_,L,R</text>
+	<polygon fill="black" stroke-width="1" points="480.275,93.297 471.527,96.83 479.618,102.708"/>
+	<polygon stroke="black" stroke-width="1" points="523.5,66.5 675.5,66.5"/>
+	<polygon fill="black" stroke-width="1" points="675.5,66.5 667.5,61.5 667.5,71.5"/>
+	<text x="555.5" y="87.5" font-family="Times New Roman" font-size="20">_,_/_,_,S,S</text>
+	<polygon stroke="black" stroke-width="1" points="658.5,167.5 658.5,227.5"/>
+	<text x="601.5" y="198.5" font-family="Times New Roman" font-size="20">∀ más</text>
+	<polygon fill="black" stroke-width="1" points="658.5,227.5 663.5,219.5 653.5,219.5"/>
+	<polygon stroke="black" stroke-width="1" points="22.5,17.5 44.976,43.722"/>
+	<polygon fill="black" stroke-width="1" points="44.976,43.722 43.566,34.394 35.974,40.902"/>
+</svg>
+
+- 3n + 3 = O(n) műveletigény
+
+- Levezetés - Futtatása a TG-nek
+    - (q₀, ɛ, abba, ɛ, _) |- ⊢ \vdash
+    - (q₀, a, bba, a, _) ⊢
+    - (q₀, ab, ba, ab, _) ⊢
+    - (q₀, abb, a, abb, _) ⊢
+    - (q₀, abba, _, abba, _) ⊢
+    - (q₀, abba, _, abba, _) ⊢
+    - (q₁, abba, _, abb, a) ⊢
+    - (q₁, abba, _, ab, ba) ⊢
+    - (q₁, abba, _, a, bba) ⊢
+    - (q₁, abba, _, ɛ, abba) ⊢
+    - (q₁, abba, _, ɛ, _abba) ⊢
+    - (q₂, abb, a, ɛ, abba) ⊢
+    - (q₂, ab, b, ɛ, bba) ⊢
+    - (q₂, a, b, ɛ, ba) ⊢
+    - (q₂, ɛ, a, ɛ, a) ⊢
+    - (q₂, ɛ, _, ɛ, _) ⊢
+    - (qᵢ, ɛ, _, ɛ, _) ⊢
+
+<!-- Házi feladatok eleje -->
+### Futtatás - 2. feladat
+### Dadogós szó könnyített - 3.feladat
+- szó#szó_újra kell felismerni
+- a,b betűkből áll a szó
+- egy szalag
+    - vagy a szó végén jel, vagy az ellenőrzötteket jelöljük
+    - oda-vissza mászkálás
+- két szalag
+    - eleje átmásolva
+    - végigmegyünk az input második felén és a második szalagon
+
+### Dadogós szavak könnyítés nélkül
+- másik szalagra annyi n/2 darab jelet lehet rakni
+- counter változó
+- két állapot között lépegetek a feleannyihoz
+<!-- Házi feladatok vége -->
+
+## Nem determinisztikus TG
+**Touring gép alapból determinisztikus**
+- Nem determinisztikus az NTG
+- Több levezetés egy inputra
+- Egy szót az NTG felismeri ha van legalább egy olyan számolás ami elfogadó állapotba érkezik
+- Számítási fát lehet csinálni
+- Elakadó állapot is létezik
+    - nincs szabály amivel tovább lehet menni
+- A fa magassága az időkorlátja
+    - ha van végtelen ág, akkor nem korlátos
+    - véges fára van magasság
+- NTG-hez meg lehet adni ekvivalens TG-t, az időigény 2^(O(n))-re nőhet
+
+### Páros hosszú palindrom nem det.
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="800" height="600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="64.5" cy="66.5" rx="30" ry="30"/>
+	<text x="56.5" y="72.5" font-family="Times New Roman" font-size="20">q&#8320;</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="64.5" cy="66.5" rx="24" ry="24"/>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="239.5" cy="253.5" rx="30" ry="30"/>
+	<text x="231.5" y="259.5" font-family="Times New Roman" font-size="20">q&#8321;</text>
+	<text x="93.5" y="309.5" font-family="Times New Roman" font-size="20">t∈Σ</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="533.5" cy="253.5" rx="30" ry="30"/>
+	<text x="525.5" y="259.5" font-family="Times New Roman" font-size="20">q&#8322;</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="705.5" cy="66.5" rx="30" ry="30"/>
+	<text x="697.5" y="72.5" font-family="Times New Roman" font-size="20">qᵢ</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="384.5" cy="199.5" rx="30" ry="30"/>
+	<text x="374.5" y="205.5" font-family="Times New Roman" font-size="20">qₙ</text>
+	<polygon stroke="black" stroke-width="1" points="84.999,88.404 219.001,231.596"/>
+	<polygon fill="black" stroke-width="1" points="219.001,231.596 217.186,222.338 209.884,229.171"/>
+	<text x="63.5" y="180.5" font-family="Times New Roman" font-size="20">t,_/_,t,R,R</text>
+	<path stroke="black" stroke-width="1" fill="none" d="M 252.725,280.297 A 22.5,22.5 0 1 1 226.275,280.297"/>
+	<text x="197.5" y="342.5" font-family="Times New Roman" font-size="20">t,_/_,t,R,R</text>
+	<polygon fill="black" stroke-width="1" points="226.275,280.297 217.527,283.83 225.618,289.708"/>
+	<polygon stroke="black" stroke-width="1" points="269.5,253.5 503.5,253.5"/>
+	<polygon fill="black" stroke-width="1" points="503.5,253.5 495.5,248.5 495.5,258.5"/>
+	<text x="346.5" y="274.5" font-family="Times New Roman" font-size="20">t,u/t,_,S,L</text>
+	<path stroke="black" stroke-width="1" fill="none" d="M 546.725,280.297 A 22.5,22.5 0 1 1 520.275,280.297"/>
+	<text x="492.5" y="342.5" font-family="Times New Roman" font-size="20">t,t/_,_,L,R</text>
+	<polygon fill="black" stroke-width="1" points="520.275,280.297 511.527,283.83 519.618,289.708"/>
+	<polygon stroke="black" stroke-width="1" points="553.809,231.42 685.191,88.58"/>
+	<polygon fill="black" stroke-width="1" points="685.191,88.58 676.095,91.084 683.455,97.853"/>
+	<text x="624.5" y="180.5" font-family="Times New Roman" font-size="20">_,_/_,_,S,S</text>
+	<polygon stroke="black" stroke-width="1" points="384.5,109.5 384.5,169.5"/>
+	<text x="327.5" y="140.5" font-family="Times New Roman" font-size="20">∀ más</text>
+	<polygon fill="black" stroke-width="1" points="384.5,169.5 389.5,161.5 379.5,161.5"/>
+	<polygon stroke="black" stroke-width="1" points="22.5,17.5 44.976,43.722"/>
+	<polygon fill="black" stroke-width="1" points="44.976,43.722 43.566,34.394 35.974,40.902"/>
+	<polygon stroke="black" stroke-width="1" points="94.5,66.5 675.5,66.5"/>
+	<polygon fill="black" stroke-width="1" points="675.5,66.5 667.5,61.5 667.5,71.5"/>
+	<text x="341.5" y="87.5" font-family="Times New Roman" font-size="20">_,_/_,_,S,S</text>
+</svg>
+
+
+### Üres szalagon vagyunk valahol, valahol van egy X, meg kell találni
+

@@ -1220,3 +1220,92 @@ vége
     - Akinek nem azt visszaállítjuk
     - Visszaállításnál kevesebbet kell újra végrehajtani
     
+# EA 9 2021.11.09
+
+## Eszköz meghibásodás kezelés
+
+### Lemezhiba elleni védekezés
+1. Háromszoros redundancia
+    - 3 másolat külön lemezen
+    - Output(x) -> 3 kiírás
+    - Input(x) -> 3 olvasás + szavazás
+2. Checksum összegek
+3. Adatbázismentés + napló
+    - Aktív adatbázisnál a napló is kell
+    - Napló redo bejegyzéséből naprakész állapotra lehet hozni
+    - Legrégebbi aktív tranzakcíóig kell csak visszamenni és kiírni
+
+### Mentés működés közben
+1. < START DUMP >
+2. REDO vagy UNDO/REDO naplózásos **ellenőrzőpont** kialakítása
+3. Adatok teljes vagy növekméynes mentése
+4. A napló mentése
+5. < END DUMP >
+
+## Oracle naplózási és archiválási rendszere
+- Helyreállítás kezelő autómatizmusok indításkor
+- REDO típusú log-állományt készít
+- UNDO rolgoknak egy ROLLBACK segmenset csinál
+- UNDO/REDO típusú naplózást tud így csinálni
+- Online napló
+- Archivált napló
+- System Global Area - SGA
+    - naplóbejegyzések ideiglenesen itt vannak
+- Log Writer ígra ki (LGWR)
+- Több napló is online
+- Ha betelik a leljes napló, akkor 
+    - NOARCHIVELOG MÓD
+        - az egyikből kidobja a régi dolgokat
+    - ARCHIVELOG MÓD
+        - kiírja, archiválja
+- LogMiner naplóelemző eszközök
+    - rekordok vannak, sql-el kezelhető
+- Rollback szegmenseknek a SYS a tulajdonosa, ő adhat jogokat másoknak
+    - Tranzakció befejezésekor, utána idővel lehet törölni
+    - Teljesen törlődnek
+    - Lehet bővíteni is
+
+- Naplózást is naplózzuk
+- Rolling forward és rolling back is lehetséges
+- Teljes vagy részleges mentés
+
+## Konkurenciavezérlés, sorbarendezhetőség, konfliktus-sorbarendezhetőség
+
+- ACID tulajdonság biztosítása
+
+### Ütemező
+- szabályozza a feladatok sorrendjét
+
+### Konkurenciavezérlő
+- párhuzamos folyamatok ne rontsák el egymást
+- rossz ütemezést azonosítja és kijavítja
+    - (rossz = konkurens problémát okozna)
+- ha nem tudja kijavítani
+    - abortálhat tranzakciót
+    - várakoztathat
+
+### Lényeg
+- Az összefésült ütemezés ekvivalens-e a sorok ütemezéssel
+- Mindig konzisztens állapot legyen a végeredmény
+- Egy tranzakció műveletei uganabban a sorrendben legyenek
+- Konfliktusos pár:
+    - Megcserélve jó-e
+    - Mi nem konfliktusos
+        - ezt könnyebb meghatározni
+        - ha különdöző adatot irnak-olvasnak
+    - ugyan az a tranzakció művelete
+    - ugyanazt írják
+
+- Cserékkel el lehet jutni soros ütemezésig akkor jó
+    - nem konfliktusos párokat cserélgetve lehet összefésülni
+
+- **konfliktusekvivalens** - szomszédok nemkonfliktusos cseréjével alakítjuk
+
+- **konfliktus-sorbarendezhető** - konfliktusekvivalens egy soros ütemezéssel
+
+- Az ötemező jót eldobhat
+    - de rosszat sose mond jónak
+
+
+
+

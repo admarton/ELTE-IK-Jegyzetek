@@ -411,7 +411,7 @@ for s in readable:
 - A hetesek a második gyakon írják
 - Akinek nem kell bejárni az választhat
 - Indokkal lehet választani
-- ZH alatt az otthoniak telepítik a minimet cuccokat
+- ZH alatt az otthoniak telepítik a mininet cuccokat
 - Mindent tudunk a ZH-hoz
 - Socket programmozási feladat lesz
 - Több részfeladat
