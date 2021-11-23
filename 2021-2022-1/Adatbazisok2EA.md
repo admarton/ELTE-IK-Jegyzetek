@@ -1307,5 +1307,204 @@ vége
     - de rosszat sose mond jónak
 
 
+# EA 10 2021.11.16
+
+## Konfliktus sorbarendezhetőség
+- Elégséges a sorbarendezhetőséghez
+- Konfliktusos párokat definiálunk
+    - Felcserélve más eredméynt kapnánk
+- Nem kell egymás mellett legyenek
+- T₁ megelőzi T₂-t ha egymás mellett konfliktusos pár lenne
+    1. A₁ megelőzi A₂-t 
+    2. A₁ és A₂ ugyanarra az adatbáziselemre vonatkozik
+    3. A₁ és A₂ közül az egyik írási művelet
+
+## Megelőzési gráf
+- Csúcsa tranzakciók
+- Megelőzések az élek
+- Lemma:
+    - S₁, S₂ konfliktusekvivalens ⇒ gráf(S₁)=gráf(S₂)
+        - Indirekt ha egy él nincs benne az egyikben de benne van a másikbam akkor nem ekvivalensek
+    - A Gráf megegyezése nem jelent konfliktusekvivalenciát
+
+## Konfliktussorbarendezhetőségi teszt
+- Ha megelőzési gráfban van kör, akkor nem konfliktussorbarendezhető
+- topológikus sorrendbe kell rakni a tranzakciókat
+    - ha van él A-ból B-be, akkor A elemei megelőzik B elemeit
+    - Nem konliktusos párok cseréjével el lehet jutni a sorbarendezett ütemezésig
+
+## Passzív módszer
+- Néha megnézi a megelőzési gráfot
+- Ha van kör, akkor abortál tranzakviókat
+- Ha nincs, akkor örül
+
+## Aktív módszer
+- Rosszakat soha nem enged át
+- Szigorúbb általában
+- Lehet veszteség
+- megoldások
+    1. Zárak
+    2. Időblyegek
+    3. Érvényesítéses
+
+### Zárolási ütemező
+#### Legszigorúgg zárolás
+- lᵢ(A) - kizárolagos zárolás
+- uᵢ(A) - zár elengedáse
+- teljesen zárolja az adot adatbáziselemet
+- ezekkel biztosítja a sorbarendezhetőséget
+- Tranzakció konzisztenciája
+    1. Akkor írhat, olvashat valamit ha azt már zárolta és még nem oldotta fel
+    2. Ha zárolt, akkor fel is kell oldania
+- Ütemezés jogszerűsége
+    1. Két tranz. nem zárolhatja ugyan azt
+        - ütemezében csak, akkor jöhet ugyan arra zár, ha már fel lett oldva
+- Különböző típusú zárakat is fel lehet venni
+#### Kétfázisú zárolás
+- Minden zárfeloldást megelőz minden zárolás
+- Konzisztens, kétfázisú zárolású tranz. jogszerű ütemezését át lehet alakítani konfliktusekvivalensé
+#### Holtpont elkerülés
+- Tranzakciók egymásra várakozása
+- Várakozási gráf
+    - Tranzakciók a csúcsok
+    - él ha i várakozik j-re
+- Ha kör van, akkor holtpont is van
+- Ez a gráf dinamikus
+    - Megszűnhet kör, létre jöhet
+- Optimista működés
+    - Hagyjuk, hogy kérjék a lock-okat
+    - Ha kör lesz, akkor kilő tranz.
+- Pesszimista
+    - El sem indítjuk ha nem kaphatja meg az összes zárat
+    - Nem tudhatjuk előre az összes zárat
+- Másik pesszimista
+    - Adat elemeken sorrend
+    - Zárakat sorrendben kell kiadni
+#### Kiéheztetés
+- Egy tranzakció sosem kapja meg a zárat
+- Várakozási sor bevezetése
+
+#### Olvasásokhoz is várakozik
+- Olvasáshoz ne kelljen zár
+- Gyorsabb lesz
+- Csak íráshoz legyen zár
+- Olvasási és írási zár bevezetése
+    - Olvasás gyengébb
+    - Olvasni tud több is
+    - Írni csak egy, de akkor olvasni sem lehet
+- Olvasási - shared - sl
+- Írási - exclusive - xl
+- Feloldás - u
+- Olvasás előtt választhatunk de az osztott hatékonyabb
+- Két kizárólagos nem adható ki
+
+#### Kompatibilitási mátrix
+- Lehet tárolni a jogszeerűséget
+
+# EA 11 2021.11.23
+...
+## 8:30-tól
+
+## Zárak
+- Osztott zár erősebb mint a kizárólagos
+- Mert többet tilt
+- Nem összehasonlítható is lehet
+
+### Módosítási zár
+- Olvasóból írásiba átmenetbe kerül be
+- olvasásiból módosítási
+- módosításiból írási
+
+ . | S | X | U
+---|---|---|---
+ S | i | n | i
+ X | n | n | n
+ U | n | n | n
+
+ - Csak az első kapja meg a felminősítés jogát
+ - Nem lesz holtpont
+
+## Növelési zárak
+ 
+- Bizonyos írási-olvasási műveletek felcserélhetőek
+
+- olvas, növel, ír = ezt tekinthetjük egy műveletnek
+
+- ha több tranz is növelni akarja, annak a sorrendje felcserélhető
+
+- incᵢ(x) - Tᵢ megnöveli az x elemet
+
+- ilᵢ (x) - növelési zár
+    - több ilyen lehet egyszerre
+    - nem cserélhető egy tetszőleges írással, olvasással
 
 
+ . | S | X | I
+---|---|---|---
+ S | i | n | n
+ X | n | n | n
+ I | n | n | i
+
+ ## Zárási ütemező
+ - Nem a programozó adja a zárakat és feloldásokat
+ - SQL ütemező kér majd zárakat
+ - Zár ütemező ad neki megfelelő zárakat
+ - Tranzakció jön - nincs benne zárás
+ - Ütemező első és második része a zártáblát használva beszúrja a zárakat
+ - Ütemező I. része
+    - beteszi a lehető leggyengébb zárakat
+    - ha csak kizáró zár van, akkor nem kell a többi művelettel foglalkozni
+    - ha többféle zár is van
+        - akkor tudnia kell, hogy mire milyen zár van
+- Ütememző II. része
+    - Eldönti a zártábla alapján, hogy késlelteti vagy végrehajtja
+    - Közben érkeznek új feladatok
+    - Összefűződnek
+- Zártábla
+    - Adatbáziselem
+    - Zárolási információ
+        - Csoportos mód:
+            - kiadott legerősebb zár van itt
+            - csak egy ellenőrzés kell, nem kell minden kiadottra
+        - Várakozik-e:
+        - Lista:
+            - Tranz.
+            - Mód
+            - Vár?
+            - Tköv.
+            - Köv.
+
+## A zárfeloldás kezelése
+1. Első beérkező első kiszolgálás
+2. Elsőbbségadás az osztott záraknál
+3. Elsőbbségadás a zárfelminősítésnél
+
+## Adatbáziselemekből állló hierarchia
+1. ...
+2. Indexek adnak egy hierachiát
+
+### Mit lehet zárolni
+- Ha b+ gyökerét zároljuk akkor ez egészhez nem férhet hozzá más
+- Nagy adatok zárolása
+    - kevesebb zásr kell
+    - de más tovább kell várjon
+- Kis elemeke
+    - sok zár kell
+    - sok trez. futhat egyszerre
+- megenegedünk kicsi és nagy objektumo zárolását is
+    - tábla, blokk, rekord
+    - külön zár mehet mindegyikre
+- Figyelmeztető zárak
+    - S,X sima zár
+    - figyelmeztető zár IS, IX
+        - alacsonybb szinten akarunk zárolni
+        - addig amíg lejutunk arra a szintre ami kell nekünk
+
+  . | IS | IX | S | X
+----|----|----|---|---
+ IS | i  | i  | i | n
+ IX | i  | i  | n | n
+  S | i  | n  | i | n
+  X | n  | n  | n | n
+
+  

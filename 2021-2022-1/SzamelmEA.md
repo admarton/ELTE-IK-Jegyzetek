@@ -709,3 +709,25 @@ uqv szó
 ### Cook-Levin tétel
 - SAT ∈ NP és NP-nehéz -> NP-teljes
 
+# EA 10 2021.11.17
+
+## Polinom idejű visszavezetés tranzitív
+- L_1 ⫹ₚ L_2, L_2 ⫹ₚ L_3 ⇒ L_1 ⫹ₚ L_3
+
+## NP teljes nyelvre visszavezethető NP beli nyelvek NP teljesek is
+
+## kSAT
+- KNF : konjunktív normálformájú nulladrenű formula
+- SAT = {<ϕ> | ϕ kielégíthető   KNF }
+- kKNF : olyan KNF, ahol minden klóz pontosan k darab különböző alapú literál disjunkciója
+- kSAT = {<ϕ> | ϕ kielégíthető kKNF }
+
+### 3SAT NP-teljes
+- SAT NP-teljes
+- 3SAT-á alakítható az általános SAT
+- Visszavezethető
+
+### 2SAT ∈ P
+### HORNSAT ∈ P
+- Horn formula : olyan KNF, amelynek minden tagja egy pozitív literált tartalmaz.
+- HORNSAT = {<ϕ> | ϕ kielégíthető Horn formula }

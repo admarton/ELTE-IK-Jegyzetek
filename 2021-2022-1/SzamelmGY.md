@@ -842,7 +842,7 @@ Nulladrendű lesz
 - Logikailag ekvivalens, ha ugyn az az interpretáció elégíti ki
 - Logikai következmény, ha az I amire a halmaz i, arra a formula is i
 - Quine-táblázat - igazságtábla a prímkomponenses felírásra
-- Tautologikusan igaz ha a Quine-táblázatban van csupa i-s sor : **⊧₀ ϕ**
+- Tautologikusan igaz ha a Quine-táblázatban az eredmény csupa i-s oszlop : **⊧₀ ϕ**
 - Tautologikus erősebb, mint a logikai
 
 - Értéktábla
@@ -856,7 +856,7 @@ Nulladrendű lesz
         - ∀xϕ ~ ϕ és ∃xϕ ~ ϕ
 
     - ∀x∀yϕ ~ ∀y∀xϕ
-    - ¬∃ϕ ~ ∀x¬ϕ
+    - ¬∃xϕ ~ ∀x¬ϕ
     - x ∉ Par(ϕ)
         - kihozható a kvantor az x elé
         - ϕ ∧ ∀xδ ~ ∀x(ϕ ∧ δ)
@@ -874,7 +874,7 @@ Nulladrendű lesz
 
 - (∀x(P(a,y) ∨ Q(x)) → ¬∀x∃yP(x,y)) ∧ P(f(y,y),b)
 
-y | A | B | C | A → ¬B ∧ C
+y | A | B | C | (A → ¬B) ∧ C
 --|---|---|---|------------
 0 | h | h | i | i
 1 | i | h | i | i
@@ -958,7 +958,7 @@ Jel: Θ(n)
     - nyilakra máshogy kerülnek dolgok
     - olvasunk/írunk,mozgunk
     - három szalagos példa
-        - a₁,a₂,a₃/b₁,b₂,b₃,LRS
+        - a₁,a₂,a₃/b₁,b₂,b₃,L,R,S
 - standard input az első szalag
 - standard output az utolsó szalag
 
@@ -1098,4 +1098,243 @@ Jel: Θ(n)
 
 
 ### Üres szalagon vagyunk valahol, valahol van egy X, meg kell találni
+- Det: * és jobbre, balra tágítod
+
+# Gyak 10 2021.11.16
+
+## ZH
+- Jövőhét zh
+- Elsőrendű logika
+- Determinisztikus TG
+- NTG
+- Számító TG
+- TG kódolás
+- Post megfeletkezési prob
+
+- TG fejtsd ki a működést
+    - pontok fele a megoldás
+    - fela a magyarázat
+
+- ZH után még lesz téma
+    - 12. hét
+
+- Javító valahogy lesz
+    - elvileg jelenléti
+
+## Számoló TG
+- Kiszámítási probléma
+- Szó és szófgv. 
+- Az eredményt kell megadja a TG
+- Szófgv.
+    - f : Σ* -> Δ*
+- M = < Q, Σ, Δ, δ, q₀, qᵢ, (qₙ) >
+    - Δ - megoldás ábécé
+    - qₙ - nem feltétlenül szükséges
+        - az eredmény az utolsó szalagon van
+    
+### 8. feladat - f(u) = ub
+- pl.: f(ab) = abb
+- Végigmegyünk és a végén b-t írunk
+
+### 9. feladat - f : w -> ww
+- két szalagon künnyű
+    - kétszer lemásolom egymás után
+- egy szalagon
+    - elejét és közepét meg kell jelölni
+    - lehet berakni plusz karaktert, csak akkor sokat kell pakolászni
+    - ehelyett lehet az elejét a->a̅, b->b̅
+    - a másolt dolgokat meg a->â, b->^b
+
+
+<svg width="800" height="600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="57.5" cy="301.5" rx="30" ry="30"/>
+	<text x="49.5" y="307.5" font-family="Times New Roman" font-size="20">q&#8320;</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="57.5" cy="542.5" rx="30" ry="30"/>
+	<text x="29.5" y="548.5" font-family="Times New Roman" font-size="20">t\in a,b</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="604.5" cy="446.5" rx="30" ry="30"/>
+	<text x="589.5" y="452.5" font-family="Times New Roman" font-size="20">q_n</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="153.5" cy="542.5" rx="30" ry="30"/>
+	<text x="115.5" y="548.5" font-family="Times New Roman" font-size="20">t`\in a`,b`</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="113.5" cy="131.5" rx="30" ry="30"/>
+	<text x="105.5" y="137.5" font-family="Times New Roman" font-size="20">q&#8321;</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="380.5" cy="321.5" rx="30" ry="30"/>
+	<text x="372.5" y="327.5" font-family="Times New Roman" font-size="20">q&#8322;</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="415.5" cy="117.5" rx="30" ry="30"/>
+	<text x="407.5" y="123.5" font-family="Times New Roman" font-size="20">q&#8323;</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="122.5" cy="452.5" rx="30" ry="30"/>
+	<text x="114.5" y="458.5" font-family="Times New Roman" font-size="20">q&#8324;</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="314.5" cy="452.5" rx="30" ry="30"/>
+	<text x="301.5" y="458.5" font-family="Times New Roman" font-size="20">q_i</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="314.5" cy="452.5" rx="24" ry="24"/>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="255.5" cy="542.5" rx="30" ry="30"/>
+	<text x="206.5" y="548.5" font-family="Times New Roman" font-size="20">~t\in t,~a,~b</text>
+	<polygon stroke="black" stroke-width="1" points="26.5,237.5 44.422,274.501"/>
+	<polygon fill="black" stroke-width="1" points="44.422,274.501 45.435,265.121 36.435,269.48"/>
+	<polygon stroke="black" stroke-width="1" points="604.5,378.5 604.5,416.5"/>
+	<text x="561.5" y="369.5" font-family="Times New Roman" font-size="20">\forall mas</text>
+	<polygon fill="black" stroke-width="1" points="604.5,416.5 609.5,408.5 599.5,408.5"/>
+	<polygon stroke="black" stroke-width="1" points="578.5,371.5 594.674,418.155"/>
+	<polygon fill="black" stroke-width="1" points="594.674,418.155 596.778,408.959 587.329,412.234"/>
+	<polygon stroke="black" stroke-width="1" points="629.5,375.5 614.464,418.203"/>
+	<polygon fill="black" stroke-width="1" points="614.464,418.203 621.837,412.318 612.405,408.996"/>
+	<polygon stroke="black" stroke-width="1" points="66.886,273.006 104.114,159.994"/>
+	<polygon fill="black" stroke-width="1" points="104.114,159.994 96.862,166.028 106.36,169.157"/>
+	<text x="93.5" y="229.5" font-family="Times New Roman" font-size="20">a/a`,R</text>
+	<polygon stroke="black" stroke-width="1" points="87.443,303.354 350.557,319.646"/>
+	<polygon fill="black" stroke-width="1" points="350.557,319.646 342.882,314.161 342.264,324.142"/>
+	<text x="191.5" y="334.5" font-family="Times New Roman" font-size="20">b/b`,R</text>
+	<polygon stroke="black" stroke-width="1" points="143.468,130.111 385.532,118.889"/>
+	<polygon fill="black" stroke-width="1" points="385.532,118.889 377.309,114.265 377.772,124.254"/>
+	<text x="239.5" y="146.5" font-family="Times New Roman" font-size="20">_/~a,L</text>
+	<polygon stroke="black" stroke-width="1" points="385.573,291.932 410.427,147.068"/>
+	<polygon fill="black" stroke-width="1" points="410.427,147.068 404.146,154.107 414.002,155.798"/>
+	<text x="405.5" y="227.5" font-family="Times New Roman" font-size="20">_/~b,L</text>
+	<polygon stroke="black" stroke-width="1" points="388.818,131.214 84.182,287.786"/>
+	<polygon fill="black" stroke-width="1" points="84.182,287.786 93.583,288.576 89.012,279.682"/>
+	<text x="190.5" y="200.5" font-family="Times New Roman" font-size="20">t`/t,R</text>
+	<path stroke="black" stroke-width="1" fill="none" d="M 402.275,90.703 A 22.5,22.5 0 1 1 428.725,90.703"/>
+	<text x="387.5" y="41.5" font-family="Times New Roman" font-size="20">~t/~t,L</text>
+	<polygon fill="black" stroke-width="1" points="428.725,90.703 437.473,87.17 429.382,81.292"/>
+	<path stroke="black" stroke-width="1" fill="none" d="M 97.053,106.55 A 22.5,22.5 0 1 1 123.299,103.269"/>
+	<text x="67.5" y="52.5" font-family="Times New Roman" font-size="20">~t/~t,R</text>
+	<polygon fill="black" stroke-width="1" points="123.299,103.269 131.541,98.679 122.784,93.85"/>
+	<path stroke="black" stroke-width="1" fill="none" d="M 393.725,348.297 A 22.5,22.5 0 1 1 367.275,348.297"/>
+	<text x="352.5" y="410.5" font-family="Times New Roman" font-size="20">~t/~t,R</text>
+	<polygon fill="black" stroke-width="1" points="367.275,348.297 358.527,351.83 366.618,357.708"/>
+	<polygon stroke="black" stroke-width="1" points="69.362,329.055 110.638,424.945"/>
+	<polygon fill="black" stroke-width="1" points="110.638,424.945 112.068,415.62 102.883,419.573"/>
+	<text x="36.5" y="392.5" font-family="Times New Roman" font-size="20">~t/t,R</text>
+	<polygon stroke="black" stroke-width="1" points="152.5,452.5 284.5,452.5"/>
+	<polygon fill="black" stroke-width="1" points="284.5,452.5 276.5,447.5 276.5,457.5"/>
+	<text x="197.5" y="473.5" font-family="Times New Roman" font-size="20">_/_,S</text>
+	<polygon stroke="black" stroke-width="1" points="83.366,316.697 288.634,437.303"/>
+	<polygon fill="black" stroke-width="1" points="288.634,437.303 284.27,428.939 279.204,437.561"/>
+	<text x="139.5" y="398.5" font-family="Times New Roman" font-size="20">_/_,S</text>
+</svg>
+
+### 12. feladat - Az input bináris szám, növeljük eggyel
+- 0 -> 1
+- 1 -> 0 és a kövi helyiértéket is +1
+- _ -> 1
+
+- végig kell menni és a végéről kezdeni
+
+<svg width="800" height="600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="67.5" cy="120.5" rx="30" ry="30"/>
+	<text x="59.5" y="126.5" font-family="Times New Roman" font-size="20">q&#8320;</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="132.5" cy="285.5" rx="30" ry="30"/>
+	<text x="104.5" y="291.5" font-family="Times New Roman" font-size="20">t\in 0,1</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="235.5" cy="285.5" rx="30" ry="30"/>
+	<text x="220.5" y="291.5" font-family="Times New Roman" font-size="20">q_n</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="347.5" cy="120.5" rx="30" ry="30"/>
+	<text x="339.5" y="126.5" font-family="Times New Roman" font-size="20">q&#8321;</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="660.5" cy="120.5" rx="30" ry="30"/>
+	<text x="647.5" y="126.5" font-family="Times New Roman" font-size="20">q_i</text>
+	<ellipse stroke="black" stroke-width="1" fill="none" cx="660.5" cy="120.5" rx="24" ry="24"/>
+	<polygon stroke="black" stroke-width="1" points="36.5,56.5 54.422,93.501"/>
+	<polygon fill="black" stroke-width="1" points="54.422,93.501 55.435,84.121 46.435,88.48"/>
+	<polygon stroke="black" stroke-width="1" points="235.5,217.5 235.5,255.5"/>
+	<text x="192.5" y="208.5" font-family="Times New Roman" font-size="20">\forall mas</text>
+	<polygon fill="black" stroke-width="1" points="235.5,255.5 240.5,247.5 230.5,247.5"/>
+	<polygon stroke="black" stroke-width="1" points="209.5,210.5 225.674,257.155"/>
+	<polygon fill="black" stroke-width="1" points="225.674,257.155 227.778,247.959 218.329,251.234"/>
+	<polygon stroke="black" stroke-width="1" points="260.5,214.5 245.464,257.203"/>
+	<polygon fill="black" stroke-width="1" points="245.464,257.203 252.837,251.318 243.405,247.996"/>
+	<polygon stroke="black" stroke-width="1" points="97.5,120.5 317.5,120.5"/>
+	<polygon fill="black" stroke-width="1" points="317.5,120.5 309.5,115.5 309.5,125.5"/>
+	<text x="186.5" y="141.5" font-family="Times New Roman" font-size="20">_/_,L</text>
+	<path stroke="black" stroke-width="1" fill="none" d="M 360.725,147.297 A 22.5,22.5 0 1 1 334.275,147.297"/>
+	<text x="326.5" y="209.5" font-family="Times New Roman" font-size="20">1/0,L</text>
+	<polygon fill="black" stroke-width="1" points="334.275,147.297 325.527,150.83 333.618,156.708"/>
+	<path stroke="black" stroke-width="1" fill="none" d="M 80.725,147.297 A 22.5,22.5 0 1 1 54.275,147.297"/>
+	<text x="50.5" y="209.5" font-family="Times New Roman" font-size="20">t/t,R</text>
+	<polygon fill="black" stroke-width="1" points="54.275,147.297 45.527,150.83 53.618,156.708"/>
+	<polygon stroke="black" stroke-width="1" points="377.5,120.5 630.5,120.5"/>
+	<polygon fill="black" stroke-width="1" points="630.5,120.5 622.5,115.5 622.5,125.5"/>
+	<text x="483.5" y="141.5" font-family="Times New Roman" font-size="20">0/1,S</text>
+	<path stroke="black" stroke-width="1" fill="none" d="M 373.837,134.619 A 22.5,22.5 0 1 1 352.314,149.993"/>
+	<text x="391.5" y="196.5" font-family="Times New Roman" font-size="20">_/1,S</text>
+	<polygon fill="black" stroke-width="1" points="352.314,149.993 347.249,157.952 357.249,158.033"/>
+</svg>
+
+### 13. feladat - bináris szám összeadás
+- f(x#y) -> x+y
+- 3 szalagos TG-t kér a feladat
+- ha az input nem ilyen alakú, akkor hiba üzenet
+- minden párra, minden maradékra van eset
+- mikor vált a maradék állapot
+- q₀ -> nulla maradék
+- q₁ -> egy maradék
+- a maradékot nem módosító összegek hurok élek
+- prepocesszor állapotok
+- hiba üzenet most egy megtelelő karakter az output szalagon
+
+### 14. feladat - bináris szorzás
+- 4 szalagos TG
+- az összeadát kell használni
+- többször kell összeadni a dolgokat
+- kettesével összeadjuk a rész összeadásait a szorzásnak
+- a szorzót kell vizsgálni
+    - ha 0, akkor a végére egy 0
+    - ha 1, akkor összeadjuk a szorzandót önmagával, de egyel eltolva
+- működés
+    1. szalag szorzó
+    2. szalag szorzandó
+    3. segédszalag
+    4. eredmény, részeredmény
+
+## TG kódolása
+- 0-k száma az adat, 1 szeparátor
+- átmenet kódja 11 átmenet kódja 11 át...
+- átmeneten belül egy 1-es
+    - hol vagyok (állapot) 1 mit olvasok 1 hova megyek (állapot) 1 mit írok 1 merre megyek tovább
+    - q0-tól kezdem
+        - 0
+    - q₁ és
+        - 00 
+    - qₙ -el végzem
+        - 000
+    - gamma abc elemi
+        - a - 0
+        - b - 00
+        - _ - 000
+    - merre megyek
+        - R - 0
+        - L - 00
+        - S - 000
+- feladat pl kódból TG felírás, TG-ből kód felírás
+- egy szalagra nézzük, minden qₙ dolgot le kell írni, nemdeterminisztikus dolog nem lesz, szó kódolás nem lesz
+- input szót is lehet hozzá kódolni, elválasztó 111, TG111szó
+
+### Feladat - dekódolás
+- 0101001000101101001000101000110100010100100
+- felbontás
+- 0101001000101|1010010001010001|10100010100100
+- q₀,a,qᵢ,_ ,R  | q₀,b,qₙ,a,S    | q₀,_ ,q₀,b,L
+- innen rajz
+
+### Feladat - kódolás
+- van egy autómata
+- állapotok kódja
+- ábécé kódja
+- irányok kódja adott
+- szeparáló dolgokkal leírni az egészet
+
+## Poszt megfeledkezési probléma -> PNP
+- Egy példa eldönthetetlen nyelv
+- Ez a dominós cucc
+- Úgy rakni a dominókat, h alul szó = felül szó
+- Többször is lehet egy dominó, nem kell mindet felhasználni
+- Kezdéshez kell olyan dominó amin alul felül ugyan az a kezdő betű
+
+### ZH példa
+- Adjunk PNP egy olyan D bemenetét:
+    - a. |D| ≥ 3
+    - b. D van megoldás
+    - c. ez a nehéz
+        - D semelyik 2 elemére nincs megoldás 
+
+| a  | b  | cc | cc |
+|----|----|----|----|
+| ab | cc | c  | c  |
 

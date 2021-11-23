@@ -1267,8 +1267,109 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
             - Csak pár bit kell ahhoz, hogy a megfelelő helyre tovább küldjem
             - Az a hely meg magában tovább küldi
             
+# EA 9 2021.11.17
 
-    
+## IP cím
+- Több hierarhia szint
+
+### IPv4
+- 4 bájtos ip cím
+- Decimális felírást szoktak használni
+- | Hálózat | hoszt |
+- Routing táblában elég a hálózat azonosító útja
+
+#### Osztály alapú IP címeket osztogattak
+- IP blokkok
+- Azon belül szabadon oszthatja ki a tulajdonosa
+- Blokkok méretére nem gondolták át
+- Osztályok
+    - A
+        - | 0 | 7 bit | 27 bit |
+        - Nagyon nagy címtartomány
+        - 2⁷ ilyen szervezet lehet
+        - Azon belöl 2²⁷-en hoszt lehet
+    - B
+        - | 10 | 14 bit | 16 bit |
+        - több ilyen hálózat lehet
+        - kevesebb hoszt, de így is sok
+        - ELTE is ilyen
+    - C
+        - | 110 | 21 bit | 8 bit |
+        - sok ilyen hálózat lehet
+        - 254 host max
+        - Közepes méretű cégnek ez kevés
+    - D
+        - multicast címek
+        - | 1110 | többesküldési cím |
+        - iptv, ilyesmi
+- Speciálisak:
+    - 0...0 - Ez egy host
+    - 0..0 | host - hoszt eg yhálózaton
+    - 1...1 - adatszórás helyi hálón
+    - háló | 1...1 - adatszórás adott hálózaton
+    - loopback
+- Amíg el nem érjük a hálózat központi routerét addig elég a hálózat azonosító
+- Alhálózatok kialakítása
+    - kevesebb bejegyzés a központi routerbe
+    - Alhálózati maszk használata
+
+### CIDR - cyder
+- Osztályok lecserélése
+- C osztályú címek agragálása
+- Egymás utániakat egybe osztják ki, amennyi kell
+- Nem csak a háló azonosító kell hanem a maszk is
+    - ez a kettő kell az azonosításhoz
+- Next hop ismert
+- Maszkolás és összevetés
+    - ha nincs találat, akkor a leghosszabb illeszkedés feléküldi
+- `Kernel IP routing table`
+    - Destination - Cím
+    - Gateway - next hop
+    - Genmask - mask
+
+### NAT
+- IP cím nagyon gyorsan fogy
+- Network Address Translation
+- Otthoni routerekben van NAT
+- Háztartás netforgalma egy ip-val megy majd ki
+- De otthon lehet több számítógép
+- 3 IP címtartomány
+    - Globálisan nem routolható
+    - Privát tartományokon belül
+    - 10.0.0.0/8 - sok hoszt
+    - 172.16.0.0/12 - közepes
+    - 192.168.0.0/16 - 65536 host
+        - ez szokott lenni otthon
+- Nem csak az ip van,
+    - Ki volt a feladaó
+    - TCP vagy UDP
+    - Milyen portról
+    - Lecseréli a címet és a portot
+    - Megjegyzi ezt az átalakítást
+- Mobil hálózatban is NAT-olás van
+    - nagyon dinamikusan változik
+    - IP pool-ból lehet választani
+- Sérti az IP architekktúrát
+- De valahogy meg kell oldani az IP címek számának problémáját
+
+## IP Fragmataion
+
+### MTU
+- Maximális csomagméret
+- Heterogén hálózatot feltételeztek
+- Valóságban homogénebb mint gondolták
+- Általában MTU = 1500 bájt
+- Szét kell darabolni a nagyobb csomagokat
+- Vissza kell állítani az eredeti csomagot
+- Azonos azonosító köti össze őket
+- Flagaknél van utolsó csomag jelölő
+- Offset - mi az eredetiben a kezdő indexe a darabkának
+- Költséges módszer
+- Dont Fragment Flag - eldobja ha darabolni kéne
+- Felderítés - MTU discovery
+    - Csükkenti a csomag méretet
+    - Nem kell fregmentálni
+- Adatközpontokban nagyobb - pl MTU = 9000
 
 
 

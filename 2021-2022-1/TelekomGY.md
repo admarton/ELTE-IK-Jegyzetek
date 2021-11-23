@@ -451,3 +451,13 @@ for s in readable:
     - Filterezés
     - Naplózás
     
+# Gyak 9 2021.11.16
+
+## Mininet
+- Kell a mininetes szarhoz
+    - sudo dhclient
+    - sudo service sshd restart
+
+- Néha az Xauthority-ben meg kell újítani a dolgokat
+    - xauth add ... //vzoli oldalán
+    - sudo xhost +

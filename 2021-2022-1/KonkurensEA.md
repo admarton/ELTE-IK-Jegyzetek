@@ -642,4 +642,67 @@ BigInteger result = asyncResult.get();
     - Várakoztatásra lehet használni
     - Runnable elemeknél hasonlíta join-ra
 
- 
+ # EA 10 2021.11.17
+
+ ## Termelő-Fogyasztó feladat
+ - Egyik lépést az egyik, másik lépést a másik csinálja
+ - Randevú
+    - a kommunikációhoz bevárják egymást
+    - várakozások vannak
+- Más processzoron lehet más feladatot csinálni
+    - cél feladatot cél eszközön
+    - hatékonyabb munkamegosztás
+- Termelő fogyasztó
+    - egy helyen gyűjti a kész dolgokat
+    - abbol a pool-ból szedeget feladatot a másik
+    - van középen egy buffer
+    - jobb kihasználtságot eredményezhet
+    - minnél nagyobb a buffer
+        - annál aszinkronabbak lehetnek a feladatok
+    - sor adatszerkezetben adják át az adatokat
+- Van ahol a randevú is jó
+- Lehet bármennyi termelő és fogyasztó
+- Lehet több buffer is
+- Megfelelő sor lehet
+    - `BlockingQueue`
+    - `take` - üresnél vár
+    - `put` - telinél vár
+    - `java.util.concurent.ArrayBlockingQueue`
+    - `java.util.concurent.LinkedBlockingQueue`
+- Be kell hangol ni a dolgokat
+    - ne legyen túl sok erőforrás lekötve
+    - ne kelljent sokat várni egyik folyamatnak sem
+
+| Throws exception | Spacial value | Block | Times out |
+| :---: | :---: | :---: | :---: |
+| add(e) | offer(e) | put(e) | offer(e,time,unit) |
+| remove() | poll() | take() | poll(e,time,unit) |
+| element() | peek() | - | - |
+
+- Első a szekvenciális megoldás
+- Harmadik a konkurens
+- Második egyszerűbb mint a exception
+- Negyedik csak egy ideig blokkol
+
+- BlockingQueue helyett vannak más módszerek is
+    - Egy termelő - egy fogyasztónál
+        - `java.io.stream`
+        - PipedInputStream, PipedOutputStream
+        - PipedReader, PipedReader
+        - buffer implementálva
+        - blokkolások implementálva
+        - available(), ready()
+            - meg lehet nézni hogy blokkol-e a művelet
+        - Az egyik konstruktorában meg kell adni a másikat
+        - `DataOutputStream` - alap típúsoknál megvalósítja az átalakításokat
+        - write-ok után `flush` kell, hogy tényleg átmenjen az adat
+    - lehet ebből kétirányú kommunikáció is
+    - socket alapú kommunikáció is ilyen
+        - a processek lehetnek bárhol az interneten
+        - socket.getInputStream()
+        - socket.getOutputStream()
+        - client:
+            - s = new Socket("ip",port)
+        - server:
+            - ss = new ServerSocket(port)
+            - Socket s = ss.accept();
