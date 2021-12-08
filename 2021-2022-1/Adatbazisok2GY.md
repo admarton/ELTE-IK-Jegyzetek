@@ -446,3 +446,67 @@ SQL Developer-ben van gomb, ami grafikusan kijelzi -> Explain Plan
 - 3 ilyen feladat
 - serial van megadva, abból kell a lekérdezést megadni
 - ahány sor annyi pont + a feltételek 
+
+# Gyak 12 2021.12.02
+
+## explain plan for select...
+- distinct
+    - hash unique
+    - sort unique
+
+- avg, count, sum
+    - Sort aggregate az összesítés
+    - áltaghoz a count-ot meg a sum-ot használja
+
+- group by
+    - hash group by
+    - sort group by
+
+- havin
+    - megjelenik egy **FILTER** is
+    - where is van mag having is
+        - akkor két * van
+            - group by alatt van a where, fölötte having
+            - a `TABLE ACCESS` a where
+            - `FILTER` a having
+
+- UNION
+    - UNION ALL
+    - megtart mindent
+    - és utána van `SORT UNIQUE` -> DISTINCT
+    - ha végrehajtássnál van view akkor van distinct és union all
+
+- MINUS, INTERSECT
+    - nincs MINUS ALL
+    - más adatbázis kezelőben van except all
+    - sort unique -olja a részeredményeket és utána minus-ozik
+
+- IN
+    - Semi join van a végrehajtásban
+- NON IN, NOT EXISTS
+    - anti join
+
+- SUM termékek ahol nagyobb a ckod mint 249
+    - Használ indexet
+    - kevesebb adatnál nim használ indexet
+- SUM termékek ahol nagyobb a ckod mint 250
+    - nem használ indexet
+    - nem csak attól függ, hogy mit kérek, hanem attól is h mennyi adat
+    - sok adatnál már mindent átnéz
+
+## Zárak
+- hamarabb zárom le a kövi adatot mint hogy elengedném az előzőt
+- zárolásokból holtpont lehet
+- leht itt is megelőzési gráf, ki kire vár
+    - kör holtpontot jelent
+    - oracle a régebbit lezárja
+    - sql developerben be lehet kapcsolni az auto commit-ot
+        - minden sor után commit-ol
+- Exclusive és shared lock 
+    - shared-nél lehet nézni az adatot, de írni nem lehet
+    - exclusive-ra más nem zárhatja le
+    
+
+
+
+

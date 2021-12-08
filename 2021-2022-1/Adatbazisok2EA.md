@@ -1500,11 +1500,160 @@ vége
         - alacsonybb szinten akarunk zárolni
         - addig amíg lejutunk arra a szintre ami kell nekünk
 
-  . | IS | IX | S | X
-----|----|----|---|---
- IS | i  | i  | i | n
- IX | i  | i  | n | n
-  S | i  | n  | i | n
-  X | n  | n  | n | n
 
-  
+| . | IS | IX | S | X  
+----|----|----|---|---  
+ IS | i  | i  | i | n  
+ IX | i  | i  | n | n  
+  S | i  | n  | i | n  
+  X | n  | n  | n | n  
+
+# EA 12 2021.11.30
+
+## Vizsga
+https://people.inf.elte.hu/kiss/15ab2/13ab2osz.htm
+- Itt van minta
+- Másolás nem elég, fogalmazni kell és ábrákat rajzolni
+- Esszét kell írni, példákat is kell adni, érteni kell, tudni kell
+    - Mindent lehet használni
+
+- Jövőhéten nincs ea
+
+## Zárak
+### Figyelmeztető zárak
+- Nem kell a legfelső szinten zárolni ha kisebb adatelemet akarok zárolni
+- Sorrendben lehet kiadni a zárakat
+    - figyelni kell a hierarchiát
+    - feloldások sorrendje is fontos
+- Kompatibilitási mátrix
+    - Sor: ha van ilyen zár kiadva
+    - Oszlop: megkaphatjuk-e ezt a zárat
+    - nem minden zár hasonlítható össze
+        - Mindennél erősebb **SIX**
+            - olvas majd lehet hogy ír
+            - mindent tilt a mit az S vagy IX
+
+| . | IS | IX | S |SIX| X 
+----|----|----|---|---|---
+ IS |*i* |*i* |*i*|*i*| n
+ IX |*i* |*i* | n | n | n
+  S |*i* | n  |*i*| n | n
+SIX |*i* | n  | n | n | n
+  X | n  | n  | n | n | n
+
+- Csoportos mód szándékzárakon
+
+| Szülőn ilyen zár van | A gyerek ily zárat kaphat |
+| :------------------: | :------------------------ |
+| IS                   | IS, S                     |
+| IX                   | IS, S, IX,X, SIX          |
+| S                    | S, IS                     |
+| SIX                  | X, IX, SIX                |
+| X                    | semmi                     |
+
+- Szabályok
+    1. A kompatibilitási mátrixnak megfelelően tegye a zárakat
+    2. Először a gyökeret zárolhatja, utána megy lefelé
+    3. Olvasási vagy szándékolt módba, akkor teheti ha a szülőre már kirakta a megfelelő zárat
+    4. Irási vagy szándékolt módba, akkor teheti ha a szülőre irakta a figyelmeztető írási zárakat
+    5. Kétfázisó protokollnak megfelelően kell zárolni
+    6. Feloldás gyerektől szülő felé történik
+
+### Insert, Delete esetben mi történik?
+- Eddig csak update-et meg olvasást néztük
+#### Insert
+- Nem lehet rá zárat rakni, mert még nincs is
+- Nem ismételhető olvasási problémát okozhat
+    - Más eredményt ad, mert lehet pont beszúrtak egy új dolgot
+- **Fantom** sorok - a még nem létező sorok
+- Két tranzakció is be akar szúrni
+    - Olvasási zárakat raknak, mert a létező dolgokat csak olvasni akarják
+    - Beszúrás előtt a szülőt írási módba zároljuk, így a másik tranz.-nak várni kell
+- B+ fa esetén a levél beszúrásához egészen a gyökérik zárolni kell, mert a szülőket is módosítani kell(het)
+    - Nem kell az egészet zárolni
+    - Ki lehet számolni, hogy milyen magasságig kell zárolni
+    - Fa protokoll biztosítja a sorbarendezhetőséget
+        - Gyökértől kezdve zárakat kell rakni
+        - Elengedhetünk fentebbi záraz, ha lent rájövünk, hogy nem kell már
+        - **Mászóka** módszer
+            - Adott csomóponton eldöntjük, hogy az előző nem kell, elengedjük
+            - Lezárjuk a kövi szintet
+    - Gyerekeinek száma alapján és a kívánt művelet alapján látjuk, hogy lehet-e egyáltalán kettévágás azon a szinten
+
+
+#### Fa protokoll szabályai
+1. Első zárat bárhova teheti
+2. Későbbiekben csak akkor rakhat egy csúcsra zárat, ha van zárja a szülőjén
+3. Zárat bármikor fel lehet oldani
+4. Nem lehet újrazárolni, csak akkor engedjük el ha tényleg nem kell már
+
+## Zár nélküli ütemezés
+- Időbélyeges módszer
+    - beérkezés sorrendje határozza meg
+    - ezzel ekvivalens ütemezést akarunk megtartani
+    - időbélyegek szerint össze tudjuk hasonlítani
+    - minden adatbázis elemnél nyíván kell tartani az utolsó Írás és Olvasás időbélyegzőjét
+        - ha nem jó az új dolog akkor be kell avatkozni
+- Érvényesítéses módszer
+    - Committálás alapján van a helyes sorrend - végződés alapján sorrend
+    - Ezzel ekviv. sorrendet akarunk megtartani
+
+## Oracle konkurenciavezérlés
+- Zárolásos módszert használ
+    - Táblát vagy sort lehet zárolni
+    - Az ütemező automat. kihelyezi a zárakat
+    - Bizonyos zárakat ki lehet helyezni manuálisan
+- Select vagy update esetén végig ugyan azt az adatot mutatja
+- Egy teljes tranzakció összes lekérdezése az indulási állapotban látja az adatbázis
+- Mód választás: sorbarendezhető, csak olvasás
+- Ezek olvasási konzisztenciák
+- Rollback segmenset használja ezekhez
+- Blokkhoz bekerül, hogy mikor módosították utoljára, ha ez újabb, akkor a rollback-ből nézi a legújabb kisebbet
+- Pszkos olvasás
+- Nem ismételhető olvasás
+- Fantomok olvasása
+- Tranzakció elkülönítés
+
+| . | ... |
+|---| --- |
+| nem olvasásbiztos |
+| olvasásbiztos |
+| megismételhető |
+| sorbarendezhető |
+
+`set tranzaction isolation levet serializable;`
+- Ha nem túl hosszú és nem ütközik mással, akkorérdemes
+
+`set tranzaction read only`
+- ha mindenki olvas akkor nem kell konkurenciavezérlés
+- pl adattárház
+
+### Zárolások
+- Tábla vagy sor zárolás
+- Konkurens tranz. vagy commit vagy abort
+- Ha commit-ált, akkor hibát is adhat, ha nem tudja sorbarendezni
+- Kétfázisú zárat használ, felszabadítás csak a commit, abort, rollback után történik
+- Zárak
+    1. DML-zárak
+    2. DDL-zárak is léteznek
+- Időbélyegző
+    - Sorszintű zárolás
+    - Időbélyegzők
+    - csak akkor vár két tanz. ha ugyan azt a sort módosítják
+- Táblák suóintjén
+    1. row share - figyelmeztető olvasás
+    2. row excludeive - figy. olv.
+    3. share    - olvasás
+    4. share row exclusive  - olvsasás és alatta írás
+    5. exclusive - kézzel is ki lehet rakni - olvasás
+- Sima lekérdezés nem zárol semmit
+- Insert, update, delete már zárol
+- Felminősítés
+    - Sorokra csak kizárólagos zár, nincs felminősítés
+    - Táblára van felminősítés
+    - Select for update - RS zár aztán lehet RX lesz belőle
+- Zárak kiterjesztése
+    - Sok sor zárolásánál auto. kiterjeszti az egész táblára
+    - Oracle jelenleg ezt nem támogatja
+        - Növeli a konkurencia szinkronizációját, holtpont veszélyt
+    

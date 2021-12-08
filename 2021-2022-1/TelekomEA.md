@@ -1371,6 +1371,546 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - Nem kell fregmentálni
 - Adatközpontokban nagyobb - pl MTU = 9000
 
+# EA 10 2021.11.24
 
+## Vizsga
+- online vizsga
+- teszt és esszé kérdés
+- teszt rész min 50%, 11/20
+- decemberben egy, jamnuárban több
 
+## Fogyó IPv4 címek
+- 2^32-en a max cím ~ 4 miliárd
+- IP blokkok már ki vannak osztva
 
+## IPv6
+- 1998-tól
+- 128 bites cím
+- 4.8 * 10^28 cím/ember
+- Cím formátum
+    - hexadecimálisan szokták írni, 8 csoport
+    - vannak egyszerűsítések
+    - kezdeti nullákat el lehet engedni, max 3
+    - 0000 blokkokból álló sorozatokból egyet el lehet hagyni
+        - 20:0:0:0:32 -> 20::32
+- Lokál cím, loopback cím
+    - ::1
+- Fejléc - IPv4 kétszerese
+    - Version
+    - DSCP/ECN
+    - Flow Label
+    - Datagram Length
+    - Next Header - belső protokoll
+    - Hop Limit
+    - Sourse IP address
+    - Dest IP address
+    - hiányzik
+        - fejléc hossza hiányzik - nect header láncolás miatt nem kell
+        - checksum - nem igazán hasznos
+        - identifier, flags, offset
+            - nincs fregmentáció
+            - MTU felderítés
+- Internet súlypontjai megváltoztak
+    - Hálózatok sokkal homogénebbek mint gondolták
+    - A routing költsége domináns
+    - Source Routing
+        - A küldő határozza meg az útvonalat
+    - Mobil IP
+        - Az állomások magukkal vihetik az IP címüket más hálózatba
+        - Forrás routing használata a csomagok irányításához
+- Az átálláshoz a routereknek is át kell állni
+- Tunnelek
+    - A tunnel elején becsomagoljuk a az IPv6 csomagot IPv4-be
+    - A végén meg ki
+    - Előtte/utána mehet IPv6-ként
+
+## Internet Routing
+- Első szint - autonóm rendszer, belső üzemeltetés, felügyelet
+    - Belső routing egyszerűbb
+    - Legkevesebb hop általában a jó
+    - Link state is jó
+- Második szint - interdomain szint
+    - itt már nem működnek az egyszerű módszerek
+    - BGP router
+        - belső és kölső router is
+        - Határ router
+    - Más belső hálózatán menő forgalomért fizetni kell
+    - El lehet rejteni a belső hálózatok szerkezetét
+    - AS szám 
+        - autonóm rendszerek azonosító száma
+    - rugalmas útvonalválasztás
+        - változik az optimális útvonal
+    - protokollok
+        - path vector routing
+        - distancce vector fejlesztése kb
+
+### BGT
+- eltérő célok
+- fogalom korlátozás
+- hálózatok
+    1. csomka hálózat
+        - perem hálózat
+    2. Többszörösen bekötött hálózat
+        - alkalmas átnemő hálózatként
+        - de nem engedélyezett
+        - inkább stabilitási okok miatt van
+    3. Tranzit hálózatok
+        - harmadik fél csomagjait vezetik
+        - összekötik az autonóm rendszereket
+- TCP protokollokat használnak
+- Útvonal hírdetések
+- Megoldja a count to infinity problémát
+- Customer - Provider kapcsolat
+    - Customer fizet a providrenek
+    - Szolgáltatón kersztüli forgalom
+- Peering viszony
+    - Egymásnak külden
+    - kb egyenrangúak
+    - Bérmentve cserélnek forgalmat
+    - hálózatban, vagy ügyfelében generálódik a forgalom
+    - minden szereplő ki lesz fizetve, vagy szolgáltatást kap
+    - több peer-en nem megy keresztül
+        - a közbenső peer-ek nem kapnának pénzt
+            - csak terhelést
+        - emiatt peering linkek csak kettő pper között van
+        - ha ilyenre lenne szükség, akkor van mégy egy nagyobb provider
+    - a legfelső szinten mineden peer között van kapcsolat
+        - Tier-1 ISP peering
+- Routing táblában prefix és milyen útvonalon érhető el
+
+## Path vector protocol
+- AS útvonalak
+- útvonal vektorok
+- döntés, hogy melyik szomszédnak milyen útvonalat hirdet meg
+- Legrövidebb út nem egyértelmű
+    - Legrövidebb autonóm rendszer útvonal nem biztos, hogy fizikailag is a legrövidebb
+- Hot potató routing
+    - gyorsan továbbadja a csomagot valaki másnak
+    - kisebb hálózatnak jobb
+    - ne terhelje a rendszert
+- Cold potato routing
+    - minnél tovább maradjon a saját hálózatán
+    - nagy szolgáltatónak ez jobb
+- Szabályok importálása
+    - mindenhonnan van cucc
+    - provider, peer, belső
+- Exporting routes
+    - Customereknek minden
+    - Peereknek a belső dolgokat
+    - Providerekenk is a belsőket
+- eBGP
+    - kölső 
+- iBGP 
+    - hálózaton belüli kapcsolata a BGP-knek
+- BGP Routing tábla
+    - nagyon nagy
+    - bizonyos routerekben már nem fért el a tábla
+    - szerenycsére ezt orvosolni tudták
+
+## Protokollok amik Alkalmazási rétegben vannak de inkább Hálózati dolgok
+- ICMP
+    - elérhetetlen cél
+    - időtúllépés 
+        - erre csak korlátozottan van példa
+        - traceroute ezt használja
+    - paraméterprobléma
+    - ping
+        - visszhang küldése
+        - válaszidő és elérhetőség mérése
+- **ARP**
+    - Ez köti össze a MAC címet az IP címmel
+    - linux - arp paranccsal ki lehet listázni az arp táblát
+    - ha nincs a táblában
+        - arp üzenet
+        - megkérdezi a lokális hálózaton, h kié az ip
+            - visszaküldi a MAC címét
+        - feladó tudni fogja, berakja a tálájába
+        - ha kívül van az ip cím
+            - next hop router címét rakja a táblába
+- DHCP
+    - az elején egy csomó konfig üzenet megy
+    - Subnet, netmask, statikus ip
+- VPN
+    - több különböző helyszín összekötése mintha egy hálózat lenne
+    - bérelt vonalak kihúzása
+        - dedikált vonal
+        - drága
+        - más nem éri el
+    - virtuális linkek
+        - nem tudja értelmezni, hogy mi megy ott
+        - titkosított forgalom
+        - tunnel
+            - tunnel végpontok
+            - otthon lehet a helyi eszköz is 
+            - telephelyen a fő router
+            - végpontok tovább csomagolják a csomagot
+            - az is benne van, hogy melyik tunnel végpontba megy
+            - a belsejét titkosítja
+            - kriptográfia
+            - IPSEC
+                - NEW IP header
+                - ESP header
+                - titkosított rész
+                    - Old IP
+                    - TCP
+                    - Payload
+                - Authentication (HMAC)
+            - megbízható
+            - nehezen feltörhető
+        - olcsóbb
+
+- Jövőhét - szállítói réteg
+- Utolsó hét - milyen lesz a vizsga
+
+## EA 11 2021.12.01
+
+## Szállítói réteg
+- Adatfolyamok demultiplexálása
+- Hosszú élettartamú kapcsolat
+- Jó kihasználtság
+- Megbízható adatátvitel
+
+### Multiplexálás
+- Datagram hálózat
+    - nincs áramköri kapcsolás
+- A kliensek számos alkalmazást futtathatnak
+- IP fejléc "protokoll" mezőse kicsi
+- Demultiplexálás megoldása a szállítói rétegben
+- Port szám lesz az egyedi azonosító
+    - Az alkalmazás azonosítója
+- Egy szerver számos klienssel kommunikálhat
+- Végpontok azonosítása , kapcsolat azonosítás
+    - < src_ip, src_port, dest_ip, dest_port >
+    - fi?e_tuple
+
+### UDP protokoll
+- Egyszerú
+- 8 bájtos fejléc
+- Forrás port, cél port, adat hossz, kontrollösszeg
+- semmilyen garancia arra, hogy átment a csomag
+    - nem biztos, hogy átment
+    - hibák saját kezelése
+    - pl video átvitel, ha nem megy át minden csomag, akkor lehet helyettesíteni, csak rosszabb lesz a minőség
+        - valós idejű alkalmazásokmnál
+- TCP javításai az alkalmazási rétegben
+    - Google::QUICK protokoll
+        - UDP, alkalmazási rétegben csinálja meg a csomagok újraküldését, hiba kezelést
+    - RTMP - pl videó
+- TCP után veztték be
+    - TCP-nél fájlok küldése volt
+    - ott nem fért bele a hibás átmenetű
+
+### TCP
+- 20 bájtos fejléc + options fejléc
+    - forrás port, cél port
+    - sequence number
+    - acknowledgement number - mindent nyugtázni kell
+    - hlen, flags, advertised window - vevő megmondhatja, hogy hány bájtot fogadhat
+    - checksum, urgent pointer
+    - options
+    - soronként 32 bit
+- Elsőször kapcsolat kiépítés van
+    - sorszám random számról indul
+    - three way handshake
+    - kliens kezdeményez: SYN < SeqC, 0 >
+    - Szerver válaszol: SYN/ACK < SeqS, SeqC+1 >
+    - Kliens nyugta: ACK < SeqC+1, Seq+1 >, ez már szállíthat adatot
+        - pl http get request
+- Flagek, fontosabbak
+    - SYN - szinkronizáció, kapcsolat felépítésénél fontos
+    - ACK - ez nyugta-e
+    - FIN - kapcsolat lezárása
+- Kapcsolat építési problémák
+    - zavar, ezért kell a random kezdés idő
+    - hamisítás, jó random kell hozzá
+    - állapot kezelés
+        - minden SYN helyet foglal a szerveren
+        - Alapból 2 percig tart egy kapcsolatot, he nincs több kapcsolat
+        - Meg lehet tötlteni a szerver memóriáját
+            - SYM flout, DOS támadás
+            - Megoldás pl coocke sym szám
+                - csak akkor foglal memóriát ha kliens ack is megvan
+        - kapcsolat bontásnál van a memória felszabadítás
+        - maradhat félig nyitott kapcsolat
+            - kliens fin
+            - server ack
+            - server data
+            - kliens ack
+            - server fin
+            - kliens ack
+            - teljesen async processek
+- TCP-ben van újraküldési mechanika
+- Sorszámok tere
+    - adsztrakt bájtfolyam
+    - 32 bites érték, körbe fordulhat
+    - bájtfolyamot segmens-ekre bontjuk, tcp "csomag"
+    - Max Segment size bejásolja
+    - Úgy kell beállítani, hogy ne legyen szegmentálás
+    - Szegmenseknek is egyedi sorszám
+        - adat kezdetének jele
+        előző szegmens hosszával növelődik
+- Kétirányú kapcsolat
+    - tudjuk, hogy mit várunk és mit küldünk
+- Folyam vezérlés
+    - ne terheljük túl a fogadót
+    - hálózatot se terheljük túl
+    - puffer méret jelezhetjük az advertised window-al
+    - hány nyugtázatlan bájtot lehet küldeni
+    - csúszóablak
+    - advetied window időben változhat
+    - egyszerre küldhető több szegmens
+    - nyugta csúsztatja az ablakot
+- Átviteli idő
+    - függ az ablak mérettől és az átfordulási időtől
+- Nyugta
+    - Minden csomagra
+    - Kummulált
+    - Negatív - NACK
+    - Selektív - SACK
+    - tcp-nél kummulált alapból, és SACK szokott még lenni
+        - SACK TPC
+        - újraküldések számát lehet csökkenteni
+        - mostmár alapból be van kapcsolva
+- Buta ablak szindróma
+    - kis adat, nagy fejléc
+    - több erőforrás a header-ökre mint az adatra
+    - emiatt egy pufferbe gyűjtük az adatokat, és ha elég sok, akkor van elküldva
+    - Nagel algoritmus
+        - ablak ≥ MSS és adat ≥ MSS
+            - küldés
+        - különben ha van nem nyugtázott adat
+            - várakozás
+        - ha nincs nyugtázatlan csomag, akkor elküldjük a kisebb adatot is
+    - Ha azonnal kell küldeni, akkor ezt ki lehet kapcsolni
+- Hiba detektálás
+    - ip, tcp és adat-re checksum CRC
+    - sorszámok segítik a sorrendhelyes átvitelt
+        - duplikáltak eldobása
+        - hiányzók jelzése
+    - elveszett csomagok detektálása
+        - időtúllépés
+        - szükséges RTT becslés (fordulási idő, késleltetés)
+        - RTO alulbecsülve
+            - felesleges újraküldés, pazarlás
+        - RTO felülbecslés
+            - túl sok várakozás a nyugtára
+            - kevésbé rossz mint az alulbecsléd
+        - new_rtt = α(old_rtt)+(1-α)(new_rtt)
+            - nem fog hirtelen megugreni
+            - α : 0.8 - 0.9 
+            - simított
+        - Karn-elv az újraküldési mintákat ne vegyük figyelembe
+- Torlódás vezérlés
+    - hálózat néha terhelt, néha üres
+    - ne legyen router túlterhelve
+    - torlódás csomagvesztést okoz
+    - váraozást okoz, rtt-vel arányos is tud lenni
+    - túlterhelés észlelésnél növelni kell a várakozási időt
+        - rendszernet hagyni kell fellélegezni
+    - könyökpont köznyékén kell mozogni
+    - szirt pontot el kell kerülni
+    - az ablakok méretét is lehet módosítani ezért
+    - köldési ráta módosítás
+    - torlódási ablak is az advertised ablak melett
+    - cwnd - állítása az eldobott csaomagok alapján
+        - nyugta nem jön
+        - duplikált nyugta
+            - valami elveszett
+    - túlterhelést lassan lehet észrevenni, megjavulást gyorsan
+    - Három változó
+        - cwnd
+        - adv_wnd
+        - ssthresh: vágási érték
+    - küldésnél: wnd = min(cwnd, adv_wnd)
+    - vezérlés két fázisa
+        1. Lassú indulás
+            - ssthresh = adv_wnd
+            - amíg jön nyugta addig növeljük az ablakot
+            - exponenciális növekedés
+        2. Torlódás elkerülése
+            - ha cwnd ≥ sstresh
+                - ha nyugta akkor cwnd növelés
+                - he nincs nyugta akkor csökkentés
+
+# EA 13 2021.12.08
+
+## Szállítói réteg
+### Lassú indulás
+- Gyorsan el akarjuk érni a könyökpontot
+- Azért nem olyan lassú, mert exponenciális a növekedése
+- Csomagvesztésig, vagy küszöbib csináljuk ezt
+
+### Torlódás elkerülés
+- Itt már nem kell gyorsan növelni, mert nem akarunk ssenkit túlterhelni
+- Itt már csak lineáris növekedés
+- Ha hamar van csomagvesztés, akkor ez a rész nagyon hosszú
+- **TCP Tahoe** algoritmus
+    - 80-as évek
+    - Nagyon fürészfogas
+        - ugrál
+    - Csomagvesztés után visszamegy a SlowStart-ba
+        - Nulláról indul
+
+- **TCP Reno**
+    - Megkülönböztet két torlódást
+    - Gyors újraküldés
+        - Kummulált nyugta duplikátumok kihasználása
+        - 3 duplikátum, még csak kevésbé súlyos torlódás
+        - Ha nem jön nyugta egyáltalán, akkor SlowStart
+    - Gyors helyreállítás
+        - Nem nullára ugrunk, csak egy kisebb értékre
+        - Lineáris szakaszba lépünk
+
+- TCP mindig növeli a rátát és így mindig lesz csomagvesztés
+    - kikényszeríti
+
+- **TCP NewReno**
+    - Minden egyes duplikált nyugtára újraküldés
+    - Gyorsabban szabályozza magát
+    - Hibás sorrendben küldésnél egy duplikált nyugta véletlen is előfordulhat
+
+- **Compound TCP** (Windows)
+    - Reno alapú
+    - Késlelettetés alapú ablak
+        - RTT csükkenésnél gyorsítja a küldést
+    - Win10 előtti rendszerekben
+    - wnd = min(cwnd + dwnd, adv_wnd)
+        - dwnd - késleltetési ablak
+        - Kis RTT -> dwnd növelés
+        - Nagy RTT -> dwnd csökkentés
+- **TCP CUBIC** (Linux)
+    - Csomagvesztés harmadfokú egyenlete alapján állítja a dolgokat
+    - Win10, linux
+    - W_cubic = C(T-K)³+W_max
+        - K = (W_max*β/C)^(1/3)
+    - W_max - előző csomagvesztési szint
+    - Legutolsó csomagdobás óta eletelt idő alapján változik
+        - SlowStart-nál gyorsabb növekedés
+        - W_max közelítésénél lassulás
+        - Ha ezen a torlódáson túljutunk
+            - Akkor megint köbös növekedés
+    - SlowStartba már nem megy vissza
+    - A köbös fgv határozza meg a működését
+
+    - Torlódásvezérlés legyen fair a korábbiakkal
+        - De ez nem lehetséges
+        - REno-val nem fair
+            - CUBIC sokkal több sávszélességet fog szerezni
+
+### TCP hibái
+- Kis folyamok
+    - ezeket nem jól kezeli
+    - több erőforrás a kapcsolat létrehozása
+    - SlowStartban maradunk
+    - Megoldások
+        - cwnd induljon 10-ről
+        - TCP Fast Open - hashekkel azonosítjuk a felhasználót és a régi rátával kezdünk küldeni
+- Wireless
+    - Csomagvesztés nem biztos, hogy torlódás
+    - De lehet, hogy itt nem is jelenik meg a csomagvesztés, csak a késleletetés lesz nagyobb
+- Szolgáltatás megtagadása
+    - DOS támadás
+    - Szerver állapotot foglal a kliensnek
+    - Sok SYN csomag efoglalja az összes állapotot
+    - SYN floud
+    - DDOS - elosztott dos támadás
+    - Megoldás
+        - SYN cookie
+        - SYN/ACK-csomagba kódol egy cookie-t ami tárolja a fontos adatokat
+            - Ha visszajött a helyes válasz, akkor foglal memóriát
+
+## Tipikus internetes várakozási sorok
+- Löketek miatt kellenek
+- Túlterhelést lehet kerülgetni vele
+- Nagy puffer késlekedést okoz
+    - Az idő sok helyen fontos
+    - Kisebb queue javítja, de így hamarabb elérheti a hálózat a max terhelését
+- Alap: FIFO + DROP_TAIL
+- **RED** algoritmus
+    - kihasználja a TCP működést
+    - Random eldobál csomagokat ha már betelne a puffer
+    - Így a küldők lassabban fognak küldeni
+    - Sorhosszot nézi
+    - Van két küszöb érték: min, max
+        - 0-min : minden csomag mehet
+        - min-max : random csomagokat eldobálgat
+            - profillal lehet határozni
+        - max-∞ : mindent eldob
+    - nem lesz túltöltve a puffer, kisebb késleletetés
+    - Active Queue Management Algorithms
+- Csomagdobás vagy ECN küldés
+    - RED feleslegesen dobál, ehelyett lehetne jelzést is küldeni
+        - ECN - csomagdobás helyett egy FLAG 
+        - Nem kell újraküldeni
+        - Megjött a jelzés
+        - Gyorsabban is megérkezik a jelzés
+            - 1 RTT, nem pedig valami random várakozási idő
+            - Csomagdobás 2 RTT idő
+    - ECN-hez speckó router kell
+        - nem mindenhol van ilyen
+    - Végpont és router támogatás is kell
+        - ECN 2 bit
+            - 00 - Nem ECN képes
+            - 01, 10 - ECN képes
+            - 11 - Ha a végpont ECN képes, akkor ezt rakhatja
+
+- DCTCP - Data Center TCP
+    - Adatközpontban működik, máshol nem
+    - Aggregaror a külvilág felé
+    - Workerek belül
+    - Sok alternatív útvonal a szerverek között
+    - Lehet sokféle üzenet
+        - Kis, gyors - Query
+            - késleltetés érzékeny
+        - Kis, lassabb - Coordination
+            - késleltetés érzékeny
+        - Nagy, lassó - Large flow
+            - sávszélesség érzékeny
+
+    - Incast probléma
+        - Kis üzenetek lemennek
+        - Válaszok nagyok, csomagvesztés
+        - Újraküldés
+    - ECN-el lehet ezt valamennyire kezelni
+        - Küszöbérték utáni csomagokat megjelöli
+        - TCP nagyon mozgatja a küldési rátát
+            - itt csak kisebb változás kell
+        - Jelölt csomagok száma alapján csökkenti a rátát
+
+## Internetes alkalmazások fejlődése
+- Manapság minden használ internetet
+- DNS segítette a net elterjedését
+    - Nem kell IP-t megjegyezni
+    - ember számára megjegyezhető nevek
+    - domain nevek szervezeti struktúrát tükrözik
+- Régen fájlban tárolták
+    - Linux: /etc/hosts
+    - Windows: C:\Windows\System32\drivers\etc\hosts
+    - Ha ebben nincs, akkor DNS szerverben kell keresni
+        - manapság van hogyezt nem is nézik
+    - nem jól skálázható
+- DNS
+    - hatáskörök létrehozása
+    - alnevek lokális menedzselése
+    - elosztott adatbázis
+    - udp kliens-szerver architektúra
+        - rövid kérés, válasz
+    - hierarchikus névtér
+        - com -> google.com -> mail.google.com
+    
+## Vizsga
+- online vizsga
+- minden használható
+- canvas modul, két rész
+- 8-12 idősávban, de nem 4 óra van rá, kevesebb mint egy óra van rá
+- teszt - 20 pont
+    - 20 kérdés, 20 perc, szekvenciális
+    - min 11 pont
+- kifejtős - 25 pont
+    - sikeres teszt után
+    - 5 kérdés 30 perc, tetszőleges sorrend
+    - 5 pontos kérdések
+    - megértés a lényeg, nem a diák másolása
+    - jó gondolatmenet legyen, copy.paste nem ér sokat
+    - kérdésekre figyelni kell
+    - Rövid bekezdésnyi szöveg kell kb 

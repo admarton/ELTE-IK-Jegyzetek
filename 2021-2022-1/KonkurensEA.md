@@ -706,3 +706,90 @@ BigInteger result = asyncResult.get();
         - server:
             - ss = new ServerSocket(port)
             - Socket s = ss.accept();
+
+# EA 11 2021.11.24
+
+## Wit/notify
+- Jelzésig várakoztatni egy folyamatot
+- Thread.yield() átengedheti a vezérlést, de lehet nem csinál semmit
+- wait(), notify() régót a java-ban van
+- pattern
+```java
+synchronized in() {
+    obj.notify();
+}
+
+synchronized out() {
+    while(...) {
+        obj.wait();
+    }
+}
+```
+- a wait azt a kulcsot engedi el amire meghívtuk
+    - a többit nem
+    - wait-set-be kerül
+- notify csak egy wait-et ébreszt fel
+- a wait várhat a végtelenségig
+    - meg lehet neki adni időkorlátot
+- notify csak egy szignál
+    - ha nem vár semmi, akkor nel lesz baj
+- ha a telit is nézzük, akkor a berakás is várakozhat
+- notifyAll - mindenkit felébreszt
+    - lehet, hogy sok újra wait-el
+    - de valaki tovább tud menni
+
+- ki lehet egészíteni lock-okkal és lock.newCondition()-el
+    - condition-re lehet .await()-el várakozni
+    - .signal()-el lehet jelezni, hogy mehet tovább
+
+# EA 12 2021.12.01
+
+## Megszakítás
+- Szálbiztos flag-el lehet hesználni és a hosszú műveletbe lehet ezt viszgálni a megálláshoz
+- java.util.concurrent.atomic.AtomicBoolean
+- volatiole változó
+    - ha egy szál beleír, akkor a többi szál is látja
+    - nem tud annyit mint az Atomic, de könnyebb
+    - ilyen flag-nél ez kb elég is
+- Interrupt mehanizmus
+    - belső flag
+    - bool check helyett Thread.interrupted()
+        - futtató szálat kérdezi le
+        - nem csak lekérdezi, false-re is állítja
+        - obj.isInterrupted() csak lekérdezi
+            - Thread.currentThread().isInterrupted()
+    - megállítás: .interrupt()
+
+## Explicit zároló
+- Lock jobb mint a synchronized
+- Nehezebb mint a nyelvi megoldás
+    - de többet tud
+- tud tryLock()-ot
+    - Lehet várási időt is megadni
+- Több metódushíváson keresztül is lehet lock
+    - Lehet egy hívott függvényben az unlock
+- Olvasás-írás kürön lock
+    - olvasást eleleht engedni hamarabb
+
+## Vizsga
+- Canvas-en minden info
+
+# EA 13 2021.12.08
+
+## Félbeszakítás
+- Jelezhetjük, hogy álljon meg vagy induljon tovább
+- Future.cancel() - olyan mint az interrupt
+- ExecutorService - shutdown, shutdownNow
+- InterruptedExceptiont dobó függvények felkészültek az interrupt-ra
+
+## CountDownLatch
+- .countDown()
+- .await()
+- másik szinkronizációs megoldás
+    - késleletetni lehet dolgokat
+
+## GUI programozás
+- GUI egy szálon tud rendesen működni
+- java -> egy szál ami kezeli a gui-t
+    - event dispatch thread
+    
