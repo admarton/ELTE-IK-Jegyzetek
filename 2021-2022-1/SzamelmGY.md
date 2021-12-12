@@ -365,7 +365,7 @@ ZH-ig teamsen
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 
-<svg width="600" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<svg width="600" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg" style="background-color:light-green">
 	<ellipse stroke="black" stroke-width="1" fill="none" cx="98.5" cy="126.5" rx="30" ry="30"/>
 	<text x="88.5" y="132.5" font-family="Times New Roman" font-size="20">q0</text>
 	<ellipse stroke="black" stroke-width="1" fill="none" cx="262.5" cy="127.5" rx="30" ry="30"/>
@@ -417,7 +417,7 @@ ZH-ig teamsen
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 
-<svg width="800" height="300" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="300" version="1.1" xmlns="http://www.w3.org/2000/svg" style="background-color:light-green">
 	<polygon fill="black" stroke-width="1" points="1,0 31,30 25,35 35,35 35,25 29,30 0,1"/>
 	<ellipse stroke="black" stroke-width="1" fill="none" cx="61.5" cy="54.5" rx="30" ry="30"/>
 	<text x="51.5" y="60.5" font-family="Times New Roman" font-size="20">q0</text>
@@ -453,7 +453,7 @@ ZH-ig teamsen
 - ha olyan jön ami bent van, akkor kiolvasó állapotba megyünk
 - onnan kezdve kiolvasgatunk
 
-<svg width="800" height="300" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="300" version="1.1" xmlns="http://www.w3.org/2000/svg" style="background-color:light-green">
 	<polygon fill="black" stroke-width="1" points="1,0 31,30 25,35 35,35 35,25 29,30 0,1"/>
 	<ellipse stroke="black" stroke-width="1" fill="none" cx="61.5" cy="54.5" rx="30" ry="30"/>
 	<text x="51.5" y="60.5" font-family="Times New Roman" font-size="20">q0</text>
@@ -964,7 +964,7 @@ Jel: Θ(n)
 
 ### Palindrom 2 szalaggal
 
-<svg width="800" height="300" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="300" version="1.1" xmlns="http://www.w3.org/2000/svg" style="background-color:light-green">
 	<ellipse stroke="black" stroke-width="1" fill="none" cx="64.5" cy="66.5" rx="30" ry="30"/>
 	<text x="56.5" y="72.5" font-family="Times New Roman" font-size="20">q₀</text>
 	<ellipse stroke="black" stroke-width="1" fill="none" cx="64.5" cy="66.5" rx="24" ry="24"/>
@@ -1058,7 +1058,7 @@ Jel: Θ(n)
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 
-<svg width="800" height="600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="600" version="1.1" xmlns="http://www.w3.org/2000/svg" style="background-color:light-green">
 	<ellipse stroke="black" stroke-width="1" fill="none" cx="64.5" cy="66.5" rx="30" ry="30"/>
 	<text x="56.5" y="72.5" font-family="Times New Roman" font-size="20">q&#8320;</text>
 	<ellipse stroke="black" stroke-width="1" fill="none" cx="64.5" cy="66.5" rx="24" ry="24"/>
@@ -1146,7 +1146,7 @@ Jel: Θ(n)
     - a másolt dolgokat meg a->â, b->^b
 
 
-<svg width="800" height="600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="600" version="1.1" xmlns="http://www.w3.org/2000/svg" style="background-color:light-green">
 	<ellipse stroke="black" stroke-width="1" fill="none" cx="57.5" cy="301.5" rx="30" ry="30"/>
 	<text x="49.5" y="307.5" font-family="Times New Roman" font-size="20">q&#8320;</text>
 	<ellipse stroke="black" stroke-width="1" fill="none" cx="57.5" cy="542.5" rx="30" ry="30"/>
@@ -1219,7 +1219,7 @@ Jel: Θ(n)
 
 - végig kell menni és a végéről kezdeni
 
-<svg width="800" height="600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="600" version="1.1" xmlns="http://www.w3.org/2000/svg" style="background-color:light-green">
 	<ellipse stroke="black" stroke-width="1" fill="none" cx="67.5" cy="120.5" rx="30" ry="30"/>
 	<text x="59.5" y="126.5" font-family="Times New Roman" font-size="20">q&#8320;</text>
 	<ellipse stroke="black" stroke-width="1" fill="none" cx="132.5" cy="285.5" rx="30" ry="30"/>
