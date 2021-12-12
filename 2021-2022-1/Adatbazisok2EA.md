@@ -168,6 +168,7 @@ Structured Query Language
 6. ÁTNEVEZÉS, ρ_S(A,B)(R) az R át lesz nevezve S-re és az oszlopai is
 
 Részkifejezésekből nézettáblák -> azokon lekérdezése = összetett lekérdezés felépítése  
+
 ```SQL
  CRATE VIEW T1 AS SELECT ... FROM ... WHERE ...;
  ```
@@ -561,12 +562,14 @@ WHERE starName IN (
     - (a,p) index és mutató
     - p Blokk mutató (pontosabb is lehet)
 - Oracle
+
 ```sql
 CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>);
 
 --ÖSSZETETT
 CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS;
 ```
+
 - Statisztikák
     - egy oszlopban hány féle érték stb.
 
@@ -799,6 +802,7 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
     - ha csak egy blokk fér a memóriába
     - R minden sorához végig kell olvasni a másik táblát
         - N_R * B_S + B_R
+        
 ```
 R minden t_R rekordján
     S minden t_S rekordján
@@ -807,6 +811,7 @@ R minden t_R rekordján
 vége
 ```
 - Block-nested join - Blokk skatulyázott
+
 ```
 R minden X_R blokkra
     S minden X_S blokkra
