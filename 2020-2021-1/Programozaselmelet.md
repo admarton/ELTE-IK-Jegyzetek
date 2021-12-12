@@ -36,7 +36,7 @@ Az A feletti programnak hívjuk az S ⊆ A × (Ā ∪ {fail})** relációt, ha
    4. ∀α ∈ Rₛ : (|α| < ∞ → α_|α| ∈ A ∪ {fail})
 
 Új változó: A=(x:ℤ, y:ℤ)  
-   	    {{x:8,y:3},<{x:8,y:3},{x:8,y:3,z:8},{x:3,y:3,z:8},{x:3,y:8}>}  
+   	    { {x:8,y:3},<{x:8,y:3},{x:8,y:3,z:8},{x:3,y:3,z:8},{x:3,y:8}>}  
 				    ᴸ>∉A		ᴸ>∉A
 ```
 ## Megoldás:
