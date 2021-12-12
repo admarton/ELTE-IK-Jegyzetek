@@ -12,6 +12,7 @@ A determinisztikus relációkat másképpen függvénynek hívjuk. Jel.: R ∈ A
 Ha ∀a∈ A : |R(a)| = 1 akkor R : A→B.
 
 ### Állapottér:
+```
 Def.: Legyenek A₁,...,Aₙ (ahol n ∈ ℕ⁺) típusérték-halmazok és v₁,...,vₙ a halmazokat azonosító egyedi címkék (változók).  
 Az ezekből képzett, címkézett értékeknek egy {v₁:a₁,...,vₙ:aₙ} halmazát (ahol ∀i ∈ [1..n] : aᵢ ∈ Aᵢ) állapotnak nevezünk.  
 
@@ -20,11 +21,12 @@ Az ezekből képzett összes lehetséges {v₁:a₁,...,vₙ:aₙ} állapot (aho
       (v₁:A₁,...,vₙ:Aₙ) := {{v₁:a₁,...,vₙ:aₙ} | ∀i ∈ [1..n] : aᵢ ∈ Aᵢ }  
 
 Def.: Az A = (v₁:A₁,...,vₙ:Aₙ) állapottér címkéire (változók) úgy tekintünk mint vᵢ : A → Aᵢ függvényekre, ahol vᵢ(a) = aᵢ egy a={v₁:a₁,...,vₙ:aₙ} állapot esetén.  
-
+```
 ## Feladat:
 Def.: Feladatnak nevezünk egy F ⊆ A×A relációt.  
 
 ## Program:
+```
 Def.: Legyen A az úgynevezett alap-állapottér (fail ∉ A).  
 Jelölje Ā azon véges komponensű állapottererek unióját, melyeknek altere az A alap-állapottér: Ā = ⋃_(A≤B) B.  
 Az A feletti programnak hívjuk az S ⊆ A × (Ā ∪ {fail})** relációt, ha  
@@ -36,7 +38,7 @@ Az A feletti programnak hívjuk az S ⊆ A × (Ā ∪ {fail})** relációt, ha
 Új változó: A=(x:ℤ, y:ℤ)  
    	    {{x:8,y:3},<{x:8,y:3},{x:8,y:3,z:8},{x:3,y:3,z:8},{x:3,y:8}>}  
 				    ᴸ>∉A		ᴸ>∉A
-
+```
 ## Megoldás:
 Def.: Az S program megoldja az F feladatot, ha  
       1. D_F ⊆ Dₚ₍ₛ₎
