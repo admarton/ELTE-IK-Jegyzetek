@@ -1,6 +1,6 @@
-Programozáselmélet Definíciók  (M-x set-input-method Tex)
+# Programozáselmélet Definíciók  (M-x set-input-method Tex)
 
-Relációk:
+## Relációk:
 Def.: Legyenek A és B tetszőlegese nemüres halmazok. Ekkor az A×B halmaz az A és B Descartes szorzata, és
       A×B := {(a,b) | a ∈ A ∧ b ∈ B }
 
@@ -11,7 +11,7 @@ Def.: Legyenek A és B tetszőleges nemüres halmazok és R ⊆ A×B tetszőlege
 A determinisztikus relációkat másképpen függvénynek hívjuk. Jel.: R ∈ A→B.
 Ha ∀a∈ A : |R(a)| = 1 akkor R : A→B.
 
-Állapottér:
+### Állapottér:
 Def.: Legyenek A₁,...,Aₙ (ahol n ∈ ℕ⁺) típusérték-halmazok és v₁,...,vₙ a halmazokat azonosító egyedi címkék (változók).
 Az ezekből képzett, címkézett értékeknek egy {v₁:a₁,...,vₙ:aₙ} halmazát (ahol ∀i ∈ [1..n] : aᵢ ∈ Aᵢ) állapotnak nevezünk.
 
@@ -21,10 +21,10 @@ Az ezekből képzett összes lehetséges {v₁:a₁,...,vₙ:aₙ} állapot (aho
 
 Def.: Az A = (v₁:A₁,...,vₙ:Aₙ) állapottér címkéire (változók) úgy tekintünk mint vᵢ : A → Aᵢ függvényekre, ahol vᵢ(a) = aᵢ egy a={v₁:a₁,...,vₙ:aₙ} állapot esetén.
 
-Feladat:
+## Feladat:
 Def.: Feladatnak nevezünk egy F ⊆ A×A relációt.
 
-Program:
+## Program:
 Def.: Legyen A az úgynevezett alap-állapottér (fail ∉ A).
 Jelölje Ā azon véges komponensű állapottererek unióját, melyeknek altere az A alap-állapottér: Ā = ⋃_(A≤B) B.
 Az A feletti programnak hívjuk az S ⊆ A × (Ā ∪ {fail})** relációt, ha
@@ -37,12 +37,12 @@ Az A feletti programnak hívjuk az S ⊆ A × (Ā ∪ {fail})** relációt, ha
    	    {{x:8,y:3},<{x:8,y:3},{x:8,y:3,z:8},{x:3,y:3,z:8},{x:3,y:8}>}
 				    ᴸ>∉A		ᴸ>∉A
 
-Megoldás:
+## Megoldás:
 Def.: Az S program megoldja az F feladatot, ha
       1. D_F ⊆ Dₚ₍ₛ₎
       2. ∀ a ∈ D_F : p(S)(a)⊆F(a)
 
-Programfüggvény
+## Programfüggvény
 Def.: A p(S) ⊆ A×A reláció az S ⊆ A×(Ā ∪ {fail})** program programfüggvénye, ha
       1. Dₚ₍ₛ₎ = {a ∈ A | S(a) ⊆ Ā*}
       2. ∀a ∈ Dₚ₍ₛ₎ : p(S)(a) = {b ∈ A | ∃α ∈ S(a) : b = α_|α|}
@@ -51,7 +51,7 @@ Def.: A p~(S) ⊆ A×(A ∪ {fail}) reláció az S ⊆ A×(Ā ∪ {fail})** prog
       1. Dₚ~₍ₛ₎ = {a ∈ A | S(a) ∩ (Ā ∪ {fail})* ≠ ∅}
       2. ∀a ∈ Dₚ~₍ₛ₎ : p~(S)(a) = {b ∈ A ∪ {fail} | ∃α ∈ S(a) ∩ (Ā ∪ {fail})* : b = α_|α|}
 
-Elemi programok
+## Elemi programok
 Def.: A tetszőleges állapttér, ∀a ∈ A: S(a) ⊆ {<a>,<a,fail>,<a,a,...>,<a,b>|b ∈ A}, akkor S elemi program.
 Def.: ∀a ∈ A : ABORT(a) = {<a,fail>}
 Def.: ∀a ∈ A : SKIP(a) = {<a>}
@@ -63,7 +63,7 @@ Def.: A tetszőleges állapottér, F ∈ A × A, S általános értékadás, ha 
       = {<a,fail>} ,ha b ∉ D_F.
 Def.: A = (x,y), S szimultán étékadás, ha ∀a ∈ A : S(a)={<a,b>|b ∈ A ∧ x(b)=y(a) ∧ y(b)=x(a)}
 
-Logikai függvény
+## Logikai függvény
 Def.: Ha R ∈ A → 𝕃 ,akkor R egy logikai függvény.
 Def.: ⌈R⌉ = { a ∈ A | R(a)={igaz}} az R logiakai függvény igazsághalmaza.
 Def.: Ha Q : A → 𝕃 ,akkor Q olyan logikai függvény amiben ∀a ∈ A : |Q(a)|=1 (minden elemhez rendel valamit)
@@ -71,7 +71,7 @@ Def.: IGAZ: A→𝕃, ∀a ∈ A : IGAZ(a) = {igaz}, ⌈IGAZ⌉=A
 Def.: HAMIS: A→𝕃, ∀a ∈ A : HAMIS(a) = {hamis}, ⌈HAMIS⌉=∅
 Def.: Tetszőleges Q,R ∈ A→𝕃, Q maga után volja R (Q ⇒ R), ha ⌈Q⌉⊆⌈R⌉.
 
-Leggyengébb előfeltétel
+## Leggyengébb előfeltétel
 Def.: Legyen R ∈ A→𝕃 és S program A felett. Ekkor az S program R utófeltételhez tartozó leggyengébb előfeltétele az az lf(S,R) : A→𝕃 függvény, amelyre:
       ⌈lf(S,R)⌉ = {a ∈ A | a ∈ Dₚ₍ₛ₎ ∧ p(S)(a) ⊆ ⌈R⌉}.
       
@@ -82,13 +82,13 @@ Tét.: Az lf tulajdonságai
 	     3.lf(S,Q) ∧ lf(S,R) = lf(S,Q∧R)
 	     4.lf(S,Q) ∨ lf(S,R) ⇒ lf(S,Q∨R)
 
-Feladat szigorítása
+## Feladat szigorítása
 Def.: Az F₁ feladat szigorúbb mint F₂ feladat, ha
       1. D_F₂ ⊆ D_F₁	      	   (ahol eddig nem volt elvárás, most lesz)
       2. ∀a ∈ D_F₂ : F₁(a) ⊆ F₂(a)
 Tét.: Ha S program megoldja az F₁ feladatot, akkor megoldja F₂ feladatot is (ahol F₁ szigorúbb mint F₂).
 
-Paramétertér
+## Paramétertér
 Def.: Legyen F ⊆ A×A feladat. B halmazt a feladat paraméterterének nevezzük, ha van olyan F₁ és F₂ reláció, hogy
       F₁ ⊆ A×B
       F₂ ⊆ B×A
@@ -96,14 +96,14 @@ Def.: Legyen F ⊆ A×A feladat. B halmazt a feladat paraméterterének nevezzü
 Áll.: Legyen F ⊆ A×A feladatnak van paramétertere.
 Áll.: Legyen F ⊆ A×A feladatnak végtelen sok paramétertere van.
 
-Specifikáció
+## Specifikáció
 Tét.: Legyen F ⊆ A×A feladat, B az F egy paramétertere, F₁ ⊆ A×B, F₂ ⊆ B×A, F = F₂ ∘ F₁.
 Legyen b ∈ B, és definiáljuk a következő állításokat:
 		⌈Q_b⌉ = { a ∈ A | (a,b) ∈ F₁} = F₁⁽⁻¹⁾(b)
 		⌈R_b⌉ = { a ∈ A | (b,a) ∈ F₂} = F₂(b)
 	Ekkor ha ∀b ∈ B : Q_b ⇒ lf(S,R_b),  akkor az S program megoldja az F feladatot.
 
-Programkonstrukciók
+## Programkonstrukciók
 • Szekvencia
 Def.: Legyen A közös alap-állapottere az S₁ és S₂ programoknak.
 Az (S₁; S₂) relációt az S₁ és S₂ programok szekvenciájának nevezzük, ha
@@ -156,7 +156,7 @@ A DO ⊆ A × (Ā ∪{fail})** relációt az S₀ programból π feltétellel k
 └─┴──────┘
 
 
-Levezetési szabályok
+## Levezetési szabályok
 
 • Szekvencia levezetési szabálya
 Tét.: Legyen S = (S₁; S₂) az A közös alap-állapotterű Sᵢ programokból képzett szekvencia. Legyenek Q, R, Q' logikai függvények A-n.
@@ -191,7 +191,7 @@ akkor Q ⇒ lf(DO, R)
 //(Nem lehet végtelen mert ṯ csökken és nagyobb kell legyen mint 0 ha a feltétel igaz)
 //(S₀ is megold egy feladatot: az [P ∧ π ∧ t=t₀] előfeltételü és [P ∧ t<t₀] utófeltételű feladatot)
 
-Új programkonstrukciók
+## Új programkonstrukciók
 
 • Atomi utasítás: [S]
 Def.: Legyen A tetsz ̋oleges állapottér, S program az A állapottér felett.
@@ -220,7 +220,7 @@ Bᵢ(a)=	┤
 //Befejeződik, ha minden komponensprogramja terminál.
 //Végrehajtása valamely ágnak kiválasztását és az ott lévő komponens első utasításának, illetve a kapott maradék programnak egymás utáni végrehajtását jelenti.
 
-Új programkonstrukciók levezetési szabályai
+## Új programkonstrukciók levezetési szabályai
 
 • Atomi művelet levezetési szabálya
 Tét.: Legyen S A feletti program.
@@ -245,12 +245,12 @@ Ha
 	5. Holtpontmentes a T
 akkor Q ⇒ lf(T, R)
 
-Interferencia mentesség:
+## Interferencia mentesség:
 	Külön külön helyes programok egymás mellett elromolhatnak, pl ugyan azt az értéket változtatják
 	pre(Sⱼ) ⇒ lf (Sⱼ, post(Sⱼ))
 	Csak kritikus utasítésokat kell megnézni
 
-Kritikus utasítás
+## Kritikus utasítás
 	∘ értékadás
 	∘ atomi program amiben van értékadás
 
@@ -262,11 +262,11 @@ Ha
 
 Def.: Sᵢ komponens nem interferál az Sⱼ (i ≠ j) teljes helyességi formulájával, ha Sᵢ bármely kritikus utasítása new interferál az Sⱼ teljes helyességi furmulájával.
 
-Holtpont
+## Holtpont
 S-ben csak egy párhuzamos blokk van, és abban csak két részprogram van.
 S holtpontban van D(S) = [D(S₁) ∧ post(S₂)] ∨ [D(S₂) ∧ post(S₁)] ∨ [D(S₁) ∧ D(S₂)]
 
-Általánosan
+### Általánosan
 S-ben m db "await" : A₁...Aₘ és n db "par" : T₁...Tₙ
 D(S) = [⋁ᵐⱼ₌₁ (pre(Aⱼ ) ∧ ¬Bⱼ )] ∨ [⋁ⁿₖ₌₁ D1(Tₖ)]
 
