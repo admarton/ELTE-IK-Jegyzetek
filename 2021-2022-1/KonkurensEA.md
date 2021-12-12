@@ -621,12 +621,12 @@ List lst = Collections.synchronizedList(new ArrayList<Integer>());
 
 ## Életciklus kezelés
 - stop függvény
-- Nem lehet egy komponenesben sem végtelen várakozás
+- Nem lehet egy komponensben sem végtelen várakozás
     - elrontja a többit is
 
 ## Future
-- Más nyleveken hasonló a `Promise`
-- Future-el meg lehet várni az eredméynt
+- Más nyelveken hasonló a `Promise`
+- Future-el meg lehet várni az eredményt
 ```java
 BigInteger compute(BigInteger input){...}
 ...
@@ -635,12 +635,12 @@ ExecutorService exec = ...
 Future<BigInteger> asyncResult = exec.submit(()->compuet(input));
 ...
 BigInteger result = asyncResult.get();
-// Itt várni fog a szálra és az eredméynére
+// Itt várni fog a szálra és az eredményére
 ```
 - Feature of Unknown
     - `Future<?>`
     - Várakoztatásra lehet használni
-    - Runnable elemeknél hasonlíta join-ra
+    - Runnable elemeknél hasonlít a join-ra
 
  # EA 10 2021.11.17
 
@@ -654,10 +654,10 @@ BigInteger result = asyncResult.get();
     - hatékonyabb munkamegosztás
 - Termelő fogyasztó
     - egy helyen gyűjti a kész dolgokat
-    - abbol a pool-ból szedeget feladatot a másik
+    - abból a pool-ból szedeget feladatot a másik
     - van középen egy buffer
     - jobb kihasználtságot eredményezhet
-    - minnél nagyobb a buffer
+    - minél nagyobb a buffer
         - annál aszinkronabbak lehetnek a feladatok
     - sor adatszerkezetben adják át az adatokat
 - Van ahol a randevú is jó
@@ -671,7 +671,7 @@ BigInteger result = asyncResult.get();
     - `java.util.concurent.LinkedBlockingQueue`
 - Be kell hangol ni a dolgokat
     - ne legyen túl sok erőforrás lekötve
-    - ne kelljent sokat várni egyik folyamatnak sem
+    - ne kelljen sokat várni egyik folyamatnak sem
 
 | Throws exception | Spacial value | Block | Times out |
 | :---: | :---: | :---: | :---: |
@@ -694,7 +694,7 @@ BigInteger result = asyncResult.get();
         - available(), ready()
             - meg lehet nézni hogy blokkol-e a művelet
         - Az egyik konstruktorában meg kell adni a másikat
-        - `DataOutputStream` - alap típúsoknál megvalósítja az átalakításokat
+        - `DataOutputStream` - alap típusoknál megvalósítja az átalakításokat
         - write-ok után `flush` kell, hogy tényleg átmenjen az adat
     - lehet ebből kétirányú kommunikáció is
     - socket alapú kommunikáció is ilyen
@@ -712,7 +712,7 @@ BigInteger result = asyncResult.get();
 ## Wit/notify
 - Jelzésig várakoztatni egy folyamatot
 - Thread.yield() átengedheti a vezérlést, de lehet nem csinál semmit
-- wait(), notify() régót a java-ban van
+- wait(), notify() régóta van a java-ban van
 - pattern
 ```java
 synchronized in() {
@@ -745,13 +745,13 @@ synchronized out() {
 # EA 12 2021.12.01
 
 ## Megszakítás
-- Szálbiztos flag-el lehet hesználni és a hosszú műveletbe lehet ezt viszgálni a megálláshoz
+- Szálbiztos flag-el lehet használni és a hosszú műveletbe lehet ezt vizsgálni a megálláshoz
 - java.util.concurrent.atomic.AtomicBoolean
-- volatiole változó
+- volatile változó
     - ha egy szál beleír, akkor a többi szál is látja
-    - nem tud annyit mint az Atomic, de könnyebb
+    - nem tud annyit, mint az Atomic, de könnyebb
     - ilyen flag-nél ez kb elég is
-- Interrupt mehanizmus
+- Interrupt mechanizmus
     - belső flag
     - bool check helyett Thread.interrupted()
         - futtató szálat kérdezi le
@@ -761,18 +761,18 @@ synchronized out() {
     - megállítás: .interrupt()
 
 ## Explicit zároló
-- Lock jobb mint a synchronized
-- Nehezebb mint a nyelvi megoldás
+- Lock jobb, mint a synchronized
+- Nehezebb, mint a nyelvi megoldás
     - de többet tud
 - tud tryLock()-ot
     - Lehet várási időt is megadni
 - Több metódushíváson keresztül is lehet lock
     - Lehet egy hívott függvényben az unlock
 - Olvasás-írás kürön lock
-    - olvasást eleleht engedni hamarabb
+    - olvasást ellehet engedni hamarabb
 
 ## Vizsga
-- Canvas-en minden info
+- Canvas-en minden infó
 
 # EA 13 2021.12.08
 
@@ -786,7 +786,7 @@ synchronized out() {
 - .countDown()
 - .await()
 - másik szinkronizációs megoldás
-    - késleletetni lehet dolgokat
+    - késleltetni lehet dolgokat
 
 ## GUI programozás
 - GUI egy szálon tud rendesen működni

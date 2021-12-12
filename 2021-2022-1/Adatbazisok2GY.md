@@ -474,7 +474,7 @@ SQL Developer-ben van gomb, ami grafikusan kijelzi -> Explain Plan
     - UNION ALL
     - megtart mindent
     - és utána van `SORT UNIQUE` -> DISTINCT
-    - ha végrehajtássnál van view akkor van distinct és union all
+    - ha végrehajtásnál van view akkor van distinct és union all
 
 - MINUS, INTERSECT
     - nincs MINUS ALL
@@ -486,18 +486,18 @@ SQL Developer-ben van gomb, ami grafikusan kijelzi -> Explain Plan
 - NON IN, NOT EXISTS
     - anti join
 
-- SUM termékek ahol nagyobb a ckod mint 249
+- SUM termékek, ahol nagyobb a ckod mint 249
     - Használ indexet
     - kevesebb adatnál nim használ indexet
-- SUM termékek ahol nagyobb a ckod mint 250
+- SUM termékek, ahol nagyobb a ckod mint 250
     - nem használ indexet
     - nem csak attól függ, hogy mit kérek, hanem attól is h mennyi adat
     - sok adatnál már mindent átnéz
 
 ## Zárak
-- hamarabb zárom le a kövi adatot mint hogy elengedném az előzőt
+- hamarabb zárom le a kövi adatot, mint hogy elengedném az előzőt
 - zárolásokból holtpont lehet
-- leht itt is megelőzési gráf, ki kire vár
+- lehet itt is megelőzési gráf, ki kire vár
     - kör holtpontot jelent
     - oracle a régebbit lezárja
     - sql developerben be lehet kapcsolni az auto commit-ot

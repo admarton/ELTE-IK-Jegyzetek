@@ -1193,7 +1193,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
             - Level2 a gerinchálózat
 
 - Két Router között többféle adatkapcsolati réteg is lehet, több eszközzel
-- Falyamok vannak (Kliens - Szerver kommunikáció)
+- Folyamok vannak (Kliens - Szerver kommunikáció)
 
 ### Forgalom irányítás
 - Unicast
@@ -1204,7 +1204,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - Broadcast "mindenhová"
     - A lokális csoporton belül
     - Több megoldás
-        1. Kölön csomag mindenkinek, ugyanazzal a tartalommal
+        1. Külön csomag mindenkinek, ugyanazzal a tartalommal
             - Nem igazi funkció
             - Csak elfedés
             - Ugyan azt küldök mindenkinek
@@ -1315,13 +1315,13 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 
 ### CIDR - cyder
 - Osztályok lecserélése
-- C osztályú címek agragálása
+- C osztályú címek agregálása
 - Egymás utániakat egybe osztják ki, amennyi kell
-- Nem csak a háló azonosító kell hanem a maszk is
+- Nem csak a háló azonosító kell, hanem a maszk is
     - ez a kettő kell az azonosításhoz
 - Next hop ismert
 - Maszkolás és összevetés
-    - ha nincs találat, akkor a leghosszabb illeszkedés feléküldi
+    - ha nincs találat, akkor a leghosszabb illeszkedés felé küldi
 - `Kernel IP routing table`
     - Destination - Cím
     - Gateway - next hop
@@ -1341,7 +1341,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - 192.168.0.0/16 - 65536 host
         - ez szokott lenni otthon
 - Nem csak az ip van,
-    - Ki volt a feladaó
+    - Ki volt a feladó
     - TCP vagy UDP
     - Milyen portról
     - Lecseréli a címet és a portot
@@ -1367,7 +1367,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 - Költséges módszer
 - Dont Fragment Flag - eldobja ha darabolni kéne
 - Felderítés - MTU discovery
-    - Csükkenti a csomag méretet
+    - Csökkenti a csomag méretet
     - Nem kell fregmentálni
 - Adatközpontokban nagyobb - pl MTU = 9000
 
@@ -1377,7 +1377,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 - online vizsga
 - teszt és esszé kérdés
 - teszt rész min 50%, 11/20
-- decemberben egy, jamnuárban több
+- decemberben egy, januárban több
 
 ## Fogyó IPv4 címek
 - 2^32-en a max cím ~ 4 miliárd
@@ -1411,7 +1411,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
             - nincs fregmentáció
             - MTU felderítés
 - Internet súlypontjai megváltoztak
-    - Hálózatok sokkal homogénebbek mint gondolták
+    - Hálózatok sokkal homogénebbek, mint gondolták
     - A routing költsége domináns
     - Source Routing
         - A küldő határozza meg az útvonalat
@@ -1432,7 +1432,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 - Második szint - interdomain szint
     - itt már nem működnek az egyszerű módszerek
     - BGP router
-        - belső és kölső router is
+        - belső és külső router is
         - Határ router
     - Más belső hálózatán menő forgalomért fizetni kell
     - El lehet rejteni a belső hálózatok szerkezetét
@@ -1448,10 +1448,10 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 - eltérő célok
 - fogalom korlátozás
 - hálózatok
-    1. csomka hálózat
+    1. csonka hálózat
         - perem hálózat
     2. Többszörösen bekötött hálózat
-        - alkalmas átnemő hálózatként
+        - alkalmas átmenő hálózatként
         - de nem engedélyezett
         - inkább stabilitási okok miatt van
     3. Tranzit hálózatok
@@ -1464,7 +1464,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - Customer fizet a providrenek
     - Szolgáltatón kersztüli forgalom
 - Peering viszony
-    - Egymásnak külden
+    - Egymásnak küldeni
     - kb egyenrangúak
     - Bérmentve cserélnek forgalmat
     - hálózatban, vagy ügyfelében generálódik a forgalom
@@ -1474,7 +1474,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
             - csak terhelést
         - emiatt peering linkek csak kettő pper között van
         - ha ilyenre lenne szükség, akkor van mégy egy nagyobb provider
-    - a legfelső szinten mineden peer között van kapcsolat
+    - a legfelső szinten minden peer között van kapcsolat
         - Tier-1 ISP peering
 - Routing táblában prefix és milyen útvonalon érhető el
 
@@ -1489,7 +1489,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - kisebb hálózatnak jobb
     - ne terhelje a rendszert
 - Cold potato routing
-    - minnél tovább maradjon a saját hálózatán
+    - minél tovább maradjon a saját hálózatán
     - nagy szolgáltatónak ez jobb
 - Szabályok importálása
     - mindenhonnan van cucc
@@ -1505,9 +1505,9 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 - BGP Routing tábla
     - nagyon nagy
     - bizonyos routerekben már nem fért el a tábla
-    - szerenycsére ezt orvosolni tudták
+    - szerencsére ezt orvosolni tudták
 
-## Protokollok amik Alkalmazási rétegben vannak de inkább Hálózati dolgok
+## Protokollok, amik Alkalmazási rétegben vannak de inkább Hálózati dolgok
 - ICMP
     - elérhetetlen cél
     - időtúllépés 
@@ -1584,19 +1584,19 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - fi?e_tuple
 
 ### UDP protokoll
-- Egyszerú
+- Egyszerű
 - 8 bájtos fejléc
 - Forrás port, cél port, adat hossz, kontrollösszeg
 - semmilyen garancia arra, hogy átment a csomag
     - nem biztos, hogy átment
     - hibák saját kezelése
     - pl video átvitel, ha nem megy át minden csomag, akkor lehet helyettesíteni, csak rosszabb lesz a minőség
-        - valós idejű alkalmazásokmnál
+        - valós idejű alkalmazásoknál
 - TCP javításai az alkalmazási rétegben
     - Google::QUICK protokoll
-        - UDP, alkalmazási rétegben csinálja meg a csomagok újraküldését, hiba kezelést
+        - UDP, alkalmazási rétegben csinálja meg a csomagok újra küldését, hiba kezelést
     - RTMP - pl videó
-- TCP után veztték be
+- TCP után vezették be
     - TCP-nél fájlok küldése volt
     - ott nem fért bele a hibás átmenetű
 
@@ -1609,7 +1609,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - checksum, urgent pointer
     - options
     - soronként 32 bit
-- Elsőször kapcsolat kiépítés van
+- Először kapcsolat kiépítés van
     - sorszám random számról indul
     - three way handshake
     - kliens kezdeményez: SYN < SeqC, 0 >
@@ -1626,10 +1626,10 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - állapot kezelés
         - minden SYN helyet foglal a szerveren
         - Alapból 2 percig tart egy kapcsolatot, he nincs több kapcsolat
-        - Meg lehet tötlteni a szerver memóriáját
+        - Meg lehet tölteni a szerver memóriáját
             - SYM flout, DOS támadás
             - Megoldás pl coocke sym szám
-                - csak akkor foglal memóriát ha kliens ack is megvan
+                - csak akkor foglal memóriát, ha kliens ack is megvan
         - kapcsolat bontásnál van a memória felszabadítás
         - maradhat félig nyitott kapcsolat
             - kliens fin
@@ -1639,12 +1639,12 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
             - server fin
             - kliens ack
             - teljesen async processek
-- TCP-ben van újraküldési mechanika
+- TCP-ben van újra küldési mechanika
 - Sorszámok tere
-    - adsztrakt bájtfolyam
+    - absztrakt bájtfolyam
     - 32 bites érték, körbe fordulhat
     - bájtfolyamot segmens-ekre bontjuk, tcp "csomag"
-    - Max Segment size bejásolja
+    - Max Segment size bemásolja
     - Úgy kell beállítani, hogy ne legyen szegmentálás
     - Szegmenseknek is egyedi sorszám
         - adat kezdetének jele
@@ -1657,28 +1657,28 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - puffer méret jelezhetjük az advertised window-al
     - hány nyugtázatlan bájtot lehet küldeni
     - csúszóablak
-    - advetied window időben változhat
+    - advertised window időben változhat
     - egyszerre küldhető több szegmens
     - nyugta csúsztatja az ablakot
 - Átviteli idő
     - függ az ablak mérettől és az átfordulási időtől
 - Nyugta
     - Minden csomagra
-    - Kummulált
+    - Kumulált
     - Negatív - NACK
-    - Selektív - SACK
-    - tcp-nél kummulált alapból, és SACK szokott még lenni
+    - Szelektív - SACK
+    - tcp-nél kumulált alapból, és SACK szokott még lenni
         - SACK TPC
-        - újraküldések számát lehet csökkenteni
-        - mostmár alapból be van kapcsolva
+        - újra küldések számát lehet csökkenteni
+        - most már alapból be van kapcsolva
 - Buta ablak szindróma
     - kis adat, nagy fejléc
     - több erőforrás a header-ökre mint az adatra
-    - emiatt egy pufferbe gyűjtük az adatokat, és ha elég sok, akkor van elküldva
+    - emiatt egy pufferbe gyűjtjük az adatokat, és ha elég sok, akkor van elküldve
     - Nagel algoritmus
         - ablak ≥ MSS és adat ≥ MSS
             - küldés
-        - különben ha van nem nyugtázott adat
+        - különben, ha van nem nyugtázott adat
             - várakozás
         - ha nincs nyugtázatlan csomag, akkor elküldjük a kisebb adatot is
     - Ha azonnal kell küldeni, akkor ezt ki lehet kapcsolni
@@ -1690,33 +1690,33 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - elveszett csomagok detektálása
         - időtúllépés
         - szükséges RTT becslés (fordulási idő, késleltetés)
-        - RTO alulbecsülve
-            - felesleges újraküldés, pazarlás
+        - RTO alul becsülve
+            - felesleges újra küldés, pazarlás
         - RTO felülbecslés
             - túl sok várakozás a nyugtára
-            - kevésbé rossz mint az alulbecsléd
+            - kevésbé rossz mint az alábecslés
         - new_rtt = α(old_rtt)+(1-α)(new_rtt)
-            - nem fog hirtelen megugreni
+            - nem fog hirtelen megugrani
             - α : 0.8 - 0.9 
             - simított
-        - Karn-elv az újraküldési mintákat ne vegyük figyelembe
+        - Karn-elv az újra küldési mintákat ne vegyük figyelembe
 - Torlódás vezérlés
     - hálózat néha terhelt, néha üres
     - ne legyen router túlterhelve
     - torlódás csomagvesztést okoz
-    - váraozást okoz, rtt-vel arányos is tud lenni
+    - várakozást okoz, rtt-vel arányos is tud lenni
     - túlterhelés észlelésnél növelni kell a várakozási időt
         - rendszernet hagyni kell fellélegezni
     - könyökpont köznyékén kell mozogni
     - szirt pontot el kell kerülni
     - az ablakok méretét is lehet módosítani ezért
-    - köldési ráta módosítás
-    - torlódási ablak is az advertised ablak melett
-    - cwnd - állítása az eldobott csaomagok alapján
+    - küldési ráta módosítás
+    - torlódási ablak is az advertised ablak mellett
+    - cwnd - állítása az eldobott csomagok alapján
         - nyugta nem jön
         - duplikált nyugta
             - valami elveszett
-    - túlterhelést lassan lehet észrevenni, megjavulást gyorsan
+    - túlterhelést lassan lehet észre venni, megjavulást gyorsan
     - Három változó
         - cwnd
         - adv_wnd
@@ -1738,23 +1738,23 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 ### Lassú indulás
 - Gyorsan el akarjuk érni a könyökpontot
 - Azért nem olyan lassú, mert exponenciális a növekedése
-- Csomagvesztésig, vagy küszöbib csináljuk ezt
+- Csomagvesztésig, vagy küszöbig csináljuk ezt
 
 ### Torlódás elkerülés
-- Itt már nem kell gyorsan növelni, mert nem akarunk ssenkit túlterhelni
+- Itt már nem kell gyorsan növelni, mert nem akarunk senkit túlterhelni
 - Itt már csak lineáris növekedés
 - Ha hamar van csomagvesztés, akkor ez a rész nagyon hosszú
 - **TCP Tahoe** algoritmus
     - 80-as évek
-    - Nagyon fürészfogas
+    - Nagyon fűrészfogas
         - ugrál
     - Csomagvesztés után visszamegy a SlowStart-ba
         - Nulláról indul
 
 - **TCP Reno**
     - Megkülönböztet két torlódást
-    - Gyors újraküldés
-        - Kummulált nyugta duplikátumok kihasználása
+    - Gyors újra küldés
+        - Kumulált nyugta duplikátumok kihasználása
         - 3 duplikátum, még csak kevésbé súlyos torlódás
         - Ha nem jön nyugta egyáltalán, akkor SlowStart
     - Gyors helyreállítás
@@ -1765,14 +1765,14 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - kikényszeríti
 
 - **TCP NewReno**
-    - Minden egyes duplikált nyugtára újraküldés
+    - Minden egyes duplikált nyugtára újra küldés
     - Gyorsabban szabályozza magát
     - Hibás sorrendben küldésnél egy duplikált nyugta véletlen is előfordulhat
 
 - **Compound TCP** (Windows)
     - Reno alapú
-    - Késlelettetés alapú ablak
-        - RTT csükkenésnél gyorsítja a küldést
+    - Késleltetés alapú ablak
+        - RTT csökkenésnél gyorsítja a küldést
     - Win10 előtti rendszerekben
     - wnd = min(cwnd + dwnd, adv_wnd)
         - dwnd - késleltetési ablak
@@ -1784,7 +1784,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - W_cubic = C(T-K)³+W_max
         - K = (W_max*β/C)^(1/3)
     - W_max - előző csomagvesztési szint
-    - Legutolsó csomagdobás óta eletelt idő alapján változik
+    - Legutolsó csomagdobás óta eltelt idő alapján változik
         - SlowStart-nál gyorsabb növekedés
         - W_max közelítésénél lassulás
         - Ha ezen a torlódáson túljutunk
@@ -1794,7 +1794,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 
     - Torlódásvezérlés legyen fair a korábbiakkal
         - De ez nem lehetséges
-        - REno-val nem fair
+        - Reno-val nem fair
             - CUBIC sokkal több sávszélességet fog szerezni
 
 ### TCP hibái
@@ -1807,11 +1807,11 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
         - TCP Fast Open - hashekkel azonosítjuk a felhasználót és a régi rátával kezdünk küldeni
 - Wireless
     - Csomagvesztés nem biztos, hogy torlódás
-    - De lehet, hogy itt nem is jelenik meg a csomagvesztés, csak a késleletetés lesz nagyobb
+    - De lehet, hogy itt nem is jelenik meg a csomagvesztés, csak a késleltetés lesz nagyobb
 - Szolgáltatás megtagadása
     - DOS támadás
     - Szerver állapotot foglal a kliensnek
-    - Sok SYN csomag efoglalja az összes állapotot
+    - Sok SYN csomag elfoglalja az összes állapotot
     - SYN floud
     - DDOS - elosztott dos támadás
     - Megoldás
@@ -1828,7 +1828,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 - Alap: FIFO + DROP_TAIL
 - **RED** algoritmus
     - kihasználja a TCP működést
-    - Random eldobál csomagokat ha már betelne a puffer
+    - Random eldobál csomagokat, ha már betelne a puffer
     - Így a küldők lassabban fognak küldeni
     - Sorhosszot nézi
     - Van két küszöb érték: min, max
@@ -1836,12 +1836,12 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
         - min-max : random csomagokat eldobálgat
             - profillal lehet határozni
         - max-∞ : mindent eldob
-    - nem lesz túltöltve a puffer, kisebb késleletetés
+    - nem lesz túltöltve a puffer, kisebb késleltetés
     - Active Queue Management Algorithms
 - Csomagdobás vagy ECN küldés
     - RED feleslegesen dobál, ehelyett lehetne jelzést is küldeni
         - ECN - csomagdobás helyett egy FLAG 
-        - Nem kell újraküldeni
+        - Nem kell újra küldeni
         - Megjött a jelzés
         - Gyorsabban is megérkezik a jelzés
             - 1 RTT, nem pedig valami random várakozási idő
@@ -1864,13 +1864,13 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
             - késleltetés érzékeny
         - Kis, lassabb - Coordination
             - késleltetés érzékeny
-        - Nagy, lassó - Large flow
+        - Nagy, lassú - Large flow
             - sávszélesség érzékeny
 
     - Incast probléma
         - Kis üzenetek lemennek
         - Válaszok nagyok, csomagvesztés
-        - Újraküldés
+        - Újra küldés
     - ECN-el lehet ezt valamennyire kezelni
         - Küszöbérték utáni csomagokat megjelöli
         - TCP nagyon mozgatja a küldési rátát
@@ -1887,7 +1887,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - Linux: /etc/hosts
     - Windows: C:\Windows\System32\drivers\etc\hosts
     - Ha ebben nincs, akkor DNS szerverben kell keresni
-        - manapság van hogyezt nem is nézik
+        - manapság van hogy ezt nem is nézik
     - nem jól skálázható
 - DNS
     - hatáskörök létrehozása
@@ -1911,6 +1911,6 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - 5 kérdés 30 perc, tetszőleges sorrend
     - 5 pontos kérdések
     - megértés a lényeg, nem a diák másolása
-    - jó gondolatmenet legyen, copy.paste nem ér sokat
+    - jó gondolatmenet legyen, copy-paste nem ér sokat
     - kérdésekre figyelni kell
     - Rövid bekezdésnyi szöveg kell kb 

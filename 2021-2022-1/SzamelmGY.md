@@ -896,7 +896,7 @@ y | A | B | C | (A → ¬B) ∧ C
 ## Műveletigény - Aszimptotika
 
 **Fölső korlát**
-Tudunk adni c*g(n)-t amire n₀-tól kezdve mnagyobb mint f(n) -> műveletigény.
+Tudunk adni c*g(n)-t amire n₀-tól kezdve nagyobb mint f(n) -> műveletigény.
 
 Jel: O(n)
 
@@ -932,7 +932,7 @@ Jel: Θ(n)
     - két ábécé
     - input karakterek és szalag karakterek
     - állapot és inputhoz rendel egy állapotot, szalagszimbólumot és a lépést
-- kofiguráció
+- konfiguráció
     - uqv
     - v nem lehet epszilon
     - ⎵ van epszilon helyett (\underbracket |_| ⎵) 
@@ -956,13 +956,13 @@ Jel: Θ(n)
         - a másodikon v-t olvas
 - átmenet diagram
     - nyilakra máshogy kerülnek dolgok
-    - olvasunk/írunk,mozgunk
+    - olvasunk/írunk, mozgunk
     - három szalagos példa
         - a₁,a₂,a₃/b₁,b₂,b₃,L,R,S
 - standard input az első szalag
 - standard output az utolsó szalag
 
-### Palindrom 2 szalagal
+### Palindrom 2 szalaggal
 
 <svg width="800" height="300" version="1.1" xmlns="http://www.w3.org/2000/svg">
 	<ellipse stroke="black" stroke-width="1" fill="none" cx="64.5" cy="66.5" rx="30" ry="30"/>
@@ -1033,7 +1033,7 @@ Jel: Θ(n)
     - oda-vissza mászkálás
 - két szalag
     - eleje átmásolva
-    - végigmegyünk az input második felén és a második szalagon
+    - végig megyünk az input második felén és a második szalagon
 
 ### Dadogós szavak könnyítés nélkül
 - másik szalagra annyi n/2 darab jelet lehet rakni
@@ -1045,10 +1045,10 @@ Jel: Θ(n)
 **Touring gép alapból determinisztikus**
 - Nem determinisztikus az NTG
 - Több levezetés egy inputra
-- Egy szót az NTG felismeri ha van legalább egy olyan számolás ami elfogadó állapotba érkezik
+- Egy szót az NTG felismeri, ha van legalább egy olyan számolás ami elfogadó állapotba érkezik
 - Számítási fát lehet csinálni
 - Elakadó állapot is létezik
-    - nincs szabály amivel tovább lehet menni
+    - nincs szabály, amivel tovább lehet menni
 - A fa magassága az időkorlátja
     - ha van végtelen ág, akkor nem korlátos
     - véges fára van magasság
@@ -1113,7 +1113,7 @@ Jel: Θ(n)
 
 - TG fejtsd ki a működést
     - pontok fele a megoldás
-    - fela a magyarázat
+    - fele a magyarázat
 
 - ZH után még lesz téma
     - 12. hét
@@ -1134,10 +1134,10 @@ Jel: Θ(n)
     
 ### 8. feladat - f(u) = ub
 - pl.: f(ab) = abb
-- Végigmegyünk és a végén b-t írunk
+- Végig megyünk és a végén b-t írunk
 
 ### 9. feladat - f : w -> ww
-- két szalagon künnyű
+- két szalagon könnyű
     - kétszer lemásolom egymás után
 - egy szalagon
     - elejét és közepét meg kell jelölni
@@ -1271,7 +1271,7 @@ Jel: Θ(n)
 
 ### 14. feladat - bináris szorzás
 - 4 szalagos TG
-- az összeadát kell használni
+- az összeadást kell használni
 - többször kell összeadni a dolgokat
 - kettesével összeadjuk a rész összeadásait a szorzásnak
 - a szorzót kell vizsgálni
@@ -1314,7 +1314,7 @@ Jel: Θ(n)
 - innen rajz
 
 ### Feladat - kódolás
-- van egy autómata
+- van egy automata
 - állapotok kódja
 - ábécé kódja
 - irányok kódja adott
@@ -1325,7 +1325,7 @@ Jel: Θ(n)
 - Ez a dominós cucc
 - Úgy rakni a dominókat, h alul szó = felül szó
 - Többször is lehet egy dominó, nem kell mindet felhasználni
-- Kezdéshez kell olyan dominó amin alul felül ugyan az a kezdő betű
+- Kezdéshez kell olyan dominó, amin alul felül ugyan az a kezdő betű
 
 ### ZH példa
 - Adjunk PNP egy olyan D bemenetét:

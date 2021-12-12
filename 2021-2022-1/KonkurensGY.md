@@ -561,7 +561,7 @@ public class SemaphoreRace {
     - egyszerre több tud olvasni
 - ez a legbonyolultabb
     - sok overhead
-    - gyors, de lassabb mint a többi megoldás
+    - gyors, de lassabb, mint a többi megoldás
 - write lock-ban lehet read-et kérni
 - read-lock-ban nem lehet write-ot, holtpont magában
 
@@ -586,7 +586,7 @@ public class SemaphoreRace {
             - a még nem elkezdetteket visszaadja
     - runnable-k ott állnak egy sorban
 - ExecutorService
-    - van submit metódusa ami visszad egy Future<?>-t
+    - van submit metódusa, ami visszad egy Future<?>-t
     - future.get()-el lehet lekérdezni a válaszát
         - ez bevárja a szálat
     - ilyenkor egy Callable< típus > dolgot kell beadni neki
@@ -594,11 +594,11 @@ public class SemaphoreRace {
     - invokeAll(List.of(Callable))
         - többet is be lehet neki adni
         - visszaad egy Future List-et
-        - akkor használjuk ha minden eredmény kell
+        - akkor használjuk, ha minden eredmény kell
     - invokeAny(list)
-        - az első eredményt adja vissza ami megállt
+        - az első eredményt adja vissza, ami megállt
         - egy adott értéket ad vissza, nem Future
-        - akkor használjuk ha csak egy eredmény kell
+        - akkor használjuk, ha csak egy eredmény kell
 - .newFixedThredPool()
     - fix számú szálat használ
     - már az elején létrehozza
@@ -623,3 +623,36 @@ public class SemaphoreRace {
     - scheudeleAtFixedRate
         - fix időnként elindít egy úja
         - egyszerre csak egy fut ugyanabból
+
+# Gyak 13 2021.12.09
+
+## ZH
+- CodeTogether
+    
+## WorkStealingExecutor
+- ForkJoinPool.commonPool()
+    - async = false, sort használ a feladatokhoz
+- Executors.newWorkStealingPool()
+    - rekurzívhoz jobb
+    - async = true, vermet használ a feladatokhoz
+- .submit(ForkJoinTask<V>)
+
+### ForkJoinTask
+- RecursiveAction a leszármazottja
+    - compute()
+    - magában létrehozunk még ilyeneket
+        - .fork-al indítjuk az rekurzívakat
+        - .join-al megvárjuk
+- RecursiveTask is leszármazott
+    - visszaad értéket
+    - .join-al kapjuk vissza az értéket
+- .invoke()-al bekerül a commonPool-ba
+
+### IntSupplier
+- tud dolgokat
+
+## ThreadGroup
+- Több szál közös kezelése
+
+## ThreadFactory
+- Szálakat készít

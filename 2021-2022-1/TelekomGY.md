@@ -438,7 +438,7 @@ for s in readable:
 
 ## Proxy
 - Vonal elvágás 
-- Fizikailag a szálltási rétegben egy szűrés
+- Fizikailag a szállítási rétegben egy szűrés
 - Lehet cím szerint filterezni
 - Tartalmi szűrés - bizonyos kérések kimehetnek, bizonyosak nem
 - **ZH-n** lesz szűrés, uh valszeg proxy lesz, elszólta valszeg magát

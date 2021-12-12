@@ -828,6 +828,7 @@ vége
     - Ha rendezve van a tábla az jó
     - He nem akkor lerendezi
     - Két mutató mozog - mindig a kisebbet kell léptetni
+    - cost of sorting + B_S + B_R
 - Hash join 
     - Kosarakba hasítjuk
     - Akkora kosarak, hogy beférjen kettő a memóriába
@@ -1147,7 +1148,7 @@ vége
     2. Változás
     3. COMMIT
 - Helyreállítás
-    - Olyan tranzakciókat amiknek nincs COMMIT vagy ABORT bejegyzése
+    - Olyan tranzakciókat, amiknek nincs COMMIT vagy ABORT bejegyzése
     - Végig kell menni a bejegyzésein és be kell állítani a régi értékeket
 - Ellenőrző pontok képzése
     - Ellenőrző pont előtti részt el lehet dobni
@@ -1238,22 +1239,22 @@ vége
 ### Mentés működés közben
 1. < START DUMP >
 2. REDO vagy UNDO/REDO naplózásos **ellenőrzőpont** kialakítása
-3. Adatok teljes vagy növekméynes mentése
+3. Adatok teljes vagy növekményes mentése
 4. A napló mentése
 5. < END DUMP >
 
 ## Oracle naplózási és archiválási rendszere
-- Helyreállítás kezelő autómatizmusok indításkor
+- Helyreállítás kezelő automatizmusok indításkor
 - REDO típusú log-állományt készít
-- UNDO rolgoknak egy ROLLBACK segmenset csinál
+- UNDO dolgoknak egy ROLLBACK segmenset csinál
 - UNDO/REDO típusú naplózást tud így csinálni
 - Online napló
 - Archivált napló
 - System Global Area - SGA
     - naplóbejegyzések ideiglenesen itt vannak
-- Log Writer ígra ki (LGWR)
+- Log Writer írja ki (LGWR)
 - Több napló is online
-- Ha betelik a leljes napló, akkor 
+- Ha betelik a teljes napló, akkor 
     - NOARCHIVELOG MÓD
         - az egyikből kidobja a régi dolgokat
     - ARCHIVELOG MÓD
@@ -1287,12 +1288,12 @@ vége
 ### Lényeg
 - Az összefésült ütemezés ekvivalens-e a sorok ütemezéssel
 - Mindig konzisztens állapot legyen a végeredmény
-- Egy tranzakció műveletei uganabban a sorrendben legyenek
+- Egy tranzakció műveletei ugyanabban a sorrendben legyenek
 - Konfliktusos pár:
     - Megcserélve jó-e
     - Mi nem konfliktusos
         - ezt könnyebb meghatározni
-        - ha különdöző adatot irnak-olvasnak
+        - ha különböző adatot írnak-olvasnak
     - ugyan az a tranzakció művelete
     - ugyanazt írják
 
@@ -1303,7 +1304,7 @@ vége
 
 - **konfliktus-sorbarendezhető** - konfliktusekvivalens egy soros ütemezéssel
 
-- Az ötemező jót eldobhat
+- Az ütemező jót eldobhat
     - de rosszat sose mond jónak
 
 
@@ -1312,7 +1313,7 @@ vége
 ## Konfliktus sorbarendezhetőség
 - Elégséges a sorbarendezhetőséghez
 - Konfliktusos párokat definiálunk
-    - Felcserélve más eredméynt kapnánk
+    - Felcserélve más eredményt kapnánk
 - Nem kell egymás mellett legyenek
 - T₁ megelőzi T₂-t ha egymás mellett konfliktusos pár lenne
     1. A₁ megelőzi A₂-t 
@@ -1324,7 +1325,7 @@ vége
 - Megelőzések az élek
 - Lemma:
     - S₁, S₂ konfliktusekvivalens ⇒ gráf(S₁)=gráf(S₂)
-        - Indirekt ha egy él nincs benne az egyikben de benne van a másikbam akkor nem ekvivalensek
+        - Indirekt, ha egy él nincs benne az egyikben de benne van a másikban akkor nem ekvivalensek
     - A Gráf megegyezése nem jelent konfliktusekvivalenciát
 
 ## Konfliktussorbarendezhetőségi teszt
@@ -1335,7 +1336,7 @@ vége
 
 ## Passzív módszer
 - Néha megnézi a megelőzési gráfot
-- Ha van kör, akkor abortál tranzakviókat
+- Ha van kör, akkor abortál tranzakciókat
 - Ha nincs, akkor örül
 
 ## Aktív módszer
@@ -1344,17 +1345,17 @@ vége
 - Lehet veszteség
 - megoldások
     1. Zárak
-    2. Időblyegek
+    2. Időbélyegek
     3. Érvényesítéses
 
 ### Zárolási ütemező
 #### Legszigorúgg zárolás
-- lᵢ(A) - kizárolagos zárolás
-- uᵢ(A) - zár elengedáse
-- teljesen zárolja az adot adatbáziselemet
+- lᵢ(A) - kizárólagos zárolás
+- uᵢ(A) - zár elengedése
+- teljesen zárolja az adott adatbáziselemet
 - ezekkel biztosítja a sorbarendezhetőséget
 - Tranzakció konzisztenciája
-    1. Akkor írhat, olvashat valamit ha azt már zárolta és még nem oldotta fel
+    1. Akkor írhat, olvashat valamit, ha azt már zárolta és még nem oldotta fel
     2. Ha zárolt, akkor fel is kell oldania
 - Ütemezés jogszerűsége
     1. Két tranz. nem zárolhatja ugyan azt
@@ -1375,7 +1376,7 @@ vége
     - Hagyjuk, hogy kérjék a lock-okat
     - Ha kör lesz, akkor kilő tranz.
 - Pesszimista
-    - El sem indítjuk ha nem kaphatja meg az összes zárat
+    - El sem indítjuk, ha nem kaphatja meg az összes zárat
     - Nem tudhatjuk előre az összes zárat
 - Másik pesszimista
     - Adat elemeken sorrend
@@ -1395,18 +1396,18 @@ vége
 - Olvasási - shared - sl
 - Írási - exclusive - xl
 - Feloldás - u
-- Olvasás előtt választhatunk de az osztott hatékonyabb
+- Olvasás előtt választhatunk, de az osztott hatékonyabb
 - Két kizárólagos nem adható ki
 
 #### Kompatibilitási mátrix
-- Lehet tárolni a jogszeerűséget
+- Lehet tárolni a jogszerűséget
 
 # EA 11 2021.11.23
 ...
 ## 8:30-tól
 
 ## Zárak
-- Osztott zár erősebb mint a kizárólagos
+- Osztott zár erősebb, mint a kizárólagos
 - Mert többet tilt
 - Nem összehasonlítható is lehet
 
@@ -1479,25 +1480,25 @@ vége
 2. Elsőbbségadás az osztott záraknál
 3. Elsőbbségadás a zárfelminősítésnél
 
-## Adatbáziselemekből állló hierarchia
+## Adatbáziselemekből álló hierarchia
 1. ...
-2. Indexek adnak egy hierachiát
+2. Indexek adnak egy hierarchiát
 
 ### Mit lehet zárolni
 - Ha b+ gyökerét zároljuk akkor ez egészhez nem férhet hozzá más
 - Nagy adatok zárolása
-    - kevesebb zásr kell
+    - kevesebb zárás kell
     - de más tovább kell várjon
 - Kis elemeke
     - sok zár kell
     - sok trez. futhat egyszerre
-- megenegedünk kicsi és nagy objektumo zárolását is
+- megenegedünk kicsi és nagy objektumok zárolását is
     - tábla, blokk, rekord
     - külön zár mehet mindegyikre
 - Figyelmeztető zárak
     - S,X sima zár
     - figyelmeztető zár IS, IX
-        - alacsonybb szinten akarunk zárolni
+        - alacsonyabb szinten akarunk zárolni
         - addig amíg lejutunk arra a szintre ami kell nekünk
 
 
@@ -1521,7 +1522,7 @@ https://people.inf.elte.hu/kiss/15ab2/13ab2osz.htm
 
 ## Zárak
 ### Figyelmeztető zárak
-- Nem kell a legfelső szinten zárolni ha kisebb adatelemet akarok zárolni
+- Nem kell a legfelső szinten zárolni, ha kisebb adatelemet akarok zárolni
 - Sorrendben lehet kiadni a zárakat
     - figyelni kell a hierarchiát
     - feloldások sorrendje is fontos
@@ -1530,7 +1531,7 @@ https://people.inf.elte.hu/kiss/15ab2/13ab2osz.htm
     - Oszlop: megkaphatjuk-e ezt a zárat
     - nem minden zár hasonlítható össze
         - Mindennél erősebb **SIX**
-            - olvas majd lehet hogy ír
+            - olvas majd lehet, hogy ír
             - mindent tilt a mit az S vagy IX
 
 | . | IS | IX | S |SIX| X 
@@ -1554,8 +1555,8 @@ SIX |*i* | n  | n | n | n
 - Szabályok
     1. A kompatibilitási mátrixnak megfelelően tegye a zárakat
     2. Először a gyökeret zárolhatja, utána megy lefelé
-    3. Olvasási vagy szándékolt módba, akkor teheti ha a szülőre már kirakta a megfelelő zárat
-    4. Irási vagy szándékolt módba, akkor teheti ha a szülőre irakta a figyelmeztető írási zárakat
+    3. Olvasási vagy szándékolt módba, akkor teheti, ha a szülőre már kirakta a megfelelő zárat
+    4. Írási vagy szándékolt módba, akkor teheti, ha a szülőre irakta a figyelmeztető írási zárakat
     5. Kétfázisó protokollnak megfelelően kell zárolni
     6. Feloldás gyerektől szülő felé történik
 
@@ -1569,7 +1570,7 @@ SIX |*i* | n  | n | n | n
 - Két tranzakció is be akar szúrni
     - Olvasási zárakat raknak, mert a létező dolgokat csak olvasni akarják
     - Beszúrás előtt a szülőt írási módba zároljuk, így a másik tranz.-nak várni kell
-- B+ fa esetén a levél beszúrásához egészen a gyökérik zárolni kell, mert a szülőket is módosítani kell(het)
+- B+ fa esetén a levél beszúrásához egészen a gyökérig zárolni kell, mert a szülőket is módosítani kell(het)
     - Nem kell az egészet zárolni
     - Ki lehet számolni, hogy milyen magasságig kell zárolni
     - Fa protokoll biztosítja a sorbarendezhetőséget
@@ -1592,7 +1593,7 @@ SIX |*i* | n  | n | n | n
     - beérkezés sorrendje határozza meg
     - ezzel ekvivalens ütemezést akarunk megtartani
     - időbélyegek szerint össze tudjuk hasonlítani
-    - minden adatbázis elemnél nyíván kell tartani az utolsó Írás és Olvasás időbélyegzőjét
+    - minden adatbázis elemnél nyílván kell tartani az utolsó Írás és Olvasás időbélyegzőjét
         - ha nem jó az új dolog akkor be kell avatkozni
 - Érvényesítéses módszer
     - Committálás alapján van a helyes sorrend - végződés alapján sorrend
@@ -1609,7 +1610,7 @@ SIX |*i* | n  | n | n | n
 - Ezek olvasási konzisztenciák
 - Rollback segmenset használja ezekhez
 - Blokkhoz bekerül, hogy mikor módosították utoljára, ha ez újabb, akkor a rollback-ből nézi a legújabb kisebbet
-- Pszkos olvasás
+- Piszkos olvasás
 - Nem ismételhető olvasás
 - Fantomok olvasása
 - Tranzakció elkülönítés
@@ -1622,7 +1623,7 @@ SIX |*i* | n  | n | n | n
 | sorbarendezhető |
 
 `set tranzaction isolation levet serializable;`
-- Ha nem túl hosszú és nem ütközik mással, akkorérdemes
+- Ha nem túl hosszú és nem ütközik mással, akkor érdemes
 
 `set tranzaction read only`
 - ha mindenki olvas akkor nem kell konkurenciavezérlés
@@ -1640,11 +1641,11 @@ SIX |*i* | n  | n | n | n
     - Sorszintű zárolás
     - Időbélyegzők
     - csak akkor vár két tanz. ha ugyan azt a sort módosítják
-- Táblák suóintjén
+- Táblák szintjén
     1. row share - figyelmeztető olvasás
     2. row excludeive - figy. olv.
     3. share    - olvasás
-    4. share row exclusive  - olvsasás és alatta írás
+    4. share row exclusive  - olvasás és alatta írás
     5. exclusive - kézzel is ki lehet rakni - olvasás
 - Sima lekérdezés nem zárol semmit
 - Insert, update, delete már zárol

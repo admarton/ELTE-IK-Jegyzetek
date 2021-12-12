@@ -400,7 +400,7 @@ S = {y ∨ z, ¬x ∨ W ∨ ¬z, y ∨ ¬z ∨ ¬w, x ∨ z}
 - Θ
 - O
 - f, g = O(h) -> f + g = O(h) (összeadásra zártság)
-- (pozitív konstanasal szorzásra zártság)
+- (pozitív konstanassal szorzásra zártság)
 - (szekvencia tétel)
 - ... cuccok
 
@@ -446,7 +446,7 @@ uqv szó
 ## TG által felismert nyelv
 - Azokat a szavak, amikből a kezdő konfigurációból többlépéses konfig. átmenettel elfogadó állapotba jutunk.
 - Felismert nyelvben az input ábécé szavai vannak, nem a szalagábécé
-- L nyelv Tring-felismerhető
+- L nyelv Turing-felismerhető
 - L nyelv eldönthető, ha van hozzá TG ami minden bemenetre megállási konfigurációba jut - el tudja dönteni, hogy benne van-e a nyelvben minden inputra
 
 ## RE éd R
@@ -483,7 +483,7 @@ uqv szó
     - ilyenkor választani kell majd
 - Nemdeterminisztikus számítási fa
 - Eldönti, ha a számítási fa véges és minden levele elfogadó vagy elutasító
-- f(n) időkorlátos, ha n hosszú szóta f(n) magas max a fa
+- f(n) időkorlátos, ha n hosszú szóra f(n) magas max a fa
 
 # EA 6 2021.10.13
 
@@ -602,7 +602,7 @@ uqv szó
 
 ## PMP
 - Turing eldönthető
-- Az igen példányoakat megadja
+- Az igen példányokat megadja
 - Dominókból ki lehet rakni dolgokat
 
 ## Környezetfüggetlen grammatika egyértelműsége nem eldönthető
@@ -680,7 +680,7 @@ uqv szó
 - NP=⋃_k≥1 NTIME(nᵏ)
 - Korábbi tétel alapján:
     - NTIME(f(n)) ⊆ TIME(2^(O(f(n))))
-- Észtevétel:
+- Észrevétel:
     - P ⊆ NP, mert TG lehet speciális NTG
 - Sejtés:
     - P ≠ NP, de nem bizonyított
@@ -719,7 +719,7 @@ uqv szó
 ## kSAT
 - KNF : konjunktív normálformájú nulladrenű formula
 - SAT = {<ϕ> | ϕ kielégíthető   KNF }
-- kKNF : olyan KNF, ahol minden klóz pontosan k darab különböző alapú literál disjunkciója
+- kKNF : olyan KNF, ahol minden klóz pontosan k darab különböző alapú literál diszjunkciója
 - kSAT = {<ϕ> | ϕ kielégíthető kKNF }
 
 ### 3SAT NP-teljes
