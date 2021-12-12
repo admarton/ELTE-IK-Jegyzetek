@@ -18,7 +18,7 @@ Az ezekből képzett, címkézett értékeknek egy {v₁:a₁,...,vₙ:aₙ} hal
 
 Def.: Legyenek A₁,...,Aₙ (ahol n ∈ ℕ⁺) típusérték-halmazok és v₁,...,vₙ a halmazokat azonosító egyedi címkék (változók).  
 Az ezekből képzett összes lehetséges {v₁:a₁,...,vₙ:aₙ} állapot (ahol ∀i ∈ [1..n] : aᵢ ∈ Aᵢ) halmazát állapottérnek nevezzük és (v₁:A₁,...,vₙ:Aₙ)-nel jelöljük.  
-      (v₁:A₁,...,vₙ:Aₙ) := {{v₁:a₁,...,vₙ:aₙ} | ∀i ∈ [1..n] : aᵢ ∈ Aᵢ }  
+      (v₁:A₁,...,vₙ:Aₙ) := { {v₁:a₁,...,vₙ:aₙ} | ∀i ∈ [1..n] : aᵢ ∈ Aᵢ }  
 
 Def.: Az A = (v₁:A₁,...,vₙ:Aₙ) állapottér címkéire (változók) úgy tekintünk mint vᵢ : A → Aᵢ függvényekre, ahol vᵢ(a) = aᵢ egy a={v₁:a₁,...,vₙ:aₙ} állapot esetén.  
 ```
