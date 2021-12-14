@@ -1,4 +1,4 @@
-# Telekommunikációs hálózatok EA 2021.09.08
+# Telekommunikációs hálózatok EA 1 2021.09.08
 
 Interneten csomagok mennek. Kis kapacitású élhez sok csomag megy, akkor várakozás. Ha túl sok várakozó, csomagok eldobása.
 
@@ -57,8 +57,8 @@ Hálózatok hálózata
     - Letöltés
     - Feltöltés
     - DSL-nél saját kábel, TV-nél közös vezetékek osztott használata
-- Eternet - hálókártya, UTP kábel
-- Modil - okosteló
+- Ethernet - hálókártya, UTP kábel
+- Mobil - okosteló
 - Műhold
 - FTTH 
 - Optika
@@ -90,7 +90,7 @@ Hálózatok hálózata
     - Döntés kell, hogy merre továbbítódik, komplex routerek kellenek
         - Útvonaltervezés
         - Erőforrásmegosztás
-        - terhelésfelmérés
+        - Terhelésfelmérés
 
 ## Erőforrások kezelése
 - Előre foglalásos
@@ -139,9 +139,9 @@ Hálózatok hálózata
     - Csomagkapcsolt
         - csomagok, címinformáció
         - löketek kezelésére bufferek
-        - igényszerinti
+        - igény szerinti
 
-# Telekom EA 2021.09.15
+# Telekom EA 2 2021.09.15
 
 ## Csomagkapcsolt hálózatok
 - Az adatátvitel egyedi csomagokban történik
@@ -237,8 +237,8 @@ Hálózatok hálózata
         - Szállítói réteg (Transport layer)
             - Két app között legyen csomagküldés
             - Bizonyos alkalmazásoknak eltérő internet igényei vannak
-            - Pl.: minden bájthelyesen megérkezzen (kép dokumentum, valósidejüség fontosabb (live video, csomagvesztést tudja kezelni)
-            - TCP(biztos de sok overhead), UDP(levelezés szerű), CLIK(Google cucc)
+            - Pl.: minden bájthelyesen megérkezzen (kép dokumentum, valósidejűség fontosabb (live video, csomagvesztést tudja kezelni)
+            - TCP(biztos de sok overhead), UDP(levelezés szerű), QUIC(Google cucc)
         - Alkalmazási réteg (Application layer)
             - Minden más
             - Egyedi megvalósítások
@@ -274,12 +274,12 @@ Hálózatok hálózata
             - I
                 - Keret küldése két eszköz közt
             - P
-                - Fizikai cmzés ilyemi
+                - Fizikai címzés ilyemi
 
         - Hálózati
             - SZ
                 - Csomagtovábbítás
-                - Switch/Routerben a keretek tovább küldés
+                - Routerben a keretek tovább küldés
                 - A közvetlen eszközhöz küldést használja
                 - Útvonalválasztás
                 - Puffer kezelés
@@ -312,8 +312,8 @@ Hálózatok hálózata
                 - Checkpoint beszúrás
         - Megjelenítési (internet esetén nincs, app része)
             - SZ
-                - Adatkonverzió rendszereke között
-                - Encódolás, konverzió
+                - Adatkonverzió rendszerek között
+                - Encoding, kódolás, konverzió
             - I
             - P
         - Alkalmazási
@@ -335,7 +335,7 @@ Hálózatok hálózata
     - Ott lehet app réteg is kell
     - Belenéz az alkalmazási adatba
 - Közbenső pontoknál lehet átalakítás
-    - pl.: wifi -> eternet
+    - pl.: wifi -> Ethernet
 
 - Hibrid réteg
     - Az első kettő keveréke
@@ -430,10 +430,10 @@ Hálózatok hálózata
     - kapcsolót kapcsolgatjuk
     - érzékelő kell a másik oldalon
     - szinkronban kell lennie a két félnek
-- Furier sorokkal lehet modellezni a valóságot
+- Fourier sorokkal lehet modellezni a valóságot
     - sin/cos-ok összegeikén állnap össze a jelek
     - lehet közelíteni a szögletes jelhez hullám függvényekkel
-- aproximált jel érkezik meg
+- approximált jel érkezik meg
 - periódusokat lehet ismételni
 - jelek el tudnak nyelődni
     - csökken a jelerősség
@@ -518,7 +518,7 @@ Hálózatok hálózata
 - Egy fizikai közeget többen is használnak
     - átvitelek zavarhatják egymást
     - csatorna felbontása logikai alcsatornákra
-    - Küldő oldalon kell egy összefésülő eszköz : **multipexer**
+    - Küldő oldalon kell egy összefésülő eszköz : **multiplexer**
     - Vevőnél demultiplexálás
 
 - Térbeli multiplexálás
@@ -542,8 +542,8 @@ Hálózatok hálózata
     - minden állomás egyfolytában sugározhat
     - interferencia = lin. komb. az egyedi jeleknek
     - jeleket úgy kell kódolni, hogy ki lehessen majd olvasni
-    - vektor összeg, báris, projektálás a bázisra és tá-dá csak az eredmény
-    - töredék/csip vektor
+    - vektor összeg, bázis, projektálás a bázisra és tá-dá csak az eredmény
+    - töredék/chip vektor
     - minden állomásnak van chip
     - ezekre ortogonalitás kell, hogy vissza lehessen állítani
     - 1-et chippe kódoljuk
@@ -563,7 +563,7 @@ Hálózatok hálózata
     - lehet, h. rosszul értelmezi
 
 ## Adatkapcsolati réteg
-- Feleadata, hogy kezelje a hibákat
+- Feladata, hogy kezelje a hibákat
 - Statikus módszerek pazarolnak- erre nyújt megoldásokat
 - Felkészülés löketszerűségre és változó felhasználószámra
 - Keretek Átvitele
@@ -576,7 +576,7 @@ Hálózatok hálózata
     - gyorsabb
 - Nem akarjuk túlterhelni a vevőt
     - bufferba belefér
-    - ha feldolgozta kor megy még keret
+    - ha feldolgozta, akkor megy még keret
 - Fel kell ismerni, hogy hol kezdődik és hol van vége
     - itt is lehetnek hibák
     - hol volt zaj, hol van keret
@@ -761,7 +761,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
             - ha ez 0 akkor jó minden
     - Ha a hiba a generátor többszöröse akkor nem detektálható a hiba
         - ezért kell jó generátor
-    - 1961-ben megmutatták, hogy ez harveresen implementálható könnyen
+    - 1961-ben megmutatták, hogy ez hardveresen implementálható könnyen
     - Ethernet 32 bites CRC
     - Más rétegben is előjön
 
@@ -818,13 +818,13 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
             - össz idő hiba nélkül az előző kettő összege
 
             - n = T_packet/(T_packet+d+T_ack+d)
-            - minnnél nagyobb csomaggal lesz jobb a kihasználtság
+            - minél nagyobb csomaggal lesz jobb a kihasználtság
             
             - Javítás
                 - Küldünk több keretet
                 - Jönnek a nyugták
                 - Több dolgot kell bufferelni
-                - Pipeline teknika
+                - Pipeline technika
                 - Így lehet túlterhelés
                     - lehet max-ot bevezetni az egyben fogadható keretszámra
                     - várakozni kell
@@ -937,7 +937,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
             - mindenki hallgatózhat
             - perzisztens módon várjuk, hogy mikor lesz szabad a csatorna
             - ha szabad akkor egyből küld
-        - Non-perzisztesn CSMA protokoll
+        - Non-perzisztens CSMA protokoll
             - folyamatos időmodell
             - mohóság kerülése
             - mindenki hallgatózik
@@ -1034,7 +1034,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - Ha nincs ütközés akkor jó
     - ha van akkor részcsoport és ők küldenek
 
-## Hogyan kötünk össze lanokat?
+## Hogyan kötünk össze LAN-okat?
 - Bridge korlátozza az ütközéseket
 - Layer 2 eszközök
 - Switch-ek is Bridge-ek, de Bridge többet tud
@@ -1101,7 +1101,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 ## Hálózati réteg
 - Fő funkció:
     - Eszköz lehet bárhol a világon
-    - Ha van nete, akkor lehet nemi csomagot küldeni
+    - Ha van nete, akkor lehet neki csomagot küldeni
     - Forgalom irányítás
 - Forgalom irányítás
     - Táblák feltöltése, útvonalkereső algoritmusok
@@ -1270,7 +1270,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 # EA 9 2021.11.17
 
 ## IP cím
-- Több hierarhia szint
+- Több hierarchia szint
 
 ### IPv4
 - 4 bájtos ip cím
@@ -1284,10 +1284,10 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 - Blokkok méretére nem gondolták át
 - Osztályok
     - A
-        - | 0 | 7 bit | 27 bit |
+        - | 0 | 7 bit | 24 bit |
         - Nagyon nagy címtartomány
         - 2⁷ ilyen szervezet lehet
-        - Azon belöl 2²⁷-en hoszt lehet
+        - Azon belül 2^24-en hoszt lehet
     - B
         - | 10 | 14 bit | 16 bit |
         - több ilyen hálózat lehet
@@ -1444,7 +1444,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
         - path vector routing
         - distancce vector fejlesztése kb
 
-### BGT
+### BGP
 - eltérő célok
 - fogalom korlátozás
 - hálózatok
@@ -1458,7 +1458,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
         - harmadik fél csomagjait vezetik
         - összekötik az autonóm rendszereket
 - TCP protokollokat használnak
-- Útvonal hírdetések
+- Útvonal hirdetések
 - Megoldja a count to infinity problémát
 - Customer - Provider kapcsolat
     - Customer fizet a providrenek
@@ -1484,7 +1484,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 - döntés, hogy melyik szomszédnak milyen útvonalat hirdet meg
 - Legrövidebb út nem egyértelmű
     - Legrövidebb autonóm rendszer útvonal nem biztos, hogy fizikailag is a legrövidebb
-- Hot potató routing
+- Hot potato routing
     - gyorsan továbbadja a csomagot valaki másnak
     - kisebb hálózatnak jobb
     - ne terhelje a rendszert
@@ -1499,7 +1499,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - Peereknek a belső dolgokat
     - Providerekenk is a belsőket
 - eBGP
-    - kölső 
+    - külső 
 - iBGP 
     - hálózaton belüli kapcsolata a BGP-knek
 - BGP Routing tábla
@@ -1574,14 +1574,14 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 - Datagram hálózat
     - nincs áramköri kapcsolás
 - A kliensek számos alkalmazást futtathatnak
-- IP fejléc "protokoll" mezőse kicsi
+- IP fejléc "protokoll" mezője kicsi
 - Demultiplexálás megoldása a szállítói rétegben
 - Port szám lesz az egyedi azonosító
     - Az alkalmazás azonosítója
 - Egy szerver számos klienssel kommunikálhat
 - Végpontok azonosítása , kapcsolat azonosítás
-    - < src_ip, src_port, dest_ip, dest_port >
-    - fi?e_tuple
+    - < src_ip, src_port, dest_ip, dest_port, protocol >
+    - five_tuple
 
 ### UDP protokoll
 - Egyszerű
@@ -1593,7 +1593,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - pl video átvitel, ha nem megy át minden csomag, akkor lehet helyettesíteni, csak rosszabb lesz a minőség
         - valós idejű alkalmazásoknál
 - TCP javításai az alkalmazási rétegben
-    - Google::QUICK protokoll
+    - Google::QUIC protokoll
         - UDP, alkalmazási rétegben csinálja meg a csomagok újra küldését, hiba kezelést
     - RTMP - pl videó
 - TCP után vezették be
@@ -1706,8 +1706,8 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - torlódás csomagvesztést okoz
     - várakozást okoz, rtt-vel arányos is tud lenni
     - túlterhelés észlelésnél növelni kell a várakozási időt
-        - rendszernet hagyni kell fellélegezni
-    - könyökpont köznyékén kell mozogni
+        - rendszert hagyni kell fellélegezni
+    - könyökpont környékén kell mozogni
     - szirt pontot el kell kerülni
     - az ablakok méretét is lehet módosítani ezért
     - küldési ráta módosítás
@@ -1732,7 +1732,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
                 - ha nyugta akkor cwnd növelés
                 - he nincs nyugta akkor csökkentés
 
-# EA 13 2021.12.08
+# EA 12 2021.12.08
 
 ## Szállítói réteg
 ### Lassú indulás
@@ -1856,7 +1856,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 
 - DCTCP - Data Center TCP
     - Adatközpontban működik, máshol nem
-    - Aggregaror a külvilág felé
+    - Aggregátor a külvilág felé
     - Workerek belül
     - Sok alternatív útvonal a szerverek között
     - Lehet sokféle üzenet
