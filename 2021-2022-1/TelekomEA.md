@@ -1914,3 +1914,186 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - jó gondolatmenet legyen, copy-paste nem ér sokat
     - kérdésekre figyelni kell
     - Rövid bekezdésnyi szöveg kell kb 
+
+# EA 13 2021.12.15
+
+## TCP
+## Lassú indulás
+- Internetet sokan használják
+- Router csak adott mennyiséget tud küldeni
+- Ha több jön, akkor túlterhelés lehet
+- Ezért kell kis küldési rátáról indulni
+- "Lassan növeljük"
+    - 1-et küld
+    - 1 nyugta jön -> 2-t küldök
+    - 2 jön -> 4-t küldök
+    - exponenciális növekedés
+    - el kell érni a könyök pontot gyorsa
+        - akkor lesz a hálózat kihasználtsága a legjobb
+- Két módon fejeződik be ez a rész
+    - Elérjük az sstesh-t
+        - Innentől a másik szakaszba lépünk
+    - Csomag eldobás történik
+        - Túlterheltünk egy pontot
+        - sstesh-t a cwnd felére állítjuk
+        - vagy megint slow sart vagy egyéb
+- Küszöb érték elérése után nem akarjuk elérni a könyökpontot
+
+## Additiv increase
+- Minden nyugtázott csomaggal 1/cwnd-vel növeljük csak
+    - ez már egy lassabb növekedés
+    - lineáris növekedés
+    - keressük a maximális kapacitást
+
+## TCP Tahoe
+- az eredeti TCP
+- Frank Jacob -  80-as évek
+- ez a megoldás most már nem elég jó
+- túl sok visszalépés 0-ra
+
+## TCP Reno
+- újabb megoldás
+- ez volt a kezdeti népszerű megoldás
+- van benne gyors újraküldés
+- 3 duplikált nyugta
+- ez még nem a szirtpont
+    - ezért még lehet növelni
+    - fast recovery, gyors helyreállítás
+        - csak a küszöb felére ugrunk vissza
+        - onnan additiv incraese
+        - nem kell slow start
+        - AIMD - additiv increase, multiplikativ decrease
+        - fűrészfogas
+            - de nem kell visszamenni 0-ra
+- TCP mindig növel és mindig csomagvesztést kényszerít ki
+
+## TCP new RENO
+- javítja az újraküldést
+- minden duplikált nyugtánál visszaugrik
+- ilyen lehetett sorrend csomag cserék ami ilyet okozhat
+    - de kicsi a valószínűsége
+
+## Vegas
+- késleltetés alapú 
+- ha megnő a késleltetés, akkor torlódás
+
+## TCP manapság
+- nagy sávszélesség
+- jobb kihasználás kell  
+
+### Compound TCP
+- RENO alapú
+- késleltetés és csomagvesztés alapú egyben
+- két ablak, egymástól függetlenek
+- wnd = min(swnd+dwnd, adv_wnd)
+- cwnd - csomagvesztés alapján
+- dwnd - gyorsítási/lassítási faktor
+- dwnd állítás
+    - ha nő az RTT, akkor csökkent a dwnd
+    - RTT csökken, dwnd nő
+- agresszívan reagál az RTT-re    
+
+### TCP CUBIC
+- harmadfokú egyenlet alapján állítja az ablakot
+- nem használ két ablakot, de AIMD-t se
+- kigyorsítás gyorsabb
+- ez előző torlódási szint közelében lassul
+    - ott érzékenyebb a növelés
+    - óvatosan próbálkozik
+    - remélhetőleg nem terheli megint túl
+    - ha ott nincs csomagvesztés
+        - akkor mehet megint egy kigyorsítás
+        - egészen addig amíg új torlódás lesz
+- ez kevesebb pazarlás
+- többször lesz maxon a kihasználás
+- ez nagyon agresszív
+- ha egy rendszeren van CUBIC és RENO is
+    - akkor a CUBIC jobban használja a rendszer
+    - a másikat elnyomja
+
+## TCP problémák
+- kis folyamok problémát okoznak
+    - kapcsolat építés sokáig tart
+    - kis idő a csomag szállítás
+    - kapcsolat lezárás is sok az adathoz képest
+    - slow startban használjuk kb mindig
+    - általában kis folyamok mennek
+    - megjegyezhetjük utoljára milyen ablak max volt - onnan kezdjük
+- wireless
+    - csomagvesztés sokszor lehet torlódás miatt is
+    - ilyenkor nem kellene visszaugrani
+    - késleltetés alapú ilyenkor jobb lehet
+        - de utána a rendes netren már nem olyan jó
+    - jelzőbit bebillentés
+- támadási felület
+    - DOM - syn flood
+    - kapcsolat építés sokszor
+    - kernel pánikkal összeomlik a rendszer
+    - SYN coocke használata
+        - valódi kapcsolat jobb megállapítása
+        - csak a harmadik kézfogás lépésnél lesz erőforrás foglalás
+
+## Kitekintés
+- Várakozási sorok is lehetnek különbözőek
+- RED algoritmus
+    - random csomag eldobás a betelés előtt
+    - így kicsit visszavesz a küldő
+    - ECN flag - nem tényleges eldobás, csak olyan jelzés
+        - itt ECN részletesebb rész
+        - előző jegyzetben
+
+## DNS - ebben lesz új anyag
+- Híváshoz is telefonkönyv
+- neveket könnyebb megjegyezni egy embernek
+- név alapján
+    - lehet a hozzánk közelebbi szervert vagy a kevésbé terhelt szervert elérni
+- DNS biztosítja a nevek és ip címek összekötését
+- DNS előtt egy hosts fájlban tároltuk
+    - akármi lehetett a domain
+    - nem skálázható
+    - nevek megkülönböztethetősége
+- DNS - app az internet felett
+- elosztott adatbázis szerű
+- UDP-t használ, mert nagyon rövid üzenetek
+- hierarchikus névtér
+    - a domain vége a legfontosabb
+    - előrefelé haladva vannak az alrészek
+    - adatbázis struktúrát is meghatározza
+        - valaki felel egy adott részért
+        - nem kell központi felügyelet
+- Megvan, h ki melyik részért felel
+    - zónája domain rekordjait tárolja
+    - de van redundancia-robosztusság
+    - hierarchia miatt csak az egyel alatta lévő szervert kell ismernie
+- ROOT - ICANN
+    - a->m-ig 
+    - root szervertől meg lehet tudni az ip-t a fa végigkeresés alapján is
+- szolgáltató ad otthon lokális névszervert
+    - cash-eli a neveket
+    - ha nincs meg lokálisan, akkor fordul a root-hoz
+- a cash alapján át lehet ugrani szinteket
+- lehet a rekurzív vagy iteratív
+    - rekurzívnál sok erőforrás kell
+        - nagy terhelés a szervereken
+    - iteratívan
+        - sorba kérdezi egyre lejjebb
+        - nem kell minden szervert leterhelni
+        - csak azt aki végigiterál
+- ha veszünk domain nevet akkor mi lesz
+    - megtörténik a bejegyzés
+    - van ahol azonnal elérhető
+    - van ahol több idő kell
+    - DNS propagonation - elterjedés 
+        - ez lehet lassú
+        - cash-elés élettartama miatt lehet sok idő
+        - 72 óra a legnagyobb általában
+            - max 72 órát kell várni az új oldalra
+
+## Vizsga
+- Itt vannak a példák, infók
+- Voltak az utolsó órán is
+- másolást nem szeretik, egymásról sem
+- 30-40 perc a második részben
+
+
+
