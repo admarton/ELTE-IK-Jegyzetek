@@ -1322,5 +1322,187 @@ end loop
 - Rátermett a gyorsabb, pontosabb, kisebb memóriaigényű
 
 
+# EA 9 2021.12.18
+
+## Matematikai logika
+
+## Rezolúziós levezetés
+- Formalizálás
+- Ítéletváltozók az állításokból
+- Bizonyítjuk, hogy a célállítás következik az alap állításokból
+- Ha nincs olyan interpretáció ami az alap állításokat és a célállítás negáltját is keielégíti
+    - akkor az alap állítások igazolják a célállítást
+- Konjunktív normál formára kell hozni
+    - és-ekkel vannak összekötve a klózok
+- indirekt feltesszük, hogy lehet igaz
+    - ebből felvehetünk új elemeket
+    - addig bővítjük a klóz halmazt amíg ellentmondást nem találunk
+- gráfot lehet felvenni
+    - összekötjük a klózpárokat ha lehet belőle új klózt felvenni
+    - ¬qvp és p -> q (¬q és q nem lehet egyszerre igaz)
+    - cáfolati gráf
+        - fa jellegű általában
+        - de lehet rendes gráf is
+        - nem egyértelmű
+        - több megoldás is lehet
+        - összes rezolúciót felvéve **rezolúciós gráfot** kapunk
+    - reprezentációs gráf
+        - rezólúciós gráfból a **cáfolati gráfot** keressük
+        - egy csúcsban az adott klózok halmaza van
+        - több új csúcs is lehet
+        - ha benne van az ellentmondás is, akkor célcsúcsot találunk
+        - sok megfelelő útvonal lehet benne, ezért mesterséges intelligencia probléma
+        - mindegyik csúcs tartalmazza a kiinduló klózokat, így nincs rossz lépés
+            - nincs benne kör se, mert mindig bővítünk
+            - mindig eljutunk a célba, az út hossza csak a kérdés
+            - felesleges döntésekkel nagyon nagy lehet a gráf
+            - ha elsőrendű logikai dolgok is vannak a formalizációban
+                - akkor végtelen is lehet a gráf
+                - skolemizált konjunktív normál formára kell hozni **(SKNF)**
+                    1. implikáció -> nem a vagy b
+                    2. negációk mélyre vitele
+                    3. sztenderdizálás
+                        - változókat át kell nevezni
+                        - technikailag különböző változóknak legyen külön neve
+                    4. egzisztenciális kvantorok kiküszöbölése - **Skolemizálás**
+                        - fiktív függvényt kell bevezetni
+                        - létezik z helyett f(univerzális kvantorok elemszáma a paraméterek száma)
+                    5. Univerzális kvantorok kiemelése a formula elejére
+                    6. A formula többi részét KNF-re hozzuk
+                    7. Klózok kialakítása
+                        - kvantorok és konjunkciós műveletek elhagyása
+                        - változók átnevezése
+                        - klózok függetlenítése
+                - innentől már hasonló a 0-ad rendű rezolúcióra
+                - új klózokban is át kell nevezni a változókat
+                - általános rezolúciós szabállyal lehet rezolválni
+                    - több részt is ki lehet dobni
+- Rezolúció egy lokális útkereső algoritmus
+    - spec gráf, mindig lehet a célba jutni
+    - lokális keresés
+    - csak az aktuális klózhalmazt kell tartalmazni
+    - üres klóz, vagy nem tudunk tovább lépni -> véget ért
+        - üres klóz - cél
+        - nincs rezolúció - nem igaz az állítás
+    - rezolvens képzés a szabály
+    - vezérlési stratégiához jó heurisztika kellene
+        - nincs jó heurisztika
+```SQL
+1.  KLÓZOK:=A₁, A₂,..Aₙ és ¬B formulák klózai
+2.  loop
+3.      if □ ∈ KLÓZOK then return kielégíthetetlen
+4.      if nincs olyan C₁,C₂ ∈ KLÓZOK, amelyre R(C₁,C₂)
+            még nem ismert (nincs a KLÓZOK között)
+            then return nem kielégíthetetlen
+5.      select C₁,C₂ ∈ KLÓZOK, ahol R(C₁,C₂) nem ismert
+6.      KLÓZOK := KLÓZOK ∪ R(C₁,C₂)
+7.  end loop
+```
+
+- **Helyesség**
+    - termináláskori válasz a helyes válasz
+- **Teljes**
+    - ha van kielégíthetetlen, akkor véges lépésben megtalálja a megoldást
+- **Parciálisan eldönthető**
+    - lehet, hogy sohasem terminál
+
+### Válaszadás
+- Létezik-e Fifi számára hely a világban?
+- Válaszadási gráf
+    - Hozzárakjuk a kérdés negáltját - tautológiák
+    - Üres klóz helyett a válasz kerülhet be
+    - a gráf gyökere lesz a válasz
+
+### Rezolválás nem determinisztikus
+- csak egy komplemens literálpárt lehet eliminálni
+- egy párban is lehet többféle lépés
+- modellfüggő vezérlési stratégiát kell adni
+- kiválasztást kell jól kitalálni
+- sorrendi és vágó statisztikák
+    - pl minél rövidebbeket rezolválja előbb - sorrendi
+    - pl csak az egység klózokkal rezolvál - vágó
+- nehéz heurisztikát adni
+    - nagyon át vannak alakítva a formulák az eredeti állításokhoz képest
+    - általánosítva vannak - pl változókkal
+
+## Szabályalapú logikai következtetések
+- Axiómák :: Tények és szabályok
+    - Tények:
+    Konkrét ismeretek, implikáció nélküli formulák
+    - Szabályok:
+    Általános ismeretek, implikációs formulák
+- Műveletek - móduszponens és fordítottja
+    - Előre láncolás
+        - Egy szabállyal egy állításból egy új állítás
+        - Illeszkedik-e a szabály
+            - Megfelelő változóhelyettesítés
+    - Hátrafelé láncolás
+        - Egy állítás bizonyítását egy szabállyal az előfeltétel bizonyítására vezeti vissza
+        - Itt is kell illeszthetőséget vizsgálni
+            - Alaki vizsgálat
+            - Ha egy literál van
+            - Ha több is van, akkor már bonyolultabb
+- Következtetések iránya alapján megvan a megoldás iránya is
+    - mind2 irányra lehet algoritmus
+        - de nem teljesek
+        - könnyebb heurisztikát adni
+
+### Előrehaladó szabályalapú reprezentáció
+- ÉS/VAGY formájú kifejezések (ÉVF)
+    - és, vagy és belül negáció
+    - nem olyan szigorú mint a klóz
+- Tény: 
+    - univerzálisan kötött tetszőleges ÉVF kifejezés
+- Szabály:
+    - L -> W alakú univerzálisan kötött kif.,
+    - L literál
+    - W ÉVF kifejezés
+- Cél:
+    - L1 v .. v Ln alakú egzisztenciálisan kötött kifejezés
+    - Li literál
+
+#### Példa
+- Tény: 
+    - (A∨¬B)∧C
+        - és -> alternatíva, sima élek
+        - vagy -> esetszétválasztás, ÉS-él a gráfban
+        - mindegyik ÉS-élen le kell vezetni a célállítást
+        - hiperút kell a célba
+- Szabályok:
+    - A -> D∧E
+    - ¬B -> D∨¬H
+- Cél:
+    - D∨G∨¬H
+
+### Visszafelé haladó szabályalapú reprezentáció
+- Tény:
+    - L1∧..∧Ln alakú univerzálisan kötött kif.
+    - Li literál
+- Szabályok:
+    - W -> L alakú univerzálisan kötött kif.
+    - L literál
+    - W ÉVF kif.
+- Cél:
+    - egzisztenciálisan kötött tetszőleges ÉVF kifejezés
+- Célból kiindulva
+- ∧ -> ÉS és
+- ∨ -> VAGY él
+- Szabályokkal vissza kell jutni az alap állításig
+- Hiperút kell ami a megoldásba visz
+- Visszalépéses keresés jó lehet egy ilyenre
+    - ha zsákutcába jut, akkor visszalép és más szabályba helyettesít
+- Változó behelyettesítésből meg lehet kapni a választ
+
+## Szabályalapú következtetés = visszalépéses keresés
+- ÉS/VAGY gráf hiperút keresése
+- Tény illesztése hamarabb legyen mint a szabályé - gyorsíthat
+- Visszalépéses vezérlés
+- Szabályok speciális használata
+- Heurisztikát lehet adni
+    - metaszabályok, kiértékelő fgv
+
+
+
+
 
 
