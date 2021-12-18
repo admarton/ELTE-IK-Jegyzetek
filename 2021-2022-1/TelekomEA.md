@@ -2064,7 +2064,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
 - Megvan, h ki melyik részért felel
     - zónája domain rekordjait tárolja
     - de van redundancia-robosztusság
-    - hierarchia miatt csak az egyel alatta lévő szervert kell ismernie
+    - hierarchia miatt csak az eggyel alatta lévő szervert kell ismernie
 - ROOT - ICANN
     - a->m-ig 
     - root szervertől meg lehet tudni az ip-t a fa végigkeresés alapján is
@@ -2083,7 +2083,7 @@ Facebook meghalt. Nem mondtak sokat. Itt is valami router probléma volt. Nem tu
     - megtörténik a bejegyzés
     - van ahol azonnal elérhető
     - van ahol több idő kell
-    - DNS propagonation - elterjedés 
+    - DNS propagation - elterjedés 
         - ez lehet lassú
         - cash-elés élettartama miatt lehet sok idő
         - 72 óra a legnagyobb általában
