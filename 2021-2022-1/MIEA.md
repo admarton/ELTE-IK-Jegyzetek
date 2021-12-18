@@ -351,7 +351,7 @@ A startból induló hiperútak bejárásai δ-gráfot alkotnak.
 
 ## Modellezés fontos
 - Állapottér modell
-    - fontos teknika
+    - fontos technika
     - felvehető állapotok halmaza
     - invariáns állítássokkal lehet szűkíteni
     - műveletekkel lehet egyik állapotból a másikba jutni
@@ -394,7 +394,7 @@ A startból induló hiperútak bejárásai δ-gráfot alkotnak.
             - a sor egyértelműen jön
             - előfeltétel ellenőrzések
 
-## Műveltek
+## Műveletek
 - műveletek hatékonysága befolyásolja a keresés időtartamát
 - invariáns szigorítás
 - adatok számon tartása az állapotokban
@@ -406,7 +406,7 @@ A startból induló hiperútak bejárásai δ-gráfot alkotnak.
 - csempéket kell tologatni (8-as, 15-ös)
 - kezdőállapot bármi lehet
 - célállomás a mérettől függ (8->körben, 15->sorfolytonos)
-- állapotok: mártix
+- állapotok: mátrix
     - rec(m:{0..8}^3×3, üres:{1..3}×{1..3})
 - művelet:
     - "üres hely eltolás", kevesebb művelet, mint az összes lap eltolása
@@ -447,7 +447,7 @@ A startból induló hiperútak bejárásai δ-gráfot alkotnak.
     - állapotokhoz szükséges állítások
         - on(x,y) - rajta van
         - clear(x) - teteje üres
-        - ontable(x) - azstalon van
+        - ontable(x) - asztalon van
         - handempty - robotkar szabad
         - holding(x) - robotkar tartja az x kockát
         - predikátum szimbólumok - nulladrendű logikához vezet
@@ -455,7 +455,7 @@ A startból induló hiperútak bejárásai δ-gráfot alkotnak.
     - konkrét és általános leírás
     - teljes és hiányos leírás
     - ellentmondást nem kellene tartalmazzon
-    - műveltek
+    - műveletek
         - pickup(x)
             - előfelt. - P: ontable(x), clear(x), handempty
             - törlés lst - D: ontable(x), clear(x), handempty
@@ -473,7 +473,7 @@ A startból induló hiperútak bejárásai δ-gráfot alkotnak.
             - D: on(x,y), clear(x), handempty
             - A: holding(x), clear(y)
         - a P,D,A meghatározza az új állapotot
-        - ha tezdetben teljes és ellentmondásmentes volt akkor ezek is ilyeneket generálnak
+        - ha kezdetben teljes és ellentmondásmentes volt akkor ezek is ilyeneket generálnak
 - Program generálás modellezés
     - változó értékének megváltoztatása
     - cont(v,e) - v tartalma e
@@ -733,8 +733,8 @@ end
             - inverziószám
                 - min hány csere kell
             - mod inv.
-                - *teknika*: meglévő súlyozása, büntető pontrendszer
-            - 
+                - *technika*: meglévő súlyozása, büntető pontrendszer
+
 
 # Konzi 4 2021.09.30
 
@@ -851,7 +851,7 @@ end
 - Mélységi korlát ellenőrzése biztosítja a terminálást
 - Körfigyelés nem szükséges
     - Csak hamarabb megtalálja a visszalépést
-    - Ha nincs vagy nagy körök vannak akkor nem általában optimálisabb kihagyni
+    - Ha nincs vagy nagy körök vannak akkor általában optimálisabb kihagyni
 - A mélységi korlátnál hosszabb a célhoz vezető utat nem találja meg
 - tologatós játék
     - vágó heurisztika
@@ -918,7 +918,7 @@ end
     3. m régi és nincs jobb út
         - m ∈ G és g(n)+c(n,m) ≥ g(m) akkor SKIP 
 - Ez lehet rossz is:
-    - elromolhat ha a csúcshoz vezető utak belselyében van változás
+    - elromolhat ha a csúcshoz vezető utak belsejében van változás
     - ha van leszármazottja a csúcsnak akkor elromolhatnak dolgok
     - **megoldás** lehet egy-egy bejárás, amivel frissítjük a dolgokat
         - csak addig kell bejárni amíg korrekt csúcsot nem találunk
@@ -1117,8 +1117,8 @@ Aᶜ algoritmus | f = g+h és h ≧0 és <br> h ≦h* és <br> h(n)−h(m) ≦c(
     - Részfa leveleit kiértékeli
     - Közbenső csúcsokra is kiszámolja
         - nálunk MAX, ellenfél MIN
-        - ellenfélnek minnél kevesebbet akarunk
-        - magunknak minnél többet
+        - ellenfélnek minél kevesebbet akarunk
+        - magunknak minél többet
         - olyan irányba kell lépni ami nekünk a legjobb
         - Minden lépésben új fát kell építeni, kiértékelni és felfuttatni
 - Átlagoló kiértékelés
@@ -1130,7 +1130,7 @@ Aᶜ algoritmus | f = g+h és h ≧0 és <br> h ≦h* és <br> h(n)−h(m) ≦c(
     - Ha sokat változott akkor még meg lehet nézni ott pár szintet
 - Szelektív kiértékelés
     - lényeges és nem lényeges lépéseket szétválasztjuk
-    - addot idő alatt több csúcsot tudunk kiértékelni (ami fontos csúcs)
+    - adott idő alatt több csúcsot tudunk kiértékelni (ami fontos csúcs)
 - Negamax
     - -1 -el beszorozzuk a min szinteket
     - minden lépésben negálás és max keresés
