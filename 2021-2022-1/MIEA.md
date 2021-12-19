@@ -196,7 +196,7 @@ Mérő László - jó könyvek a témában
         - Ennek ellentéte a Kínai szoba elv
     - Intelligens szofver jellemzői
         - megszerzett ismeret tárolása
-        - autómatikus következtetés
+        - automatikus következtetés
         - tanulás
         - term. nyelvű kommunikáció
         - manapság + gépi látás
@@ -1846,5 +1846,149 @@ end loop
     - Véletlen rossz eredményt ad - rossz lokális optimum
 - Ezért a módszert többször futtatjuk különböző véletlen inicializációval, k számmal
 
+# EA 12 2021.12.19
 
+## Mesterséges neuronhálók
+- Agy működésének szimulálása
+- Neuronok adnak a végén eredményt
+- Belső neuronok nem a végeredményt adnak, hanem inputot egy másik réteg neuronjainak
+- Neuronok elemi számoló egységek
+    - hogyan működjenek
+    - lehessen tanítani
+        - legyenek paraméterei
+- Neuronháló
+    - kitől milyen bemenet
+    - kinek milyen kimenet
+    - ezek alapján van összekötve
+- Tanító szabályok
+
+### Általánosított perceptron
+- Beneti érétkek súlyozott összege
+- Kimeneti függvény alakítja ezt át
+- x0 bemenet ez folyamatosan ingerli a neuront
+    - mindig legyen nem null súly
+    - x0 sem nulla
+    - **bias** is a neve, aktiváló bemenet
+    - ingerküszöböt is lehet állítani vele
+- Nevezetes kimeneti fgvk
+    - minél kisebb összeg annál kisebb kiment, nagynál nagy
+    - Step, sgn, linear_(a,b), relu (max(0,x))
+    - sigmoid, tanh, sin, softmax 
+        - ezek mindenhol deriválhatóak
+- neuronok meghatározása
+- összeköttetés meghatározása
+    - mesterséges neuronok csoportosítása
+    - ezek rétegek
+    - irányított élek a bemenet-kimenet dolgok
+        - egy kimenet, de mehet több helyre
+    - vannak továbbító neuronok, amik csak adatot továbbítanak, nem igazi neuronok
+    - kivezető él kimegy a gráfból -> kimeneti neuron
+- Hálózati modellek
+    - Többrétegű előre csatolt népszerű
+        - rétegen belül nincs kapcsolat
+        - visszafelé nincs adat mozgatás
+- Egy neuron súlyait egy vektorban
+- egy réteg súlyait egy mátrixban
+- Egy háló súlyait egy tensor-ben lehet tárolni
+- A bemenetet megszorozzuk a tensor-ral és az lesz az eredmény
+- Összeköttetés
+    - Sűrű - szinte minden az előző rétegből származó adat bemegy a kövi neuronba
+        - hatalmas vektor kell
+    - Konvolúciós - lokálisan összekötött
+        - nem az összesből kapja a jeleket
+        - kevesebb súlyt kell eltárolni
+    - Rekurens - speciális visszacsatolás
+        - reflexív irányított él
+        - változó input/output méretnél többször lehet ugyanazt a neuront használni ezzel a hurokéllel
+        - időben váltakozó input jeleket is így lehet kezelni
+            - emlékezik az előző eredményre és az is befolyásolja az új eredményét
+- Tanítás
+    - neuron számítási képletet kell módosítani
+    - súlyok módosítása
+    - ha 0 súly van, akkor nem is kell az az él -> hálózati befolyás
+    - Felügyelt tanulásnál az eredmény eltérése alapján lehet tanítani
+        - delta szabály: `Δwᵢ = η * xᵢ * (yᵢ - o)`
+            - y - várt
+            - o - számított
+            - y-o - hiba 
+            - η = 0.1 - tanulás paramétere
+            - ha nincs hiba, akkor 0-val kell változtatni
+        - véletlen súlyok az elején
+            - abból a minták alapján megtanulja majd
+            - epoch-ok vannak, sokszor lefuttatjuk újra meg újra a mintákat
+    - Nem felügyeltnél csak az eredményre támaszkodhatunk
+
+    - Neuron működése a mintákra jó lesz a tanítások után
+        - túltanulásnál csak a mintákra ad jó eredményt
+
+- Perceptronok száma
+    - Egy perceptronnal az outputokat egy hipersíkkal lehet félbevágni
+        - az egyik fele az egyik válasz
+        - a másik fele a másik válasz
+    - Ha bonyolultabb szétválasztás kell, akkor több neuron van
+    - Ha több réteg van, akkor
+        - első rétegben egyenesek
+        - második rétegben már konvex alakzatok lehetnek
+        - harmadik rétegben konkáv alakzatok
+        - de erre nem találtak jó tanítást
+            - nem lehet a hibát visszaszámítani a közbenső rétegekre
+            - ez a nem deriválhatóság miatt van
+            - megjelentek a deriválható output függvények
+            - hiba visszavezetés
+
+### Homogén MLP hálók
+- A teljes háló modellje
+    - `f(Θ, x) = g(wʳ*...*(g(wˢ*...*(...g(w²*g(w¹*x)))...))...)`
+- egy réteg számítási modellje
+    - `oˢ = g(wⱼˢ * oˢ⁻¹) = g(Σ_(i=0..nˢ⁻¹)[wᵢⱼˢ * oᵢˢ⁻¹])`
+- Hiba visszaterjesztés
+    - `L(Θ) = 1/2 * Σ_(j=0..nʳ)[yⱼ-oⱼʳ]²`
+    - súlyok változtatásával lehet javítani
+    - többváltozós függvény minimum helye kell
+    - `Δwᵢⱼˢ = η * (L/wᵢⱼˢ)'`
+        - parciális deriválás meg minden
+        - s-edik réteg j-edik neuronjának meg lehet adni a hibára adott hatását
+        - rekurzív képlettel meg lehet adni a hiba hányadot visszafelé haladva
+    - itt sok csúnya képlet, már nem fogom leírni
+    - Error backpropagonation algoritmussal lehet tanítani
+        1. Előrefelé kiszámolunk
+        2. Kimeneti réteg hibái
+        3. minden réteg minden neuronjára kiszámoljuk a hibát
+        4. Előrefelé javítani kell a súlyokat
+- Gyorsan ad eredményt, csak nagyon sok epoch lehet a tanítás
+
+### Nem homogén háló
+- többféle g függvény lesz
+- tanítás matekja nagyon bonyolult tud lenni
+- Ezekkel nehezebb feladatokat is meg lehet oldani
+- Neuronhálókat segéd könyvtárakkal csinálnak, mert ezekkel automatikusan lehet tanítani
+    - de attól még ezekkel is nehéz jó hálót csinálni
+
+- Tanítási problémák
+    - Tanítás matekja
+    - Megfelelő minta kiválasztás
+        - és eredmények megszerzése
+        - nem lehet homogén a minta
+            - változatos tanítóminták kellenek
+        - hány minta legyen
+        - mi legyen az eta-η
+        - Gradiens módszerrel nehéz optimumot keresni
+            - ha van lokális min, max
+
+### Hopfield neuronháló
+- Aszinkron topológia
+- Egy rétegben teljes összeköttetés
+- Neuronoknak belső állapotot
+- Állapot a bemeneti és kimeneti értékek
+- Kezdetben külső input adja az állapotokat
+- Async újra számolják az állapotokat
+    - változik a konfig
+- Ha stabil állapotra jut akkor megkapjuk a megoldást
+- Asszociatív és optimalizálási problémák
+- Hogyan lehet felügyelet nélkül betanítani
+    - minták stabil konfigok legyenek
+    - stabil konfig felé konvergáljanak az inputok
+- Véges lépésben egy mintához kell konvergálnia az inputnak
+    - minta keresés egy inputban
+- Itt is durva matek dolgok
 
