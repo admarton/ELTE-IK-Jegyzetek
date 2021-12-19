@@ -1502,6 +1502,123 @@ end loop
     - metaszabályok, kiértékelő fgv
 
 
+# EA 10 2021.12.18
+
+## Bizonytalanságkezelés
+- mindennapi állítások bizonytalanok
+    - nem igaz vagy hamis értéket vesznek fel
+    - bizonytalan adatokból kell állításokat tenni
+        - pl mérési hiba
+    - szubjektív következményt számolunk
+
+- Alap kérdések
+    - reprezentáció
+        - pl 0-1 közötti valószínűség
+    - kombináció
+        - bizonytalan állításokat hogyan rakunk össze
+        - ezeket hogyan használjuk fel a számításokra
+    - következtetés
+        - mennyire bizonytalan a következmény
+
+- B -> A
+    - Feltételes valószívűség
+    - p(A|B) = p(A∧B)/p(B)
+
+- Állítások bizonytalansága az esemény bekövetkezésének valószínűsége
+    - Valószínűségi változók bizonyítása
+    - Xᵢ=igaz helyett Xᵢ
+    - Xᵢ=hamis helyett ¬Xᵢ
+- Gyakorlatban nem ismerjük a valószínűségi eloszlást
+    - nagy lenne az összes valószínűség eloszlásának eltárolása
+- Bayes tételek használata
+    - Klasszikus
+        - `p(B|A) = p(A|B)*p(B)/P(A)`
+    - Háttértudás (E) mellett
+        - `p(B|A,E) = p(A|B,E)*p(B,E)/p(A,E)`
+    - Általánosított (Bi-k függetlenek)
+        - `p(Bi|A) = (p(A|Bi)*p(Bi))/(Σₖp(A|Bₖ)*p(Bₖ))`
+
+- Apriori ismeretek használata
+    - már ismert statisztikai ismereteket felhasználunk
+    - háttértény felhasználása
+        - Bayes-i frissítés módszere
+- Feltételes függetlenség
+    - `p(A,B|E) = p(A|E)*p(B|E)`
+    - egy esemény (E) köti össze a két eseményt
+    - p(A|B,E) = p(A|E)
+    - feltételes függetlenségeket fel lehet térképezni
+        - A és B is E-től függ
+        - A-tól függ E, E-től függ B
+        - fordítva
+- normalizálás
+    - az állítást és az ellentettjét is kiszámolhatjuk 
+    - ebből a kettőből α-t ki lehet számolni és abból a két eredményt is
+    - `p(A) = α * u, p(¬A) = α * v`
+        - `1 = p(A)+p(¬A) = α * [u + v]`
+    - kevesebb apriori értéket kell tárolni
+        - általában
+        - így is sok kellhet
+
+- Bayes modell
+    - nem túl könnyen magyarázható
+    - nehezen bővíthető
+
+## Bayes hálók
+- Adattudomány foglakozik ezekkel
+- Irányított gráf a feltételes függőségeknek
+- Feltételes valószínűségek tábláit is felvesszük
+    - Függő valószínűségek értékei
+- Ok-okozati gráfot vizsgálva kereshetjük, hogy egy esemény független-e
+    - útkeresési algoritmusokat lehet ezen használni
+- Kifejező erő
+    - rendelkezünk a problémakör egységes valószínűségével
+    - Lánc szabállyal fel lehet írni
+        - mindig kiveszünk egy valószínűséget és arra függően felírunk egy feltételes valószínűséget
+        - sorszámozást kell jól kiválasztani
+            - ősei legyenek a maradék részben
+        - p(X1=x1,..,Xn=xn) = Πi=1..n(p(Xi=xi | Szülő(Xi)=xi1,..xin))
+- problémák megoldásánál valószínűségeket is figyelembe kell venni
+
+### Bayes hálók tervezése
+- Irányított gráf lesz itt is
+- Probléma tárgytartomány valószínűségi változói
+- Majd ezek sorrendbeli feldolgozása
+    1. Válasszunk olyan val.vált.-ot ami csak a hálóhoz csatoltaktól függ és új csúcsként vegyük fel
+    2. Vegyük a háló olyan minimális részhalmazát, amelyek közvetlenül hatnak az újra.  Rajzoljuk be ezeket a reprezentáció elé.
+    3. Töltsük ki az új csúcs FVT-jét (Feltételes valószínűség tábla)
+    4. Újra az első ponttól
+- Ezzel a módszerrel felépíthető a Bayes háló
+- Kiértékelő algoritmussal lehet kérdésekre válaszolni
+    - Bayes tétel, normalizáció, teljes függetlenségi rendszer, láncszabály és feltételes valószínűség alkalmazásával olyan eseményt kaphatunk amit ki tudunk számolni
+    - Klasszikus matematika nem mindig azt adja amit az emberi gondolkodás adna - így nem is mindig ezt kell használni
+    - fa gráfokra lineáris futási algoritmust tudunk adni
+        - többszörösen kötött gráfra egyszerűsítéseket csinálnak
+            - Összevonási eljárás
+                - egy esemény többől
+            - Vágóhalmaz
+                - Csúcsok elhagyásával fa gráfok
+                - külön háló a külön esetekre
+                    - két egyszerűbb háló lehet jobb mint egy összetett
+                - Hálók súlyaival kell súlyozni az eredményeket
+                - Nem fontos gráfokra nem is számoljuk ki, gyorsabb, de csak közelítő érték
+            - Sztochasztikus szimulációs eljárások
+                - esetek generálása
+                - jó eseteket relatív gyakoriságokkal vesszük
+                - Lefelé megyünk a hálóban
+                - A már generált véletlenek alapján generáljuk a gyerekeket
+                - Hasznos és jó példákat kell generálni és abból lehet közelíteni
+- Lehet tanuló módszerekkel Bayes hálókat építeni
+- Bayes háló értékelése
+    - kevesebb apriori valószínűséget kell tárolni
+    - részeredményeket jobban lehet követni
+
+## Heurisztikus technikák
+- Nem pusztán matematikai alapon számolás
+- Jobban közelíti az ember által várt eredményt 
+- Szabályokat kell felvenni
+- Következtetési elvek
+    - T(p), T->K(q) => K(p * q)
+- Sok népszerű megoldás használja ezt (pl MYCIN)
 
 
 
