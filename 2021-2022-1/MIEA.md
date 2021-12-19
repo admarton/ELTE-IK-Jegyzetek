@@ -1621,5 +1621,230 @@ end loop
 - Sok népszerű megoldás használja ezt (pl MYCIN)
 
 
+# EA 11 2021.12.19
+
+## Gépi tanulás
+- Hasonló feladatot jobban tud megoldani több megoldás után
+- Modell tanulás - Logikai levezetés, Bayes háló
+- B' algoritmus - heurisztika módosítás
+
+## Tanulási modellek
+- A megoldandó probléma: `ϕ : X -> Y`
+- Ehhez kell egy olyan algoritmus, amely előállítja:
+    - `f : X -> Y`-t
+    - `f ~ g`
+    - sokszor `f : P×X -> Y`-t használunk és keressük a `P` paramétert
+        - `f(Θ,x) ~ ϕ(x), Θ∈P`
+
+### Induktív tanulási modell
+- minták alapján próbáljuk megtanulni az f-et vagy paramétereit
+- Felügyelt tanulás
+    - Tudjuk a bemenetet és a kimenetet is
+    - Tanulás során összehasonlítjuk a kimeneteket
+    - és aza alapján módosítunk a paramétereket
+- Felügyelet nélküli tanulás
+    - Bemeneti értékeket csoportosítjuk
+    - Ehhez meg tudunk mondani egy elvárt értéket
+- Megerősítéses tanulás
+    - Nem ismerjük a kimenetet
+    - De az adott inputra tudjuk minősíteni az outputot
+        - minél jobb minősítésű eredményre vezető módszert kell megtanulni
+    - Sakkozó algoritmusnál nem tudjuk megmondani a jó lépést
+        - de értékelni lehet egy adott lépést
+        - Hasznossági értékek
+
+### Adaptív (inkrementális) tanulás
+- egy f leképezését egy új minta úgy módosít, hogy az előző mintákat nem kell újra vizsgálni
+- nem kell újrakezdeni az egész tanulást
+
+## Felügyelt tanulás
+- xₙ, yₙ tanútó mintáinak vannak
+- tanulási algoritmus adott
+- a paramétereket akarjuk hangolni
+- hiba függvényt használunk
+- L(Θ) a hiba
+- L(Θ) = 1/N * Σ_(n=1..N) l(f(Θ,xₙ), yₙ)
+    - f(Θ,xₙ) a számított kimenet
+    - yₙ az elvárt kimenet
+    - l a hibafüggvény
+        - l : Y × Y -> ℝ
+        - Y m dimenziós adat
+        - A számított érték és az elvárt érték távolsága
+        - Ez lehet például valamilyen norma
+- Olyan algoritmust kell találni, ami gyorsan tud választ adni
+- A tanulási folyamat lehet lassú
+- Megfelelő számú minta kell
+    - sok adat kellhet, amit meg kell szerezni
+- f leképezés és a hibafüggvényt nehéz kitalálni
+- Θ megtalálása NP-teljes probléma
+    - de nem is kell a tökéletes eredmény - túltanulás lehet
+    - jó közelítés
+
+### K legközelebbi szomszéd
+- Megkeressük azokat a mintákat, amik bemenete hasonlít - K darab
+- Ezeknek az eredményének az átlagához kell közelítsen az f eredménye
+- K paraméterre nagyon érzékeny
+- `sort(x, P, K)`
+    - x-től vekvő sorrendben távolodó minták első K eleme
+- `f(Θ, x) = Σ_(n=1..N)[(( II(xₙ ∈ sort(x,P,K))) / (K)) * yₙ]`
+    - `II(A)=1` ha A igaz, `II(A)=0` ha A hamis
+    - átlagolás
+- `f(Θ, x) = arg max_(n=1..N) Σ_(xᵢ ∈ sort(x,P,K)) 1 ahol ϕ(xᵢ)=yₙ`
+    - többségi szabály
+
+- Lassú az f kiszámítása, mert a mintákat rendezni kell mindig
+
+### Döntési fa
+- Attribútum - érték párok
+- Csúcs - Attr
+- Él - érték
+- Levél csúcs az output
+- Tanító mintákra jó eredményt ad
+- De a nem tanított mintákra is ad eredményt
+- Döntési fa építése
+    - minden csúcshoz hozzárendeljük azon tanító mintákat, amelyek tartalmazzák a csúcshoz vezető ág attr-ért párjait
+    - akkor belső a csúcs, ha a hozzá vezető ágon nem szereplő attribútummal címkézzük fel
+    - egy csúcs véglegesen levél, ha
+        - nincs tanító mintája
+        - mindegyik mintája hasonló kimenetű
+        - a csúcshoz vezető ágon minden attr szerepel
+    - a levél értéke a hozzá tartozó minták kimenetének átlaga vagy a leggyakoribb kimenete lesz
+        - ha nincs minta a levélhez, vagy nem egyértelmű
+            - akkor a szülőcsúcs mintái alapján számolunk
+- Több döntési fa is építhető
+    - nem determinisztikusa az attr kiválasztása
+    - jó döntési fát kéne építeni
+        - legkompaktabb adja meg leggyorsabban a választ
+    - ennek megtalálása NP-teljes probléma
+    - azt az attr-t kell választani, ami homogén választ ad
+        - így hamarabb lesz levél
+- minél rövidebb ágakat kell csinálni
+- lehet minél hamarabb levél csúcsot képezni
+    - egy csúcs tanító mintáinak kimeneteire kicsi legyen az eltérés
+        - pl 2-es norma
+    - vagy minél kisebb legyen a kimenet változatossága
+        - entrópia
+- Egycsúcshoz úgy érdemes attr-t választani, hogy kevés legyen a kimenetek halmaza
+
+- Entrópia
+    - `E(P) = E(p1,..,pn) = -Σ_(i=1..n) pi log₂pi`
+    - P mintahalmaz
+    - pi a valószínűsége az adott mintának
+- Információs előny
+    - `C(P,a) = E(P) - Σ_(v ∈ Érték(a)) (| P_(a=v) |/| P |) * E(P_(a=v))`
+    - adott a attr-ra a minta csökkenése
+    - Érték(a) az a attr által felvett értékek
+    - `P_(a=v) = { p ∈ P | p.a = v }`
+    - P a szülő mintái
+    - legnagyobb információs előnyű attr-t érdemes választani
+    - de még így is lehet nemdeterminisztikus
+- Ha nem megfelelő a tanító minta
+    - akkor lehet olyan válasz, ami nem a legjobb
+
+#### Döntési fa építés
+- Fokozatosan épülő döntési fánál eltároljuk
+    - a csúcshoz vezető tanító mintákat
+    - a csúcsnál még választható attr-kat
+- Egy csúcs lehet
+    - belső csúcs
+        - kimenő élek a döntések
+    - kiértékelt vagy értékkel nem rendelkező levélcsúcs
+- Minden lépésben egy értékkel nem rendelkező levélről el kell dönteni
+    - kaphat-e értéket
+    - belső csúcs-e
+- Kezdetben a fa egy nem kiértékelt levelet tartalmaz, az összes mintával
+- Mindig veszünk egy nem kiértékelt csúcsot
+    1. Ha a csúcsnak nincsenek mintái, akkor a szülő alapján számolunk valamit
+    2. Ha a csúcshoz tartozó minták értékei nem nagyon térnek el, akkor kiszámoljuk az értékét
+    3. Ha a csúcsnak nincs választható attr-a, akkor kiszámoljuk az értékét
+    4. Különben a választható attr közük kiválasztjuk a legkedvezőbbet és megcímkézzük, majd legeneráljuk a gyerekeit
+        - gyerekeiben már kevesebb attr és ha jól választottunk, akkor kevesebb minta
+
+- Problémák
+    - **Zaj**
+        - több eltérő minta attr értékei megegyeznek
+        - átlagolás félrevezető
+        - valahogy kezelni kell
+    - **Túlzott illeszkedés**
+        - Olyan attr-t veszünk, aminek igazából nincs jelentősége az eredmény szempontjából
+        - A lényegtelen jellemzőket szűrjük ki
+            - pl C(P,a)~0, információs előnye kb 0
+    - **Általánosítások**
+        - hiányzó attr
+        - folytonos értékű attr - diszkretizálni kell valahogy
+
+- Formalizáció
+    - `f(Θ, x) = Σ_(n=1..N)[(( II(xₙ ∈ P(x))) / | P(x) | ) * yₙ]`
+        - P(x) az x-re számolt levélcsúcs tanító mintáinak halmaza 
+        - döntési fa a paraméter
+        - Paraméter optimalizálása a döntési fa optimalizálása
+    - `f(Θ, x) = arg max_(n=1..N) Σ_(xᵢ ∈ P(x)) 1 ahol ϕ(xᵢ)=yₙ`
+
+- Előnyök
+    - jól értelmezhető
+    - mintákra tökéletes eredmény
+        - hasonlókra is jó eredmény
+    - mintákat nem kell tárolni
+- Hátrány
+    - döntési fa optimalizált építése NP-teljes
+    - Csak lokálisan optimális fát tudunk építeni a fenti módszerrel
+
+### Véletlen erdő
+- Döntési fa tovább gondolása
+- K darab döntési fa
+    - véletlen választunk minta és attr halmazt az összesből egy adott fára
+- Kimeneti értékek eredményei alapján választjuk a végleges eredményt
+- Formalizáltan
+    - `f(Θ, x) = Σ_(n=1..N)[( value(x, decision_tree(Aₙ, Pₙ)) ) / (N)]`
+        - Aₙ és Pₙ döntési fára kiszámolt x kimeneti értéke
+    - `f(Θ, x) = arg max_(n=1..N) Σ_(xᵢ ∈ P(x)) 1 ahol ϕ(xᵢ)=yₙ`
+        - leggyakoribb érték kiválasztása
+
+- Előnyök
+    - tanító minták helyett egy erdő kell
+    - véletlen miatt kevésbé mohó, elkerüli a túltanulást
+    - az x-re adott eredmény számolása párhuzamosítható
+- Hátrányok
+    - Az eredmény kevésbé értelmezhető
+    - az erdő építés NP-teljes
+
+## Felügyelet nélküli tanulás
+- Ismert módszerek
+    - Klaszterezés
+    - Dimenzió czökkentés
+    - Autóenkóderek
+
+### k-közép módszer
+- Hard klaszterezés
+- Mintákat klaszterekbe sorolja
+- x_p tanító minták és vektorizáltak
+    - k klaszter egyikébe soroljuk
+    - S_i a klaszterek
+    - m_i a klaszter közép eleme
+        - `m_i = 1/|S_i| * Σ_(x_j ∈ S_i) x_j`
+        - 2-es normában a legközelebb van
+- Algoritmus
+    - Adottak a k és az x_p-k
+    - Inicializáljuk a k darab centroidot: m_i¹-k
+        - vagy véletlen választunk középpontot
+        - vagy random klaszterezünk és annak kiszámoljuk a közepét
+    - A középpont t-edik változatát t+1-re cseréljük
+        1. Az elemeket a legközelebbi klaszter középpontjához rendeljük
+            - `S_iᵗ⁺¹ = { x_p | ∀j ∈ [1..k] : || x_p - m_iᵗ ||₂² ≤ || x_p - m_jᵗ ||₂² }`
+        2. Kiszámoljuk az új elemcsoportok közepét
+            - `m_iᵗ⁺¹ = 1/|S_iᵗ⁺¹| * Σ_(x_j ∈ S_iᵗ⁺¹) x_j`
+    - Addig végezzük a fenti cserélést amig az új középpontok eltérése a régitől egy adott határ alá nem kerül
+
+- Kemény klaszterezés
+    - minden elemet be lehet sorolni egy klaszterba
+    - osztályozzuk az X halmaz elemeit
+- Optimális klaszterezés NP-teljes
+    - Ez az iterációs módszer csak lokális optimumot ad
+- Probléma
+    - Túl nagy minta - kialakulnak üres klaszterek
+    - Túl kicsi - klaszteren belül lehet szignifikánsan különböző csomósodások
+    - Véletlen rossz eredményt ad - rossz lokális optimum
+- Ezért a módszert többször futtatjuk különböző véletlen inicializációval, k számmal
+
 
 
