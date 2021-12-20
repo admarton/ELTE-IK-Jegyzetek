@@ -100,7 +100,7 @@
                 - "igen, értem", "kérem, folytassa", stb
         - Hasonlít a pszijáterekre:
             - lett DOKTOR verziója
-    - 1966. GPS(general problem solving), rezolúció(elsőrendű logiki gondolatok)
+    - 1966. GPS(general problem solving), rezolúció(elsőrendű logikai gondolatok)
 - Klasszikus kor
     - Speciális módszerek használata a speciális feladatokra
     - SHRDLU 1972
@@ -238,7 +238,7 @@ Mérő László - jó könyvek a témában
 - adott pillanatban lehessen rangsorolni
 
 ## Útkeresési probléma
-**Def.:** Útkeresési probléma az, amelynek megoldása megfeleltethető egy *élsújozott irányított gráfbeli*
+**Def.:** Útkeresési probléma az, amelynek megoldása megfeleltethető egy *élsúlyozott irányított gráfbeli*
     - *csúcsnak* (célcsúcs)
     - *útnak* (startcsúcsból célcsúcsba, esetleg a legolcsóbb)
 
@@ -353,7 +353,7 @@ A startból induló hiperútak bejárásai δ-gráfot alkotnak.
 - Állapottér modell
     - fontos technika
     - felvehető állapotok halmaza
-    - invariáns állítássokkal lehet szűkíteni
+    - invariáns állításokkal lehet szűkíteni
     - műveletekkel lehet egyik állapotból a másikba jutni
     - kezdőállapot(ok)
     - célállapotok
@@ -1851,7 +1851,7 @@ end loop
 ## Mesterséges neuronhálók
 - Agy működésének szimulálása
 - Neuronok adnak a végén eredményt
-- Belső neuronok nem a végeredményt adnak, hanem inputot egy másik réteg neuronjainak
+- Belső neuronok nem végeredményt adnak, hanem inputot egy másik réteg neuronjainak
 - Neuronok elemi számoló egységek
     - hogyan működjenek
     - lehessen tanítani
@@ -1863,7 +1863,7 @@ end loop
 - Tanító szabályok
 
 ### Általánosított perceptron
-- Beneti érétkek súlyozott összege
+- Bemeneti érétkek súlyozott összege
 - Kimeneti függvény alakítja ezt át
 - x0 bemenet ez folyamatosan ingerli a neuront
     - mindig legyen nem null súly
@@ -1871,7 +1871,7 @@ end loop
     - **bias** is a neve, aktiváló bemenet
     - ingerküszöböt is lehet állítani vele
 - Nevezetes kimeneti fgvk
-    - minél kisebb összeg annál kisebb kiment, nagynál nagy
+    - minél kisebb összeg annál kisebb kimenet, nagynál nagy
     - Step, sgn, linear_(a,b), relu (max(0,x))
     - sigmoid, tanh, sin, softmax 
         - ezek mindenhol deriválhatóak
