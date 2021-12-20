@@ -830,7 +830,7 @@ end
 - Második változat
 - Minden feltétel beépítve a keresésbe
 - ***VL2* δ-gráfban mindig terminál**
-- Ha létezik a mélységi korlátnál nem hosszabb megoldás ó, akkor megtalál egy megoldást.
+- Ha létezik a mélységi korlátnál nem hosszabb megoldás, akkor megtalál egy megoldást.
 - rekurzió az alap implementáció
 - az egész utat látni kell
 ```sql
@@ -1641,7 +1641,7 @@ end loop
 - Felügyelt tanulás
     - Tudjuk a bemenetet és a kimenetet is
     - Tanulás során összehasonlítjuk a kimeneteket
-    - és aza alapján módosítunk a paramétereket
+    - és az alapján módosítunk a paramétereket
 - Felügyelet nélküli tanulás
     - Bemeneti értékeket csoportosítjuk
     - Ehhez meg tudunk mondani egy elvárt értéket
