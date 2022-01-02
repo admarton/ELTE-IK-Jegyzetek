@@ -48,10 +48,10 @@ inf.elte.hu/
     - Egyik fél se várakozzon
     - Az eredménynek olyannak kell lennie mintha sorosan lenne végrehajtva
 - Tranzakció kezelő biztosítja:
-    - Atomosság (egységben lefut vagy sem, ne maradjon félállapotban) Atomiciti
-    - Következetesség (nem rontja el az adatbázist) Consistenci
-    - Elkülönítés (mintha egyedül kezelné az AB-t) 
-    - Tartósság (commit után megmarad az állapot, hiba esetén is)
+    - Atomosság (egységben lefut vagy sem, ne maradjon félállapotban) Atomicity
+    - Következetesség (nem rontja el az adatbázist) Consistency
+    - Elkülönítés (mintha egyedül kezelné az AB-t) Isolation  
+    - Tartósság (commit után megmarad az állapot, hiba esetén is) Durability  
 
 ### Zárolások (Lock, Unlock)
 Egymásra várnak a tranzakciók.
@@ -155,7 +155,7 @@ Structured Query Language
     - Több tábla
     - Halmazművelet
     - Átnevezés
-    - 
+    - Vetítés
 
 ## Relalg műveletek
 1. UNIÓ, R ⋃ S, R,S azonos sáma, sorok halmaza
@@ -214,8 +214,7 @@ Lekérdezések gyorsítása, a tábla specifikus paraméterek, statisztikák ism
     - algebrai optimalizáció
 - Javított logikai lekérdező terv
 4. Várható méretek becslése
-5. Fizikai tervek készítése
-- 
+5. Fizikai tervek készítése  
 6. Költségek becslése
 - Terv, költség párok : **{(FT1,KI),(FT2,K2)...}**
 
@@ -243,7 +242,7 @@ AND S.E = 2 AND R.C=S.C;
     - Két vélhetően kisebb tábla lesz összerakva.
     - Π_(B,D)[(σ(R))|X|(σ(S))]
 1. Keresést lehet gyorsítani pl indexekkel
-2. Összekapcsolás is gyorsítható indexel
+2. Összekapcsolás is gyorsítható indexxel
 3. S-re szűrés
 4. Összekapcsolás közben lehet ellenőrizni a vetítést
 
@@ -272,7 +271,7 @@ WHERE starName IN (
 - **Módszer:** műveletei tula. alapján ekviv. átalakítás
 - **Az eljárás heurisztikus**, nem valódi méretekkel számol
 - **Az eredmény nem egyértelmű:** Az átalakítások sorrendje nem determinisztikus, de általában jobb költségű
-- **Megj.:** Az SQL sokkal bővebb, de most klassic. alg. kif. lesznek.
+- **Megj.:** Az SQL sokkal bővebb, de most klasszik. alg. kif. lesznek.
 
 - kifejezést gráffal ábrázoljuk
 - **Kifejezésfa:**
@@ -365,7 +364,7 @@ WHERE starName IN (
 
 ## Miért jó?
 - Ez egy általános módszer
-- Mi lehet tudunk speckó infókat amivel, jobb végrehajtást tudunk adni
+- Mi lehet tudunk speckó infókat, amivel jobb végrehajtást tudunk adni
 - Ha megértettük, akkor lehet javítani
 
 ## Indexelés
@@ -733,7 +732,7 @@ CREATE INDEX <NÉV> ON <TÁBLA> (<MEZŐNÉV>, <MEZŐK NEVEI>) COMPUTE STATISTICS
             - lineáris keresés jobb ha sok a találat
     
 ## Összetett kiválasztás
-- konjungciós kiválasztás
+- konjunkciós kiválasztás
     - egyik feltételre az egyszerű költség
         - a találatokra megy a többi ellenőrzés
         - a leggyorsabb indexet kell kiválasztani
@@ -851,7 +850,7 @@ vége
     - sorok:N_S*N_R / Max(V(A,R), V(A,S))
     - tARTALMAZÁSNÁL KEVESEBB
 
-## öSSZEFOGLALÁS
+## ÖSSZEFOGLALÁS
 - Minden költséget lehet becsülni
 - Összeadjuk
 - És ebből próbálunk jobbat csinálni
@@ -863,7 +862,7 @@ vége
 ## Több tábla összekapcsolása 
 - Több fizikai terv is lehet
 - Összekapcsolások nagyon gyakoriak
-- Kommutatív asszociatív, sorrendjük nem számít, de költségben lehet különbség
+- Kommutatív, asszociatív, sorrendjük nem számít, de költségben lehet különbség
 - Összekapcsolások végrehajtási fában ábrázolható
 - Rendezéseshez nagy memória kell + lehet rendezni kell a táblát
 - Zárójelezéssel mindig csak két táblát kapcsolunk össze
@@ -1170,7 +1169,7 @@ vége
         - < END CKPT > a vége
         - Köztes rész a "piszkos" rész
 
-### Redo logging (Helyrehozó naplózás)
+### Redo log (Helyrehozó naplózás)
 - Az új értéket naplózzuk
 - commit:
     - tranzakciós lépések a start és a commit között vannak
@@ -1354,7 +1353,7 @@ vége
     3. Érvényesítéses
 
 ### Zárolási ütemező
-#### Legszigorúgg zárolás
+#### Legszigorúbb zárolás
 - lᵢ(A) - kizárólagos zárolás
 - uᵢ(A) - zár elengedése
 - teljesen zárolja az adott adatbáziselemet
@@ -1462,7 +1461,7 @@ vége
     - ha csak kizáró zár van, akkor nem kell a többi művelettel foglalkozni
     - ha többféle zár is van
         - akkor tudnia kell, hogy mire milyen zár van
-- Ütememző II. része
+- Ütemező II. része
     - Eldönti a zártábla alapján, hogy késlelteti vagy végrehajtja
     - Közben érkeznek új feladatok
     - Összefűződnek
@@ -1494,9 +1493,9 @@ vége
 - Nagy adatok zárolása
     - kevesebb zárás kell
     - de más tovább kell várjon
-- Kis elemeke
+- Kis elemek
     - sok zár kell
-    - sok trez. futhat egyszerre
+    - sok tranz. futhat egyszerre
 - megenegedünk kicsi és nagy objektumok zárolását is
     - tábla, blokk, rekord
     - külön zár mehet mindegyikre
@@ -1645,10 +1644,10 @@ SIX |*i* | n  | n | n | n
 - Időbélyegző
     - Sorszintű zárolás
     - Időbélyegzők
-    - csak akkor vár két tanz. ha ugyan azt a sort módosítják
+    - csak akkor vár két tranz. ha ugyan azt a sort módosítják
 - Táblák szintjén
     1. row share - figyelmeztető olvasás
-    2. row excludeive - figy. olv.
+    2. row exclusive - figy. olv.
     3. share    - olvasás
     4. share row exclusive  - olvasás és alatta írás
     5. exclusive - kézzel is ki lehet rakni - olvasás
