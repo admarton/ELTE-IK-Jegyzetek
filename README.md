@@ -1,5 +1,5 @@
 # ELTE-IK-Jegyzetek
-Egy repó a jegyzeteimnek.
+Egy repó a jegyzeteimnek. 
 
 ## Tartalom
 - 2020-2021-1
