@@ -1,0 +1,1 @@
+# Algoritmusok tervezése és elemzése Gy

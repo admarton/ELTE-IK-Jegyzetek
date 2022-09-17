@@ -1,0 +1,1 @@
+# Haladó szoftvertechnológia Ea
