@@ -25,3 +25,24 @@ Egy repó a jegyzeteimnek.
   - Telekommunikációs hálózatok
     - [Előadás](2021-2022-1/TelekomEA.md)
     - [Gyakorlat](2021-2022-1/TelekomGY.md)
+- 2022-2023-1
+- 2022-2023-2
+  - Haladó C++
+    - [Előadás](2022-2023-2/CPPEA.md)
+  - Formális szemantika
+    - [Előadás](2022-2023-2/FormSzemEA.md)
+    - [Gyakorlat](2022-2023-2/FormSzemGY.md)
+  - Osztott rendszerek specifikációja és implementációja
+    - [Előadás](2022-2023-2/ORSIEA.md)
+    - [Gyakorlat](2022-2023-2/ORSIGY.md)
+  - Programozási módszertan
+    - [Előadás](2022-2023-2/ProgModEA.md)
+    - [Gyakorlat](2022-2023-2/ProgModGY.md)
+  - Software quality and testing
+    - [Előadás](2022-2023-2/SQATEA.md)
+    - [Gyakorlat](2022-2023-2/SQATGY.md)
+  - Számítógépes grafika
+    - [Előadás](2022-2023-2/SzamGrafEA.md)
+    - [Gyakorlat](2022-2023-2/SzamGrafGY.md)
+
+
