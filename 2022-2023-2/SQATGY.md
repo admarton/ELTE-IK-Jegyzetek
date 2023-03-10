@@ -45,3 +45,12 @@
 - Programming style
 - Test driven and behavior driven
 - Do not overtest
+
+# Practice 2.
+
+- New github repo
+
+## ParameterizedTests
+
+- List of params
+

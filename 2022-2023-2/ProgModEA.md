@@ -98,3 +98,64 @@
 - [a..b] intervallum, ahol $ a,b \in \Z $
 - [10..9] üres $ = \empty $ 
 - [10..2] nagyon üres, nem szeretjük
+
+# 2. EA
+
+## Számlálás
+
+- $ A = (m,n:\Z, d:\N) $
+- $ B = (m',n':\Z) $
+- $ Q = (m=m' \wedge n=n' \wedge m\leq n+1) $
+- $ R = (Q \wedge d = \sum_{i=m}^{n} \chi(\beta(i))) $
+- $ P = (Q \wedge d = \sum_{i=m}^{k} \chi(\beta(i)) \wedge k\in[m-1..n]) $
+
+<svg width="200" height="250">
+    <rect x="0" y="0" width="400" height="100" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <rect x="0" y="50" width="400" height="400" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <rect x="40" y="100" width="400" height="400" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <rect x="40" y="150" width="400" height="400" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <rect x="120" y="150" width="400" height="400" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <line x1="40" y1="100" x2="80" y2="150" stroke="black" />
+    <line x1="200" y1="100" x2="160" y2="150" stroke="black" />
+    <rect x="40" y="200" width="400" height="400" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <text x="30" y="30">k,d:=m-1,0</text>
+    <text x="40" y="80">k != n</text>
+    <text x="80" y="130">β ( k+1 )</text>
+    <text x="60" y="180">d:=d+1</text>
+    <text x="140" y="180">SKIP</text>
+    <text x="60" y="230">k:=k+1</text>
+</svg>
+
+## Maximumkeresés
+
+- $ f:\Z \rightarrow H $
+- $ A = (m:\Z, n:\Z, max:H, i:\Z) $
+- $ B = (m':\Z, n':\Z) $
+- $ Q = (m=m' \wedge n=n' \wedge m\leq n) $
+- $ R = (Q \wedge i\in[m..n] \wedge max=f(i) \wedge \forall j \in [m..n]:f(j)\leq f(i)) $
+- P = (Q ∧ i ∈ [m..k] ∧ max=f(i) ∧ ∀j∈[m..n]: f( j ) ≤ f( i ))
+- Q' = (Q ∧ k=m ∧ i=m ∧ max=f(m))
+- Q' ⟹ P
+- $ \pi : k \neq n $ 
+- π : k ≠ n
+- t : n - k
+
+<svg width="250" height="250">
+    <rect x="0" y="0" width="400" height="100" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <rect x="0" y="50" width="400" height="400" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <rect x="40" y="100" width="400" height="400" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <rect x="150" y="100" width="400" height="400" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <line x1="40" y1="100" x2="60" y2="150" stroke="black" />
+    <line x1="150" y1="100" x2="170" y2="150" stroke="black" />
+    <rect x="40" y="150" width="400" height="400" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <rect x="150" y="150" width="400" height="400" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <rect x="40" y="200" width="400" height="400" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <text x="30" y="30">i,k,max:=m,m,f(m)</text>
+    <text x="40" y="80">k ≠ n</text>
+    <text x="60" y="130">f(k+1)>=max</text>
+    <text x="165" y="130">f(k+1)<=max</text>
+    <text x="50" y="170">i,max := </text>
+    <text x="60" y="190">k+1,f(k+1)</text>
+    <text x="160" y="180">SKIP</text>
+    <text x="60" y="230">k:=k+1</text>
+</svg>

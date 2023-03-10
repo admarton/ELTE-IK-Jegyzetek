@@ -139,7 +139,148 @@
 - olyan mint egy variant
 - lehet void és error is
 
-        
+# 2. EA
+
+## C++ céljai
+- Típus biztonság - C-hez képest
+- Erőforrás biztonság - RAII
+- Hatékonyság ellenőrzés
+- Megjósolható viselkedés
+    ```c++
+    struct Base {
+        virtual void f(int i=1) {cout<<"B "<<i;}
+    };
+    struct Der : public Base {
+        void f(int i=2) override {cout<<"D "<<i;}
+    };
+    Base *bp = new Der{};
+    bp->f();
+    ```
+    - Mi fog kiíródni?
+        - "D 1"
+        - D mert leszármazott
+        - 1 mert a def param nem a függvény része hanem a környezet része
+            - hívó kód adja be a paramt
+            - a hívó bázisnak ismeri
+    - Le kell vezetni a szabályokat és úgy már egyértelmű
+- Olvashatóság
+- Könnyen tanulható
+
+## Konstans biztonság
+
+- std::endl - 20% overhead
+- "%d"-be double-t írni nem lesz jó
+- istream-be nem lehet beírni
+    - típusrendszer nem engedi
+- Konstansság fordítási idejű ellenőrzése
+- Const literal
+    - char t[] vagy char *s
+    - tömb és az adatai az enyém
+    - pointernél csak a pointer az enyém, az adatok egy közös helyen lehetnek
+        - lehet hogy ua a szöveg több helyen is kap pointert
+        - postfix-eire is rakhat pointert a fordító
+        - ha nem const akkor futási hiba lehet módosításnál
+- Named constants
+    - forítási és futási idejű konstansok
+    - VLA - variadic length array
+        - Nem jó
+        - A local változó nem tudjuk milyen messze van a bázis pointertől
+        - Memória foglalás jelzi a sikerességét (malloc return vagy new exception)
+            - VLA lefoglalás nem ad hibát
+    - Jó esetben nem kell memóriát foglalni a compile time const-nak
+        - fordító kioptimalizálja
+        - kivéve ha használom a címét
+            - `&` operátor valid címmel kell visszatérjen
+                - ezért le kell foglania
+- Optimalizáció
+    - const_cast undefined behavior
+    - const_cast-al leszedem a const-ról a const-ot
+        - a kapott pointeren keresztül módosítunk akkor a memóriában módusil az érték
+        - de a const használatnál az eredeti érték lesz felhasználva
+        - volatile azt jelenti, hogy ne optimalizálja ki a konstanst
+- Const correctness
+    - const param azt mondja hogy e függvény nem módosítja
+    - const param / ref használatával el lehet kerülni a `==` / `=` felcserélés hibákat
+    - Yoda condition
+        - x == 0 --> 0 == x
+        - hibákat el lehet kerülni
+        - Star Wars lesz ennél a kérdésnél a válasz
+    - const része a típusrendszerek
+        - const int* nem lehet értékül adni egy int*-nak
+    - pointer is lehet const
+        - pointert nem lehet változtatni de az értéket igen
+        - `int * const a` - const pointer
+        - `int const * a` - const-ra mutató
+        - `const int * a` - const-ra mutató
+        - `const int * const` - const-ra mutató const pointer
+- Pointer ugrás
+    - pointerekkel átugorjuk a tulajdonságot
+    - `const int ** a = &(int **b)` - nem lehet mert átugrana egy constot
+    - Két leszármazottnál nem lehet két pointerrel a base pointeren keresztül elveszíteni a leszármazott típust
+- Const member function
+    - const objektumra csak const függvényt lehet meghívni
+    - const method const típusú this-t kap
+    - mengled névben benne van a const-ság
+- Overloading on const
+    - mangled név különbözik
+    - lehet túlterhelni
+- Const adattag
+    - nem mindegyik objectben lesz ugyanaz, de nem nem változtatható
+    - fordítási idejű garanciát kaphatok
+    - inicializáló listában tudom megadni az értékét
+    - ha az osztály definícióban értéket adok, akkor az olyan mintha az inicializációs listába tenném
+- `mutable` adattag
+    - akkor is írható ha az object const
+    - cache-elés, számlálás, optimalizálás ilyesmikre használjuk
+    - nem kell const_cast
+    - lock-oláshoz is használjuk
+        - `mutable std::mutex`
+- `static const`
+    - minden objektumban ugyanaz és soha sem változtatható
+- STL is konstansbiztos
+    - ha konstans iterátort adok, akkor a find is constanst ad
+
+## Constexpr object
+
+- C-ben is volt konstans kifejezés
+    - ha valamit tudott a fordító, akkor már fordítási időben megcsinálta
+    - user defined függvényre és operátorra nem működött
+- `constexpr`
+    - fordítási időben kiszámítható
+    - elején csak egy return lehetett benne - MACRO kicserélésére született
+        - volt ?: és rekurzió => touring teljes
+    - C++14-től szinte bármit lehet csinálni
+    - nem kell két verzió
+        - ha megy akkor fordítási időben csinálja
+        - ha nem akkor futási időben
+    - Osztálynak is lehet constexpr metódusa
+        - nem csak const lehet
+    - template metaprogramozással trükközést lehet kiváltani
+    - C++17 constexpr lambda
+    - C++20 constexpr union, try-catch, dynamic_cast, allocation, virtual call
+        - fordítás idejű vector és string
+        - tranziens és nem tranz. allokáció
+            - tranziens ha van new és delete is
+            - nem tranziens - más hívja meg a deletet, nem én
+
+## Consteval
+
+- csak fordítási időben fusson le
+- consteval variable - garantáltan csak fordítási időben
+
+## Constinit
+
+- fordítási időben inicializálódik
+- ha nem tudja inicializálni fordítás közben, akkor hibát kapok
+
+## Static if
+
+- `if constexpr` 
+- fordítási időben eldől és csak a megfelelő ág fordul le
+- pl variadic fgv termináló ága lehet ilyen if-ben
+- pl fibonacci is lehet fordítási időben
+
+
 
 
 
