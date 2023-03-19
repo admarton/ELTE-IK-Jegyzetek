@@ -36,7 +36,7 @@
 
 - Def.: lf(S,R) - leggyengébb előfeltétele egy programnak egy specifikációra nézve
     - Állapottérbeli pontok amiből az S R-be visz
-    - $ \lceil lf(S,R) \rceil ::= \{ a \in D_{p(s)} | p(s)(a) \subseteq \lceil R \rceil \}  $
+    - $ \lceil lf(S,R) \rceil ::= \{ a \in D_{p(s)} \mid p(s)(a) \subseteq \lceil R \rceil \}  $
 
 - Értékadás  
     lf( x := 5, 0 < x + y )= 0 < 5 + y

@@ -1,3 +1,13 @@
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script> 
+
 # Formális szemantika
 
 # 1. EA
@@ -101,4 +111,88 @@
     - Action semantics
     - Categorical semantics
     - Game semantics
+
+# 3. EA
+
+## Egyszerű kifejezés formális szemantikája
+
+- Ez az első lépés a programozási nyelvek szemantikájának megadása felé
+- **Fontos**
+    - Csak olyan nyelvekkel foglakozunk aminek nincs környezetfüggő grammatikája
+    - Minden környezetfüggetlen grammatikákkal foglakozunk a félév során
+- **Konkrét szintaxis**
+    - hogyan lehet megadni helyes mondatokat
+    - erre tudunk írni szintaktikus elemzőt - parsert
+- **Absztrakt szintaxis**
+    - sok szimbólumot el lehet absztahálni
+    - elválasztójelek is ilenek
+    - pl listában lehet-e az első elem előtt vessző
+        - a lényeg az elemek
+    - ez alapján nem tudsz parser-t írni
+    - mi az absztrakt szintaxisfából megmondjuk, hogy mit jelent a program
+    - Kimaradnak ilyenek
+        - Kulcsszavak
+        - Precedenciák, asszociativitási szabályok
+            - ezek már tisztázottak
+        - Zárójelek
+        - Elválasztó és termináló szimbólumok
+            - szintaktikus elemzést segítik
+        - Olvasást segítő szimbólumok
+- Megközelítés
+    - Operációs (műveleti) szemantika
+        - reláció, átmenetrendszer, levezetés
+        - Megdja hogyan kell végrehajtani
+        - Lépésről lépésre hogyan kell végrehajtani, levezetni
+    - Denotációs (leíró) szemantika
+        - kompozicionális függvény
+            - részjelentésekből komponálom össze
+        - A jelentést denotációk hozzárendelésével adja meg
+        - A hatásra vagyok kíváncsi - az eredményre
+    - *Axiomatikus - Hoare hármas*
+        - Nem viselkedés, hanem tulajdonságokat vezet le
+    
+## Első nyelv
+
+- Kifejezésnyelv
+- Két résznyelv
+    - a - Aexp - aritmetikai kifejezés
+    - b- Bexp - logikai kifejezések
+- Egyéb
+    - n - Num - szám
+    - x - Var - változó
+- Szabályok, konstruktorok
+    - a ::== n | x | a1 + a2 | a1 - a2 | -a
+    - b ::== true | false | a1 = a2 | a1 < a2 | ¬b | b1 ∧ b2
+- Ki akarjuk értékelni a kifejezéseket
+    - Minden változó előre definiált és inicializált
+        - Minden állapotban egész számok vannak a változókban
+- Fogalom - **Konfiguráció**
+    - $ s \in State = Var \rightarrow \Z $
+    - s ∈ State = Var → Z
+    - s[x] - x értéke
+    - s[y |-> x] - érték módosítás
+    - < a, s > - állapot és szemantika
+- Operációs szematika
+    - megadjuk hogy hogyan kell kiértékelni
+    - és kiértékelgetem egy absztrakt gépen
+    - Konfiguráció és átmenet
+        - relációk
+        - általános levezetési szabályok
+        - sajátos jelölésrendszer
+    - ha az átmenet levezethető akkor helyes
+    - $ \frac{Premises}{Conclusion} Conditions $
+    - $ \frac{}{Axiom} Conditions $
+    - Előfeltétel és peremfeltételekből konklúzió
+    - Ha nincs előfeltétel akkor axioma
+    - $ [Num] \frac{}{<n,s>\Rightarrow N[[n]]} $
+    - $ [Var] \frac{}{<x,s>\Rightarrow s[x]} $
+    - $ [LHS] \frac{<a1,s>\Rightarrow <a1',s>}{<a1 \circ a2,s>\Rightarrow <a1' \circ a2,s >} \circ \in \{+,-,<,=\} $
+    - $ [LHSLast] \frac{<a1,s>\Rightarrow i}{<a1 \circ a2,s>\Rightarrow <n \circ a2,s >} \circ \in \{+,-,<,=\}, N[[n]] = i $
+    - $ \frac{<a2,s>\Rightarrow <a2',s>}{<n \circ a2,s>\Rightarrow <n \circ a2',s >} \circ \in \{+,-,<,=\} $
+    - $ \frac{<a2,s>\Rightarrow i}{<n \circ a2,s>\Rightarrow N[[n]] \circ i} \circ \in \{+,-,<,=\}, i \in Z $
+    
+
+
+
+
 

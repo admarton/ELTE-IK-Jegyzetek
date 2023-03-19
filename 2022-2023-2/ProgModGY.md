@@ -1,3 +1,13 @@
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script> 
+
 # Programozás Módszertan
 
 # 1. GYAK
@@ -70,20 +80,20 @@
 - $ B = (x':\N^+, y':\N^+) $  
 - $ Q = (x=x' \wedge y=y') $
 - $ R = ( Q \wedge z=lnko(x,y) )  $ - lnko nem használható a programban
-- $ R = ( Q \wedge z|x \wedge z|y \wedge \forall k\in\N^+:k>z\rightarrow \neg (k|x \wedge k|y) )  $
-- $ R = ( Q \wedge z|x \wedge z|y \wedge \forall k\in[z+1,...,min(x,y)]:\neg (k|x \wedge k|y) )  $
+- $ R = ( Q \wedge z \vert x \wedge z \vert y \wedge \forall k\in\N^+:k>z\rightarrow \neg (k \vert x \wedge k \vert y) )  $
+- $ R = ( Q \wedge z \vert x \wedge z \vert y \wedge \forall k\in[z+1,...,min(x,y)]:\neg (k \vert x \wedge k \vert y) )  $
 
 - Ciklus
-    - $ P = (Q \wedge \forall k\in[z+1,...,min(x,y)]:\neg (k|x \wedge k|y) ) $
-    - (2.) $ P \wedge z|x \wedge z|y \Rightarrow R  $ 
-    - (3.) $ P \Rightarrow \neg (z|x \wedge z|y) \vee (z|x \wedge z|y) $
+    - $ P = (Q \wedge \forall k\in[z+1,...,min(x,y)]:\neg (k \vert x \wedge k \vert y) ) $
+    - (2.) $ P \wedge z \vert x \wedge z \vert y \Rightarrow R  $ 
+    - (3.) $ P \Rightarrow \neg (z \vert x \wedge z \vert y) \vee (z \vert x \wedge z \vert y) $
         - Ez most igaz, mert z nem lehet 0 a típusa miatt
     - $ t : z $
     - (4.) $ P \wedge \pi \Rightarrow t > 0 $ 
         - z a típusa miatt fixen nagyobb mint 0
     - (5.) $ P \wedge \pi \wedge t=t_0 \Rightarrow lf(S_0, P \wedge t<t_0 ) $
         - $ S_0 : z:=z-1 $
-        - $ (Q \wedge \forall k\in [z,..,min(x,y)]:\neg (k|x \wedge k|y) \wedge z-1<t_0 \wedge z\neq 1) $
+        - $ (Q \wedge \forall k\in [z,..,min(x,y)]:\neg (k \vert x \wedge k \vert y) \wedge z-1<t_0 \wedge z\neq 1) $
             - Q része P-nek
             - Szétválasztuk a mindenes feltételt z-re és z+1-től min-ig részre
                 - Második ele az invariánsban benne van
@@ -112,7 +122,7 @@
 - $ \binom{n}{k} = \frac{n!}{k!(n-k)!} = \frac{(n-k+1)*...*n}{k!} = \prod_{i=0}^{k-1} \frac{n-i}{i+1} $
 - $ R = (Q \wedge S=\prod_{i=0}^{k-1} \frac{n-i}{i+1}) $
 - Ciklus
-    - $ P = (Q \wedge S=\prod_{i=0}^{x} \frac{n-i}{i+1} \wedge x\in[-1..k-1]) | x:\Z $
+    - $ P = (Q \wedge S=\prod_{i=0}^{x} \frac{n-i}{i+1} \wedge x\in[-1..k-1]) \mid x:\Z $
     - (2.) $ P \wedge x=k-1 \Rightarrow R $
         - $ \pi = (x \neq k-1 ) $
     - (3.) $ P \Rightarrow x \neq k-1 \vee x = k-1 $
