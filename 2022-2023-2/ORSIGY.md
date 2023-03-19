@@ -166,13 +166,155 @@ $ lf(S,R) = lf(s_1,R) \wedge lf(s_2,R) = ((y < 4 \rightarrow 0 < 5 + y) \wedge (
 - $ \frac{P \triangleright_S Q, Q \Rightarrow R}{P \triangleright_S R}$
     - $ P \wedge \neg Q \Rightarrow ... $
 
-## Héromszög **jobboldal gyengítés**
+## Háromszög **jobboldal gyengítés**
 
 - $ \frac{P \triangleright_S Q, Q \Rightarrow R}{P \triangleright_S R}$
 
-## Hárpmszög **diszjunktivitás**
+## Háromszög **diszjunktivitás**
 
 - $ \frac{P \triangleright_SR, Q \triangleright_SR}{(P\vee Q) \triangleright_SR} $
 
 # 3. GYAK
+
+## Háromszög tranzitivitás - **nem teljesül**
+
+- $ \frac{P \triangleright_S Q, Q \triangleright_S R}{P \triangleright_S R} $
+- Ellenpéldát kell adni
+
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#fff" />
+  <ellipse stroke-width="5" ry="98.33334" rx="106.11112" id="svg_2" cy="143.33334" cx="137.22222" stroke="#000" fill="none"/>
+  <ellipse ry="101.38889" rx="102.77778" id="svg_5" cy="154.72223" cx="274.44445" stroke-width="5" stroke="#000" fill="none"/>
+  <ellipse ry="97.22223" rx="95.83334" id="svg_6" cy="261.11112" cx="209.72224" stroke-width="5" stroke="#000" fill="none"/>
+  <text xml:space="preserve" text-anchor="start" font-family="'Petrona'" font-size="30" id="svg_9" y="57.22223" x="47.22223" stroke-width="0" stroke="#000" fill="#000000">P</text>
+  <text xml:space="preserve" text-anchor="start" font-family="'Petrona'" font-size="30" id="svg_10" y="51.66667" x="322.22225" stroke-width="0" stroke="#000" fill="#000000">Q</text>
+  <text xml:space="preserve" text-anchor="start" font-family="'Petrona'" font-size="30" id="svg_11" y="364.44446" x="265.55557" stroke-width="0" stroke="#000" fill="#000000">R</text>
+  <path id="svg_12" d="m97.31612,106.99668l5,-5.27778l5,5.27778l-5,5.27778l-5,-5.27778z" stroke-width="5" stroke="#000" fill="#fff"/>
+  <path id="svg_13" d="m305.13841,147.18943l6.3889,-8.05555l6.3889,8.05555l-6.3889,8.05555l-6.3889,-8.05555z" stroke-width="5" stroke="#000" fill="#fff"/>
+  <line id="svg_14" y2="107.22223" x2="284.44447" y1="106.11112" x1="103.33335" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_15" y2="107.22223" x2="283.88891" y1="93.88889" x1="266.11113" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_16" y2="110.55556" x2="283.88891" y1="121.66667" x1="270.55558" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_17" y2="103.33334" x2="105.00001" y1="77.22223" x1="122.77779" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_18" y2="287.22224" x2="213.33335" y1="154.44445" x1="312.22225" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_19" y2="77.22223" x2="123.8889" y1="78.33334" x1="105.00001" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_20" y2="286.66668" x2="215.55557" y1="285.00001" x1="235.55558" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_21" y2="152.77779" x2="316.11114" y1="194.44445" x1="326.66669" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_22" y2="77.22223" x2="122.77779" y1="94.44445" x1="125.00002" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_23" y2="197.77779" x2="327.7778" y1="187.77779" x1="312.22225" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_24" y2="286.11113" x2="214.44446" y1="263.8889" x1="212.7778" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_25" y2="198.33334" x2="327.22225" y1="182.77779" x1="334.44447" stroke-width="5" stroke="#000" fill="none"/>
+  <path id="svg_26" d="m89.55501,160.79056l11.67127,0l3.60651,-13.15664l3.60651,13.15664l11.67126,0l-9.44224,8.13116l3.6067,13.15664l-9.44224,-8.13138l-9.44224,8.13138l3.6067,-13.15664l-9.44224,-8.13116z" stroke-width="5" stroke="#000" fill="#fff"/>
+  <line id="svg_27" y2="178.8889" x2="103.33335" y1="212.22223" x1="95.55557" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_28" y2="177.22223" x2="111.66668" y1="305.00002" x1="178.33335" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_29" y2="162.22223" x2="110.55557" y1="148.8889" x1="257.7778" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_30" y2="217.22223" x2="95.55557" y1="197.22223" x1="85.00001" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_31" y2="148.33334" x2="256.11113" y1="137.77779" x1="237.7778" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_32" y2="302.77779" x2="177.22224" y1="292.22224" x1="156.11113" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_33" y2="216.66668" x2="95.55557" y1="202.77779" x1="110.00001" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_34" y2="150.00001" x2="258.88891" y1="163.33334" x1="244.44447" stroke-width="5" stroke="#000" fill="none"/>
+  <line id="svg_35" y2="305.00002" x2="179.44446" y1="283.33335" x1="181.11113" stroke-width="5" stroke="#000000" fill="none"/>
+  <line id="svg_36" y2="146.11112" x2="163.33335" y1="171.11112" x1="146.11113" stroke-width="5" stroke="#ff0000" fill="none"/>
+  <line id="svg_37" y2="173.33334" x2="167.77779" y1="146.11112" x1="140.00002" stroke-width="5" stroke="#ff0000" fill="none"/>
+  <path id="svg_38" d="m6.04668,257.76445l9.72222,-10.83334l9.72222,10.83334l-9.72222,10.83334l-9.72222,-10.83334z" stroke-width="5" stroke="#000000" fill="#fff"/>
+  <path id="svg_39" d="m5.51056,293.70248l10.61024,0l3.27865,-10.6102l3.27865,10.6102l10.61024,0l-8.58385,6.55739l3.27882,10.6102l-8.58385,-6.55757l-8.58385,6.55757l3.27882,-10.6102l-8.58385,-6.55739z" stroke-width="5" stroke="#000000" fill="#fff"/>
+  <text xml:space="preserve" text-anchor="start" font-family="'Petrona'" font-size="30" id="svg_40" y="265.55557" x="27.77779" stroke-width="0" stroke="#000000" fill="#000000">ez van</text>
+  <text xml:space="preserve" text-anchor="start" font-family="'Petrona'" font-size="30" id="svg_41" y="332.22224" x="13.8889" stroke-width="0" stroke="#000000" fill="#000000">ezt</text>
+  <text xml:space="preserve" text-anchor="start" font-family="'Petrona'" font-size="30" id="svg_42" y="350.00002" x="4.44446" stroke-width="0" stroke="#000000" fill="#000000">szeretnénk</text>
+</svg>
+
+- $ A = (x:\mathbb{N}) $
+- $ P = (x=1) $
+- $ Q = (x=2) $
+- $ R = (x=3) $
+- $ S = (SKIP, {s:x:=x+1}) $
+- $ P \triangleright_S Q $
+    - $ P \wedge \neg Q \Rightarrow lf(S, P \vee Q) $
+    - $ x = 1 \Rightarrow lf(x:=x+1, x=1 \vee x=2) $
+    - $ x = 1 \Rightarrow x+1=1 \vee x+1=2 $
+    - Teljesül
+- $ Q \triangleright_S R $
+    - $ Q \wedge \neg R \Rightarrow lf(S, Q \vee R) $
+    - $ x = 2 \Rightarrow lf(x:=x+1, x=2 \vee x=3) $
+    - $ x = 2 \Rightarrow x+1=2 \vee x+1=3 $
+    - Teljesül
+- $ P \triangleright_S R $
+    - $ P \wedge \neg R \Rightarrow lf(S, P \vee R) $
+    - $ x = 1 \Rightarrow lf(x:=x+1, x=1 \vee x=3) $
+    - $ x = 1 \Rightarrow x+1=1 \vee x+1=3 $
+    - Nem teljesül
+- Erre a példára nem teljesül, tehát nem igaz az összes esetben
+
+## ZH hibák
+
+- Ha minden állítás teljesül az nem jó
+    - Se nem bizonyítás, se nem cáfolat
+- Ha a feltételelk bármelyike nem teljesül, az is hiba
+    - Nem megfelelő ellenpélda
+
+## Háromszög **stabil metszés**
+
+- $ \frac{P \triangleright_S Q, K \triangleright_S \downarrow}{(P \wedge K) \triangleright_S (Q \wedge K)} $
+
+
+## Egyenesnyil tulajdonság
+
+- $ P \mapsto_S Q ::== P \triangleright_S Q $ és $ \exists s \in S : P \wedge \neg Q \Rightarrow lf(s,Q) $
+- P-ből csak P-be és Q-ba lehet továbbmenni
+    - De véges sok lépés után biztosan Q-ba átmegy.
+- Ha P-ben vagyok, akkor előbb vagy utóbb át kell jutnom Q-ba
+    - Úgy, hogy közben máshova nem mehetnek
+- Ez egy **haladási tulajdonság**
+- Szigorú tulajdonság, nem triviális, hogy mikor teljesül
+
+### Példa I.
+
+- $ A = x:\mathbb{Z} $
+- $ S = (s_0 : x:=10, \{ s_1:x:=x+1 \}) $
+- $ P = (x=1 \vee x=2) $
+- $ Q = (x=3) $
+- $ P \mapsto_S Q $ ?
+    - $ P \triangleright_S Q $ és $ \exists s \in S : P \wedge \neg Q \Rightarrow lf(s,Q) $
+    - Ha csak egy utasítás van, akkor a háromszög rész nem kell ellenőrizni, mert egy gyengébb állítás lesz
+    - $ x=1 \vee x=2 \Rightarrow lf(s_1, Q) $
+    - $ x=1 \vee x=2 \Rightarrow lf(x:=x+1, x=3) $
+    - $ x=1 \vee x=2 \Rightarrow x+1=3 $
+    - Ez így nem igaz
+        - Ha x=1 akkor nem igaz
+        - Ha x=2 akkor igez
+        - Ezért $ P \mapsto_S Q $ nem igaz
+
+### Példa III.
+
+- $ A = x:\mathbb{Z} $
+- $ S = (s_0 : x:=10, \{ s_1:x:=3 \}) $
+- $ P = (x=1 \vee x=2) $
+- $ Q = (x=3) $
+- $ P \mapsto_S Q $ ?
+    - $ P \triangleright_S Q $ és $ \exists s \in S : P \wedge \neg Q \Rightarrow lf(s,Q) $
+    - $ x=1 \vee x=2 \Rightarrow lf(s_1, Q) $
+    - $ x=1 \vee x=2 \Rightarrow lf(x:=3, x=3) $
+    - $ x=1 \vee x=2 \Rightarrow 3=3 $
+    - Ez így igaz
+        - Ezért $ P \mapsto_S Q $  igaz
+
+## 1. Feladat
+
+- $ P \mapsto_S P $
+- Igaz ha S nem üres
+    - Ezt monstantól mindig feltesszük
+
+## 2. Feladat
+
+- $ P \mapsto_S \neg P $
+- Nem igaz
+- Ellenpélda:
+    - $ A = x \in {1,2} $
+    - $ P = (x=1) $
+    - $ S = (SKIP, {SKIP}) $
+
+## 3. Feladat - Enegyenesnyíl **jobboldal gyengítés**
+
+- $ \frac{P\mapsto_S Q, Q\Rightarrow R}{P\mapsto_S R} $
+- Ha S-ben van olyan s* ammivel az lf(s*,Q) megfelelő akkor az R-re is megfelelő lesz
+
 

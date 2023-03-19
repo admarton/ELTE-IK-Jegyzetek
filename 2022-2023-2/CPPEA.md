@@ -280,7 +280,297 @@
 - pl variadic fgv termináló ága lehet ilyen if-ben
 - pl fibonacci is lehet fordítási időben
 
+# 3. EA
 
+- Invariánsokat a programozónak kellett fejben tartani és annak helyesen programozni
+- Továbblépés a Rekord és Struct dolgoktól az osztályokra
+- Konstruktor, Destruktor, Operátorok
 
+## Konstruktor
 
+- Létrehozza az objektumot
+- A lényege, hogy az invariánsokat beállítja
+    - Ha nem tudja akkor ne engedje létrehozni
+- Speciális memeber függvénye
+- Factory függvények is lehetnek
+    - Statikusak
+    - Nagyon komplex inicializációnál szokták használni
+- Konverziós konstruktor
+- Ideiglenes, névnélküli objektum létrehozása
+
+## Destruktor
+
+- Felszabadítja az erőforrásokat
+- iostream egy rossz példa
+
+## Inicializációs szekvencia
+
+- Default, value, zero
+- Van-e ezeknek konstruktor lépése az egy másik kérdés
+- Global változó
+    - Először zero utána default inicializáció
+    - zero
+        - lefoglalod a memóriát és kinullázod
+- Stack változók
+    - default inicializáció
+    - default
+        - lefuthat konstruktor
+    - C++11 óta
+        - Kapcsos zárójel -> érték inicializáció
+    - `T k = T()`
+        - érték inicializáció
+        - névtelen változóval value inicializálom
+    - `T m();`
+        - függvény deklaráció
+    - Heap-re is inicializálhatok
+        - `new` van használva
+- Adattag
+    - Alapból minden adattagot default inicializálom
+    - Ha van inicializáló lista akkor value inicializácio
+
+## Default inicializáció
+
+- Osztályszerűnél
+    - A default konstruktort hívja
+- Tömb
+    - Mindegyikre hívja a def konstruktort
+- Ha egyik sem akkor memóriaszemét
+
+## Value init
+
+- Osztályszerű
+    - Default init
+        - Ha nincs user-defined akkor zero is
+    - Ha nem lehet akkor Zero
+- Tömb
+    - Összesre ua.
+
+## Zero init
+
+- Változó a program végéig kitart
+    - Zero lefut
+    - Nullázza a memóriát
+
+## Quiz
+
+```c++
+#include <iostream>
+
+struct foo {
+    foo() = default; // foo() nem felhasználói
+    int a;
+}
+
+struct bar {
+    bar(); // bar() felhasználói - mert a header fordító nem látja a konstruktort
+    int b;
+}
+
+bar::bar() = default; // bar() még mindig user-provided
+
+int main() {
+    foo a{}; // zero then value inited
+    bar b{}; // value inited
+    std::cout << a.a << ' ' << b.b; // 0 undefined
+}
+```
+
+- A legjobb ha nem fordul
+- Másik legjobb a mindig rossz
+- Általában fut de néha rossz
+- Default konstruktor   
+    - noncs param
+    - minden paramra van default
+- Azért nem zero minden előtt mert van saját logikája hogy feltöltse
+    - Nem kell fizetni a felesleges nullázásért
+
+```c++
+int i; //default
+int i{}; //value
+static int i; //zero
+static int i = constexpr_fun(); //constant
+
+int i{42}, int j(42);   //direct
+int i = 42, j = i;      //copy
+int i = {42};           //copy list
+int i{42};              //direct list
+
+int iarr[3] = {0,1};    //aggregate iarr[2]==0
+                            // nagyobb nem lehet
+                            // kisebbnél a maradékot value inicializálja
+int iarr[3] = {.1=2};   //aggregate c11,c++20
+const int $iref = 42;   //reference
+
+// static: zero- or const
+// dynamic: non static
+// unordered: dynamic init. of class template static member
+// ordered: dynamic init. other non-locals with static life
+// implicit: default or value
+```
+
+## Dátum típus
+
+```c++
+class date {...};
+
+main() {
+    date exam{2019, 12, 15};
+    date semester{2022,2};
+    if ( exam < date{2020}){...} // 2020.1.1
+    else if ( exam < date{} ){...} // today
+    date exam2{"2019.12.15"}; // construct from string
+}
+```
+
+- 3 konstruktorral ezt meg lehet oldani
+- Lehetnek default értékek
+- Egyparaméteres konstruktornál ki lehet írni az `explicit` kulcsszót
+    - különben konvertálja a beadott értéket
+- Explicit konverzio nem fordulhat le implicit helyen
+
+## Operátorok
+
+- a + b
+    - a.operator+(b)
+    - operator+(a,b)
+
+- only member
+    - a = b
+    - a[b]
+    - a(b,b,b)
+    - a->
+
+- Hova kell írni
+    - ostream kiírást nem lehet egy sztream member-nek rakni
+    - ha nem member akkor nem fér hozzá a privát dolgokhoz
+
+```c++
+class date {
+    bool operator<(const date& rhs);
+};
+...
+date today;
+if (today < 2016) //works
+if (2016 < today) //not work, operator< is member, int not have that operator
+```
+
+```c++
+class date {};
+bool operator<(const date& lhs, const date& rhs);
+...
+date today;
+if (today < 2016) //works
+if (2016 < today) //works
+```
+
+- Ha a header-be írom, hogy ne kelljen DLL, akkor legalább legyen `inline`
+    - ha ezt nem akarom akkor egy cpp-ben lehet body-ja, vagy DLL
+    - Ez az inline azt jelenti, hogy lehet több definíciója is
+
+## Subobjects
+
+- Ahhoz hogy éljen az objektum, élnie kell a részobjektumainak
+- `member initializer expression`
+    - adattag neve
+    - érték amire inicializálni szeretném
+    - a sorrend nem számít mert az osztály def szerint hajtja végre
+    - de ha függenek egymástól akkor baj lehet
+        - ha egy későbbitől függök akkor memóriaszemetet kapok
+- Header-be is írhatom a member mellé az inicializációt
+    - Konstruktor body előtt megtörténnek az értékadások
+- Ha van mind2, akkor a konstruktor erősebb
+
+## Destructor
+
+- Élettartam végén
+    - heap delete
+    - scope végén
+    - global a main végén
+- Ha leszármaznak az osztályból
+    - akkor `virtual` destruktor kell
+
+- `Base* bq = new Der[5];`
+    - `delete [] bq;`
+    - hiba mert 5 Base-nyi memóriát töröl
+
+## Deep copy
+
+- Polimorf vektor
+    - deep-copy ősből kellene leszármazottakat létrehozni
+    - dynamic_cast megoldás lehet, de drága
+        - de minden leszármazot esetet le kell kezelni
+    - clone függvényt kell megadni
+        - virtual, const, pure virtual az abstract osztályban
+        - clone függvényt kell hívni a deep_copy-nál
+        - visszatérési érték nem overload
+    - copy assignment operator
+        - defaultból létezhet, és memberenkénti értékadás
+        - sima értékadás pl exception safty pl std::vector
+        - copy-swap
+            - másolat az rhs-ből és swap-olom az adatokat
+        - assignment value-t kap
+            - nem const ref
+            - és abból a másolatból már swap-olok
+        - override base-re
+            - default jobban match-el
+            - deafult meghívja a base értékadását is mert subobject
+
+## Nem akarom másolhatóvá tenni
+
+- régen priváttá tetted
+    - de osztályon belül lehetett használni
+- c++11 óta
+    - `*speckó_tagfüggvény* = delete`
+    - publikusan kijelentem hogy nincs
+    - megkérheted hogy csináljon default-ot
+
+## Delegálás
+
+- member inicializáló listába írhatok másik konstruktort
+    - így tovább delegálom
+    - utána nem lehet body
+
+## Injektált
+
+- használhatom a bázis cuccait
+    - `using Base::Base`
+    - de adhatsz új overload-ot
+        - nem virtuális, hanem overload
+    
+## Inicializáló lista
+
+- lehet egymásba rakni amíg a konstruktor kitalálja
+- ilyet nem szép írni
+    - fordító majd csinálja
+    - read-onlynak hozza létre
+
+## Konstruktor hiba
+
+- lehte function try-t csinálni
+
+```c++
+class C {
+    C (int x, int y)
+    try
+        : x(x), y(y)
+    {}
+    catch(...)
+    {
+        if(...)
+            throw ...;
+    }
+    ...
+}
+```
+- hibát dobó destruktor nem jó
+
+## Complex init
+
+- Azonnal végrehajtódó lambda
+    - névtelen osztály zárójel operátrral
+
+## std::launder
+
+- optimalizációs firewall
+- nem optimalizálja ki a const cuccokat
 
