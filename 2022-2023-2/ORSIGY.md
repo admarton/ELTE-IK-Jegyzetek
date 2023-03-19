@@ -1,3 +1,13 @@
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script> 
+
 # Osztott rendszerek specifikációja és implementációja
 
 # 1. GYAK
@@ -154,4 +164,15 @@ $ lf(S,R) = lf(s_1,R) \wedge lf(s_2,R) = ((y < 4 \rightarrow 0 < 5 + y) \wedge (
 ## 3. Fealdat
 
 - $ \frac{P \triangleright_S Q, Q \Rightarrow R}{P \triangleright_S R}$
-    - $ P \wedge \neg Q \Rightarrow  $
+    - $ P \wedge \neg Q \Rightarrow ... $
+
+## Héromszög **jobboldal gyengítés**
+
+- $ \frac{P \triangleright_S Q, Q \Rightarrow R}{P \triangleright_S R}$
+
+## Hárpmszög **diszjunktivitás**
+
+- $ \frac{P \triangleright_SR, Q \triangleright_SR}{(P\vee Q) \triangleright_SR} $
+
+# 3. GYAK
+
