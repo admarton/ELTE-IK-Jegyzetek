@@ -574,3 +574,191 @@ class C {
 - optimalizációs firewall
 - nem optimalizálja ki a const cuccokat
 
+## 4. EA
+
+## Move semantics
+
+## Arrays
+
+- Folyamatos memóriadarab
+
+## Array decay
+
+- Pointerként adódik át
+- Ha referenciaként veszem át akkor nem válik pointerré
+    - `int (&a)[6]`
+    - `template <typename T, int N> ... param: T (&a)[N]`
+    - Ha ismerni akarjuk a tömb méretét
+
+## Pointerek
+
+- Memóriaterület címét azonosítják
+- Minden memóriaterületre tud hivatkozni
+    - Global, heap, local, static
+    - Pascalban ilyen nem volt
+- `nullptr`, régen `NULL`
+    - tudjuk, hogy nem mutat sehova
+    - A nem null az igaz
+
+## Pointer aritmetika
+
+- Csak tömbökön szabad használni
+    - Csak akkor ha az eredmény is a tömbbön belül marad
+- Két pointer távolsága elemszámban a különbség
+- Pointerre lehet tömbös indexelést használni
+    - Kényelmi szolgáltatás
+- A tömb és pointer kb ugyanúgy használható
+    - De a fordító két külön típusként használja
+    - Más assembly lesz a t[1] és a p[1]
+
+## Memeber pointer
+
+- Típus szelektor
+- Member változót vagy függvényt lehet kiválasztani
+    - Adat member pointer
+        - This-hez képesti eltolás
+    - Függvény
+        - Virtuális táblába is mutathat
+        - Menüpont kiválsztja a member fgv.t és egy ok végrehajtja
+
+## Nullptr
+
+- nullptr nem konvertálódik int-re mint a 0
+    - biztonsági is elegancia dolog
+
+## Reference
+
+- Nem új fogalom
+- Több név egy tárterülethez
+- Neveknek van scope-ja
+    - tárterület élettartama nem feltétlen egyezik meg a név élettartamával
+- Tárterülethez rendelt név
+
+## Pointer vs referencia
+
+- Pointernél van nullptr
+    - Referenciánál ilyen nincs
+    - Ha null-t akarunk beadni, akkor az hibát dob
+        - vagy megállítja valahogy a vezérlést
+
+## Paraméter átadás
+
+- Címszerinti átadás referenciával
+    - Ugyan azt a területet piszkálom, nem másolom le
+- Inicializáció szerinti paraméter átadás
+    - egy type meg egy reftype máshogy inicializálódik
+
+## Referencia kötés
+
+- Referencia nem köthető bármihez
+- int*-nak be lehet adni double-t
+    - de int&-nek nem tudok
+- ref-t csak balértékhez tudok kötni
+    - literálhoz nem tudok
+- const ref-t tudok kötni temp értékhez és literalhoz
+
+## Ref return
+
+- Lokális változó referenciát veszélyes visszaadni, mert már megszűnt
+- Láncoláshoz használható
+- Prefix ++ láncolható, postfix ++ nem adhat referenciát mert az már lokális érték
+- Mátrix getter ref-el térhet vissza
+    - Összeadás viszont új mátrixot ad vissza
+
+## Jobb és balérték
+
+- Mindkét oldalon lehet összetett kifejezés
+- c-ben lvalue és rvalue
+- c++-ban
+    - lvalue - módosítható memóriaterület
+    - xvalue - pl temp változó
+    - prvalue - pl 7
+
+## Value semantics
+
+- C++ value szemantika van
+    - Az értékek átíródnak a memóriában
+    - Java-ban csak a váltózó átállítódik az értékadásnál
+
+## Move semantics
+
+- Temp értékre is írhatunk függvényt
+    - T&&
+    - allokációt spórolhatok
+- Temp értéket akarok másolni, akkor az értékadásban el lehet lopni a memóriaterületet
+- Erőforrásokat ellopok és így allokációkat és másolásokat spórolok
+- lval-ref - T&
+    - nem köt temporálishoz
+- rval-ref - T&&
+    - nem köt névvel ellátott változóhoz
+- const-lval-ref - const T&
+    - Tud kötni mindenhez de alacsonyabb a precedencia mint az rval-ref
+- Visszafelé kompatibilitást próbálták megőrizni, de hatékonyság növekedést akartak
+    - Rulo-of-3 -> rule-of-5
+- Naiv swap copy-zik
+    - mert mindegyik változó balérték
+    - ilyenkor lehet az std::move függvényt használni
+        - jobbérték konverziós függvény
+        - kikényszerítem a move-ot
+        - rval ref cast
+- Unique_ptr nem másolható de move-olható
+    - std::stream, std::thread
+- A lopott cucc destruálható állapotba kell kerüljön
+- Const nem move-olható
+- Most vexing parse 
+    - -Wvexing-parse
+- Megfelelő fordítási hibáért kézzel törölni kell a const move ctor-t
+    - `MyClass(const MyClass&&)=delete;`
+    - Erre jobban illeszkedik mint a copy ctor-ra
+        - de hibát ad, mert törölve van
+- Leszármazásnál a move konstruktor csapda
+    - `Derived(Derived&& rhs) : Base(rhs)`
+    - Ez az ős copy ctor-t hívja mert neve van
+    - `Derived(Derived&& rhs) : Base(std::move(rhs))`
+        - Ez a helyes
+- Vector push_back strong garanciás
+    - ezért copy-zza az elemeket
+    - Ha noexcept a move akkor move-olja az elemeket
+- `std::move(s1.begin(), s1.end(), s2.begin())`
+    - std::algorithm
+    - olyan mint a copy csak move-ol
+- Initialization_list-ből mindig copy van
+- set bonyolult mert van invariánsa
+    - interátor const_ref-et ad vissza
+- constansságon és r-lval-on is lehet túlterhelni
+    - objektum fel tudja ismerni magát
+
+## RVO
+
+- Move szemantika lassíthat
+- Return Value Optimalization
+    - Lokális változóbol átmásolok
+    - Ezt ki tudja optimalizálni
+- De ha std::move-olok akkor nem lesz RVO és a fordított program lassabb lesz
+    - ha nem írok semmit akkor RVO vagy move lesz a return-nél
+    - csak akkor működik ha local változót return-ol
+
+## Forwarding / Universal reference
+
+- T&&
+- Constructor problem
+    - Factory függvény, templateként
+    - T&& nem jobbérték ref hanem továbbítás/forwarding/universal
+        - Úgy adom tovább ahogy kell
+        - Egy jelöléssel leírom az összes lehetőséget
+- Forwarding csak
+    - T&&
+    - auto&&
+    - Többi esetben nem az
+        - pl const, volatiole
+    - és típusdedukció kell
+- Kell hozzá std::forward<T>
+    - std::move ha jobbérték
+    - különben nem
+    - T típusától függ
+- decltype(auto)
+    - a visszatérési értéket is a legfinomabb típusban kell visszaadni
+    - const volatile lval-ref is lehet ez
+
+    
+

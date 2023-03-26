@@ -144,3 +144,75 @@
 
 - Összegzés és számolás
 - Specifikáció és program
+
+# 3. GYAK
+
+## 28. Feladat
+
+- Fordítsuk meg a tömb elemeit
+- $ A = (x:\mathbb{Z}^n) $
+- $ B = (x':\mathbb{Z}^n) $
+- $ Q = (x=x') $
+- $ R = (\forall i \in [1..n]: x[i]=x'[n-i+1]) $
+- $ P = (\forall i \in [1..k]: (x[i]=x'[n-i+1] \wedge $  
+    $ x[n-i+1]=x'[i]) \wedge $   
+    $ \forall i \in [k+1..n-k]: x[i]=x'[i] \wedge $   
+    $ k \in [0..\lfloor \frac{n}{2} \rfloor]) \quad k:\mathbb{Z} $ 
+- 2.pont: $ P \wedge k = \lfloor \frac{n}{2} \rfloor \Rightarrow R $
+    - azért egyezik meg önmagával, mert az invariáns biztosítja, hogy ez igaz
+- 3.pont: $P \Rightarrow k=\lfloor \frac{n}{2} \rfloor \vee k \neq \lfloor \frac{n}{2} \rfloor$
+- 1.pont: $Q \Rightarrow P$
+    - Önmagában nem teljesül
+    - Szekvenciával oldjuk meg
+    - $ Q' = (Q \wedge k=0) $
+        - Első minden igaz mert üres halmaz
+        - Második minden a Q miatt teljesül
+        - 0 benen van a [0...] intervallumban
+- 4.pont: $ P \wedge \lfloor \frac{n}{2} \rfloor \neq k \Rightarrow \lfloor \frac{n}{2} \rfloor - k > 0 $
+    - termináló fgv.: $ \lfloor \frac{n}{2} \rfloor - k $
+    - Invariáns és a nem egyenlő miatt igaz
+- 5.pont $P \wedge \pi \wedge t=t_0 \Rightarrow lf(S_0, P \wedge t<t_0)$
+    - S_0 szekvencia
+    - $ P \wedge \lfloor \frac{n}{2} \rfloor \neq k \wedge \lfloor \frac{n}{2} \rfloor -k = t_0 \Rightarrow lf(x[k+1],x[n-k]:=x[n-k],x[k+1], Q'' \wedge \lfloor \frac{n}{2} \rfloor-k=t_0) $
+    - $ Q'' = P^{k\leftarrow k+1} $
+    - $ Q'' \wedge \lfloor \frac{n}{2} \rfloor -k =t_0 \Rightarrow lf(k:=k+1, P \wedge \lfloor \frac{n}{2} \rfloor-k < t_0 ) $
+    - $ Q'' = \forall i \in [1..k]: (x[i]=x'[n-i+1] \wedge $  
+        $ x[n-i+1]=x'[i]) \wedge $   
+        $ (x[k+1]=x'[n-k] \wedge x'[k+1]=x[n-k])  \wedge $ // azért van így hogy könnyű legyen bizonyítani  
+        $ \forall i \in [k+1+1..n-k-1]: x[i]=x'[i] \wedge $   
+        $ k+1 \in [0..\lfloor \frac{n}{2} \rfloor]) $ 
+    - Értékadásnál figyelni kell hogy nem indexelek ki
+        - $ k+1,n-k \in [1..n] $
+        - lf-ben: A mindentől különválasztott részt kell behelyettesíteni
+            - A többi nem változik
+        
+## 24. feladat
+
+- Számjegyeinek száma
+- $ A = (x:\mathbb{Z}^+, d:\mathbb{N}) $
+- $ B = (x':\mathbb{Z}^+) $
+- Q = (x=x')
+- $ R = (Q \wedge d=szjsz(x)) $
+- szjsz(x) = 
+    - 1 + szjsz(x div10) x!=0
+    - 0 ha x=0
+- $ P = (Q \wedge szjsz(x)=d+szjsz(y)) \quad y:\mathbb{N}$
+- 2: $ P \wedge szjsz(y) = 0 \Rightarrow R $
+- 2: $ P \wedge y = 0 \Rightarrow R $
+    - $ \pi = (y \neq 0) $
+- 1: $ Q \Rightarrow P $
+    - Szekvencia lesz a megoldás
+    - $ Q' = (Q \wedge y=x \wedge d=0) $
+    - $ Q' \Rightarrow P $ 
+        - szjsz(x) = 0 + szjsz(x)
+- 3: $ P \Rightarrow y=0 \vee y\neq 0 $
+- $ S_0 = (y,d := y div 10, d+1) $ 
+- $ t = y $
+- 4: $ P \wedge y\neq 0 \Rightarrow y > 0 $
+- 5: $ P \wedge y\neq 0 \wedge y=t_0 \Rightarrow lf(y,d := y div 10, d+1, P \wedge y<t_0) $
+    - $ Q \wedge szjsz(x)=d+1+szjsz(y div 10) \wedge y div 10 < t_0 $
+
+## +/-
+
+- Maximum keresés
+- Specifikáció és stuktrogram

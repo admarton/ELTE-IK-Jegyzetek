@@ -169,3 +169,103 @@
     <text x="160" y="180">SKIP</text>
     <text x="60" y="230">k:=k+1</text>
 </svg>
+
+# 3. EA - 4.Hét
+
+## Lineáris Keresés 2.8-as változat
+
+- $ A = (m:Z, n:Z, l:L, i:Z) $
+- $ B = (m':Z, n':Z) $
+- $ Q = (m=m' \wedge n=n' \wedge m \leq n+1) $
+- $ R = (Q \wedge l=(\exists j \in [m..n]): \beta(i) \wedge $  
+    $ \quad l \rightarrow (i\in[m..n] \wedge \beta(i) \wedge \forall j \in [m..i-1]: \neg \beta(j) )) $
+- $ P = (Q \wedge \forall j \in [m..i-1]: \neg \beta(j) \wedge l=(\forall j \in [m..i]: \beta(i)) \wedge i\in[m-1..n]) $  
+- 1: $ Q \Rightarrow P $
+    - Szekvencia
+    - $ Q' = (Q \wedge i=m-1 \wedge l=hamis) $
+- I: $ Q \Rightarrow lf(i,l:=m-1,hamis, Q') $
+- II: $ Q' \Rightarrow lf(DO, R) $
+- 2: $ P \wedge l \Rightarrow R $
+- 2: $ P \wedge (i=n \wedge \neg l) \Rightarrow R $
+- 2: $ P \wedge (l \vee (i=n \wedge \neg l)) \Rightarrow R $
+- 2: $ P \wedge (l \vee i=n) \Rightarrow R $
+    - $ \pi = \neg l \wedge i \neq n $
+- 3: $ P \Rightarrow (\neg l \wedge i \neq n) \vee \neg (\neg l \wedge i \neq n) $
+    - Értelmes a feltétel
+- 4: $ P \wedge \pi \Rightarrow t>0 $
+    - t : n-1
+- 5:A: $ P \wedge (\neg l \wedge i \neq n) \wedge n-i=t_0 \Rightarrow lf(l:=b(i+1), Q'' \wedge n-i=t_0) $
+- 5:B: $ Q'' \wedge n-i=t_0 \Rightarrow lf(i:=i+1, P \wedge n-i<t_0) $
+
+## Példa feladat
+
+- f: Z->Z
+- Adjunk meg egy helyet ahol f értéke páros
+- A = (m:Z, n:Z, i:Z, l:L)
+- B = (m':Z, n':Z)
+- $ Q = (m=m' \wedge n=n' \wedge m \leq n+1) $
+- $ R = (Q \wedge l=(\exists j\in[n..m]:2\mid f(j)) \wedge $  
+    $ \quad l\rightarrow(i\in[m..n] \wedge 2\mid f(i))) $
+- Ha az első ilyet akarjuk megadni akkor linker mehet
+
+    |     Tétel    |     Feladat    |
+    | :----------: | -------------- |
+    | $ \beta(i) $ | $ 2\mid f(i) $ |
+
+    **Első ZH-ban levezetéssel kell megoldani a feladatot**  
+    *Nem a visszavezetést kell használni*
+    - Ez a feladat szigorúbb ezért az eredetit is megoldja
+
+## Másik példa
+
+- f: Z->Z
+- Első hely ahol a fgv érték megegyezik a szomszédai átlagával
+- A = (m:Z, n:Z, i:Z, l:L)
+- B = (m':Z, n':Z)
+- $ Q = (m=m' \wedge n=n' \wedge m \leq n+1) $
+- $ R = (Q \wedge l=(\exists j\in[m+1..n-1]:f(j)=\frac{f(j-1)+f(j+1)}{2}) \wedge $  
+    $ \quad l\rightarrow(i\in[m+1..n-1] \wedge 2*f(i)=f(i-1)+f(i+1) \wedge $"előtte nem volt olyan"$ )) $
+- Visszavezetés : VV linker 2.8
+
+    |     Tétel    | Feladat                  |
+    | :----------: | ------------------------ |
+    |       m      | m+1                      |   
+    |       n      | n-1                      |   
+    | $ \beta(i) $ | $ 2*f(i)=f(i-1)+f(i+1) $ |
+
+    - De ez így nem működik, mert a tétel eéőfeltétele szigorúbb mint a mienk
+        - Így a tétel feladata gyengébb és így nem oldja meg a feladatot
+- Plusz feltételként kikötjük, hogy m<=n-1
+    - és akkor már használhatjuk a visszavezetést
+
+## További tételek
+
+- A = (x:X, y:Y)
+- B = (x':X, y':Y)
+- Q = (x=x')
+- R = (y = f(x'))
+- y := f(x) program megoldja
+
+### f kompozícióként felírható
+
+- g: X->Z
+- h: Z->Y
+- f = h°g
+- Ezt egy szekvencia oldja meg
+    - z segédváltozó
+    - z = g(x)
+    - y = h(z)
+    - Q' = (Q /\ z=g(x))
+
+### f esetszétválasztással adott
+
+- f(x)=
+    - ha $\pi_1$ akkor $g_1(x)$
+    - ...
+    - ha $\pi_n$ akkor $g_n(x)$
+- egy benetre csak egyik pi teljesülhet
+    - de mindenhol értelmezve van - azaz legalább egy teljesül
+- Megoldó program egy elágazás
+    - n-ágú
+    - feltételek a pi-k
+

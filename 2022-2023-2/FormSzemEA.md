@@ -192,7 +192,55 @@
     - $ \frac{<a2,s>\Rightarrow i}{<n \circ a2,s>\Rightarrow N[[n]] \circ i} \circ \in \{+,-,<,=\}, i \in Z $
     
 
+# 4. EA
 
+- Kis kifejezésnyelv
+- Aritmetikai és logikai kifejezések
+- Csak a szemantikával foglalkozunk, szintaktika már kész van
+- Szemantikába be van építve, hogy balról jobbra normalizáljuk
+    - előbb ki kell értékelni a baloldalt
+- Determinisztikusság
+    - Csak egy következő konfiguráció lehetséges-e
+- Konfluens
+    - Ha külön úton ugyan-oda visz
+- Direkt átmenet reláció reflexív-tranzitív-lezártja
+    - 0 vagy több lépéssel az egyik konfigurációból a másikba jutok
+    - reflexív - bármilyen konfig relációban áll magával
+    - tranzitív - a=>b és b=>c akkor a=>c
 
+## Denotációs-leíró szemantika
 
+- Jelentéssel akarom jellemezni
+- Egy szemantikus függvényt adok ami a szintaktikábó szemantikát csinál
+- Szemtikus megfeleltetés
+    - $ A[[n]]s = \N[[n]] $
+    - $ A[[x]]s = x[s] $
+    - $ A[[a_1 + a_2]]s = A[[a_1]]s + A[[a_2]]s $
+    - $ A[[a_1 - a_2]]s = A[[a_1]]s - A[[a_2]]s $
+    - $ A[[-a]]s = 0 - A[[a]]s $
+- Részszavak jelentése kiadja a teljes kifejezés jelentését
+- Kompozícionális akkor ha csak a részeit használjuk az eredetiben
+    - Így fog terminálni a rekurzió
+- Szintaktikus elemek a "[[_]]" zárójelek közé írjuk
+    - Metanyelv és objektumnyelv megkülönböztetése
+- Kompozícionalitás
+    - Minden szintatktikus konstrukcióhoz függvény
+    - Összetett kifejezéseket a részkifejezések kombinálásával adom meg
+    - Struktúrális indukciós bizonyításokhoz kell
 
+## Tuljadonságok
+
+- A szemantika teljes-e
+    - Minden kofigurációra van-e rákövetkező
+    - Minden lehetséges kifejezést lekezel-e
+    - Egyértelmű-e
+- Determinisztikus és termináló-e
+- Operációs és denotációs szemantika ekvivalens-e
+
+- Kifejezés kiértékelése determinisztikus
+    - Ha <a,s>=>y és <a,s>=>y' akkor y=y'
+    - Átmeneteszerkezet szerinti indukció
+
+- Optimalizációkat lehet megadni
+    - O[[0+a]] = O[[a]]
+    

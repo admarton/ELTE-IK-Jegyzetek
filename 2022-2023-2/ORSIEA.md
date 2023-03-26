@@ -140,4 +140,129 @@
 - Atomicitás, Pillanatszerű minden feltételes szimultán értékadás
     - Közbenső állapotot nem tudnak mások módosítani
     
+# 3. EA
+
+- $ S = (SKIP, \{\square_{i \in [1..n-1]} a(i),a(i+1) := a(i+1), a(i) $ ha $ a(i) > a(i+1) \}) $
+- Kezdő értékadás 
+    - Invariánshoz kapcsolódik
+    - Beállítom hogy teljesüljön
+- Szimultán értékadásnak vannak fázisai
+    - ki kell értékelni mindent és csak utána lesz értékadás
+- Atomicitás miatt várni kell
+- Nincs több állapotváltozás - fixpont
+    - akkor ha mindegyik feltétel hamis
+    - azaz rendezett a vektor
+- Ez az absztrakt program lehet párhuzamos és szekvenciális is
+- Szuperpozícióval detektálom a másik folyamat fixpontját
+
+- Leképezés
+    - Hatékony-e
+        - Absztrakt programra ez értelmetlen
+        - Attól függ
+            - Hány folyamat, processzor, milyen ütememzés
+        - Konkrét programról lehet ilyet kérdezni
+    - Állapotváltozások várható száma
+        - nem a lépésekkel araányos
+    
+## A relációs modell alapfogalmai
+
+- Matematikai modelltől is függ
+    - Egyszerű halmazelmélet
+    - Egyszerű csak bonyolult hatványhalmazok lesznek
+
+### Állapot
+
+- A változók értékei.
+- n változó n érték, rendezett n-es
+    - típusai vannak a változóknak
+
+### Állapottér
+
+- Az össues lehetséges állapot halmaza
+- A::= X_A_i_j annyi típus direkt szorzata ahány változó van
+
+### Elérhető állapotok
+
+- Az amit kezdőállapot függvényében el tudunk érni
+- Statikusan az invariánstól függ
+- Invariáns megmondja, hogy mi az ami biztosan nem érhető el
+    - Amire igaz abból nem tudjuk, h elérhető-e
+    - De amire hamis az biztosan nem elérhető
+
+### Relációk
+
+- Állapotpárok
+    - Honnan hova akarok eljutni
+
+### Reláció értéke
+
+- r(a) = {b | (a,b) \in r}
+
+### Reláció értelmezési tartománya
+
+- Domain, A-beli értékek amihez van B
+
+### Jelölések
+
+- véges sorozat: a = (a_1,...,a_n)
+- végtelen sorozat: a = (a_1,...)
+- A* : A elemeiből képzett véges sorozatok halmaza
+- $A^\infty$: A elemeiből képzett végtelen sorozatok halmaza
+- $ A^{**} ::== A^* \cup A^\infty $
+
+### Hatványhalmaz
+
+- Állapottér összes lehetséges részhalmazának a halmaza
+- P(A) a hatványhalmaz (2^n) eleme van
+
+### Specifikáció
+
+- Paramétertől függő előfeltétel és utófeltétel
+    - Kiindulási állapotok hamaza
+    - Végállapototk halmaza
+
+### Parciális függvény
+
+- Minden értékhez max egy értéket rendel
+
+### Függvény
+
+- Minden értékhez pontosan egy értéket rendel
+- Mindenhol értelmezve van
+
+### Logikia fgv.
+
+- Igaz hamis értéket rendel mindenden függvényparaméterhez
+- Igaz: A -> igaz
+- Hamis: A -> hamis
+
+### logikai műveletek
+
+- Függvénykompozíció
+- Implikáció is függvénykkompozíció
+- Duplanyil egy állítás, részhalmaz-e vagy sem
+
+### Reláció inverz képe, ősképe
+
+- inverz képe az amihez hozzá van rendelve
+    - honnan jutok el ide
+- őskép, ahonnan csak oda jutok biztosan
+    - csak oda juthatok
+    - leggyengébb előfeltétel
+    - $ p(S)^{-1}(\lceil R \rceil) = \lceil lf(S,R) \rceil $
+
+### Reláció kompozíció
+
+- Programfüggvény szekvencia
+- Reláció a->b és b->c akkor a kettő kompozíciója a->c
+
+### Szigorú kompozíció
+
+- Csak akkor eleme egy pár ha az első reláció eredményének összeségére folytatódik a második
+- Nemdeterminisztikus progrmnál fontos
+- Ha holtágba kerül, akkor nem kerülnek be a relációba
+- Ősképhez hasonló szigprítás
+    - Kiindulóállapotból biztosan a végállapotba jut
+        - nem futhat rá valami mellékágra
+    - A nemdeterminiszikus programok miatt kellenek ezek a szigorítások
 

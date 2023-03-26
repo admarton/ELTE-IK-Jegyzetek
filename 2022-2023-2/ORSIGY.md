@@ -317,4 +317,94 @@ $ lf(S,R) = lf(s_1,R) \wedge lf(s_2,R) = ((y < 4 \rightarrow 0 < 5 + y) \wedge (
 - $ \frac{P\mapsto_S Q, Q\Rightarrow R}{P\mapsto_S R} $
 - Ha S-ben van olyan s* ammivel az lf(s*,Q) megfelelő akkor az R-re is megfelelő lesz
 
+# 4. GYAK
 
+## 4. feladat - Egyenesnyil diszjunktivitás - **nem teljesül**
+
+- $ \frac{P\mapsto_S R, Q\mapsto_S R}{(P\vee Q)\mapsto_S R} $
+- Nem biztos, hogy van olyan program
+- Ellenpélda
+    - $ S = (SKIP, {x:=x+1 ha x=2, x:=x+2 ha x=1}) $
+    - $ x=1 \vee x=2 \not \mapsto_S x=3 $
+        - előző óra
+    - $ x=1 \mapsto_S x=3 $
+        - Háromszög teljesül
+        - $s_2$ megoldaj
+    - $ x=2 \mapsto_S x=3 $
+        - Háromszög teljesül
+        - $s_1$ megoldaj
+
+## 5. feladat
+
+- $ \frac{P\Rightarrow Q}{P \mapsto_S Q} $
+- Jobboldal gyengítéssel be lehet látni
+- Használni kell a $ P \mapsto_S P $
+    - Már bizonyítottuk
+
+## 6. feladat - egyenesnyil tranzitivitás - **nem teljesül**
+
+- $ \frac{P \mapsto_S Q, Q \mapsto_S R}{P \mapsto_S R} $
+- Ellenpélda
+    - $ P = x = 1 $
+    - $ Q = X = 2 $
+    - $ R = X = 3 $
+    - $ S = (SKIP, {x:=x+1}) $
+    - Első két háromsszög teljesül, harmadik nem
+    - $ s_1 $ jó az első két egyenesnyílhoz
+    - Harmadik egyenesnyilhoz nincs megfelelő s
+        - $ x=1 \Rightarrow x+1=3 $
+        - Hamis az egyetlen programra
+
+## 7. feladat - egyenesnyil csodakizárás
+
+- $ \frac{P\mapsto_S \downarrow}{P = \downarrow} $
+- $ P \triangleright_S \downarrow $ és $ \exists s \in S : P \wedge \neg \downarrow \Rightarrow lf(s, \downarrow) $
+- $ P \triangleright_S \downarrow $ és $ \exists s \in S : P \Rightarrow lf(s, \downarrow) $
+- $ P \triangleright_S \downarrow $ és $ \exists s \in S : P \Rightarrow \downarrow $
+- $ P \triangleright_S \downarrow $ és $ \exists s \in S : P = \downarrow $
+
+## 8. feladat - egyenesnyil **stabillal metszés**
+
+- $ \frac{P\mapsto_S Q, K \triangleright_S \downarrow}{(P \wedge K)\mapsto_S (Q \wedge K)} $
+- Bizonyítás
+    - $ P \triangleright_S Q $
+    - $ \exists s \in S : P \wedge \neg Q \Rightarrow lf(s,Q) $
+        - Legyen s* ilyen
+    - $ K \Rightarrow lf(S,K) $
+        - $ \bigwedge_{s \in S} lf(s, K) \Rightarrow lf(s*, K) $
+    - $ (P \wedge K) \triangleright_S (Q \wedge K) $
+        - Háromszög stabil metszés
+    - $ \exists s \in S : (P \wedge K) \wedge \neg (Q \wedge K) \Rightarrow lf(s,(Q \wedge K)) $
+        - $ P \wedge \neg Q \wedge K \Rightarrow lf(s*, Q) \wedge lf(s*, K) $
+        - $ P \wedge \neg Q \wedge K \Rightarrow lf(s*, Q \wedge K) $
+- Nagy S-ből lehet kis s-t csinálni
+    - Ha lf(S,K) akkor lf(s,K) is
+
+## Görbenyil definíció
+
+- $ P \hookrightarrow_S Q = (P \mapsto_S Q)^{tdl} $
+- tranzitív diszjunktív lezártja
+- Haladási reláció
+- ha $ P \mapsto_S Q $ akkor $ P \hookrightarrow_S Q $
+- ha $ P \hookrightarrow_S Q $ és $ Q \hookrightarrow_S R $ akkor $ P \hookrightarrow_S R $
+    - tranzitív
+- ha $ \forall i \in W: P_i \hookrightarrow_S Q $ akkor $ (\bigvee_{i=1}^{n} P) \hookrightarrow_S Q $
+    - diszjunktív
+- legszűkebb ilyen reláció
+- Egyszer átvisz P-ből Q-ba de közben kimehet P-ből nem csak Q-ba
+    - Használhat külső pontot
+
+## 1. fealadat - Görbenyil **jobboldal gyengítés**
+
+- $ \frac{P \hookrightarrow_S Q, Q \Rightarrow R}{P \hookrightarrow_S R} $
+- $ \frac{Q \Rightarrow R}{\frac{Q \mapsto_S R}{Q \hookrightarrow_S R}} $
+- Utána tranzitívitás
+
+## Hasznos tételek
+
+- Görbenyil csoda kizárás
+    - $ \frac{P \hookrightarrow_S HAMIS}{P = HAMIS} $
+- Görbenyil stabillal metszés
+    - $ \frac{P\hookrightarrow_S Q, K \triangleright_S \downarrow}{(P \wedge K)\hookrightarrow_S (Q \wedge K)} $
+- PSP - Progress Safty Progress
+    - $ \frac{P\hookrightarrow_S Q, R \triangleright_S B}{(P \wedge R)\hookrightarrow_S (Q \wedge R) \vee B} $
