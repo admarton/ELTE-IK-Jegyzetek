@@ -244,3 +244,97 @@
 - Optimalizációkat lehet megadni
     - O[[0+a]] = O[[a]]
     
+# 5. EA
+
+- $ S \in Stm$ (utasítás halmaz)
+- S ::== **skip** | x:=a | S1;S2 | **if** b **then** S1 **else** S2 | **while** b **do** S
+- Konfiguráció
+    - <S, s> => <S',s'>
+    - <S, s> => s' - ez a végkonfigutáció, elfogyott a kifejezés
+        - Lehet olyan, hogy nem tudja megdni a következőt, az kiértékelési hiba
+- SKIP
+    - $ \frac{}{<skip, s> => s}$
+- Ass
+    - $ \frac{}{ <x:=a,s> => s[x->A[[a]]s] } $
+- Seq
+    - $ \frac{<S1,s>=><S1', s'>}{<S1;S2,s>=><S1';S2,s'>} $
+    - $ \frac{<S1,s>=>s'}{<S1;S2,s>=><S2,s'>} $
+- If
+    - $ \frac{}{<if \space b \space then \space S1 \space else \space S2, s>=><S1,s>}B[[b]]s = tt $
+    - $ \frac{}{<if \space b \space then \space S1 \space else \space S2, s>=><S2,s>}B[[b]]s = ff $
+- While
+    - <while b do S, s>=><if b then (S;while b do S) else skip, s>
+- Levezetési lánc
+    - Véges ha az utolsónak nincs rákövetkezője
+    - Végtelen ha mindegyiknek van rákövetkezője
+- =>^i - i átmenettel megy át oda
+- =>*  - valamennyi átmenettel megy át
+- Szekvencia
+    - S1 kiértékelése és S2 kiértékelése lépészszámának összege a szekvenciájuk kiértékeléséen k a lépésszáma
+    - S1 kiértékeléséhez k lépés kell
+        - akkor a szekvencia kiértékelésénél k lépés után az S1 ki lesz értékelve
+- Minden konfigutációra megmondja, hogyan lehet tovább haladni
+- Determinisztikus
+- Ebben a nyelvben nincs zsákutca, nem akad meg a végrehajtás
+- Smallstep erősebb mint a denotációs
+
+# 6. EA
+
+- Lehet bizonyítani két programról, hogy ekvivalens
+
+## Természetes szemantika - BigStep operationsal semantics
+
+- Nincs kétféle átmenet
+- Kezdő konfigutációból a vég konfigurációba jutok
+- Egyszerűbb az érvelés
+- Ez is reléció
+- Szintaxis nem változik
+- SKIP,s -> s - SKIP
+- x:=a,s -> s[x->A[[a]]s] - Értékadás
+- $ \frac{<S1,s>->s' \quad <S2,s'>->s''}{<S1;S2,s>->s''} $ - Szekvencia
+- Lehet nem determinisztikus is
+- Elágazás
+    - $ \frac{<S1,s>->s'}{<if \space b \space then \space S1 \space else \space S2, s>->s'} $ - ha b igaz
+    - $ \frac{<S2,s>->s'}{<if \space b \space then \space S1 \space else \space S2, s>->s'} $ - ha b hamis
+- Ciklus
+    - $\frac{<S,s>->s' \quad <while \space b \space do \space S,s'>->s''}{<while \space b \space do \space S,s>->s''}$ - ha a feltétel igaz
+    - <while b do S, s> -> s' - ha a feltétel hamis
+    - Csak a levezetésben vannak köztes állapotok
+        - A relációban csak a végeredmény van
+- Terminálás, divergálás
+    - Nincs olyan hogy megakad a program
+    - Olyan van hogy terminál vagy divergál
+    - minden s állapotból mindig terminál vagy mindig divergál
+- SmallStep általában könnyebb
+- Levezetési fa
+    - A reláció levezetés = program kimenete
+    - Utasítás szintaxisa szerint vezérelhetődik
+        - Meg lehet keresni a megfelelő szabályt
+            - Lehet automatizálni
+            - Automatikusan csak azzal lehet tovább menni
+        - Ha nincs szamantika szabály akkor az hiba
+            - Leszivárog részprogramról/részkifejezésről a tejes programra
+- Extra info
+    - Determinisztikus a programunk
+    - Itt van rekurzió, denotációban ez nem működik
+    - Erre is meg lehet mondani a szamtikus függvényt és lehet ekvivalenciát mondani a denotációs szemantikával
+- Be lehet bizonyítani, hogy a small step és a big step egyenlő
+    - Szemantikus fünnyvényt használva
+    - <S,s>=>s' = <S,s>->s'
+        - Small -> big
+            - 1 lépéses levezetésre (skip, értékadás) triviális, mert ua a def
+            - Feltesszük, h smallstep K lépés egy lépés a bigstep-ban
+            - Bizonyítjuk k+1 lépésre
+                - Szekvenciára lehet úgy bizonyítani, hogy k1 és k2 lépésben lehet megcsinálni és mindkettő kisebb mint k+1 ezért igaz az indukciós hipotézis és utána lehet használni a bigstep szekvenciát
+                - Elágazásra esetszétválasztás és használható a bigstep
+                - Ciklusra smallstepben egy szabály van csak és utána k lépés marad, arra meg lehet használni a hipotézist
+                    - elégazés igaz ágában szekvencia bizonyítás
+                    - hamis ágban skip bizonyítás
+        - Big -> small
+            - Nem lépésszám szerinti indukció
+            - skip és értékadás triviális
+            - Szekvencia vissza avn vezetve a smallstep szekvenciáre
+            - Elágazásnál esetszétválasztás tranzitívitás, kipótoljuk a hiányzó lépéseket
+            - Ciklusnál is esetszétválasztás, hipotézis a részeire, utána smallstep levezetés
+            - Kipótoljuk a smallstep lépéseket
+            

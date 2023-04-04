@@ -216,3 +216,7 @@
 
 - Maximum keresés
 - Specifikáció és stuktrogram
+
+# 5.GYAK
+Keddi gyak:
+

@@ -6,7 +6,7 @@
       }
     });
 </script>
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script> 
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 
 # Osztott rendszerek specifikációja és implementációja
 
@@ -14,64 +14,65 @@
 
 - Kezdés 16:00
 - +/- az óra elején
-    - legalább 0-ba kell kihozni, hiányzás minusz
+  - legalább 0-ba kell kihozni, hiányzás minusz
 - 2 DB ZH
-    - félév fele (kb 6. hét), vizsgaidőszak eleje
+  - félév fele (kb 6. hét), vizsgaidőszak eleje
 - Beadandó nem lesz valszeg
 - Gyak jegy kell az EA-hoz
 - CANVAS - slideok, plusz infók, teams csoport nem lesz
 - matej@inf.elte.hu
-    - 2.616 a szoba
+  - 2.616 a szoba
 
 ## Elméleti programozás lesz
 
 - Feladat formális leírása
-    - specifikáció
+  - specifikáció
 - Absztrakt program
-    - Megfeelel-e a spec-nek, megoldja a feladatot
+  - Megfeelel-e a spec-nek, megoldja a feladatot
 - Párhuzamos programokra
 - Levezetés és tételre visszavezetés
 
 ## Leggyengébb előfeltétel - lf
 
 - Def.: lf(S,R) - leggyengébb előfeltétele egy programnak egy specifikációra nézve
-    - Állapottérbeli pontok amiből az S R-be visz
-    - $ \lceil lf(S,R) \rceil ::= \{ a \in D_{p(s)} \mid p(s)(a) \subseteq \lceil R \rceil \}  $
+
+  - Állapottérbeli pontok amiből az S R-be visz
+  - $ \lceil lf(S,R) \rceil ::= \{ a \in D\_{p(s)} \mid p(s)(a) \subseteq \lceil R \rceil \} $
 
 - Értékadás  
-    lf( x := 5, 0 < x + y )= 0 < 5 + y
+   lf( x := 5, 0 < x + y )= 0 < 5 + y
 - Feltételes értékadás  
-    $ lf( x := 5 \quad ha \quad y < 1, 0 < x + y )=( y < 1 \rightarrow 0 < 5 + y) \wedge (s \geq 1 \rightarrow 0 < x + y) $
-- Szimultán értékadás 
-    $ lf(x,y:=5,x+1 \space ha \space y < 1, 0 < x+y) = (y<1 \rightarrow 0<5+x+1) \wedge (y \geq 1 \rightarrow 0 < x+y) $
+   $ lf( x := 5 \quad ha \quad y < 1, 0 < x + y )=( y < 1 \rightarrow 0 < 5 + y) \wedge (s \geq 1 \rightarrow 0 < x + y) $
+- Szimultán értékadás
+  $ lf(x,y:=5,x+1 \space ha \space y < 1, 0 < x+y) = (y<1 \rightarrow 0<5+x+1) \wedge (y \geq 1 \rightarrow 0 < x+y) $
 
 ## **Párhuzamos absztrakt program**
 
-- $ S = (s_0, \{s_1,...,s_n \}) $ 
-    - Kezdeti állapot: s_0
-    - Utasítások halmaza
-        - Addig hajtjuk végre őket ameddig még tudnak változtatni
+- $ S = (s_0, \{s_1,...,s_n \}) $
+  - Kezdeti állapot: s_0
+  - Utasítások halmaza
+    - Addig hajtjuk végre őket ameddig még tudnak változtatni
 
 ### Megszorítás
 
 - A kis utasításokat atominak tekintjük
 - Nem foglalkozunk a műveletek végrehajtásának összelapolódásával
 - Különböző szekvenciális sorrendek lehetséges eredményeit nézegetjük
-    - **Összefésüléses szemantika**
+  - **Összefésüléses szemantika**
 - **Feltétlenül pártatlan ütemezés**
-    - Mindegyikből végtelen legyen, ne legyen olyan amiből véges sok van
-    - Bármelyik utasítástól nézem az ütemezést, akkor egy idő után mindegyik utasítás végrehajtódik
+  - Mindegyikből végtelen legyen, ne legyen olyan amiből véges sok van
+  - Bármelyik utasítástól nézem az ütemezést, akkor egy idő után mindegyik utasítás végrehajtódik
 
 ### Példa
 
-$ A = \mathbb{N}_0×\mathbb{N}_0 $  
-$ S = (s_0 : x,y := (21,7), \{ s_1 :x := \space ha \space y < 4; s_2 : y := 2 \}) $  
+$ A = \mathbb{N}\_0×\mathbb{N}\_0 $  
+$ S = (s_0 : x,y := (21,7), \{ s_1 :x := \space ha \space y < 4; s_2 : y := 2 \}) $
 
-(10,12) -> (21,7) -> (21,7) ->...-> (21,7) -> (5,2) -> (5,2) ->...-> (5,2) 
+(10,12) -> (21,7) -> (21,7) ->...-> (21,7) -> (5,2) -> (5,2) ->...-> (5,2)
 
 - Hol van olyan pont ahonnan már nem tud változtatni? -> **FIX PONT**
-    - nem feltétlenül jut oda
-    - **s_0 nem változtat rajta**
+  - nem feltétlenül jut oda
+  - **s_0 nem változtat rajta**
 - Milyen FIX PONTokba jut el?
 - Milyen állapotokat érinthet?
 - Mik a nem elérhető állapotok?
@@ -81,27 +82,28 @@ $ S = (s_0 : x,y := (21,7), \{ s_1 :x := \space ha \space y < 4; s_2 : y := 2 \}
 - Legkisebb építőelem, utána a többi tulajdonság
 - Milyen pontból induljak, hogy egy lépés után R-be érjek?
 - **s_0 nem számít itt sem**
-- $ lf(S,R) = \bigwedge_{i=1}^n lf(s_i, R) $
-- *S* párhuzamos program pár = (s_0, S)
-- *S* az utasításhalmaz is
+- $ lf(S,R) = \bigwedge\_{i=1}^n lf(s_i, R) $
+- _S_ párhuzamos program pár = (s_0, S)
+- _S_ az utasításhalmaz is
 
 ### Példa
 
-$ A = \mathbb{N}_0×\mathbb{N}_0 $  
+$ A = \mathbb{N}\_0×\mathbb{N}\_0 $  
 $ S = (s_0 : x,y := (21,7), \{ s_1 :x := 5 \space ha \space y < 4; s_2 : y := 2 \}) $  
 $ R = 0 < x + y $
 
 $ lf(S,R) = lf(s_1,R) \wedge lf(s_2,R) = ((y < 4 \rightarrow 0 < 5 + y) \wedge (y \geq 4 \rightarrow 0 < x + y)) \wedge (0 < x + 2) $
 
 ## LF tulajdonságok
+
 - Csoda kizárása  
-    $ lf(S,\downarrow) = \downarrow $
+   $ lf(S,\downarrow) = \downarrow $
 - Monotonitás  
-    ha $ P \Rightarrow Q $ akkor $ lf(S,P) \Rightarrow lf(S,Q) $
+   ha $ P \Rightarrow Q $ akkor $ lf(S,P) \Rightarrow lf(S,Q) $
 - Konjunkció  
-    $ lf(S, P \wedge Q) = lf(S,P) \wedge lf(S,Q) $
+   $ lf(S, P \wedge Q) = lf(S,P) \wedge lf(S,Q) $
 - Diszjunkció  
-    $ lf(S, P \vee Q) \Leftarrow lf(S,P) \vee lf(S,Q) $
+   $ lf(S, P \vee Q) \Leftarrow lf(S,P) \vee lf(S,Q) $
 
 # 2. GYAK
 
@@ -109,12 +111,12 @@ $ lf(S,R) = lf(s_1,R) \wedge lf(s_2,R) = ((y < 4 \rightarrow 0 < 5 + y) \wedge (
 
 - $ P \triangleright_S Q ::== P \wedge \neg Q \Rightarrow lf( S,P \vee Q)$
 - P-ből csak úgy mehetek ki, ha előtte beléptem Q-ba
-    - Pl helyes állapotból csak úgy léphetek ki ha előtte bementem a hibakezelési állapotba :  
+  - Pl helyes állapotból csak úgy léphetek ki ha előtte bementem a hibakezelési állapotba :  
     $ Helyes \triangleright Hibakezelés $
 - Biztonságossági tulajdonság
 - $ P \triangleright_P \downarrow = P \Rightarrow lf(S,P) $
-    - Ha egyszer teljesül akkor onnan nem tud kilépni
-    - **Stabil**
+  - Ha egyszer teljesül akkor onnan nem tud kilépni
+  - **Stabil**
 
 ### Példa
 
@@ -123,24 +125,25 @@ $ lf(S,R) = lf(s_1,R) \wedge lf(s_2,R) = ((y < 4 \rightarrow 0 < 5 + y) \wedge (
 - $P = ( x > 0 \wedge y > 0 )$
 - $Q = (x = 0)$
 - $ P \triangleright_SQ = P \wedge \neg Q \Rightarrow lf( S,P \vee Q) $  
-    $ = ( x > 0 \wedge y > 0 ) \wedge \neg (x = 0) \Rightarrow lf(S, ...)$  
-    $ = ( x > 0 \wedge y > 0 ) \Rightarrow lf(s_1, P \vee Q) \wedge lf(s_2, P \vee Q) $  
-    $ = ( x > 0 \wedge y > 0 ) \Rightarrow ((x-1 > 0 \wedge y > 0) \vee x-1=0) \wedge ( x > 0 \vee x = 0 ) $  
-    $ = ( (x > 1 \vee x=1) \wedge y > 0 ) \Rightarrow ((x-1 > 0 \wedge y > 0) \vee x-1=0) \wedge ( x > 0 \vee x = 0 ) $
+   $ = ( x > 0 \wedge y > 0 ) \wedge \neg (x = 0) \Rightarrow lf(S, ...)$  
+   $ = ( x > 0 \wedge y > 0 ) \Rightarrow lf(s_1, P \vee Q) \wedge lf(s_2, P \vee Q) $  
+   $ = ( x > 0 \wedge y > 0 ) \Rightarrow ((x-1 > 0 \wedge y > 0) \vee x-1=0) \wedge ( x > 0 \vee x = 0 ) $  
+   $ = ( (x > 1 \vee x=1) \wedge y > 0 ) \Rightarrow ((x-1 > 0 \wedge y > 0) \vee x-1=0) \wedge ( x > 0 \vee x = 0 ) $
 - Teljesül
 
 ### Példa Stabil
+
 - $ S = (s_0: x,y:=10,20, \{ s_1: x := x+y \}) $
 - $ P = x > 0 $
 - $ P \triangleright_S \downarrow = P \Rightarrow lf( S,P) $  
-    $= x > 0 \Rightarrow lf(s_1, x>0) $  
-    $= x > 0 \Rightarrow x+y>0 $
+   $= x > 0 \Rightarrow lf(s_1, x>0) $  
+   $= x > 0 \Rightarrow x+y>0 $
 - Nem feltétlenül tejesül
-    - y-ról nem tudunk ehhez megfelelő infót
+  - y-ról nem tudunk ehhez megfelelő infót
 - Nem stabil a P
 - A nem elérhető állapotokkal is foglakozni kell
-    - Feltételt úgy kell megadni, hogy minden benne legyen
-    - P-be be lehet írni, hogy y is legyen nagyobb mint 0
+  - Feltételt úgy kell megadni, hogy minden benne legyen
+  - P-be be lehet írni, hogy y is legyen nagyobb mint 0
 
 ## 1. Feladat
 
@@ -154,31 +157,31 @@ $ lf(S,R) = lf(s_1,R) \wedge lf(s_2,R) = ((y < 4 \rightarrow 0 < 5 + y) \wedge (
 - $ P \triangleright_S \neg P $ teljesül bármilyen P és S-re
 - $ P \wedge P \Rightarrow lf(S,P \vee \neg P) $
 - $ P \Rightarrow lf(S,\uparrow) $
-- $ \lceil lf(S,\uparrow) \rceil = \bigcap_{i=1}^nD_r(s_i) $
+- $ \lceil lf(S,\uparrow) \rceil = \bigcap\_{i=1}^nD_r(s_i) $
 - Úgy kell megadni a programot, hogy a teljes állapotteren értelmes legyen
-    - $ \forall i\in[0,n] : D_r(s_i) = A $
-    - explicit meg kell mindent mondani
-        - ha x pozitív, akkor a csökkentése feltételes kell legyen
-- $ \bigcap_{i=1}^nD_r(s_i) = \bigcap A = A $
+  - $ \forall i\in[0,n] : D_r(s_i) = A $
+  - explicit meg kell mindent mondani
+    - ha x pozitív, akkor a csökkentése feltételes kell legyen
+- $ \bigcap\_{i=1}^nD_r(s_i) = \bigcap A = A $
 
 ## 3. Fealdat
 
-- $ \frac{P \triangleright_S Q, Q \Rightarrow R}{P \triangleright_S R}$
-    - $ P \wedge \neg Q \Rightarrow ... $
+- $ \cfrac{P \triangleright_S Q, Q \Rightarrow R}{P \triangleright_S R}$
+  - $ P \wedge \neg Q \Rightarrow ... $
 
 ## Háromszög **jobboldal gyengítés**
 
-- $ \frac{P \triangleright_S Q, Q \Rightarrow R}{P \triangleright_S R}$
+- $ \cfrac{P \triangleright_S Q, Q \Rightarrow R}{P \triangleright_S R}$
 
 ## Háromszög **diszjunktivitás**
 
-- $ \frac{P \triangleright_SR, Q \triangleright_SR}{(P\vee Q) \triangleright_SR} $
+- $ \cfrac{P \triangleright_SR, Q \triangleright_SR}{(P\vee Q) \triangleright_SR} $
 
 # 3. GYAK
 
 ## Háromszög tranzitivitás - **nem teljesül**
 
-- $ \frac{P \triangleright_S Q, Q \triangleright_S R}{P \triangleright_S R} $
+- $ \cfrac{P \triangleright_S Q, Q \triangleright_S R}{P \triangleright_S R} $
 - Ellenpéldát kell adni
 
 <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
@@ -228,41 +231,40 @@ $ lf(S,R) = lf(s_1,R) \wedge lf(s_2,R) = ((y < 4 \rightarrow 0 < 5 + y) \wedge (
 - $ R = (x=3) $
 - $ S = (SKIP, {s:x:=x+1}) $
 - $ P \triangleright_S Q $
-    - $ P \wedge \neg Q \Rightarrow lf(S, P \vee Q) $
-    - $ x = 1 \Rightarrow lf(x:=x+1, x=1 \vee x=2) $
-    - $ x = 1 \Rightarrow x+1=1 \vee x+1=2 $
-    - Teljesül
+  - $ P \wedge \neg Q \Rightarrow lf(S, P \vee Q) $
+  - $ x = 1 \Rightarrow lf(x:=x+1, x=1 \vee x=2) $
+  - $ x = 1 \Rightarrow x+1=1 \vee x+1=2 $
+  - Teljesül
 - $ Q \triangleright_S R $
-    - $ Q \wedge \neg R \Rightarrow lf(S, Q \vee R) $
-    - $ x = 2 \Rightarrow lf(x:=x+1, x=2 \vee x=3) $
-    - $ x = 2 \Rightarrow x+1=2 \vee x+1=3 $
-    - Teljesül
+  - $ Q \wedge \neg R \Rightarrow lf(S, Q \vee R) $
+  - $ x = 2 \Rightarrow lf(x:=x+1, x=2 \vee x=3) $
+  - $ x = 2 \Rightarrow x+1=2 \vee x+1=3 $
+  - Teljesül
 - $ P \triangleright_S R $
-    - $ P \wedge \neg R \Rightarrow lf(S, P \vee R) $
-    - $ x = 1 \Rightarrow lf(x:=x+1, x=1 \vee x=3) $
-    - $ x = 1 \Rightarrow x+1=1 \vee x+1=3 $
-    - Nem teljesül
+  - $ P \wedge \neg R \Rightarrow lf(S, P \vee R) $
+  - $ x = 1 \Rightarrow lf(x:=x+1, x=1 \vee x=3) $
+  - $ x = 1 \Rightarrow x+1=1 \vee x+1=3 $
+  - Nem teljesül
 - Erre a példára nem teljesül, tehát nem igaz az összes esetben
 
 ## ZH hibák
 
 - Ha minden állítás teljesül az nem jó
-    - Se nem bizonyítás, se nem cáfolat
+  - Se nem bizonyítás, se nem cáfolat
 - Ha a feltételelk bármelyike nem teljesül, az is hiba
-    - Nem megfelelő ellenpélda
+  - Nem megfelelő ellenpélda
 
 ## Háromszög **stabil metszés**
 
-- $ \frac{P \triangleright_S Q, K \triangleright_S \downarrow}{(P \wedge K) \triangleright_S (Q \wedge K)} $
-
+- $ \cfrac{P \triangleright_S Q, K \triangleright_S \downarrow}{(P \wedge K) \triangleright_S (Q \wedge K)} $
 
 ## Egyenesnyil tulajdonság
 
 - $ P \mapsto_S Q ::== P \triangleright_S Q $ és $ \exists s \in S : P \wedge \neg Q \Rightarrow lf(s,Q) $
 - P-ből csak P-be és Q-ba lehet továbbmenni
-    - De véges sok lépés után biztosan Q-ba átmegy.
+  - De véges sok lépés után biztosan Q-ba átmegy.
 - Ha P-ben vagyok, akkor előbb vagy utóbb át kell jutnom Q-ba
-    - Úgy, hogy közben máshova nem mehetnek
+  - Úgy, hogy közben máshova nem mehetnek
 - Ez egy **haladási tulajdonság**
 - Szigorú tulajdonság, nem triviális, hogy mikor teljesül
 
@@ -273,15 +275,15 @@ $ lf(S,R) = lf(s_1,R) \wedge lf(s_2,R) = ((y < 4 \rightarrow 0 < 5 + y) \wedge (
 - $ P = (x=1 \vee x=2) $
 - $ Q = (x=3) $
 - $ P \mapsto_S Q $ ?
-    - $ P \triangleright_S Q $ és $ \exists s \in S : P \wedge \neg Q \Rightarrow lf(s,Q) $
-    - Ha csak egy utasítás van, akkor a háromszög rész nem kell ellenőrizni, mert egy gyengébb állítás lesz
-    - $ x=1 \vee x=2 \Rightarrow lf(s_1, Q) $
-    - $ x=1 \vee x=2 \Rightarrow lf(x:=x+1, x=3) $
-    - $ x=1 \vee x=2 \Rightarrow x+1=3 $
-    - Ez így nem igaz
-        - Ha x=1 akkor nem igaz
-        - Ha x=2 akkor igez
-        - Ezért $ P \mapsto_S Q $ nem igaz
+  - $ P \triangleright_S Q $ és $ \exists s \in S : P \wedge \neg Q \Rightarrow lf(s,Q) $
+  - Ha csak egy utasítás van, akkor a háromszög rész nem kell ellenőrizni, mert egy gyengébb állítás lesz
+  - $ x=1 \vee x=2 \Rightarrow lf(s_1, Q) $
+  - $ x=1 \vee x=2 \Rightarrow lf(x:=x+1, x=3) $
+  - $ x=1 \vee x=2 \Rightarrow x+1=3 $
+  - Ez így nem igaz
+    - Ha x=1 akkor nem igaz
+    - Ha x=2 akkor igez
+    - Ezért $ P \mapsto_S Q $ nem igaz
 
 ### Példa III.
 
@@ -290,74 +292,74 @@ $ lf(S,R) = lf(s_1,R) \wedge lf(s_2,R) = ((y < 4 \rightarrow 0 < 5 + y) \wedge (
 - $ P = (x=1 \vee x=2) $
 - $ Q = (x=3) $
 - $ P \mapsto_S Q $ ?
-    - $ P \triangleright_S Q $ és $ \exists s \in S : P \wedge \neg Q \Rightarrow lf(s,Q) $
-    - $ x=1 \vee x=2 \Rightarrow lf(s_1, Q) $
-    - $ x=1 \vee x=2 \Rightarrow lf(x:=3, x=3) $
-    - $ x=1 \vee x=2 \Rightarrow 3=3 $
-    - Ez így igaz
-        - Ezért $ P \mapsto_S Q $  igaz
+  - $ P \triangleright_S Q $ és $ \exists s \in S : P \wedge \neg Q \Rightarrow lf(s,Q) $
+  - $ x=1 \vee x=2 \Rightarrow lf(s_1, Q) $
+  - $ x=1 \vee x=2 \Rightarrow lf(x:=3, x=3) $
+  - $ x=1 \vee x=2 \Rightarrow 3=3 $
+  - Ez így igaz
+    - Ezért $ P \mapsto_S Q $ igaz
 
 ## 1. Feladat
 
 - $ P \mapsto_S P $
 - Igaz ha S nem üres
-    - Ezt monstantól mindig feltesszük
+  - Ezt monstantól mindig feltesszük
 
 ## 2. Feladat
 
 - $ P \mapsto_S \neg P $
 - Nem igaz
 - Ellenpélda:
-    - $ A = x \in {1,2} $
-    - $ P = (x=1) $
-    - $ S = (SKIP, {SKIP}) $
+  - $ A = x \in {1,2} $
+  - $ P = (x=1) $
+  - $ S = (SKIP, {SKIP}) $
 
 ## 3. Feladat - Enegyenesnyíl **jobboldal gyengítés**
 
-- $ \frac{P\mapsto_S Q, Q\Rightarrow R}{P\mapsto_S R} $
+- $ \cfrac{P\mapsto_S Q, Q\Rightarrow R}{P\mapsto_S R} $
 - Ha S-ben van olyan s* ammivel az lf(s*,Q) megfelelő akkor az R-re is megfelelő lesz
 
 # 4. GYAK
 
 ## 4. feladat - Egyenesnyil diszjunktivitás - **nem teljesül**
 
-- $ \frac{P\mapsto_S R, Q\mapsto_S R}{(P\vee Q)\mapsto_S R} $
+- $ \cfrac{P\mapsto_S R, Q\mapsto_S R}{(P\vee Q)\mapsto_S R} $
 - Nem biztos, hogy van olyan program
 - Ellenpélda
-    - $ S = (SKIP, {x:=x+1 ha x=2, x:=x+2 ha x=1}) $
-    - $ x=1 \vee x=2 \not \mapsto_S x=3 $
-        - előző óra
-    - $ x=1 \mapsto_S x=3 $
-        - Háromszög teljesül
-        - $s_2$ megoldaj
-    - $ x=2 \mapsto_S x=3 $
-        - Háromszög teljesül
-        - $s_1$ megoldaj
+  - $ S = (SKIP, {x:=x+1 ha x=2, x:=x+2 ha x=1}) $
+  - $ x=1 \vee x=2 \not \mapsto_S x=3 $
+    - előző óra
+  - $ x=1 \mapsto_S x=3 $
+    - Háromszög teljesül
+    - $s_2$ megoldaj
+  - $ x=2 \mapsto_S x=3 $
+    - Háromszög teljesül
+    - $s_1$ megoldaj
 
 ## 5. feladat
 
-- $ \frac{P\Rightarrow Q}{P \mapsto_S Q} $
+- $ \cfrac{P\Rightarrow Q}{P \mapsto_S Q} $
 - Jobboldal gyengítéssel be lehet látni
 - Használni kell a $ P \mapsto_S P $
-    - Már bizonyítottuk
+  - Már bizonyítottuk
 
 ## 6. feladat - egyenesnyil tranzitivitás - **nem teljesül**
 
-- $ \frac{P \mapsto_S Q, Q \mapsto_S R}{P \mapsto_S R} $
+- $ \cfrac{P \mapsto_S Q, Q \mapsto_S R}{P \mapsto_S R} $
 - Ellenpélda
-    - $ P = x = 1 $
-    - $ Q = X = 2 $
-    - $ R = X = 3 $
-    - $ S = (SKIP, {x:=x+1}) $
-    - Első két háromsszög teljesül, harmadik nem
-    - $ s_1 $ jó az első két egyenesnyílhoz
-    - Harmadik egyenesnyilhoz nincs megfelelő s
-        - $ x=1 \Rightarrow x+1=3 $
-        - Hamis az egyetlen programra
+  - $ P = x = 1 $
+  - $ Q = X = 2 $
+  - $ R = X = 3 $
+  - $ S = (SKIP, {x:=x+1}) $
+  - Első két háromsszög teljesül, harmadik nem
+  - $ s_1 $ jó az első két egyenesnyílhoz
+  - Harmadik egyenesnyilhoz nincs megfelelő s
+    - $ x=1 \Rightarrow x+1=3 $
+    - Hamis az egyetlen programra
 
 ## 7. feladat - egyenesnyil csodakizárás
 
-- $ \frac{P\mapsto_S \downarrow}{P = \downarrow} $
+- $ \cfrac{P\mapsto_S \downarrow}{P = \downarrow} $
 - $ P \triangleright_S \downarrow $ és $ \exists s \in S : P \wedge \neg \downarrow \Rightarrow lf(s, \downarrow) $
 - $ P \triangleright_S \downarrow $ és $ \exists s \in S : P \Rightarrow lf(s, \downarrow) $
 - $ P \triangleright_S \downarrow $ és $ \exists s \in S : P \Rightarrow \downarrow $
@@ -365,20 +367,20 @@ $ lf(S,R) = lf(s_1,R) \wedge lf(s_2,R) = ((y < 4 \rightarrow 0 < 5 + y) \wedge (
 
 ## 8. feladat - egyenesnyil **stabillal metszés**
 
-- $ \frac{P\mapsto_S Q, K \triangleright_S \downarrow}{(P \wedge K)\mapsto_S (Q \wedge K)} $
+- $ \cfrac{P\mapsto_S Q, K \triangleright_S \downarrow}{(P \wedge K)\mapsto_S (Q \wedge K)} $
 - Bizonyítás
-    - $ P \triangleright_S Q $
-    - $ \exists s \in S : P \wedge \neg Q \Rightarrow lf(s,Q) $
-        - Legyen s* ilyen
-    - $ K \Rightarrow lf(S,K) $
-        - $ \bigwedge_{s \in S} lf(s, K) \Rightarrow lf(s*, K) $
-    - $ (P \wedge K) \triangleright_S (Q \wedge K) $
-        - Háromszög stabil metszés
-    - $ \exists s \in S : (P \wedge K) \wedge \neg (Q \wedge K) \Rightarrow lf(s,(Q \wedge K)) $
-        - $ P \wedge \neg Q \wedge K \Rightarrow lf(s*, Q) \wedge lf(s*, K) $
-        - $ P \wedge \neg Q \wedge K \Rightarrow lf(s*, Q \wedge K) $
+  - $ P \triangleright_S Q $
+  - $ \exists s \in S : P \wedge \neg Q \Rightarrow lf(s,Q) $
+    - Legyen s\* ilyen
+  - $ K \Rightarrow lf(S,K) $
+    - $ \bigwedge\_{s \in S} lf(s, K) \Rightarrow lf(s\*, K) $
+  - $ (P \wedge K) \triangleright_S (Q \wedge K) $
+    - Háromszög stabil metszés
+  - $ \exists s \in S : (P \wedge K) \wedge \neg (Q \wedge K) \Rightarrow lf(s,(Q \wedge K)) $
+    - $ P \wedge \neg Q \wedge K \Rightarrow lf(s*, Q) \wedge lf(s*, K) $
+    - $ P \wedge \neg Q \wedge K \Rightarrow lf(s\*, Q \wedge K) $
 - Nagy S-ből lehet kis s-t csinálni
-    - Ha lf(S,K) akkor lf(s,K) is
+  - Ha lf(S,K) akkor lf(s,K) is
 
 ## Görbenyil definíció
 
@@ -387,24 +389,81 @@ $ lf(S,R) = lf(s_1,R) \wedge lf(s_2,R) = ((y < 4 \rightarrow 0 < 5 + y) \wedge (
 - Haladási reláció
 - ha $ P \mapsto_S Q $ akkor $ P \hookrightarrow_S Q $
 - ha $ P \hookrightarrow_S Q $ és $ Q \hookrightarrow_S R $ akkor $ P \hookrightarrow_S R $
-    - tranzitív
-- ha $ \forall i \in W: P_i \hookrightarrow_S Q $ akkor $ (\bigvee_{i=1}^{n} P) \hookrightarrow_S Q $
-    - diszjunktív
+  - tranzitív
+- ha $ \forall i \in W: P*i \hookrightarrow_S Q $ akkor $ (\bigvee*{i=1}^{n} P) \hookrightarrow_S Q $
+  - diszjunktív
 - legszűkebb ilyen reláció
 - Egyszer átvisz P-ből Q-ba de közben kimehet P-ből nem csak Q-ba
-    - Használhat külső pontot
+  - Használhat külső pontot
 
 ## 1. fealadat - Görbenyil **jobboldal gyengítés**
 
-- $ \frac{P \hookrightarrow_S Q, Q \Rightarrow R}{P \hookrightarrow_S R} $
-- $ \frac{Q \Rightarrow R}{\frac{Q \mapsto_S R}{Q \hookrightarrow_S R}} $
+- $ \cfrac{P \hookrightarrow_S Q, Q \Rightarrow R}{P \hookrightarrow_S R} $
+- $ \cfrac{Q \Rightarrow R}{\cfrac{Q \mapsto_S R}{Q \hookrightarrow_S R}} $
 - Utána tranzitívitás
 
 ## Hasznos tételek
 
 - Görbenyil csoda kizárás
-    - $ \frac{P \hookrightarrow_S HAMIS}{P = HAMIS} $
+  - $ \cfrac{P \hookrightarrow_S HAMIS}{P = HAMIS} $
 - Görbenyil stabillal metszés
-    - $ \frac{P\hookrightarrow_S Q, K \triangleright_S \downarrow}{(P \wedge K)\hookrightarrow_S (Q \wedge K)} $
+  - $ \cfrac{P\hookrightarrow_S Q, K \triangleright_S \downarrow}{(P \wedge K)\hookrightarrow_S (Q \wedge K)} $
 - PSP - Progress Safty Progress
-    - $ \frac{P\hookrightarrow_S Q, R \triangleright_S B}{(P \wedge R)\hookrightarrow_S (Q \wedge R) \vee B} $
+  - $ \cfrac{P\hookrightarrow_S Q, R \triangleright_S B}{(P \wedge R)\hookrightarrow_S (Q \wedge R) \vee B} $
+
+# 5. GYAK
+
+## 2. Feladat - Dupla disjunkció
+
+- $ \cfrac{P_1 \hookrightarrow_S Q_1, P_2 \hookrightarrow_S Q_2}{(P_1 \vee P_2) \hookrightarrow_S (Q_1 \vee Q_2)} $
+- Visszafele gondolkodva
+- $ P_1 \hookrightarrow_S (Q_1 \vee Q_2) $ és $ P_2 \hookrightarrow_S (Q_1 \vee Q_2) $
+- Jobboldal gyengítéssel ez már kijön
+  - $ Q_1 \Rightarrow Q_1 \vee Q_2 $
+- Dupla diszjunkció
+
+## 3. Feladat
+
+- $ \cfrac{P \hookrightarrow_S (Q_1 \vee Q_2), Q_1 \hookrightarrow_S R}{P \hookrightarrow_S (R \vee Q_2)} $
+- Lentről felfelé dupla diszjunkció és jobboldal gyengítéssel is kijön
+- $ Q_1 \vee Q_2 \hookrightarrow_S R \vee Q_2 $
+
+## Def
+
+- $ P \hookrightarrow_S Q $ teljesül bármely P-beli S program bármelyik, feltétlenül pártatlan ütememzésének megfelelő végrehajtása eljut Q-beli pontba.
+- Ezzel a def-el lehet cáfolni
+
+## 4. Feladat
+
+- $ \cfrac{P \hookrightarrow_S Q, Q \hookrightarrow_S (P \vee R)}{P \hookrightarrow_S R} $
+- Cáfolat
+- A = {-1,0,1}
+- P = (x=1)
+- Q = (x=-1)
+- R = (x=0)
+- S = (SKIP, {x:=-1})
+- Görbenyilat egyenes nyillal lehet kiszámolni
+- Ellenpéldához pont és ütemezés
+  - Pont: x=1
+  - Ütememzés: s1, s1, s1, s1, s1, ...
+
+## 5. Feladat
+
+- $ \cfrac{P\mapsto_S(Q\wedge \neg B),Q\hookrightarrow_S R, Q \triangleright_S HAMIS, R\Rightarrow B}{(P\wedge Q)\hookrightarrow_S(B\wedge Q)} $
+
+$\cfrac{\cfrac{\cfrac{\cfrac{P\mapsto_S(Q\wedge \neg B)}{P\hookrightarrow_S(Q\wedge \neg B)}, Q\wedge \neg B\Rightarrow Q}{P\hookrightarrow_S Q},\cfrac{Q\hookrightarrow_S R, R\Rightarrow B}{Q\hookrightarrow_S B}}{P\hookrightarrow_S BS},Q \triangleright_S HAMIS}{(P\wedge Q)\hookrightarrow_S(B\wedge Q)}$
+
+## 6. Feladat
+
+- $\cfrac{P \hookrightarrow_S Q, Q \triangleright_S R, P \triangleright_S R}{P \hookrightarrow_S R}$
+- Ellenpéldában úgy jussunk Q-ba, hogy nem hagyjuk el P-t
+- P = (x=1 v x=2)
+- Q = (x = 1)
+- R = (x = 3)
+- S = (SSKIP, {x:=1})
+- Állapot: x=2
+- Ütemezés: s1,s1,s1,...
+
+# 6. GYAK
+
+**Április 26 ZH az EA idejében**

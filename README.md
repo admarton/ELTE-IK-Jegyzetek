@@ -35,6 +35,7 @@ Egy repó a jegyzeteimnek.
   - Osztott rendszerek specifikációja és implementációja
     - [Előadás](2022-2023-2/ORSIEA.md)
     - [Gyakorlat](2022-2023-2/ORSIGY.md)
+    - [Összefoglaló](2022-2023-2/ORSISUM.md)
   - Programozási módszertan
     - [Előadás](2022-2023-2/ProgModEA.md)
     - [Gyakorlat](2022-2023-2/ProgModGY.md)

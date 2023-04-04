@@ -760,5 +760,110 @@ class C {
     - a visszatérési értéket is a legfinomabb típusban kell visszaadni
     - const volatile lval-ref is lehet ez
 
+# 5. EA
+
+## Lambda
+ 
+- Lambda kifejezés -> lambda functor típus -> closure object
+- El lehet tárolni auto-ba vagy std::function-ben
+    - std::function
+        - egy hívható az objektum
+        - adott paraméter és visszatérési érték
+        - fgv pointer, lambda, functor, egyéb
+- ki lehet írni a visszatérő értéket
+    - de nem kell
+- blokkban szinte akármi lehet
+    - ajánlott h rövid legyen
+    - kivétel az std::thread
+- `v.erease( remove_if (v.begin(), v.end(), [x,y](int a){return x < a && y > a} ) );`
+    - lemásolja az x és y-t és azt használja a lambda
+    - Capture by ref
+        - `[&sum](int a){ sum += a; }`
+    - ref adattagot const member függvényben is módosíthatok
+    - `[&sum, x, y](int a) mutable { sum += a; }`
+        - nem const member függvény a functor-on belül
+        - módosíthat ja x,y-t is
+- Capture
+    - Csak a lokális nem statikus változókat lehet
+    - Globálisak nem lesznek elkapva
+- Functor
+    - Jól tudja inline-olni a fordító
+- `this`-t érték szerint kell capture-elni
+    - `this->s` helyett csak `s` kell
+        - de ha van `s` is akkor nem
+    - `[=]` ha használom a `this`-t is akkor azt is hozza
+    - `*this` is elkapható
+        - ez lehet null ptr
+- Capture value snapshot létrehozáskor van, hiába hívom később
+- Paraméterlista elhanyagolható
+- Capture nélküli lambda convertálható egy fgv pointerre
+- Függvénypointer sokkal olcsóbb mint a std::function
+- `f(..., +[](int i){...})`
+    - a `+` miatt függvényre mutató ptr lesz belőle
+- IIFE - Immediately Invoked Function Expression
+    - Constanst létre lehet hozni a egy ilyen függvénnyel
+- Init capture
+    - meg tudom adni az értéket
+    - olyat is el tudok kapni ami eddig nem is volt
+- Lehet `constexpr`
+- `*this` a teljes objektumot lementi
+
+## Memóriakezelés
+
+- Storage class
+- String literals - readonly szegmens
+- Automatikus lokális változók
+    - stack
+- Global
+    - Statikus
+    - Data szegmens, elf
+- Local static
+    - Ott vannak mint a namespace változók
+- new, delete, malloc, free
+    - ezek ua memóriából dolgoznak
+- Több heap is lehet
+    - shared object-nek saját heap-je van
+        - Ilyenkor jó lehet egy shared_ptr
+- Tömbök és agregátumok
+- Temporálisok
+    - kifejezés kiértékelésekor jön létre
+    - teljes kifejezés végéig él utána destruktor
+    - const ref név egy temp-re
+        - meghosszabítja az élettartamát amíg a név élete tart
+        - **lifetime extension**
+    - static const ref név a main végéig tart
+        - nem a stack-en van a temp
+        - lifetime extension nem tranzitív
+    - ha adattagra állítok lifetime extension-t, akkor a teljes objektumot életben tartom
+- `new`
+    - Lefoglalja a tárt
+        - bad_alloc ha nincs tár
+    - try-t csinál
+    - azon belül konstructor
+    - catch
+        - ha hiba volt a konstruktorban akkor felszabadítja a memóriát
+    - van olyan `new` ami `nullptr`-t ad vissza
+        - `new (x,y) Z{}`
+            - `void* operator new(sizeof(Z), x, y)`
+    - mi a `delete nothrow_t`
+        - a `new nothrow_t` párja
+        - mindig párban kell definiálni
+- `placement new`
+    - nem allocál
+    - csak a konstruktort futtatja le
+    - utána explicit destruktorhívás kell
+    - ki lehet vinni a memóriafoglalást a ciklusból
+        - nem kell mindíg újat foglalni és felszabadítani, elég a konstruktor és a destruktor
+- `static void* operator new()`
+    - memeber new és delete
+- Alignment
+    - new a maximális alignment-et nézte
+        - utána bármilyen objektum létrejöhet
+    - `alignof(T)`
+    - `class align(32) MyClass {};`
+    - van malloc és new is align-nak megfelelően
+- Ki lehet kényszeríteni azt hogy minden a heap-ben jöjjön létre
+    - private destruktor nem engedi a globális vagy lokális létrehozást
     
 
+    
