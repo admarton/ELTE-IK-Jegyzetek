@@ -8,50 +8,50 @@
 - C++ a lényeg
 - Dupla EA lesz, nincs gyak
 - 2 órás vizsga
-    - teszt és programozás
-    - jelenléti, géptermi
+  - teszt és programozás
+  - jelenléti, géptermi
 - 17:45 kezdés
 - 19-kor kb szünet
 
 ## Kivételkezelés és hibakezelés
 
 - Errno
-    - Statikus változó, C11-óta thread statikus
-    - Makro, implementációfüggő
-    - Sok **if**
-    - Kód nagyobbik része a hibakezeléssel foglalkozik
-    - Ezen a logikai szinten tapasztalom a hibát, de nem tudom eldönteni, hogy milyen komoly a hiba
+  - Statikus változó, C11-óta thread statikus
+  - Makro, implementációfüggő
+  - Sok **if**
+  - Kód nagyobbik része a hibakezeléssel foglalkozik
+  - Ezen a logikai szinten tapasztalom a hibát, de nem tudom eldönteni, hogy milyen komoly a hiba
 - IOstream
-    - exception előtt fejlesztették
-    - flag-eket állít be
-    - bad, failed, eof
-        - ha bármelyik igaz akkor nem good
-    - failed-nél nem vesztettünk információt, újra lehet próbálni
-    - bad egy nem visszaállítható hiba
-    - nem kötelelző a flag-eket figyelembe venni
-        - ha bármelyik bebillen, akkor az összes többi művelet SKIP lesz
-        - flag-et vissza kell állítani ha tovább akarom használni (clear)
-    - a bitekre lehet exceptiont kötni
-    - stream bool konverzió is hibát jelezhet
+  - exception előtt fejlesztették
+  - flag-eket állít be
+  - bad, failed, eof
+    - ha bármelyik igaz akkor nem good
+  - failed-nél nem vesztettünk információt, újra lehet próbálni
+  - bad egy nem visszaállítható hiba
+  - nem kötelelző a flag-eket figyelembe venni
+    - ha bármelyik bebillen, akkor az összes többi művelet SKIP lesz
+    - flag-et vissza kell állítani ha tovább akarom használni (clear)
+  - a bitekre lehet exceptiont kötni
+  - stream bool konverzió is hibát jelezhet
 - assert
-    - kényelmes
-    - prekondíció, postkondíció
-    - abortál
-    - c++11 óta static_assert
-        - fordítási idei feltételek
+  - kényelmes
+  - prekondíció, postkondíció
+  - abortál
+  - c++11 óta static_assert
+    - fordítási idei feltételek
 
 ### Célok
 
 - Detektált problémát nem biztos, hogy kezelni tudom
 - Át akarom adni a vezerlést és minnél több infót akarok adni
 - Ha nem használom akkor ne legyen hatékonysági következménye
-    - Ilyen nem létezhet
+  - Ilyen nem létezhet
 - Különböző hibát különböző helyen lehessen kezelni
-    - De csoportosan is lehessen
-    - Inheritance
+  - De csoportosan is lehessen
+  - Inheritance
 - Multithread-en is működjön
 - Különböző nyelveken is működjön
-    - Általában nem működik
+  - Általában nem működik
 
 ### Exception
 
@@ -59,73 +59,73 @@
 - PL1 óta van explicit exception
 - Nem keveredtek a nyelv többi elemével
 - ML -> OcamL
-    - Kitalálta hogy sima típusu objektumokat el lehessen dobni hibaként
+  - Kitalálta hogy sima típusu objektumokat el lehessen dobni hibaként
 - C-ben volt valami exception szerű (C85)
-    - setjmp, longjmp
-    - jmp_buf
-    - setjmp
-        - makró
-        - stack állapotát menti a visszagörgetéshez
-    - longjmp
-        - throw
-        - visszaadja a vezérlést a setjmp-hez és visszaállítja az állapotot
+  - setjmp, longjmp
+  - jmp_buf
+  - setjmp
+    - makró
+    - stack állapotát menti a visszagörgetéshez
+  - longjmp
+    - throw
+    - visszaadja a vezérlést a setjmp-hez és visszaállítja az állapotot
 - C++
-    - try,catch,throw
-    - nem kapásból ugrik vissza, hanem visszagörget és lefutnak a destruktorok
-    - Az eldobott objektumot ki kell menteni egy statikus területre
-        - ha nem másolható vagy move-olható, akkor nem lehet eldobni
-    - Ha referenciaként veszem át a catch-ben akkor a statikus memórát
-        - pl ha nem ref és alosztályt kapok el őssel, akkor slice-ing van
-            - elvesznek a plusz adatok és a virtual függvények
-    - Ki kapja el?
-        - Ha a típus megegyezik, akkor egyértelmű
-        - Ha egyértelmű leszármazás van vagy a pointer leszármazás egyértelmű
-        - Ezek közül az első kapja el
-            - Ha a base alatt van a leszármazott, akkor mindig a base kapja el
-    - Többszörös öröklődés
-        - Interface öröklődés érdemes
-        - pl file_error és net_error a nfs_error-ban
-    - re-throw
-        - következő catch nem számít, feljebb megy a láncon
-    - nem kötelező a függvénybe beírni hogy milyen hibát dob
-        - de hasznos lehet
-        - futási időben ha más jön, akkor abort-ol a program
-        - ha azt mondom h dobok std::bad_exception-t akkor azt adja a többi helyett
-        - Mostani divat:
-            - csak azt mondjuk, hogy dob valamit vagy sem
-            - C++11 - noexcept
-                - specifier mint a const
-                    - nem dob vagy abortálom ha mégis jönne
-                    - egy fordítási időben eldöntött expression lehet benne
-                - operator mint sizeof()
-                    - fordítási időben megmondja hogy a kapott függvény dob-e hibát
-                    - pl.:
-                        ```c++
-                        template <typename T>
-                        void f() noexcept(noexcept(T::g())) {
-                            T::g();
-                        }
-                        ```
-    - destruktorok
-        - ne dobjenak hibát
-        - Exception közben egy új exception az undefined behavior
-            - pl Stach unwinding
-    - Exception safety
-        - Meglepő végrehajtási ágak lehetnek
-        - Meglepő hibalehetőségek lehetnek
-        - Olyan sorrendbe kell raknom a műveleteket, hogy bármikor exception dobódik akkor ne vesszen el semmi
-        - STL exception safety
-            - Basic guaranteee
-                - Bármire igaz az stl-ben, hogy nem lesz memory leak hiba esetén
-            - Strong guaranteee
-                - Atomi lehet egy-egy művelet
-                - pl.: vector::push_back nem teszi korruptá a vectort
-            - Nothrow guaranteee
-                - Garantáltan nem dob hibát
-                - pl.: vector::pop_back, swap, erase
-    - C++11 dolgok
-        - Nesting exception
-            - Be lehet ágyazni hibákat kibákba és együtt dobni
+  - try,catch,throw
+  - nem kapásból ugrik vissza, hanem visszagörget és lefutnak a destruktorok
+  - Az eldobott objektumot ki kell menteni egy statikus területre
+    - ha nem másolható vagy move-olható, akkor nem lehet eldobni
+  - Ha referenciaként veszem át a catch-ben akkor a statikus memórát
+    - pl ha nem ref és alosztályt kapok el őssel, akkor slice-ing van
+      - elvesznek a plusz adatok és a virtual függvények
+  - Ki kapja el?
+    - Ha a típus megegyezik, akkor egyértelmű
+    - Ha egyértelmű leszármazás van vagy a pointer leszármazás egyértelmű
+    - Ezek közül az első kapja el
+      - Ha a base alatt van a leszármazott, akkor mindig a base kapja el
+  - Többszörös öröklődés
+    - Interface öröklődés érdemes
+    - pl file_error és net_error a nfs_error-ban
+  - re-throw
+    - következő catch nem számít, feljebb megy a láncon
+  - nem kötelező a függvénybe beírni hogy milyen hibát dob
+    - de hasznos lehet
+    - futási időben ha más jön, akkor abort-ol a program
+    - ha azt mondom h dobok std::bad_exception-t akkor azt adja a többi helyett
+    - Mostani divat:
+      - csak azt mondjuk, hogy dob valamit vagy sem
+      - C++11 - noexcept
+        - specifier mint a const
+          - nem dob vagy abortálom ha mégis jönne
+          - egy fordítási időben eldöntött expression lehet benne
+        - operator mint sizeof()
+          - fordítási időben megmondja hogy a kapott függvény dob-e hibát
+          - pl.:
+            ```c++
+            template <typename T>
+            void f() noexcept(noexcept(T::g())) {
+                T::g();
+            }
+            ```
+  - destruktorok
+    - ne dobjenak hibát
+    - Exception közben egy új exception az undefined behavior
+      - pl Stach unwinding
+  - Exception safety
+    - Meglepő végrehajtási ágak lehetnek
+    - Meglepő hibalehetőségek lehetnek
+    - Olyan sorrendbe kell raknom a műveleteket, hogy bármikor exception dobódik akkor ne vesszen el semmi
+    - STL exception safety
+      - Basic guaranteee
+        - Bármire igaz az stl-ben, hogy nem lesz memory leak hiba esetén
+      - Strong guaranteee
+        - Atomi lehet egy-egy művelet
+        - pl.: vector::push_back nem teszi korruptá a vectort
+      - Nothrow guaranteee
+        - Garantáltan nem dob hibát
+        - pl.: vector::pop_back, swap, erase
+  - C++11 dolgok
+    - Nesting exception
+      - Be lehet ágyazni hibákat kibákba és együtt dobni
 
 ### Optional
 
@@ -142,27 +142,28 @@
 # 2. EA
 
 ## C++ céljai
+
 - Típus biztonság - C-hez képest
 - Erőforrás biztonság - RAII
 - Hatékonyság ellenőrzés
 - Megjósolható viselkedés
-    ```c++
-    struct Base {
-        virtual void f(int i=1) {cout<<"B "<<i;}
-    };
-    struct Der : public Base {
-        void f(int i=2) override {cout<<"D "<<i;}
-    };
-    Base *bp = new Der{};
-    bp->f();
-    ```
-    - Mi fog kiíródni?
-        - "D 1"
-        - D mert leszármazott
-        - 1 mert a def param nem a függvény része hanem a környezet része
-            - hívó kód adja be a paramt
-            - a hívó bázisnak ismeri
-    - Le kell vezetni a szabályokat és úgy már egyértelmű
+  ```c++
+  struct Base {
+      virtual void f(int i=1) {cout<<"B "<<i;}
+  };
+  struct Der : public Base {
+      void f(int i=2) override {cout<<"D "<<i;}
+  };
+  Base *bp = new Der{};
+  bp->f();
+  ```
+  - Mi fog kiíródni?
+    - "D 1"
+    - D mert leszármazott
+    - 1 mert a def param nem a függvény része hanem a környezet része
+      - hívó kód adja be a paramt
+      - a hívó bázisnak ismeri
+  - Le kell vezetni a szabályokat és úgy már egyértelmű
 - Olvashatóság
 - Könnyen tanulható
 
@@ -171,97 +172,97 @@
 - std::endl - 20% overhead
 - "%d"-be double-t írni nem lesz jó
 - istream-be nem lehet beírni
-    - típusrendszer nem engedi
+  - típusrendszer nem engedi
 - Konstansság fordítási idejű ellenőrzése
 - Const literal
-    - char t[] vagy char *s
-    - tömb és az adatai az enyém
-    - pointernél csak a pointer az enyém, az adatok egy közös helyen lehetnek
-        - lehet hogy ua a szöveg több helyen is kap pointert
-        - postfix-eire is rakhat pointert a fordító
-        - ha nem const akkor futási hiba lehet módosításnál
+  - char t[] vagy char \*s
+  - tömb és az adatai az enyém
+  - pointernél csak a pointer az enyém, az adatok egy közös helyen lehetnek
+    - lehet hogy ua a szöveg több helyen is kap pointert
+    - postfix-eire is rakhat pointert a fordító
+    - ha nem const akkor futási hiba lehet módosításnál
 - Named constants
-    - forítási és futási idejű konstansok
-    - VLA - variadic length array
-        - Nem jó
-        - A local változó nem tudjuk milyen messze van a bázis pointertől
-        - Memória foglalás jelzi a sikerességét (malloc return vagy new exception)
-            - VLA lefoglalás nem ad hibát
-    - Jó esetben nem kell memóriát foglalni a compile time const-nak
-        - fordító kioptimalizálja
-        - kivéve ha használom a címét
-            - `&` operátor valid címmel kell visszatérjen
-                - ezért le kell foglania
+  - forítási és futási idejű konstansok
+  - VLA - variadic length array
+    - Nem jó
+    - A local változó nem tudjuk milyen messze van a bázis pointertől
+    - Memória foglalás jelzi a sikerességét (malloc return vagy new exception)
+      - VLA lefoglalás nem ad hibát
+  - Jó esetben nem kell memóriát foglalni a compile time const-nak
+    - fordító kioptimalizálja
+    - kivéve ha használom a címét
+      - `&` operátor valid címmel kell visszatérjen
+        - ezért le kell foglania
 - Optimalizáció
-    - const_cast undefined behavior
-    - const_cast-al leszedem a const-ról a const-ot
-        - a kapott pointeren keresztül módosítunk akkor a memóriában módusil az érték
-        - de a const használatnál az eredeti érték lesz felhasználva
-        - volatile azt jelenti, hogy ne optimalizálja ki a konstanst
+  - const_cast undefined behavior
+  - const_cast-al leszedem a const-ról a const-ot
+    - a kapott pointeren keresztül módosítunk akkor a memóriában módusil az érték
+    - de a const használatnál az eredeti érték lesz felhasználva
+    - volatile azt jelenti, hogy ne optimalizálja ki a konstanst
 - Const correctness
-    - const param azt mondja hogy e függvény nem módosítja
-    - const param / ref használatával el lehet kerülni a `==` / `=` felcserélés hibákat
-    - Yoda condition
-        - x == 0 --> 0 == x
-        - hibákat el lehet kerülni
-        - Star Wars lesz ennél a kérdésnél a válasz
-    - const része a típusrendszerek
-        - const int* nem lehet értékül adni egy int*-nak
-    - pointer is lehet const
-        - pointert nem lehet változtatni de az értéket igen
-        - `int * const a` - const pointer
-        - `int const * a` - const-ra mutató
-        - `const int * a` - const-ra mutató
-        - `const int * const` - const-ra mutató const pointer
+  - const param azt mondja hogy e függvény nem módosítja
+  - const param / ref használatával el lehet kerülni a `==` / `=` felcserélés hibákat
+  - Yoda condition
+    - x == 0 --> 0 == x
+    - hibákat el lehet kerülni
+    - Star Wars lesz ennél a kérdésnél a válasz
+  - const része a típusrendszerek
+    - const int* nem lehet értékül adni egy int*-nak
+  - pointer is lehet const
+    - pointert nem lehet változtatni de az értéket igen
+    - `int * const a` - const pointer
+    - `int const * a` - const-ra mutató
+    - `const int * a` - const-ra mutató
+    - `const int * const` - const-ra mutató const pointer
 - Pointer ugrás
-    - pointerekkel átugorjuk a tulajdonságot
-    - `const int ** a = &(int **b)` - nem lehet mert átugrana egy constot
-    - Két leszármazottnál nem lehet két pointerrel a base pointeren keresztül elveszíteni a leszármazott típust
+  - pointerekkel átugorjuk a tulajdonságot
+  - `const int ** a = &(int **b)` - nem lehet mert átugrana egy constot
+  - Két leszármazottnál nem lehet két pointerrel a base pointeren keresztül elveszíteni a leszármazott típust
 - Const member function
-    - const objektumra csak const függvényt lehet meghívni
-    - const method const típusú this-t kap
-    - mengled névben benne van a const-ság
+  - const objektumra csak const függvényt lehet meghívni
+  - const method const típusú this-t kap
+  - mengled névben benne van a const-ság
 - Overloading on const
-    - mangled név különbözik
-    - lehet túlterhelni
+  - mangled név különbözik
+  - lehet túlterhelni
 - Const adattag
-    - nem mindegyik objectben lesz ugyanaz, de nem nem változtatható
-    - fordítási idejű garanciát kaphatok
-    - inicializáló listában tudom megadni az értékét
-    - ha az osztály definícióban értéket adok, akkor az olyan mintha az inicializációs listába tenném
+  - nem mindegyik objectben lesz ugyanaz, de nem nem változtatható
+  - fordítási idejű garanciát kaphatok
+  - inicializáló listában tudom megadni az értékét
+  - ha az osztály definícióban értéket adok, akkor az olyan mintha az inicializációs listába tenném
 - `mutable` adattag
-    - akkor is írható ha az object const
-    - cache-elés, számlálás, optimalizálás ilyesmikre használjuk
-    - nem kell const_cast
-    - lock-oláshoz is használjuk
-        - `mutable std::mutex`
+  - akkor is írható ha az object const
+  - cache-elés, számlálás, optimalizálás ilyesmikre használjuk
+  - nem kell const_cast
+  - lock-oláshoz is használjuk
+    - `mutable std::mutex`
 - `static const`
-    - minden objektumban ugyanaz és soha sem változtatható
+  - minden objektumban ugyanaz és soha sem változtatható
 - STL is konstansbiztos
-    - ha konstans iterátort adok, akkor a find is constanst ad
+  - ha konstans iterátort adok, akkor a find is constanst ad
 
 ## Constexpr object
 
 - C-ben is volt konstans kifejezés
-    - ha valamit tudott a fordító, akkor már fordítási időben megcsinálta
-    - user defined függvényre és operátorra nem működött
+  - ha valamit tudott a fordító, akkor már fordítási időben megcsinálta
+  - user defined függvényre és operátorra nem működött
 - `constexpr`
-    - fordítási időben kiszámítható
-    - elején csak egy return lehetett benne - MACRO kicserélésére született
-        - volt ?: és rekurzió => touring teljes
-    - C++14-től szinte bármit lehet csinálni
-    - nem kell két verzió
-        - ha megy akkor fordítási időben csinálja
-        - ha nem akkor futási időben
-    - Osztálynak is lehet constexpr metódusa
-        - nem csak const lehet
-    - template metaprogramozással trükközést lehet kiváltani
-    - C++17 constexpr lambda
-    - C++20 constexpr union, try-catch, dynamic_cast, allocation, virtual call
-        - fordítás idejű vector és string
-        - tranziens és nem tranz. allokáció
-            - tranziens ha van new és delete is
-            - nem tranziens - más hívja meg a deletet, nem én
+  - fordítási időben kiszámítható
+  - elején csak egy return lehetett benne - MACRO kicserélésére született
+    - volt ?: és rekurzió => touring teljes
+  - C++14-től szinte bármit lehet csinálni
+  - nem kell két verzió
+    - ha megy akkor fordítási időben csinálja
+    - ha nem akkor futási időben
+  - Osztálynak is lehet constexpr metódusa
+    - nem csak const lehet
+  - template metaprogramozással trükközést lehet kiváltani
+  - C++17 constexpr lambda
+  - C++20 constexpr union, try-catch, dynamic_cast, allocation, virtual call
+    - fordítás idejű vector és string
+    - tranziens és nem tranz. allokáció
+      - tranziens ha van new és delete is
+      - nem tranziens - más hívja meg a deletet, nem én
 
 ## Consteval
 
@@ -275,7 +276,7 @@
 
 ## Static if
 
-- `if constexpr` 
+- `if constexpr`
 - fordítási időben eldől és csak a megfelelő ág fordul le
 - pl variadic fgv termináló ága lehet ilyen if-ben
 - pl fibonacci is lehet fordítási időben
@@ -290,11 +291,11 @@
 
 - Létrehozza az objektumot
 - A lényege, hogy az invariánsokat beállítja
-    - Ha nem tudja akkor ne engedje létrehozni
+  - Ha nem tudja akkor ne engedje létrehozni
 - Speciális memeber függvénye
 - Factory függvények is lehetnek
-    - Statikusak
-    - Nagyon komplex inicializációnál szokták használni
+  - Statikusak
+  - Nagyon komplex inicializációnál szokták használni
 - Konverziós konstruktor
 - Ideiglenes, névnélküli objektum létrehozása
 
@@ -308,48 +309,48 @@
 - Default, value, zero
 - Van-e ezeknek konstruktor lépése az egy másik kérdés
 - Global változó
-    - Először zero utána default inicializáció
-    - zero
-        - lefoglalod a memóriát és kinullázod
+  - Először zero utána default inicializáció
+  - zero
+    - lefoglalod a memóriát és kinullázod
 - Stack változók
-    - default inicializáció
-    - default
-        - lefuthat konstruktor
-    - C++11 óta
-        - Kapcsos zárójel -> érték inicializáció
-    - `T k = T()`
-        - érték inicializáció
-        - névtelen változóval value inicializálom
-    - `T m();`
-        - függvény deklaráció
-    - Heap-re is inicializálhatok
-        - `new` van használva
+  - default inicializáció
+  - default
+    - lefuthat konstruktor
+  - C++11 óta
+    - Kapcsos zárójel -> érték inicializáció
+  - `T k = T()`
+    - érték inicializáció
+    - névtelen változóval value inicializálom
+  - `T m();`
+    - függvény deklaráció
+  - Heap-re is inicializálhatok
+    - `new` van használva
 - Adattag
-    - Alapból minden adattagot default inicializálom
-    - Ha van inicializáló lista akkor value inicializácio
+  - Alapból minden adattagot default inicializálom
+  - Ha van inicializáló lista akkor value inicializácio
 
 ## Default inicializáció
 
 - Osztályszerűnél
-    - A default konstruktort hívja
+  - A default konstruktort hívja
 - Tömb
-    - Mindegyikre hívja a def konstruktort
+  - Mindegyikre hívja a def konstruktort
 - Ha egyik sem akkor memóriaszemét
 
 ## Value init
 
 - Osztályszerű
-    - Default init
-        - Ha nincs user-defined akkor zero is
-    - Ha nem lehet akkor Zero
+  - Default init
+    - Ha nincs user-defined akkor zero is
+  - Ha nem lehet akkor Zero
 - Tömb
-    - Összesre ua.
+  - Összesre ua.
 
 ## Zero init
 
 - Változó a program végéig kitart
-    - Zero lefut
-    - Nullázza a memóriát
+  - Zero lefut
+  - Nullázza a memóriát
 
 ## Quiz
 
@@ -378,11 +379,11 @@ int main() {
 - A legjobb ha nem fordul
 - Másik legjobb a mindig rossz
 - Általában fut de néha rossz
-- Default konstruktor   
-    - noncs param
-    - minden paramra van default
+- Default konstruktor
+  - noncs param
+  - minden paramra van default
 - Azért nem zero minden előtt mert van saját logikája hogy feltöltse
-    - Nem kell fizetni a felesleges nullázásért
+  - Nem kell fizetni a felesleges nullázásért
 
 ```c++
 int i; //default
@@ -425,24 +426,26 @@ main() {
 - 3 konstruktorral ezt meg lehet oldani
 - Lehetnek default értékek
 - Egyparaméteres konstruktornál ki lehet írni az `explicit` kulcsszót
-    - különben konvertálja a beadott értéket
+  - különben konvertálja a beadott értéket
 - Explicit konverzio nem fordulhat le implicit helyen
 
 ## Operátorok
 
 - a + b
-    - a.operator+(b)
-    - operator+(a,b)
+
+  - a.operator+(b)
+  - operator+(a,b)
 
 - only member
-    - a = b
-    - a[b]
-    - a(b,b,b)
-    - a->
+
+  - a = b
+  - a[b]
+  - a(b,b,b)
+  - a->
 
 - Hova kell írni
-    - ostream kiírást nem lehet egy sztream member-nek rakni
-    - ha nem member akkor nem fér hozzá a privát dolgokhoz
+  - ostream kiírást nem lehet egy sztream member-nek rakni
+  - ha nem member akkor nem fér hozzá a privát dolgokhoz
 
 ```c++
 class date {
@@ -464,85 +467,86 @@ if (2016 < today) //works
 ```
 
 - Ha a header-be írom, hogy ne kelljen DLL, akkor legalább legyen `inline`
-    - ha ezt nem akarom akkor egy cpp-ben lehet body-ja, vagy DLL
-    - Ez az inline azt jelenti, hogy lehet több definíciója is
+  - ha ezt nem akarom akkor egy cpp-ben lehet body-ja, vagy DLL
+  - Ez az inline azt jelenti, hogy lehet több definíciója is
 
 ## Subobjects
 
 - Ahhoz hogy éljen az objektum, élnie kell a részobjektumainak
 - `member initializer expression`
-    - adattag neve
-    - érték amire inicializálni szeretném
-    - a sorrend nem számít mert az osztály def szerint hajtja végre
-    - de ha függenek egymástól akkor baj lehet
-        - ha egy későbbitől függök akkor memóriaszemetet kapok
+  - adattag neve
+  - érték amire inicializálni szeretném
+  - a sorrend nem számít mert az osztály def szerint hajtja végre
+  - de ha függenek egymástól akkor baj lehet
+    - ha egy későbbitől függök akkor memóriaszemetet kapok
 - Header-be is írhatom a member mellé az inicializációt
-    - Konstruktor body előtt megtörténnek az értékadások
+  - Konstruktor body előtt megtörténnek az értékadások
 - Ha van mind2, akkor a konstruktor erősebb
 
 ## Destructor
 
 - Élettartam végén
-    - heap delete
-    - scope végén
-    - global a main végén
+  - heap delete
+  - scope végén
+  - global a main végén
 - Ha leszármaznak az osztályból
-    - akkor `virtual` destruktor kell
+
+  - akkor `virtual` destruktor kell
 
 - `Base* bq = new Der[5];`
-    - `delete [] bq;`
-    - hiba mert 5 Base-nyi memóriát töröl
+  - `delete [] bq;`
+  - hiba mert 5 Base-nyi memóriát töröl
 
 ## Deep copy
 
 - Polimorf vektor
-    - deep-copy ősből kellene leszármazottakat létrehozni
-    - dynamic_cast megoldás lehet, de drága
-        - de minden leszármazot esetet le kell kezelni
-    - clone függvényt kell megadni
-        - virtual, const, pure virtual az abstract osztályban
-        - clone függvényt kell hívni a deep_copy-nál
-        - visszatérési érték nem overload
-    - copy assignment operator
-        - defaultból létezhet, és memberenkénti értékadás
-        - sima értékadás pl exception safty pl std::vector
-        - copy-swap
-            - másolat az rhs-ből és swap-olom az adatokat
-        - assignment value-t kap
-            - nem const ref
-            - és abból a másolatból már swap-olok
-        - override base-re
-            - default jobban match-el
-            - deafult meghívja a base értékadását is mert subobject
+  - deep-copy ősből kellene leszármazottakat létrehozni
+  - dynamic_cast megoldás lehet, de drága
+    - de minden leszármazot esetet le kell kezelni
+  - clone függvényt kell megadni
+    - virtual, const, pure virtual az abstract osztályban
+    - clone függvényt kell hívni a deep_copy-nál
+    - visszatérési érték nem overload
+  - copy assignment operator
+    - defaultból létezhet, és memberenkénti értékadás
+    - sima értékadás pl exception safty pl std::vector
+    - copy-swap
+      - másolat az rhs-ből és swap-olom az adatokat
+    - assignment value-t kap
+      - nem const ref
+      - és abból a másolatból már swap-olok
+    - override base-re
+      - default jobban match-el
+      - deafult meghívja a base értékadását is mert subobject
 
 ## Nem akarom másolhatóvá tenni
 
 - régen priváttá tetted
-    - de osztályon belül lehetett használni
+  - de osztályon belül lehetett használni
 - c++11 óta
-    - `*speckó_tagfüggvény* = delete`
-    - publikusan kijelentem hogy nincs
-    - megkérheted hogy csináljon default-ot
+  - `*speckó_tagfüggvény* = delete`
+  - publikusan kijelentem hogy nincs
+  - megkérheted hogy csináljon default-ot
 
 ## Delegálás
 
 - member inicializáló listába írhatok másik konstruktort
-    - így tovább delegálom
-    - utána nem lehet body
+  - így tovább delegálom
+  - utána nem lehet body
 
 ## Injektált
 
 - használhatom a bázis cuccait
-    - `using Base::Base`
-    - de adhatsz új overload-ot
-        - nem virtuális, hanem overload
-    
+  - `using Base::Base`
+  - de adhatsz új overload-ot
+    - nem virtuális, hanem overload
+
 ## Inicializáló lista
 
 - lehet egymásba rakni amíg a konstruktor kitalálja
 - ilyet nem szép írni
-    - fordító majd csinálja
-    - read-onlynak hozza létre
+  - fordító majd csinálja
+  - read-onlynak hozza létre
 
 ## Konstruktor hiba
 
@@ -562,12 +566,13 @@ class C {
     ...
 }
 ```
+
 - hibát dobó destruktor nem jó
 
 ## Complex init
 
 - Azonnal végrehajtódó lambda
-    - névtelen osztály zárójel operátrral
+  - névtelen osztály zárójel operátrral
 
 ## std::launder
 
@@ -586,75 +591,75 @@ class C {
 
 - Pointerként adódik át
 - Ha referenciaként veszem át akkor nem válik pointerré
-    - `int (&a)[6]`
-    - `template <typename T, int N> ... param: T (&a)[N]`
-    - Ha ismerni akarjuk a tömb méretét
+  - `int (&a)[6]`
+  - `template <typename T, int N> ... param: T (&a)[N]`
+  - Ha ismerni akarjuk a tömb méretét
 
 ## Pointerek
 
 - Memóriaterület címét azonosítják
 - Minden memóriaterületre tud hivatkozni
-    - Global, heap, local, static
-    - Pascalban ilyen nem volt
+  - Global, heap, local, static
+  - Pascalban ilyen nem volt
 - `nullptr`, régen `NULL`
-    - tudjuk, hogy nem mutat sehova
-    - A nem null az igaz
+  - tudjuk, hogy nem mutat sehova
+  - A nem null az igaz
 
 ## Pointer aritmetika
 
 - Csak tömbökön szabad használni
-    - Csak akkor ha az eredmény is a tömbbön belül marad
+  - Csak akkor ha az eredmény is a tömbbön belül marad
 - Két pointer távolsága elemszámban a különbség
 - Pointerre lehet tömbös indexelést használni
-    - Kényelmi szolgáltatás
+  - Kényelmi szolgáltatás
 - A tömb és pointer kb ugyanúgy használható
-    - De a fordító két külön típusként használja
-    - Más assembly lesz a t[1] és a p[1]
+  - De a fordító két külön típusként használja
+  - Más assembly lesz a t[1] és a p[1]
 
 ## Memeber pointer
 
 - Típus szelektor
 - Member változót vagy függvényt lehet kiválasztani
-    - Adat member pointer
-        - This-hez képesti eltolás
-    - Függvény
-        - Virtuális táblába is mutathat
-        - Menüpont kiválsztja a member fgv.t és egy ok végrehajtja
+  - Adat member pointer
+    - This-hez képesti eltolás
+  - Függvény
+    - Virtuális táblába is mutathat
+    - Menüpont kiválsztja a member fgv.t és egy ok végrehajtja
 
 ## Nullptr
 
 - nullptr nem konvertálódik int-re mint a 0
-    - biztonsági is elegancia dolog
+  - biztonsági is elegancia dolog
 
 ## Reference
 
 - Nem új fogalom
 - Több név egy tárterülethez
 - Neveknek van scope-ja
-    - tárterület élettartama nem feltétlen egyezik meg a név élettartamával
+  - tárterület élettartama nem feltétlen egyezik meg a név élettartamával
 - Tárterülethez rendelt név
 
 ## Pointer vs referencia
 
 - Pointernél van nullptr
-    - Referenciánál ilyen nincs
-    - Ha null-t akarunk beadni, akkor az hibát dob
-        - vagy megállítja valahogy a vezérlést
+  - Referenciánál ilyen nincs
+  - Ha null-t akarunk beadni, akkor az hibát dob
+    - vagy megállítja valahogy a vezérlést
 
 ## Paraméter átadás
 
 - Címszerinti átadás referenciával
-    - Ugyan azt a területet piszkálom, nem másolom le
+  - Ugyan azt a területet piszkálom, nem másolom le
 - Inicializáció szerinti paraméter átadás
-    - egy type meg egy reftype máshogy inicializálódik
+  - egy type meg egy reftype máshogy inicializálódik
 
 ## Referencia kötés
 
 - Referencia nem köthető bármihez
-- int*-nak be lehet adni double-t
-    - de int&-nek nem tudok
+- int\*-nak be lehet adni double-t
+  - de int&-nek nem tudok
 - ref-t csak balértékhez tudok kötni
-    - literálhoz nem tudok
+  - literálhoz nem tudok
 - const ref-t tudok kötni temp értékhez és literalhoz
 
 ## Ref return
@@ -663,148 +668,148 @@ class C {
 - Láncoláshoz használható
 - Prefix ++ láncolható, postfix ++ nem adhat referenciát mert az már lokális érték
 - Mátrix getter ref-el térhet vissza
-    - Összeadás viszont új mátrixot ad vissza
+  - Összeadás viszont új mátrixot ad vissza
 
 ## Jobb és balérték
 
 - Mindkét oldalon lehet összetett kifejezés
 - c-ben lvalue és rvalue
 - c++-ban
-    - lvalue - módosítható memóriaterület
-    - xvalue - pl temp változó
-    - prvalue - pl 7
+  - lvalue - módosítható memóriaterület
+  - xvalue - pl temp változó
+  - prvalue - pl 7
 
 ## Value semantics
 
 - C++ value szemantika van
-    - Az értékek átíródnak a memóriában
-    - Java-ban csak a váltózó átállítódik az értékadásnál
+  - Az értékek átíródnak a memóriában
+  - Java-ban csak a váltózó átállítódik az értékadásnál
 
 ## Move semantics
 
 - Temp értékre is írhatunk függvényt
-    - T&&
-    - allokációt spórolhatok
+  - T&&
+  - allokációt spórolhatok
 - Temp értéket akarok másolni, akkor az értékadásban el lehet lopni a memóriaterületet
 - Erőforrásokat ellopok és így allokációkat és másolásokat spórolok
 - lval-ref - T&
-    - nem köt temporálishoz
+  - nem köt temporálishoz
 - rval-ref - T&&
-    - nem köt névvel ellátott változóhoz
+  - nem köt névvel ellátott változóhoz
 - const-lval-ref - const T&
-    - Tud kötni mindenhez de alacsonyabb a precedencia mint az rval-ref
+  - Tud kötni mindenhez de alacsonyabb a precedencia mint az rval-ref
 - Visszafelé kompatibilitást próbálták megőrizni, de hatékonyság növekedést akartak
-    - Rulo-of-3 -> rule-of-5
+  - Rulo-of-3 -> rule-of-5
 - Naiv swap copy-zik
-    - mert mindegyik változó balérték
-    - ilyenkor lehet az std::move függvényt használni
-        - jobbérték konverziós függvény
-        - kikényszerítem a move-ot
-        - rval ref cast
+  - mert mindegyik változó balérték
+  - ilyenkor lehet az std::move függvényt használni
+    - jobbérték konverziós függvény
+    - kikényszerítem a move-ot
+    - rval ref cast
 - Unique_ptr nem másolható de move-olható
-    - std::stream, std::thread
+  - std::stream, std::thread
 - A lopott cucc destruálható állapotba kell kerüljön
 - Const nem move-olható
-- Most vexing parse 
-    - -Wvexing-parse
+- Most vexing parse
+  - -Wvexing-parse
 - Megfelelő fordítási hibáért kézzel törölni kell a const move ctor-t
-    - `MyClass(const MyClass&&)=delete;`
-    - Erre jobban illeszkedik mint a copy ctor-ra
-        - de hibát ad, mert törölve van
+  - `MyClass(const MyClass&&)=delete;`
+  - Erre jobban illeszkedik mint a copy ctor-ra
+    - de hibát ad, mert törölve van
 - Leszármazásnál a move konstruktor csapda
-    - `Derived(Derived&& rhs) : Base(rhs)`
-    - Ez az ős copy ctor-t hívja mert neve van
-    - `Derived(Derived&& rhs) : Base(std::move(rhs))`
-        - Ez a helyes
+  - `Derived(Derived&& rhs) : Base(rhs)`
+  - Ez az ős copy ctor-t hívja mert neve van
+  - `Derived(Derived&& rhs) : Base(std::move(rhs))`
+    - Ez a helyes
 - Vector push_back strong garanciás
-    - ezért copy-zza az elemeket
-    - Ha noexcept a move akkor move-olja az elemeket
+  - ezért copy-zza az elemeket
+  - Ha noexcept a move akkor move-olja az elemeket
 - `std::move(s1.begin(), s1.end(), s2.begin())`
-    - std::algorithm
-    - olyan mint a copy csak move-ol
+  - std::algorithm
+  - olyan mint a copy csak move-ol
 - Initialization_list-ből mindig copy van
 - set bonyolult mert van invariánsa
-    - interátor const_ref-et ad vissza
+  - interátor const_ref-et ad vissza
 - constansságon és r-lval-on is lehet túlterhelni
-    - objektum fel tudja ismerni magát
+  - objektum fel tudja ismerni magát
 
 ## RVO
 
 - Move szemantika lassíthat
 - Return Value Optimalization
-    - Lokális változóbol átmásolok
-    - Ezt ki tudja optimalizálni
+  - Lokális változóbol átmásolok
+  - Ezt ki tudja optimalizálni
 - De ha std::move-olok akkor nem lesz RVO és a fordított program lassabb lesz
-    - ha nem írok semmit akkor RVO vagy move lesz a return-nél
-    - csak akkor működik ha local változót return-ol
+  - ha nem írok semmit akkor RVO vagy move lesz a return-nél
+  - csak akkor működik ha local változót return-ol
 
 ## Forwarding / Universal reference
 
 - T&&
 - Constructor problem
-    - Factory függvény, templateként
-    - T&& nem jobbérték ref hanem továbbítás/forwarding/universal
-        - Úgy adom tovább ahogy kell
-        - Egy jelöléssel leírom az összes lehetőséget
+  - Factory függvény, templateként
+  - T&& nem jobbérték ref hanem továbbítás/forwarding/universal
+    - Úgy adom tovább ahogy kell
+    - Egy jelöléssel leírom az összes lehetőséget
 - Forwarding csak
-    - T&&
-    - auto&&
-    - Többi esetben nem az
-        - pl const, volatiole
-    - és típusdedukció kell
+  - T&&
+  - auto&&
+  - Többi esetben nem az
+    - pl const, volatiole
+  - és típusdedukció kell
 - Kell hozzá std::forward<T>
-    - std::move ha jobbérték
-    - különben nem
-    - T típusától függ
+  - std::move ha jobbérték
+  - különben nem
+  - T típusától függ
 - decltype(auto)
-    - a visszatérési értéket is a legfinomabb típusban kell visszaadni
-    - const volatile lval-ref is lehet ez
+  - a visszatérési értéket is a legfinomabb típusban kell visszaadni
+  - const volatile lval-ref is lehet ez
 
 # 5. EA
 
 ## Lambda
- 
+
 - Lambda kifejezés -> lambda functor típus -> closure object
 - El lehet tárolni auto-ba vagy std::function-ben
-    - std::function
-        - egy hívható az objektum
-        - adott paraméter és visszatérési érték
-        - fgv pointer, lambda, functor, egyéb
+  - std::function
+    - egy hívható az objektum
+    - adott paraméter és visszatérési érték
+    - fgv pointer, lambda, functor, egyéb
 - ki lehet írni a visszatérő értéket
-    - de nem kell
+  - de nem kell
 - blokkban szinte akármi lehet
-    - ajánlott h rövid legyen
-    - kivétel az std::thread
+  - ajánlott h rövid legyen
+  - kivétel az std::thread
 - `v.erease( remove_if (v.begin(), v.end(), [x,y](int a){return x < a && y > a} ) );`
-    - lemásolja az x és y-t és azt használja a lambda
-    - Capture by ref
-        - `[&sum](int a){ sum += a; }`
-    - ref adattagot const member függvényben is módosíthatok
-    - `[&sum, x, y](int a) mutable { sum += a; }`
-        - nem const member függvény a functor-on belül
-        - módosíthat ja x,y-t is
+  - lemásolja az x és y-t és azt használja a lambda
+  - Capture by ref
+    - `[&sum](int a){ sum += a; }`
+  - ref adattagot const member függvényben is módosíthatok
+  - `[&sum, x, y](int a) mutable { sum += a; }`
+    - nem const member függvény a functor-on belül
+    - módosíthat ja x,y-t is
 - Capture
-    - Csak a lokális nem statikus változókat lehet
-    - Globálisak nem lesznek elkapva
+  - Csak a lokális nem statikus változókat lehet
+  - Globálisak nem lesznek elkapva
 - Functor
-    - Jól tudja inline-olni a fordító
+  - Jól tudja inline-olni a fordító
 - `this`-t érték szerint kell capture-elni
-    - `this->s` helyett csak `s` kell
-        - de ha van `s` is akkor nem
-    - `[=]` ha használom a `this`-t is akkor azt is hozza
-    - `*this` is elkapható
-        - ez lehet null ptr
+  - `this->s` helyett csak `s` kell
+    - de ha van `s` is akkor nem
+  - `[=]` ha használom a `this`-t is akkor azt is hozza
+  - `*this` is elkapható
+    - ez lehet null ptr
 - Capture value snapshot létrehozáskor van, hiába hívom később
 - Paraméterlista elhanyagolható
 - Capture nélküli lambda convertálható egy fgv pointerre
 - Függvénypointer sokkal olcsóbb mint a std::function
 - `f(..., +[](int i){...})`
-    - a `+` miatt függvényre mutató ptr lesz belőle
+  - a `+` miatt függvényre mutató ptr lesz belőle
 - IIFE - Immediately Invoked Function Expression
-    - Constanst létre lehet hozni a egy ilyen függvénnyel
+  - Constanst létre lehet hozni a egy ilyen függvénnyel
 - Init capture
-    - meg tudom adni az értéket
-    - olyat is el tudok kapni ami eddig nem is volt
+  - meg tudom adni az értéket
+  - olyat is el tudok kapni ami eddig nem is volt
 - Lehet `constexpr`
 - `*this` a teljes objektumot lementi
 
@@ -813,57 +818,179 @@ class C {
 - Storage class
 - String literals - readonly szegmens
 - Automatikus lokális változók
-    - stack
+  - stack
 - Global
-    - Statikus
-    - Data szegmens, elf
+  - Statikus
+  - Data szegmens, elf
 - Local static
-    - Ott vannak mint a namespace változók
+  - Ott vannak mint a namespace változók
 - new, delete, malloc, free
-    - ezek ua memóriából dolgoznak
+  - ezek ua memóriából dolgoznak
 - Több heap is lehet
-    - shared object-nek saját heap-je van
-        - Ilyenkor jó lehet egy shared_ptr
+  - shared object-nek saját heap-je van
+    - Ilyenkor jó lehet egy shared_ptr
 - Tömbök és agregátumok
 - Temporálisok
-    - kifejezés kiértékelésekor jön létre
-    - teljes kifejezés végéig él utána destruktor
-    - const ref név egy temp-re
-        - meghosszabítja az élettartamát amíg a név élete tart
-        - **lifetime extension**
-    - static const ref név a main végéig tart
-        - nem a stack-en van a temp
-        - lifetime extension nem tranzitív
-    - ha adattagra állítok lifetime extension-t, akkor a teljes objektumot életben tartom
+  - kifejezés kiértékelésekor jön létre
+  - teljes kifejezés végéig él utána destruktor
+  - const ref név egy temp-re
+    - meghosszabítja az élettartamát amíg a név élete tart
+    - **lifetime extension**
+  - static const ref név a main végéig tart
+    - nem a stack-en van a temp
+    - lifetime extension nem tranzitív
+  - ha adattagra állítok lifetime extension-t, akkor a teljes objektumot életben tartom
 - `new`
-    - Lefoglalja a tárt
-        - bad_alloc ha nincs tár
-    - try-t csinál
-    - azon belül konstructor
-    - catch
-        - ha hiba volt a konstruktorban akkor felszabadítja a memóriát
-    - van olyan `new` ami `nullptr`-t ad vissza
-        - `new (x,y) Z{}`
-            - `void* operator new(sizeof(Z), x, y)`
-    - mi a `delete nothrow_t`
-        - a `new nothrow_t` párja
-        - mindig párban kell definiálni
+  - Lefoglalja a tárt
+    - bad_alloc ha nincs tár
+  - try-t csinál
+  - azon belül konstructor
+  - catch
+    - ha hiba volt a konstruktorban akkor felszabadítja a memóriát
+  - van olyan `new` ami `nullptr`-t ad vissza
+    - `new (x,y) Z{}`
+      - `void* operator new(sizeof(Z), x, y)`
+  - mi a `delete nothrow_t`
+    - a `new nothrow_t` párja
+    - mindig párban kell definiálni
 - `placement new`
-    - nem allocál
-    - csak a konstruktort futtatja le
-    - utána explicit destruktorhívás kell
-    - ki lehet vinni a memóriafoglalást a ciklusból
-        - nem kell mindíg újat foglalni és felszabadítani, elég a konstruktor és a destruktor
+  - nem allocál
+  - csak a konstruktort futtatja le
+  - utána explicit destruktorhívás kell
+  - ki lehet vinni a memóriafoglalást a ciklusból
+    - nem kell mindíg újat foglalni és felszabadítani, elég a konstruktor és a destruktor
 - `static void* operator new()`
-    - memeber new és delete
+  - memeber new és delete
 - Alignment
-    - new a maximális alignment-et nézte
-        - utána bármilyen objektum létrejöhet
-    - `alignof(T)`
-    - `class align(32) MyClass {};`
-    - van malloc és new is align-nak megfelelően
+  - new a maximális alignment-et nézte
+    - utána bármilyen objektum létrejöhet
+  - `alignof(T)`
+  - `class align(32) MyClass {};`
+  - van malloc és new is align-nak megfelelően
 - Ki lehet kényszeríteni azt hogy minden a heap-ben jöjjön létre
-    - private destruktor nem engedi a globális vagy lokális létrehozást
-    
+  - private destruktor nem engedi a globális vagy lokális létrehozást
 
-    
+# 6.EA
+
+## RAII
+
+- Ha a konstruktor dob exception-t akkor a destruktor nem hívódik meg
+  - Memóriaszivárgás lehet
+
+## Smart pointers
+
+- Hogyan kezeljük a birtoklást?
+  - Owner
+    - Birtokolja az erőforrást
+    - Lehet egy vagy több
+    - Single ownership - unique_ptr, lock_guard
+      - Csak egy valaki felelős
+    - Multiple ownership - shared_ptr
+      - Reference counting
+  - Observer
+    - Nem birtokol
+    - Nekik fel kell ismerni az hogy nem létezik az erőforrás
+  - Példa
+    - std::string - std::string_view
+    - std::shared_ptr - std::weak_ptr
+    - std::vector, std::array, stb...
+- Auto pointer
+  - Single ownership
+  - Nyers pointer beburkolva
+  - Destruktor felszabadítja a tárat
+  - Másolásokat nem kezelte jól, mert a másolat destruktora elrontotta a főobjektumot
+  - Tömbökre nem működött
+  - Depricated majd törölt
+- Unique pointer
+  - Egy birtokosa van
+  - Nem lehet másolni vag yértékül adni, csak move-olni
+  - Deleter-t meg lehet adni
+  - Van tömbös verziója
+    - Tömb nem polimorfikus
+  - Const-ból nem lehet ki-move-olni
+  - Van szimulált upcast
+    - leszármazottból az ősbe
+    - A konstruktorban
+    - Ha egy bázis unique_ptr derived-ra mutat, akkor virtual destruktor kell
+      - shared_ptr-nél nem kell
+        - Olyan mintha a deleter másolódna
+        - Tudja melyik heap-ből jött és jó helyen törli ki
+  - unique_ptr gyors kell legyen
+    - empty base optimalization
+    - a deleter-t ki lehet optimalizálni és olyan lesz mint egy pointer
+    - Ha nem default deleter akkor ezt nem lehet megcsinálni
+  - make_unique-nál nem lehet deletert adni
+  - downcast operátor nincs
+  - ezt kell használni
+    - ha több tulajdonos is van akkor jön a shared_ptr
+- Shared pointer
+  - reference_countin
+  - érdekes megvalósítás
+    - owner-er egy körbe felfűzve
+    - akkor vagyok az utolsó ha mindkét szomszédom önmagam
+  - van tömbös verzió is
+    - nem keveredik a kettő
+  - létrehozás:
+    - memóriafoglalás
+    - shared_ptr ráállítás
+    - továbbiakat az eddigi shared_ptr-ből kell csinálni
+      - nem a memóriaterülwtből mert akkor elromlik a ref count
+- Weak pointer
+  - Nem tudja elérni az objektumot
+    - threadsafety miatt
+    - lekérdezés és használat között megszűnhet
+  - ellenőrizni tudja, hogy él e még az objektum
+  - lock
+    - shared_ptr-t csinál
+    - ha sikerült akkor már más nem fogja kiszedni alólam mert én életben tartom
+    - ha nem sikerül akkor ez van, már nincs
+  - így működik a unix fáljrendszerben
+    - ha meg van nyitva a fájl és töröljük, akkor refcount miatt csak bezárásnál lesz valóban törölve
+  - Sharing group
+    - közös referenciaszámlálót használó shared és weak ptr-ek
+- Implementáció
+  - Objektum létrehozás
+  - Shared_ptr csinál egy control objektumot
+  - shared_ptr mutat az objektumra és a kontrollra
+  - weak_ptr mutat a kontrollra
+  - kontrolban:
+    - shared_count
+    - weak_count
+    - object\*
+    - deleter
+    - allocator
+  - weak_ptr a controll blokkot életben tartják és tudják a shared_count-ból hogy él-e még az objektum
+- Shared ptr from this
+  - Objektum tudjon adni magáról shared_ptr-t pl.: Callback világban
+  - class Y : public std::enable_shared_from_this< Y >
+    - így Y egy Y-ra mutató weak_ptr-t tartalmaz
+- Make függvények
+  - new-t se kell mondani
+  - nem lehet így kiadni a pointert
+  - perfect forwarding
+  - de nem tudok deleter-t állítani
+  - a legfontosabb hogy hatékonyabb
+    - egy helyre kerül az objektum és a kontroll blokk (információs terület)
+      - heap hozzáférés relatíve lassú
+      - így csak egy kell
+  - make_shared hátránya
+    - ha van még weak_ptr akkor az objektum memóriarész nem tud felszabadulni
+    - úgy viselkedik mint egy memory leak
+    - általában nem nagy gond
+      - de lehet probléma
+  - mikor nem használhatjuk
+    - custom deleter
+    - custom allocator
+    - sokáig élő weak_ptr van
+    - false sharing több szálnál
+      - minden processor saját cache
+- aliasing ctor
+  - shared_ptr egy objektum részeire
+  - nem törölhetik ki a objektumot amíg én tartom egy részét
+    - jelezni kell nekik
+    - közös referenciaszámláló, de külön pointer a célra
+      - erre jött létre az aliasing shared_ptr
+        - meg leeht adni h melyik shared_ptr kontroll blokkal legyen összekötve
+  - lifetime extension szerű dolgok mint a referenciákkal
+  - void shared_ptr-el csak egy értesítést kapok arról, hogy élnie kellene még
+    - és lifetime extension
