@@ -467,3 +467,26 @@ $\cfrac{\cfrac{\cfrac{\cfrac{P\mapsto_S(Q\wedge \neg B)}{P\hookrightarrow_S(Q\we
 # 6. GYAK
 
 **Április 26 ZH az EA idejében**
+
+## Invariáns tulajdonság
+
+- Definíció
+  - $P \in inv_S(Q)$ ha
+    1. $ Q \Rightarrow lf(s_0, P) $
+    2. $ P \Rightarrow lf(S,P) $
+- P invariánsa S programnak a Q-beli állapotokból índítva, ha
+  1. minden Q-beli állapotból $s_0$ P-beli állapotba visz és
+  2. P stabil S-re nézve.
+
+## 1. feladat
+
+- $\cfrac{V\Rightarrow W, W \mapsto_S R, P \in inv_S(Igaz)}{(Q \vee (V \wedge P))\hookrightarrow_S(Q \vee (R \wedge P))}$
+
+- $\cfrac{\cfrac{\cfrac{\cfrac{\cfrac{V \Rightarrow W}{V\mapsto_S W}}{V\hookrightarrow_S W},\cfrac{W \mapsto_S R}{W \hookrightarrow_S R}}{V \hookrightarrow_S R}, \cfrac{P \in inv_S(Igaz)}{P \triangleright_S HAMIS}}{V\wedge P \hookrightarrow_S R \wedge P}, Q \hookrightarrow_S Q}{(Q \vee (V \wedge P))\hookrightarrow_S(Q \vee (R \wedge P))}$
+
+## Fixpont tulajdonság
+
+- Definíció
+  - Legyen $S = (s_0, {\square_{i=1}^n x_i,y_i:=w_i,z_i \space ha \space \pi_i})$ program  
+    fixpont feltétele: $\varphi_S = \bigwedge_{i=1}^n(\neg\pi_i \vee (x_i=w_i \wedge y_i=z_i))$
+- Akkor fixpont ha egy feltétel sem teljesül vagy ha teljesül, akkor az értékadás nem változtatja meg az állapotot.
