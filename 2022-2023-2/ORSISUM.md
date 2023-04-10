@@ -25,7 +25,7 @@
 - Feltételes értékadás: $lf(x:=5,ha \space y<1, 0<x+y) = (y<1\rightarrow 0<5+y)\wedge(y\geq 1\rightarrow 0<x+y)$
   - Általánosan: $lf(x:=y,ha \space \pi, R) = (\pi\rightarrow R^{x\leftarrow y})\wedge(\neg \pi \rightarrow R)$
 - Szimultán értékadás: $lf(x,y:=5,x+1 \space ha \space y<1, 0<x+y)=(y<1\rightarrow 0<5+x+1)\wedge(y\geq 1\rightarrow 0<x+y)$
-  - Általánosan: $lf((||_{i=1}^nx_i=y_i \space ha \space \pi),R)=(\pi\rightarrow R^{x_1\leftarrow y_1, ..., x_n \leftarrow y_n})\wedge(\neg\pi\rightarrow R)$
+  - Általánosan: $lf((\|_{i=1}^nx_i=y_i \space ha \space \pi),R)=(\pi\rightarrow R^{x_1\leftarrow y_1, ..., x_n \leftarrow y_n})\wedge(\neg\pi\rightarrow R)$
 
 ### lf(S,R) tulajdonságok
 
