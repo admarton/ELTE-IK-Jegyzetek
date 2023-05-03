@@ -328,3 +328,113 @@
 - Csak azok az elérhető állapotok amik szerepelnek csúcscímként
 - Lineáris és elágazó időben függő logika nem ekvivalens
   - Lineáris: előrehozta az összes döntést a kiindulásba
+
+# 7 vagy 8. EA
+
+## Különbség az invariáns és a mindig igaz között
+
+- Invariáns elérhetetlen esetben is stabil
+- Mindig igaz az elérhetetlen állapotokban kivihet a P-ből
+- Ez akkor lesz fontos ha több program dolgozik egy állapottérben
+  - Ha zárt a rendszer, akkor a mindig igaz is jó
+  - Ha csak egy komponenes egy nyílt rendszerben, akkor invariáns kell
+    - A következő komponenseknek is teljesíteni kell az invariánst
+
+|     |  a  |  b  |  c  |  d  |
+| :-: | :-: | :-: | :-: | :-: |
+|  1  |  #  |  -  |  w  |  -  |
+|  2  |  -  |  #  |  w  |  w  |
+|  3  |  w  |  w  |  #  |  -  |
+|  4  | (#) |  w  |  -  |  w  |
+
+- (#) a kezdő helyzet
+- "-" mező nincs
+- Innen mindig igaz, hogy a ló minding csak feketére léphet
+- A legkisebb invariáns az a [2-4][a-c] résztábla
+  - Arra már igaz, hogy a ló csak feketére léphet
+- $ P,K inv_S(Q) $ akkor $ (P \wedge K) inv_S(Q) $
+- Az összes invariáns metszete a legszigorúbb invariáns
+- Invariáns mindig létezik és egyértelműen létezik a legszigorúbb is
+- $ INV_S(Q) $ - legkisebb invariáns, elérhető állapotok halmaza
+- Aki tartalmazza a legszigorúbb invariánst az mindig igaz, akkor is ha nem invariáns
+- Komponenseknél előre meg kell egyezni az invariánsban.
+- Metszésekkel egyre kisebb invariánst kapok
+  - Pl.: Invariáns és mindig igaz metszete
+
+## Háromszög
+
+- Csak a $ P\wedge\neg Q $ állapotokról tudunk valamit
+- Ha P stabil akkor nem hagyhatom el
+  - Nem P - ha átmegy a P-be akkor ott marad
+- P konstans, ha a P és a nem P is stabil, azaz nem mehez egyikből a másikba
+- Minden invariáns stabil
+
+## Egyenesnyil
+
+- Egyenesnyíl nem diszjunktív - sokáig nem tudtuk ezt
+
+## Görbenyil
+
+- Egyenesnyil tranzitív diszjunktív lezártja
+- Statikusan számolódik az lf-ekkel, levezethető
+  - De csak, akkor ha a görbenyil is teljesül
+- Szerkezeti típuskonstrukciók a konstruktorokkal
+  - Struktúrális indukcióval lehet bizonyítani
+
+## Hullámosnyíl
+
+- Minden P-ből induló feltétlen pártatlan út átmegy Q-n is
+
+# 9.EA
+
+## TERM_S
+
+- Ha abból az állapotból indul ami eleme a TERM_S-nek, akkor előbb vagy utóbb fixpontba jut
+
+## Absztrakt program viselkedési relációja
+
+- A Tulajdonságok felsorolva
+- 6 tulajdonság
+- Ezek mind halmazok
+  - háromszög, egyenes görbe: Igazsághalmazok párjainak halmaza
+  - fixpont, term, inv: Igazsághalmazok halmaza
+- Tulajdonságoknál init nincs, feldat specifikációnál van ilyen
+- Reláció hatos
+  - Feladat egy reláció hetes
+
+## Megoldás
+
+- Paramétertér
+- Kikötések a paraméterekre
+- Nem determinisztikusság lehetséges de nem sűrűn használt
+- Olyan program kell ami az init feltétel mellett megfelel a kikötéseknek
+- Init a kezdőállapotot adja meg
+  - Ezt a program nem tudja befolyásolni
+  - User garantálja neki
+  - Ha nem onnan indul a program, akkor nem tudunk semmit a programról
+  - Ez nem a programmal szembeni követelmény, de plusz infó a programnak
+- Minden kikötéshez van egy hasonló programtulajdonság
+  - Megnézzük, hogy megvan-e a programnak a szükséges tulajdonsága
+  - Megfelel-e a kikötéseknek
+  - Nem egy az egyben átírjuk, hanem feltesszük, hogy csak az elérhető állapotokat kell ellenőrizni, mert máshova nem juthatunk
+    - Itt már ismert minden komponenes, nincs ismeretlen ami elronthatja
+  - Legszűkebb invariánssal lehet jellemezni az elérhető állapotok halmazát
+    - INV_S(Q)- t nehéz számolni
+    - Ha veszek egy P \in inv_s(Q) akkor annak része a nagy inv
+      - Valamilyen invariánst könnyebb találálni mint a legszigorúbbat
+- A Kikötést csak egy invariánsra nézzük és abből lesz programtulajdonság
+- INIT-et nem kell nézni csak felhasználjuk
+- S program akkor felel meg a ha van olyan invariáns ami mellett teljesülnek a tulajdonságok
+
+## Variáns függvény
+
+- Állapottérbeli pontokhoz rendel egy értéket
+- Nem egy változó ami egész értéket ad
+
+## Variánsfüggvény alkalmazása
+
+- P,Q feltétel
+- $ P \wedge \neg Q \Rightarrow t > 0 $
+- $ P \wedge \neg Q \wedge t = m \hookrightarrow_S (P \wedge t < m) \vee Q $
+- Olyasmi mint a termináló függvény a ciklusnál, csak ez nem olyan szigorú
+  - Nem kell monoton csökkennie - görbenyíl

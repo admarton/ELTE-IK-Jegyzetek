@@ -994,3 +994,516 @@ class C {
   - lifetime extension szerű dolgok mint a referenciákkal
   - void shared_ptr-el csak egy értesítést kapok arról, hogy élnie kellene még
     - és lifetime extension
+
+# 7.EA
+
+## Template történelem
+
+- Először azt hitték, hogy nem kell mert ott vannak a makrók
+- Generikusok (Öröklés, interfészt implementál), öröklődés, "with func"
+- CPP-en nem ilyenek vannak
+- Csak az van ellenőrizve, hogy sikerül-e megcsinálni vagy sem
+  - ha minden függvény és member megvan akkor lefordul
+- C++20-tól concept-ek
+  - Előírások a templatekre
+  - Hamarabb és tisztább hibaüzenetek
+- Sablon-szerződés modell
+  - Milyen típusparaméterek elfogadhatóak
+- Java-ban
+  - Generic lefordul és Object típuson működik
+  - Minden konvertálódik Object-re
+  - Egy típus/függvény jön létre
+  - Kisebb kód lesz
+  - Nem tudok specializációt írni
+  - Típus törléssel van megoldva
+- C++
+  - Külön legenerálódik a kód az összes típusra
+  - Nagyobb lesz a program
+  - Tudok specializációt írni
+  - Minden típushoz példányosul
+  - Template függvény nem fordul le - példányai fordulnak le
+  - Nem template függvény hanem függvény template
+- Megnézi az összes templtet, ha nem talált egy megfelelőt sem de van nem template akkor megpróbál konvertálni
+- Példák lesznek a `swap` és a `max`
+  - Max int és double működik
+    - Visszatérési értékkel már baj van
+    - Ha intet adok vissza, akkor double értéke elveszik
+  - Max int és string nem működik, de csak akkor derül ki ha már az összehasonlításnál tart a fordító.
+    - Csúnya hibaüzenet
+- Ritkén lehet visszatérő értéken túlterhelni
+  - Azért mert a típus az AST részvája alapján számolja ki
+  - Lehet a template egy részét megdni
+    - A visszatérési értéket megadom a templateben, a többi típus meg kijön a függvény paraméterekből
+- `std::common_type<S,T>`
+  - Kihozza a legjobb típust
+  - Legkisebb közös őst vagy valami konvertálható típust ad
+  - Vagy szintaktikai hiba pl int,long,string esetén
+  - C++14 óta `auto` is jó mert itt is általában jót talál ki
+- Lehet túlterhelni típusszámra is
+  - Egy típusos speciálisabb mint a két típus paraméteres
+  - Speciálisabbra jobban match-el
+  - Meg lehet adni az összes típust
+- Különbség az összes template megadó függvény és a nem template függvény között
+  - Nem template mindenképp lefordul, template csak akkor ha használják
+  - Templates nem vesz részt a konverziókban
+- Template class
+  - Minden függvénye template függvény lesz
+  - This a template
+  - Ha nem hivatkozok egy template-re akkor nem példányosul
+    - Csak azok a member-függvények generálódnak ki amik meg vannak hívva
+  - Részleges specializáció
+    - char és T a paraméter
+    - Lehet teljesen más a specializáció törzse
+
+## Template
+
+- Dependent types
+  - néha random helyekre oda kell írni hogy `typename`
+  - Először csinál AST-t és tudnia kell h valam itípus vagy member
+    - Azt feltételezi alapból h member
+    - Ha típus akkor oda kell írni a `typename`-t
+  - Van ahol más a default
+    - Öröklődés az típus
+    - Using az típus
+    - Értékadás az érték
+    - Függvény deklaráció az típus és érték
+  - Kiderül a hiba fordítási időben, de sokkal később és csúnyább a hibaüzenet
+- Two phase lookup
+  - Egyszer csinált AST-t és utána példányosít és fordít
+  - Template class specializációnak még a publikus interface-t sem kell betartania
+  - Template derived nem látja a bázis template függvényeit
+    - De a `this->func()` már jó
+- Mixins
+  - Olyan osztály ami a saját template paraméteréből származik
+  ```c++
+  template <class Base>
+  class Mixin : public Base {...};
+  ```
+  - Magam alá injektálok egy bázis osztályt
+  - Strategy design pattern
+  - Liskov substitution principle
+    - Nem működik a Mixin<Base> és a Mixin<Derived> között
+- Curiously Recurring Template Pattern
+
+  ```c++
+  template <class T>
+  struct Base {...};
+
+  struct Derived : public Base<Derived> {...};
+  ```
+
+  - enable_shared_from_this
+  - Ős megcsinálja a comperáló műveleteket a kisebb alapján
+    - Leszármazottnak csak a kisebbet kell megírja
+
+- Static polymorphism
+  - Virtuális függvények lassuak
+    - Pointer a virtuális táblára
+    - Onnan fgv pointer
+    - Arra függvény hívás
+    - A meghívás is lassú, mert nem lehet inline-olni
+      - Inline jó mert
+        - 5x gyorsabb mint a virtuális fgv
+        - Nem kell paramétert átadni
+- Variadic template
+  - Tetszőleges számú és típusú paraméter
+  - Template paramater pack
+  - Function parameter pack
+  - Ha tovább hívok akkor a pont-pont előtti álló rész ismétlődik
+    - `g(args...); -> g(arg1, arg2, ...)`
+    - `g(++args...); -> g(++arg1, ++arg2, ...)`
+    - `g(++args)...; -> g(++arg1), g(++arg2), ...`
+    - `h(g(const_cast<const Ts>(&args))...); -> h(g(c_c<T1>(&arg1)), g(c_c<T2>(&arg2)), ...)`
+- Class Template Argumentum Deduction
+  - Konstruktornál auto találja ki az osztály template-ját
+  - Lehet írni guid-okat
+- Mixin-el össze lehet ragasztani bárhány osztályt
+  ```c++
+  template <class... Mixins>
+  class X : public Mixins... {
+  public:
+    X(const Mixins&... mixins) : Mixins(mixins)... {...};
+  };
+  ```
+  - std::visit az std::variant-okhoz
+    - Van egy olyan osztályom amiben van egy f függvény minden típusra
+      - A visit a megfelelő f függvényt hívja meg
+      - overloaded lesz ez a speciális osztály
+- Fold expression
+  - `arg && ...` - fordító kibontja `arg1 && arg2 && ...`
+
+## Példák
+
+- Initializer list-et lehet csinálni az arg-okkal
+- `template<typename ...T> auto avg(T... t) { return (t + ...)/sizeof...(t); }`
+
+# 8. EA
+
+## STL
+
+## Expression problem
+
+- Osztályhierarchiával sok mindent szépen le lehet modellezni
+- Inkrementálisan bővíthető
+- Ha egy ősben új művelet van, akkor elromlik a inkrementalitás
+  - Minden osztályt újra át kell nézni
+- Ez az expression problem
+- Visitor patter - injektál műveleteket
+  - De utána nehéz új osztályt belerakni
+- Szimmetrikusan bővíthető rendszer kellene
+  - Konstant költséggel
+- Erre találták ki a standard template library
+
+## STL megoldás
+
+- Nincs osztályhierarchia
+- Nincs öröklődési kapcsolat az adatszerkezetek között
+- Az algoritmusok nem metódusok
+  - nem tudják, hogy milyen kontéren dolgoznak
+- Segédosztályokon keresztül tudnak az algoritmusok dolgozni
+  - PL iterátor
+  - Ezeknek van közös interface-e
+
+## Implementáció
+
+- End az utolsó utáni elem
+  - Így elég csak az egyenlőség operátor
+- Ha nincs valami a konténer iterátorban akkor nem fordul le
+- Reverse iterator
+  - rbegin, rend
+  - nem definiálunk műveletet
+    - insert, erase nem működik
+  - base()
+    - sima iterator ad vissza
+    - egyel tovább mutat
+    - azért mert az első előtti elem nem lehet, de az utolsó utáni igen
+    - rend()-re nem lehet base()-t hívni
+- Iterátor const biztos
+  - cbegin, cend
+    - nem constansból is lehet constans iterátort kérni
+- find_if
+  - predikátum kell neki
+- Generikus programozás a szép neve
+  - Szimetrikusan bővítünk
+  - Addig generalizálunk, amíg nincs veszteség
+- back_insert_iterator
+  - olyan az interface mint egy sima iterator
+  - `*` és `++` nem csinál semmit, `==` push_back-et hív
+  - adapter design pattern
+  - front_inserter, inserter
+  - ugyan az a kód lesz belőle mint a ha kézzel push_back-el megírnád
+- stream iterator
+  - istream_iterator
+    - konstruktor olvas
+    - üres konstruktor az eof
+    - `*` visszaadja, `++` újat olvas
+  - ostream_iterator
+    - outputra ír
+    - plus elválasztó karakter is kiírhat
+
+## Vector vs Associative containers
+
+- Vector sokszor jobb lehet a folytonos adattárolás miatt
+  - Kevesebb cache miss
+- Ha az algoritmikus komplexitás nem véltozik, akkor a vector általában jobb
+- Ha nagyon sokszor van ua elem, akkor a set gyorsabb
+  - Az adatokat is kell ismerni
+- Deque - "Deck"
+  - Elöl-hátul növelhető
+
+## Memória karaktrisztika
+
+- Vektor duplázóda nő
+- Deque chunk-onként nő vagy csökken
+- Linked list - elemenként ad-vasz, de plusz memória
+
+## Vector size and capacity
+
+- c++17 - shrink_to_fit
+- előtte temp-vector.swap
+
+## Iterátor invalidáció
+
+- Vector puch_back
+- insert - mözötteseket invalidálja
+- delete - mutatott elem iterátora invalid lesz
+- hash_map - adott elem törlése vagy újra kell hash-elni az egészet
+
+## std::array
+
+- típus meg egy méret
+- nem drágább a sima tömbnél
+- tudja a méretét, vannak iterátorok, algoritmusok
+
+## std::forward_list
+
+- Csak előre mutató pointere van
+- insert_after, erease_after, stb
+  - csak mögé tud
+- before_begin - ha az első elemet akarod beszúrni
+- nincs reverse iterátor, size, back() és push_back()
+
+## unordered_map
+
+- Hash-tábla
+- [] oerátor létrehozza ha nincs benne
+- Lehet saját hash függvény
+- Hash-tábla akkor hatékony ha egy bucket-ban kevés az elem
+  - tipikusan lineárisan felfűzzük
+- Load-factor = elemek száma / bucket-ek száma
+  - ha jó a hash függvény
+  - STL load-factor 1-re törekszik
+  - max_load_factor - be lehet állítani
+  - rehash - előre megmondom, h hány bucket lesz
+    - ha load_factor nagyobb lesz a max-nál akkor újra hash-el a rendszer
+      - insert, max_load_factor csökkentés vagy rehash
+- bucket-ek száma legyen prím
+  - hash függvény mintáját lehet a prímekkel elkeverni
+- rehash nagyon drága
+  - Újra szét kell osztani az össze elemet
+  - Mozgatni nem kell, de újra kell láncolni
+- Egyező kulcsú elemek egy bucket-ba kerülnek
+
+## Paralell STL
+
+- Intel's Threading Building Blocks az alapja
+- legbal paraméter, execution polici
+  - seq, par, par_unseq, unseq
+- SIMD - Single Instruction Multiple Data
+- Kis vektoron nem indít szálakat
+- Bővíhető készlet
+- Minimális elvárás, hogy forward iterátor legyen
+- Felosztod az intervallumot részekre
+- Nem kell de ajánlott a random_access_iterátor
+- Programozó biztosítja, hogy ne legyen deadlock és race condition
+  - Nem lehet blokkoló szinkronizáció
+- vektorizáció
+  - legtöbb cpu több értéket is össze tud adni egyszerre
+- std::reduce -> map_fold
+  - Egy functorral minden lépésben azt használja
+    - map-nél és fold-nál is
+  - Kommutatív és asszociatív functor kell
+    - különben undefined behavior
+- std::transform_reduce -> map_reduce
+  - transformálom az elemeket -> majd reducolom
+  - Két functor-t adok, egyiket hajtja végre az intervallumokon, majd a másikat az intervallumok eredményén
+
+# 9.EA
+
+## Template metaprograms
+
+- Csak a D nyelvben van még ilyen
+- Erwin Unruh - 1994
+  - Nem forduló program
+  - Hibaüzeneteket adott a fordító
+  - Prímszámokat sorolt fel a hibaüzenetekben
+- Fordítási időben algoritmusok végrehajtása
+- Template példányosít
+  - Példányosítás példányosítást indíthat
+    - Olyan mint egy hívási lánc, szekvencia
+    - Rekurzió is lehet
+    - Pattern matching-el elágazások
+    - Funkcionális prgramozásban ez Turing teljes
+- Turing teljes nyelv
+- Mi értelme van?
+  - Expression template-ek
+    - Szintaxisfa objektumot csinál
+    - Adattárolókon elemenként hajtja végre a műveletet
+  - DSL nyelvek beágyazása template metaprogramokkal
+    - pl.: boost::expressive
+      - regexp lib
+      - template metaprogramokból áll
+      - gyakran fordítási időben ismert
+      - parser-t generál
+    - Megkötést jelent a c++ és template szintaxis is
+      - Azok betartásával lehet varázsolni
+      - Ezért sokszor a szintaxis csúnya
+    - Van olyan parser ami fordítási időben egy szebb szintaxist c++ helyesre parsol
+- Nehéz írni, megérteni és debug-olni
+  - ELTE-n kb 10 év alatt írtak debuggert
+  - Meg profiler-t
+  - Pár év alatt bekerül a clang-ba
+- Factoriális
+  ```c++
+  template<int N>
+  struct Factorial {
+    enum { value = N * Factorial<N-1>::value };
+  }
+  template<>
+  struct Factorial {
+    enum { value = 1 };
+  }
+  int main() {
+    const int fact5 = Factorial<5>::value;
+    std::cout << fact5 << std::endl;
+    return 0;
+  }
+  ```
+  - Lesz 5 osztáylom
+  - Ki tudja optimalizálni a használt osztályokat ha máshova nem kellenek.
+- Constexpr vs template
+  - Meglévő típusokat használ a constexpr
+  - Template fordítási időben tud típúsokat csinálni
+  - Funkcionális programozásra hajaz
+  - Nem lehet típusokat később módosítani
+- Haskell-ből is csináltak c++ metaprogramot
+- Elágazások
+  ```c++
+  template<bool condition, class Then, class Else>
+  struct IF {
+    typedef Then RET;
+  }
+  template<class Then, class Else>
+  struct IF<false, Then, Else>{
+    typedef Else RET;
+  }
+  ```
+  - Fordítási idejű feltételekre működik
+- Függvény elsőrendű odjektum
+  - Metaprogram átadható metaprogramnak
+- Előnyei
+  - Hatékonyság
+  - Nyelv kiterjesztése
+  - Új jelölést lehet bevezetni
+- Típusok közötti firewall
+  - Run-time
+  - Compile-time - template instantiation
+  - Template design time
+    - Írhatok olyan típust ami fordítási időben kiértékelődik
+- Specializáció
+  - lehet írni specilizációt ami optimalizált
+  - De sok specializáció jöhet létre
+  - Erre találták ki a "trait"-eket
+    - gyorsabb lesz mint a virtuális leszármazás
+    - pl.: char_traits< Ch >
+    - Még minidg nem tökéletes, de kiscit struktúráltabb
+    - Csak a trait-et kell átírni és minden működik tovább
+  - Magasabb szintje a Policy
+    - Még egy template paraméter, hogy megkülönböztessem a típusokat
+    - Csak deklarálni kell, hogy melyikbe tartozik a típusom
+      - nem kell függvényeket másolni
+- Typelist
+  - Adatszerkezetek és algoritmusok
+  - Adattárolás template metaprogramokban
+  - Funkcionális lista ami típusokat tartalmaz
+- Nagyon lassú fordítás és borzalmas hibaüzenetek lehetnek
+- SFINAE
+  - Substitution failur is not an error
+  - Legspeciálisabb példányosítással kezdi
+    - utána megy az általánosabbra
+    - Hibakezelésre lehet használni
+    - Logiaki értéket kapjak ha a példányosítás nem sikerül
+- Run-time vs Compile-time
+  | Run-time | Compile-time |
+  | :-: | :-: |
+  | Function | Metafunctio(type) |
+  | Value, literal | Const, enum, contexpr |
+  | Data structure | Typelist(type) |
+  | If/else | Pattern matching |
+  | Loop | Recursion |
+  | Assignment | Ref. Transparency |
+  | May depend on input | Deterministic |
+  | ---- | ---- |
+  | Imperative | Pure functional |
+  | Object-orineted | - |
+  | Genarative | - |
+- Végtelen rekurzióra van egy limit
+  - Ha a limitet átállítom túl nagyra, akkor kifagyhat a fordító
+  - Templight - template metaprogram debugger
+    - trace lesz
+    - más programmal lehet nézegetni az eredményt
+
+## Egyéb c++ funkciók c++11/14/17
+
+- Auto
+  - T&& forwarding reference - típus dedukció
+  - auto - típus dedukció
+  - ha az auto-t dekorálom akkor megszűntetem a forwarding-ot
+  - auto&& - prefect forwarding
+  - decltype(auto)
+    - int i = 0;
+    - decltype(változó_név)
+      - int - decltype(i)
+    - decltype(kifejezés)
+      - int& decltype((i))
+    - perfect vissza forwarding-ot akarok
+- RAnge for
+  - Összes elemen végigmegy
+  - Mitől függ?
+  - begin, end
+- Enum class
+  - Enum nem csinált saját névteret
+  - enum class saját névteret csinál
+  - konverziók szigorúbbak
+  - meg lehet adni a reprezentációt
+    - lehet forward deklarálni
+- Initilizer list
+  - valahol lementek egy tömböt
+  - constans tömb
+    - readonly memóriába is mentheti
+    - initilizer list csak egy proxy
+    - copy konstruktorral inicializálódik
+    - nem lehet move-olni
+- Default and delete függvények
+- User defined literals
+  - erős típusosság
+  - pl.: std::chrono
+  - `myValue operator"" _my(myValue val)`
+  - túlterhelhető
+- using
+  - typedef egy teljes típus szinonímája
+  - template típusra is lehet használni
+- Structured binding
+  - párokra, tuple-re
+  - párhuzamos értékadás
+  - Fajtái
+    - tömb
+      - tömb elemek
+      - érték szerint alapból
+      - lehet referencia szerint is
+    - tuple
+    - osztály
+      - publikus adattagokra
+      - csak a nem statikusakra lehet
+- Nested namespace
+- Attribútumok
+  - szabványosították
+  - pl.: [[depricated]], switch-ben [[fallthrough]], [[nodiscard]] a függvény visszatérés
+- Filesystem
+  - Gáz volt hogy nem volt
+  - path, exists, stb.
+  - path /= "cucc.txt"
+- Any
+  - olyan típus ami bármi lehet
+  - python változó
+  - Van egy kis reflection
+    - type id operator
+    - típus nevét ki leht írni
+  - van .type() és .name()
+  - any_cast< T >
+  - működik saját típussal is
+  - has_value
+- Optional
+  - maybe monad
+  - nem kell kimenni a heap-re
+  - Előre tudom a max méretet
+  - std::nullopt_t
+  - bool konverzio
+  - operátor\*
+- Variant
+  - type-safe union
+  - tagged union
+  - default-ból az első típust csinálja
+  - egy típus lehet benne töbször is
+  - std::visit
+    - kibontja a típust ami benne van
+    - visitor-t hívja meg a paraméterrel
+- String_view
+  - nem bitrokol
+  - invalidálódhat
+  - substr-nél lehet egy ilyen
+  - span - tetszőleges range-re hasonló
+
+## 10.EA
+
+# Multi-threading
