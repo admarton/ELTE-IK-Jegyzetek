@@ -367,3 +367,45 @@
 - $ iter\_{k+1} (p,g)s = cond(p, iter_k(p,g) \circ g, id) $
 - Ciklus lehet az, hogy s' ha van olyan k amire az iter_k nem undef, különben undef.
 - FIX F = Legkisebb felső korlátja az F^n(bot) sorozatnak
+
+# 9. EA
+
+- Vendég előadó
+
+# 10. EA
+
+- Különböző kiegészítések a magnyelvhez
+- Hasznos nyelvi elem
+
+  - Abort
+    - Sikertelenül terminálja a programot
+  - Nemdeterminisztikus választás
+    - Hatásreláció lesz
+    - Véletlenszerűen választ két utasítás közül
+    - Probabailistic programming
+  - Konkurens végrehajtás
+    - Összefésüléses szemantika
+    - Ütemező hogyan hajtja végre a két "szálat"
+
+- Valós nyelvek sokkal bonyolultabbak mint amit mi itt meg tudunk nézni
+
+## Abort
+
+- Kell olyan konfiguráció ami a hiba állapotot jelenti
+- Nem mindig terminál
+- De ha ráfut a vezérlés akkor egyből terminál
+
+## Nemdeterminisztikusság
+
+- Choice vagy Or
+- Utasítás vagy érték választása véletlenül
+- Általában nincs ilyen a prognyelvekben
+- $ S_1 $ **or** $ S_2 $
+- Ha S2 végtelen ciklus akkor csak S1 vezethető le bigstep szemantikában, mert a végtelen ciklusnak nincs jelentése
+
+## Konkurens végrehajtás
+
+- $ S_1 $ par $ S_2 $
+- Bármilyen összefésülés létrejöhet
+- A szemantikánek le kell tudni írnia
+- Felváltva lehet az S1 és S2 utasításait kiértékelgetni

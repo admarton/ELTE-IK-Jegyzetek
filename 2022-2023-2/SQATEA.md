@@ -42,23 +42,23 @@
 ## Definitions
 
 - Error / mistake
-    - mistake by people
+  - mistake by people
 - Fault / defect / bug
-    - result of an error, mistake
+  - result of an error, mistake
 - Failure
-    - Occures when fault executes
-    - Faults can hide for years
+  - Occures when fault executes
+  - Faults can hide for years
 - Incident
-    - Symptom of a failure
+  - Symptom of a failure
 - Root Cause
-    - Sometimes we do not want to find it, just cure the symptoms
+  - Sometimes we do not want to find it, just cure the symptoms
 - Verification
-    - Am I building the product right?
+  - Am I building the product right?
 - Validation
-    - Am I building the right product?
+  - Am I building the right product?
 - Quality
-    - Hard to understand
-    - Depends on the customer
+  - Hard to understand
+  - Depends on the customer
 
 Testing just controls quality, not improves it!
 
@@ -83,11 +83,11 @@ Testing just controls quality, not improves it!
 ## Cost & Quality Iceberg
 
 - Above the water is what the users see
-    - Features
-    - UI
+  - Features
+  - UI
 - Others are not intrested
-    - Code quality
-    - design
+  - Code quality
+  - design
 - There are hidden costs for things
 
 # 2. EA
@@ -108,15 +108,15 @@ Testing just controls quality, not improves it!
 - More tests are not neccessary better
 - The test set should be efficient
 - Why
-    - Time and budget problems
-        - It is the last step
-    - Lack of knowledge
-        - Not all universities teach testing
-    - Diversity of enviroments
-    - Increasing complexity
-    - Devs are not trained of motivated to test
-    - Testers are willing but incapable
-    - Lack of culture
+  - Time and budget problems
+    - It is the last step
+  - Lack of knowledge
+    - Not all universities teach testing
+  - Diversity of enviroments
+  - Increasing complexity
+  - Devs are not trained of motivated to test
+  - Testers are willing but incapable
+  - Lack of culture
 
 ## Why deffects occur
 
@@ -133,35 +133,35 @@ Testing just controls quality, not improves it!
 - UK tax refund system
 - Can cost LIVES
 - Earlier we find the bug the cheaper it is.
-    - Shift left strategy
+  - Shift left strategy
 
 ## Techniques
 
 - Static
 - Dynamic
-    - Structural
-        - Data Flow
-        - Control Flow
-    - Behavioral
-        - Functional
-        - Non-functional
+  - Structural
+    - Data Flow
+    - Control Flow
+  - Behavioral
+    - Functional
+    - Non-functional
 
 ## Bugs classification
 
 - Nature
-    - Functional
-    - Performance
-    - Usability
-    - Security
-    - etc.
+  - Functional
+  - Performance
+  - Usability
+  - Security
+  - etc.
 - Severity
 - Priority
 - Detection difficulty
-    - First order bug
-        - single parameter triggers it
-        - easy to localize the root cause
-    - Higher order bugs
-        - more params need to align to cause the bug
+  - First order bug
+    - single parameter triggers it
+    - easy to localize the root cause
+  - Higher order bugs
+    - more params need to align to cause the bug
 
 ## Test selection, adequacy
 
@@ -173,29 +173,46 @@ Testing just controls quality, not improves it!
 - Is not about quality
 - Untested parts not functionality
 - More types of coverage
-    - requirements
-    - structural
-    - architectural
+  - requirements
+  - structural
+  - architectural
 
 ## Fault localization
 
 - Where is the root cause?
 - Bigger test cases
-    - If they fail, then run the finer tests
-        - In the end single fault assumption
+  - If they fail, then run the finer tests
+    - In the end single fault assumption
 
 ## Principles
 
 - Testing is possible
-    - Competent Programer Hypothesis
-        - Developers wants to create good code
-    - C Tester H
-        - Exhaustive testing is impossible
+  - Competent Programer Hypothesis
+    - Developers wants to create good code
+  - C Tester H
+    - Exhaustive testing is impossible
 - Testing should start as soon as possible
-    - Testing sould begin in the requirement review phase
+  - Testing sould begin in the requirement review phase
 - Testing and development should be independent
 - Testing is context dependent
-    - Everithing is different from project to project
+  - Everithing is different from project to project
 - CD requires continous testing
-    - new code require new tests
+  - new code require new tests
 
+# 9.Lecture
+
+## Exams
+
+- Afternoon time
+  - 3 hour start
+  - 1 hour long
+- June - beginning, middle
+- July - beginning
+- In place - on paper
+  - Bolyai
+- Extra points
+  - Special tasks
+  - Programming and testing tasks
+  - 3 points
+  - Ask in a mail
+  - Not obligatory

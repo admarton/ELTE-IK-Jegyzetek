@@ -1507,3 +1507,348 @@ class C {
 ## 10.EA
 
 # Multi-threading
+
+- Nem lett gyorsabba cpu ezért fogtunk többet
+- De problémák vannak
+- Ha 5% nem párhuzamosítható, akkor 20 processzor fölött nem lesz gyorsabb
+- C++93-ban nem volt szó párhuzamos végrehajtásról
+  - Nem volt párhuzamos memóriamodell
+- C++11 memóriamodell
+- Java és JVM sem volt felkészülve
+  - 1.2 -> 1.3 bekerült a párhuzamosítás
+  - Nincs szabványbizottság, ezért gyorsabb lehet
+- C++ csak akkor léphet ha minden fele a bizottságnak elfogadja
+
+## Miért kell az új memóriamodell?
+
+- [Epic c++ cég](https://www.think-cell.com)
+- Nagyon sok optimalizáció
+  - Fordító
+    - Szinte teljesen átírhatja a kódot
+  - CPU
+    - Out of order végrehajtás
+      - különböző részek, különböző feladatokat hajthatnak végre egy idő alatt
+      - Overlap-elhető utasításoknál lehet ilyen
+      - Instruction cache
+        - ha nem lesz különbség akkor megcserélhetnek műveleteket
+    - Brench prediction
+      - Meg se nézi a feltételt és kiszámolja, mejd amikor gazdaságos akkor megnézi
+        - ha nem volt jó akkor visszacsinálja
+  - Cache
+    - Proseccor a cache-be ír, nem tudni mikor kerül ki a memóriába
+    - Nem biztos, hogy minden szál ugyan azt látja
+    - Hardver is nagyon számít
+    - Intel (x64) erős cache koherencia
+      - Ha olyan memóriaterületet módosít amit más processor is használ akkor szól a másiknak, hogy invalidálja a cache-ét
+    - Arm, alpha
+      - Nincs így
+      - Intelnél sem tudjuk meddig lesz így mert költséges
+  - Messze kerülhet a valóság a kódtól
+    - Kódbeli trükközés nem biztos, hogy megjelenik majd a végrehajtásban
+- Olyan nyelvi definíciót kell adni ami minden hardveren jól működik
+  - Olyanon is amit még ki se találtak
+- RR, andu v undo
+  - debugger
+  - úgy futtatod, hogy trace-el
+  - minden eseményt nyomkövetnek
+  - Tudsz időben visszafelé lépkedni
+  - Azokat az eseményeket log-olják, amik változtatnak a program futásán
+- C++ 98
+  - Observable bahavior
+  - Blackbox a generált program
+  - Ha megfigyelem, akkor azt kell kiadnia mint amit a kódban kértem
+  - IO műveletnél vagy a volatile változó olvasás és írásnál lehet megfigyelni
+    - Volatile egymás közötti sorrendet meg kell tartani a fordítónak
+    - Volatile és nem volatile sorrendje felcserélhető
+- Firewallok
+  - Ami elatta van nem lehet felő vinni
+- Cache is jól működjön
+  - Memory banger
+  - Minden oprendszerben van ilyen
+  - C++98-ban ezek nem szabvényos dolgok voltak
+- C++11 memory model
+  - Thread-ek közötti interakciókat meghatározza
+  - Korlát a fordítóprogramokra
+  - Egy szerződés a programozó és a rendszer között
+    - Programozó data-race mentes kódos csinál
+    - Cserében a fordító sequentiol-consistent programot generál
+  - A nem blokkolt thread-ek előbb utóbb továbbhaladnak
+  - Thread-ek garantálják
+    - hogy ha írok egy változóba akkor előbb utóbb a többi thread is értesül róla
+  - Happens-before relationship
+    - A a B előtt ha
+      - Egy thread-ben vannak és egymás előtt
+      - Két thread-ben vannak és van közöttük szinkronizációs pont
+  - Memory location
+    - scalar
+    - bitfield egyben van amíg 0 hosszú bitfield nem jön
+    - Egy struct-ban két char az külön memory location
+      - eddig ez lehetett egyben is
+  - Data race
+    - Két thread egy memory location-t akar elérni
+    - És legalább az egyik nem atomikus
+    - És nincs happens before a két művelet között
+    - Ha van, akkor undefined behavior
+  - Sequential consistency
+    - szekvenciát szekvenciálisan hajtom végre
+    - de az összes többi thread-ben is ebben a sorrendben látom
+  - Több szint közül lehet választani
+    - Legszigorúbb - sequential consistenci
+    - Leggyengébb - memory_order_relaxed
+  - Relaxed memory model
+    - Lock-free algoritmusok
+    - Compare-exchange
+      - hardverben van atomikus swap
+      - ha tudom én növelem, akkor true, ha más elállította, akkor false és nem írom felül rossz értékkel
+      - addig próbálgatom amíg nem sikerül
+  - Release memory order
+    - memory_order_release
+    - memory_order_aquire vagy memory_order_consume (jelenleg nem ajánlott)
+      - elsőnél a release előtti dolgok hamarabb vannak mint az aquire utániak
+      - másodiknál csak azok között van happens_before amik függenek a szinkronizált változótól
+        - ha nem látja az adatfüggést, akkor nem frissíti
+        - nem kell mindenki újraolvasnia a cache-ben
+
+## Eszköztár
+
+- std::thread
+  - id, native_handle
+  - Konstruktor
+    - csinál objektumot de nem allokál az op-rendszerben
+      - erőforrás burkoló objektum ez is
+      - ebbe lehet majd move-olni
+    - move konstruktor
+    - leggyakoribb
+      - függvényszerű végrehajtható valami
+      - a cucc paraméterei, variadik, perfect forvarding
+      - Ekkor lefoglalja az op-rendszer szálat és végrehajtja a függvényt
+  - Nem másolható és értékadható
+  - Swap-elhető
+  - Hardware_concurency
+    - visszaad valami számot
+  - joinable
+    - igaz ha nem volt join vagy detach
+  - join
+    - megvárja, hogy a szál befejeződjön
+  - detach
+    - mehet tovább
+    - lemondok arról, hogy a szülője vagyok
+  - ha nincs szülője amikor befejeződik - az system exception
+    - ha nem engedtem el és meg se várom az veszélyes
+    - kiránthatom a memóriát a gyerek alól
+  - referencia paraméter mindig átmásolódik a thread-local memóriába
+    - nem másolható és move-olható típust nem adhatok paraméternek
+    - std:ref = pointer
+  - scoped_thread, jthread
+    - default join-ol a blokk végén
+  - Berakható konténerbe
+  - std::for_each
+    - std::mem_fn
+      - functor ami elmenti a member pointert
+      - operator() a member pointerre meghívja a megadott függvényt
+- Mutex
+  - std::mutex
+    - szemafor szerű
+    - egyszerű
+    - try_lock
+      - nem lock-ol
+      - lefoglal vagy hamissal tér vissza
+  - std::recusive_mutex
+    - sima mutex rekurzióban dead_lock
+    - ez nem ad rekurzív függvényre dead_lock-ot
+  - std::timed_mutex
+    - try_lock_for
+      - addig vár
+      - utána mindenképp visszatér
+    - try_lock_until
+  - RAII a mutex zárolásra és feloldásra
+    - std::lock_guard
+      - nem másolható és move-olható
+      - block-al tudok területi lock-ot csinálni
+    - segéd függvény
+      - std::lock
+        - variadik
+        - lock-olható mutex szerű cuccot lehet belerakni
+        - vagy az összeset lerakja vagy egyiket se
+        - vár amíg az összeset le tudja rakni
+      - std::try_lock
+        - visszatér és elmondja, hogy hanyadik lock nem sikerült
+        - -1 ha sikerült lerakni
+    - C++17
+      - variadik lock
+      - scoped_lock
+    - std::unique_lock
+      - olyan mint a lock guard
+      - csak van saját unlock fgv-nye
+      - move-olható
+    - std::shared_lock
+      - reader
+      - std::shared_timed_mutex-re
+      - std::lock_guard a writer lock
+- std::once_flag
+  - gyorsan le lehet kérdezni az állapotát
+  - std::call_once
+    - bebillenti a flag-et
+    - és meghívja a megadott függvényt
+    - ha be van billentve akkor már nem hívja meg a függvényt
+- loac static thread safe inicializált
+- Spin lock
+  ```c++
+  bool falg;
+  std::mutex m;
+  void wait_for_flag() {
+    std::unique_lock<std::mutex> lk(m);
+    while (!flag) {
+      lk.unlock();
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+      lk.lock();
+    }
+  }
+  ```
+- Condition variable
+  - szóljanak ha fel kell kelnie a thread-nek
+  - std::conditional_variable
+    - notify_one
+    - notify_all
+    - wait
+      - van egy mutex-e, unique_lock
+      - és van egy predikátum függvény
+        - thread_safe végrehajtom a pred-et
+        - ha hamis akkor feloldom és elalszok
+      - ha notify van akkor megint lock és pred ellenőrzés van
+      - ha igaz lesz a pred, akkor kilépek a wait-ből
+  - notification stateless
+    - pl SIGNAL implementáció
+    - pl consumer-producer
+      - ha nincs egy consumer se akkor notification elveszhet
+      - curious wakeup is lehet
+    - fontos a predikátum helyes megírása
+- Future - Promise
+  - 76-77-ben már létezett ilyen
+  - shared_future
+  - hasonló mint a GO-ban
+    - GO-ban nagyon jó a konkurencia
+  - promis-ból lehet future-t kérni
+    - promisra lehet set-et hívni
+    - csak utána lehet a future-ből get-elni
+  - std::async
+    - csinál magában egy promis-t
+    - azonnal visszaadja a future-t
+    - kód továbbfuthat
+    - közben a megadott függvényt egy másik szálon végrehajtja
+    - ha kész a függvény akkor a future.get vissza tud téreni, addig várakozik
+    - 0. paraméter
+      - std::launch::async
+        - egyből új szál indul
+      - std::launch::deferred
+        - csak a future get-nél fut csak le az f, nem indul szál
+      - alapból optimalizál a rendszer és választ valamit
+    - get be tud fagyni (van wait is)
+      - lehet poll-ozni a future.wait_for-al
+  - Exception átjön a promisból a future-ba
+    - promise.set_value() - írok egyszer
+    - prommise.set_exception() - hibát is adhatok
+- Paralell STL
+  - std::async-al meg lehetne csinálni
+  - de így egyszerűbb
+- C++20
+  - continuation-monad-ok
+    - task listák létrehozása
+    - elvileg C++23
+- Még mindig nem tudjuk, hogyan kell jó konkurens programot csinálni
+
+# 11. EA
+
+Compiling, linking
+
+## Header file
+
+- Interface és implementáció szétválasztása
+- C-ben jobb mint C++-ban
+- Privát és protected dolgokat nem kellene megosztani a header-ben
+  - De ez technikai okok miatt kell
+    - Mekkora hely kell az objektumnak
+  - OO megsértése
+- Körkörös függőségeket meg lehet szakítani
+- Fel lehet bontani a kódot fordítási egységekre
+  - Kell include, de le lehet fordítani, nem kell egyszere több dolgot fordítani
+- Template
+  - Gyártási eljárás
+  - Headerben kell lennie
+  - STL header only
+    - Ha használom akkor parsolni kell ezeket a nagy header-eket
+  - Fordítási idő meg tud nőni
+    - PreCompiled header
+  - Módisítás a függőségek miatt sok újrafordítást eredményezhet
+- Baj ha sok include van a fájlban
+  - Mindenki aki használja az is mindent include-ol
+  - Header guard tud segíteni
+- `#include <iosfwd>`
+  - Minden iostream osztályt forward deklarál
+  - 6-8 órás build-et lehet egy 45 perces unity build-et csinálni
+- PIMPL
+  - bináris kompatibilitás
+  - szabvány erről ne beszél
+  - shared object vagy dll van használva manapság
+    - high frequncy trading-nél ez nem olyan jó
+    - de lehet patch-elni a programot
+    - Ha a DLL vagy SO-ban a header-t is módosítom akkor nem biztos, hogy megmarad a bináris kompatibilitás
+      - statikus adattag lehet
+      - nem virtuális member-t hozzá lehet adni
+      - Könnyű hibázni, mert nincs hozzá rendes szabályozás
+  - Pointeren keresztüli implementáció
+    - Osztály deklaráció ami nem változik
+    - Implentációra mutató pointer van csak
+  - Van FAST PILMPL
+    - Egy karakter tömbben tárolom el a PIMPL heap-es adatait
+    - Alignment-re figyelni kell
+
+## Template
+
+- Nem csak az a baj, hogy az OO elveket megsérti, hogy a template implemetáció a header-ben van
+- Az is baj, hogy minden példányosításhoz új kód generálódik
+  - Nagyobb lesz a kódom minden új példányodításnál
+  - Base osztály amiben a template független kódok vannak
+    - Template leszármazott a függő részekhez
+
+## C és C++ közös használat
+
+- Nagyjából ua bináris formulára fordul le
+- Virtuális dolgok máshogy fordulnak
+- Mangle név C-ben nincs
+- Extern C a régi C neveket generálja nem mangle nevet csinál
+  - Overloading így nem lehet
+
+## Template példányosítás helye
+
+- Példányosításnál a template ast subtree-t másolom és behelyettesítek
+  - Túlterhelés ellenőrzése ezután történik
+- Elvileg jól definiált a hely, de gyakolatban ez nem így van
+  - Implementációban az is lehet, hogy több helyen létrejön
+
+## Link-elés
+
+- Linkelés sorrendje számít
+  - Lehet írni olyan kódot aminek az eredméye a link-elés sorrendjétől függ
+  - Template-nél az elsőt használja, a többit eldobja
+- Változónál az extern csak akkor számít ha nem inicializálom
+- Inline -> weak referencia
+  - Strong és strong -> hiba
+  - Strong és weak -> strong
+  - Weak és weak -> valamelyik
+- Template is weak referencia
+
+## Statikus inicializálás/törlés
+
+- Ha static-ok inicializálódnak akkor minden függőségnek léteznie kell
+  - Nem biztos, hogy jó a konstruálási sorrend
+  - Jó lehet ha a függőség metódusát hívom (getter a változó helyett)
+    - Létre kell jönnie
+- Inicializálási sorrend jó lesz
+  - de a destruálási sorrend rossz lesz
+  - fagyással zárul a program
+  - quick exit jó lehet, mert akkor nem destruál
+  - Főnix pattern
+    - újraéled
+- Swchartz counter
+  - Biztosítja, hogy az includ-oló object-ekben biztosított a statikus élettartamot
