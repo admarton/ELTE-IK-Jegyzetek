@@ -405,7 +405,119 @@
 
 ## Konkurens végrehajtás
 
-- $ S_1 $ par $ S_2 $
+- $ S_1 $ **par** $ S_2 $
 - Bármilyen összefésülés létrejöhet
 - A szemantikánek le kell tudni írnia
 - Felváltva lehet az S1 és S2 utasításait kiértékelgetni
+
+# 11. EA
+
+## Kivételkezelés
+
+- Haladási irány
+- Direkt denotációs szemantika volt eddig
+  - Minden utasításhoz hozzárendeljük a hatását
+- try-catch és throw
+  - State -> State nem írható fel
+  - Ugró utasítás
+    - Ha lenne goto, akkor azzal meg lehetne csinálni
+  - Nem struktúrált vezérlés létrehozása
+- Folytatásos szemantika
+  - Haskell-ben is van
+  - Funkcionális nyelvben ez olyan mint a goto az imperatívban
+  - Azzal tud biztonságosabb lenni a funkcionális nyelv, hogy nincs explicit vezérlés
+    - Absztraktabb leírás
+- Minden függvény kap egy folytatás függvényt
+- 1964-ben írtak róla először
+- Denotációs függvény paramétere egy folytatás és egy folytatást ad vissza
+  - Folytatáshoz folytatást rendel
+
+## Folytatásos szemantika
+
+- SKIP -> folytatásban identitás
+- Értékadás -> folytatásban változtassuk meg az értéket
+- Szekvencia -> S2-t alakalmazom a folytatásban majd az S1-el módosítom a megkapott folytatást
+- IF -> folytatást csak propagálom a feltételtől függően
+- WHILE -> FIX G - ahol G hasonlít a régi F-re csak kiegészítve a folytatással
+
+## Exception
+
+- Minden kivátelhez rendelünk egy folytatást
+- OK -> sima folytatás
+- HIBA -> honnan kell folytatni
+- S_cs: Stm -> Env_e -> (Cont -> Cont)
+- env_e-t vagy elnyelik vagy továbbadják ha a következőnek kell
+- TRY-CATCH -> az env_e-t kiegészíti azzal, hogy az e hiba esetén a catch-ben lévő folytatás legyen a folytatás
+- THROW -> a dobott hibámnyak megfelelő folytatás lesz az eredménye
+
+# 12. EA
+
+- Vizsga
+  - Adatbázis labor, Lovarda
+  - Canvas kvíz
+  - Több definíció kombinációja kell egy kérdéshez
+  - open book
+- Blokkok és alprogramok, önállóan kell feldolgozni
+  - Meg lehet adni blokkot
+    - Local változó és procedúra
+    - Blokk törzs
+  - Lehet procedúrát hívni
+  - Lookup
+    - lokálisan mi mit jelent
+- Milyen lesz a vizsga?
+  - Utolsó UV
+  - Minden második hely üresen
+  - 120 perc
+  - Elején elmélet, utána gyakorlat
+  - Kvíz maximum 90 perc - min 30 perc
+  - Ha a kvíz nem sikerül, akkor nem javítják a gyakorlatit
+    - 50%
+  - Kvíz - 30 pont, gyak - 15 pont
+  - Kvíz
+    - Véletlenszerű kérdések és válaszok, nem lehet visszalépni
+    - Multiple choice - 1,2,..,összes (egyik se vagy mindegyik nem lesz)
+    - 2,3,4 pontos kérdés
+  - Gyak
+    - Coq
+    - While kiegészítése
+    - denot, bigstep, ekvivalencia, tételek
+
+## Minta kérdések
+
+1. Mikor kompozícionális egy szemantikadefiníció?
+  - Összetett jelenzést a részek jelentéseiből adjuk meg
+2. Alábbiak közül melyik konfiguráció ragadt be?
+  - abort - nincs szabály ami tovább visz
+  - skip; abort - nem ragadt be, mert egy lépést tud tenni
+3. Melyik programra <S, s> =>^k <S, s>
+  - skip - nem jó
+  - while true do S' - nincs kikötés az S'-re ezért az állapotot megváltoztathatja, így nem jó
+  - while true do skip - csak ez a jó mert visszajön au a program és nem változik az állapot
+4. Teljesül a while smallstepben S,s,s'-re?
+  - S_{SOS}[[ S ]]s = s' <=> <S,s> =>* s'
+    - Igaz, mert ez a definíció
+  - <S,s> => s' => S_{SOS}[[ S ]]s = s'
+    - =>* tartalmazza a =>
+    - fordítva nem igaz
+5. Kompozícionális definíció az aritmetikai negációnak?
+  - A[[ -a ]] = A[[ 0-a ]] - nem jó
+  - A[[ -a ]] = A[[ 0 ]] - A[[ a ]] - nem jó, mert a 0 nem volt része a kifejezésnek
+  - A[[ -a ]] = 0 - A[[ a ]] - ez jó
+  - A[[ -a ]] = A[[ a ]] - A[[ a ]] - A[[ a ]] - jó mert csak részkifejezés
+6. ???
+7. Mi a statikus szemantika?
+  - Szintaxis környezetfüggő része
+  - Kizár olyan programokat aminek nincs jelentése
+  - Típushelyességet ellenőriz
+8. Mely ekvivalenciák érvényesek a While (mag+abort+or) big-step szemantikájára?
+  - while true do skip == abort
+  - while true do S == abort
+  - while b do S == if b then (while b do S) else skip fi
+  - S == S or S
+9. ???
+10. While denotációra teljesül?
+  - id kevésbé definiált mint a skip
+  - bottom mindenkinél kisebb
+  - while true do s  = bottom kisebb mint az id
+
+

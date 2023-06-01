@@ -438,3 +438,97 @@
 - $ P \wedge \neg Q \wedge t = m \hookrightarrow_S (P \wedge t < m) \vee Q $
 - Olyasmi mint a termináló függvény a ciklusnál, csak ez nem olyan szigorú
   - Nem kell monoton csökkennie - görbenyíl
+
+# 10. EA
+
+- MVM-en voltam
+
+# 11. EA
+
+## Futószalag
+
+- Invariáns és a fixpont a végén egyszerre kell teljesüljön
+- Futószalag
+  - Kiválasztunk egy véletlen elemét
+  - Nem termel zajt és nem veszít adatot
+- Lineáris folyamathálózat
+- (Összes adat) - (még megvan) = (eltűnt)
+  - Nem eltűnt, hanem hiánytalanul át lett adva másnak
+    - A következő történetében kell benne legyen
+      - Nem az aktuálisban, mert lehet, hogy már feldolgozta
+- Sorrendtartóan feldolgozta a doboz az adatokat
+  - Ennek minden pillanatban teljesülnie kell
+    - Nem lehet olyan, hogy eltűnik és megkerül
+  - Ha van ilyen akkor az az atomi művelet belselyében van -> nem megfigyelhető
+- Ez olyan szigorítás, hogy csak futószalaggal lehet megoldani
+- Fixpont finomítás
+  - Szigorítás
+  - Új invariáns és új fixpont -> eredeti fixpont
+- $ \forall i:[0..n]: f_i(\bar x_i-x_i) = \bar x_{i+1} $
+- $ FP_h \Rightarrow x_i = <> $
+- $ f^i(\bar x_i) = \bar x_{i+1} $
+- Variáns függvény erre a futószalagra
+  - Csökkennek az elemszámok minden állomáson
+  - Súlyozzuk az elemek számát az adott helyen
+  - |D|+1 alapú számrendszer
+  - Példa 9 elem a rendszerben, |D|+1=10
+    - 9, 0, 0, 0 -> 9000 - kezdeteben az állomásokon lévő elemszám
+    - 8, 1, 0, 0 -> 8100
+    - 7, 2, 0, 0 -> 7200
+    - 7, 1, 1, 0 -> 7110
+    - ...
+    - 1, 0, 0, 8 -> 1008
+    - 0, 1, 0, 8 -> \_108
+    - ...
+    - 0, 0, 1, 1 -> \_\_11
+    - Ha ezeket egy-egy számnak vesszük, akkor látszik, hogy csökkenek
+- $ \bar{x}_i - lorem(x_i) = (\bar{x}_i - x_i);lov(x_i) $
+- $ \square_{i=n}^n x_i,x _{i+1} := lorem(x_i), hiext(x_{i+1};f_i(x_i.lov)) \space ha \space x_i\neq <> $
+
+## Elágazás
+
+```
+  a  +-----+      +------+  y
+---->|     |  x   |      |---->
+     | MUX |----->| FORK |
+---->|     |      |      |---->
+  b  +-----+      +------+  z
+```
+
+- Telekommunikációban a multiplexálás egyszerűsített modellje
+- $ (\bar{x}-x)=merge(\bar{y}, \bar{z}) $
+  - Erre nehéz lf-et számolni ezért feladatot finomítunk
+- $ split(<>,<>,<>) = igen $
+- $ split(a,b,c) => slpit(a;e, b;e, c) \wedge split(a;e, b, c;e) $
+- A legkisebb ilyen függvény
+- $ split(\bar{x}-x, \bar{y}, \bar{z}) $
+- INV: $ \forall k \in \N: (|\bar{x}|=k) \hookrightarrow (|\bar{y}|+|\bar{z}|=k) $
+- Ha felváltva csinálja, és kétszer szed és egyszer tesz, akkor a második elől kiszedi az első mindig
+
+## Összefésülés
+
+- $ split(\bar{x},\bar{a}-a, \bar{b}-b) $
+- $ |\bar{a}| = k \hookrightarrow |\bar{x}|=k $
+- $ |\bar{b}| = k \hookrightarrow |\bar{x}|=k $
+
+## Kis programokból nagy program
+
+### Két program uniója
+
+- Egyszerre fut a két program
+- Olyan mintha az összes részprogramból egyszerre válogatnánk
+- Legtermészetesebb programkonstrukció
+- Komponensek összeípítése
+- Mi lesz a kezdő értékadással?
+  - Csak egy közös változója van a két programnak
+  - Közös változón össze tudnak veszni a kezdeti értékadáson
+  - Nem determináns értékadás
+    - Ez elronthatja az invariánsokat
+  - Ha a kezdő értékadásoknál a közös változónál különböző értéket állítanának be, akkor nem lehet uniót venni
+    - Ha függvény van a közös változó értékére, akkor a föggvényeknek is meg kell egyeznie
+    - Az se egyenlő ha az egyikben értéket ad a másikban meg skip van
+    - A teljes program számít
+- Tulajdonságokat ki lehet számolni a komponensek tulajdonságaiból
+- EventB program modell ellenőrzés az iparban
+  - Nem magától bizonyít csak emberi támogatással
+  - Bizonyítás ellenőrzés könnyű, konstrukció nehéz
