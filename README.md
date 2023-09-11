@@ -45,5 +45,8 @@ Egy repó a jegyzeteimnek.
   - Számítógépes grafika
     - [Előadás](2022-2023-2/SzamGrafEA.md)
     - [Gyakorlat](2022-2023-2/SzamGrafGY.md)
-
+- 2023-2024-1
+  - Térinformatika
+    - [Gyakorlat](2023-2024-1/TerinfoGY.md)
+    - 
 
