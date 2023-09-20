@@ -1,6 +1,6 @@
 # Térinformatika Gyakorlat
 
-# 1. Gyak
+# 1.GY
 
 ## Elérhetőség
 kerkovits@map.elte.hu
@@ -103,3 +103,31 @@ Vetületek:
 Geodéziai dátum
 - Dátum - latinul adat
 - Nincs köze a naptári dátumhoz
+
+# 2.GY
+
+Vonal
+- 0.2-0.5 mm a vékony vonal
+
+Marker
+- Kör, négyzet, rombusz, háromszög, vonal, kereszt, csillag
+
+Betű
+- Minimális méret 5-6 pont
+
+SVG
+- Minimum 3×3 mm
+
+Folyó
+- 1-2-3 mm
+
+## Utak ábrázolása
+
+Vonalvastagsággal lehet hangsúlyozni, színnel és összetettséggel
+Egyvonalas elem, vagy szaggatott - burkolat nélküli, nem kiépített
+Kétvonalas elem - aszfaltos út, főút
+Háromvonalas elem
+Színek:
+- Autópálya teljesen más színű mint a többi (kék, zöld, lila)
+- Erős szín (piros) fontosabb mint a gyengébb színek (fehér)
+
