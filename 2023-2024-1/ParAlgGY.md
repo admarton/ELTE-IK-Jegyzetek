@@ -102,3 +102,54 @@ Lock spórlás
 - Csak akkor kell várni ha két zárat nem tudom megkapni
 - Törlés linearizációs pontja amikor az előző node mutatóját átrakom a következőre
 	- Ami előtte és utána volt nem olyan fontos
+
+# 3.GY
+
+## Verem
+- Push, Pop
+- FILO
+
+### Push
+- Létrehozás, beállítás és CompareAndSet a befűzés
+
+### Pop
+- Egy pointer átállítása a szinkronizációs pont
+- Azt kell csak egy szálnak tudni
+- ComapreAndSet
+
+### Lock Free
+- Nincs lock-olás
+- De a CompareAndSet hardver igényes
+- Egy pointer-t akar állítani mindenki
+	- Nincsen sok aszinkronitás
+	- Egyszerre csak egy ember tud berakni vagy kivenni
+
+### GC nélkül ABA
+- Sok node-ot kell létrehozni és törölni
+- Újra lehet használni a node-okat
+	- Node pool
+- ABA probléma
+	- A-t berakom, kiveszem, berakom a B-t, kiveszem és berakom az A-t
+	- Pointer megmarad, de a tartalma megváltozik
+		- Zavart okozhat
+	- Időbélyegzővel lehet ezt elkerülni ezt az ütközést
+
+## Elimination-Backoff Stack / Kihátráló-Várakozó Verem
+- Exponential-backoff
+	- 20-an írnák ugyanazt, egynek sikerül, de ha mindenki újrapróbálja akkor megint nagy terhelés
+		- Ezért lehet kihátrálni - kicsit várni és utána próbálkozni
+			- Véletlenszerű időt várni
+- Valaki berakna - valaki kivenne
+	- A stack nem változik
+	- Tehát egyből átadhatnák egymásnak a node-ot
+- Plusz párosítási tömb a verem mellett
+- Ha nem tud a verembe rakni, akkor az Elimination array-be rakja
+	- Aki ki akar venni, akkor a párosítási tömbből szedi ki, ha nincs ott semmi akkor vesz csak a veremből
+- Kérdések:
+	- Mekkora legyen a tömb?
+		- Ha kicsi akkor ott is versengés
+		- Ha nagy akkor kevés találat
+		- Ha gyakran nem tudok berakni a verembe, akkor nagyobb tömb kell mert nagy a versengés
+- Most már nem egy ponton, hanem egy tömbön versengünk
+
+Ne adjuk fel a párhuzamosítást, több dolgot lehet párhuzamosítani mint gondolnánk...

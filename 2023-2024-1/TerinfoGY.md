@@ -131,3 +131,51 @@ Színek:
 - Autópálya teljesen más színű mint a többi (kék, zöld, lila)
 - Erős szín (piros) fontosabb mint a gyengébb színek (fehér)
 
+# 4.GY
+
+## Első beadandó
+
+Három térképet kell csinálni
+Tematikus megyetérkép
+A4-es lapon nyomtatási kimenet
+Térképnek van:
+- Cím
+- Jelmagyarázat
+- Méretarány
+- Stb
+Tematikus térkép részei:
+- Háttértérkép
+	- Közigazgatási egységek, bel- és külterülethatárok
+	- Ez lefedi a megyét
+	- Vízhálózat (folyók, patakok, tavak)
+	- Út és vasúthálózat
+- Tematikus adatok
+	1. Települések kategorizált megjelenítése
+	2. Lakosság összetétele, kördiagram
+	3. Hulladéklerakónak hely keresés
+Ebből 3 PDF és a geopackage és a projektfájl.
+
+np_tk a környezetvédelmi cuccok
+mo -ból nem kell
+- Országhatár
+- Járás
+- Patak
+
+Anyaghoz új geopackage
+Export/Save selected features as
+
+Felesleg levágása:
+Vector/Geoprocessing Tools/
+- Clip vágás
+- Intersection
+- Buffer - sávot hagy
+- Difference - kivonás átfedés eldobás
+- Dissolve - Érintkező elemek egyesítése
+- Union - megmaradnak a külön elemek, de csoportosítja
+
+Jelek tervezése
+- Méret
+- Színek (2-4)
+- Alakzat (Csillag, négyzet > kör)
+- Összetettség
+- Scale range - milyen nagyításnál látszik
