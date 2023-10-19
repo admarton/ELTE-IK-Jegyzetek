@@ -153,3 +153,78 @@ Lock spórlás
 - Most már nem egy ponton, hanem egy tömbön versengünk
 
 Ne adjuk fel a párhuzamosítást, több dolgot lehet párhuzamosítani mint gondolnánk...
+
+# EA - 2023.10.18
+
+## Osztott számláló - Shared counter
+
+Feladat pool, szálak amik dolgoznak, kiveszik az aktuális feladatokat és megcsinálják.  
+Ezek sorszámot húzhatnak.
+A feladatokat el kell osztani minél optimálisabban.
+
+### Balancer
+
+2-2 - Bemeneti huzalok és kimeneti huzalok.  
+A bemeneten jön a feladat és a kiegyensúlyozó elosztja a kimenti huzalok között.  
+
+### Smoothing Network
+
+2 hatvány huzal.  
+Párosával kötjük a szálakat. 
+
+```
+--#-----#--#--
+  #     #  #
+--#--#-----#--
+     #  #
+--#--#-----#--
+  #     #  #
+--#-----#--#--
+```
+
+## Counting Network
+
+- Kicsi a versengés
+	- 2-2 szál van egy balancer-ben
+- Magas átviteli sebesség
+- Bitonic\[k\] nem linearizálható
+	- Később jövő feladat lehet, hogy hamarabb végig megy
+	- Ütemező melyik balancer-t futtatja
+- Bitonic\[2k\]
+	- Két Bitonic\[k\] és ezekre egy Merger\[2k\]
+		- Felváltva vannak bekötve
+	- Merger\[2k\]
+		- Fent is lent is kiegyensúlyozott, de egymáshoz képest nem
+		- Ezt oldja fel
+		- Két Merger\[k\]-ból áll
+		- Kimenetnél felváltva jön a fentiből meg a lentiből
+- Garantálja a kimenet egyenlőségét
+- log^2
+
+### Rendező hálózatok
+
+Hasonló elv alapján lehet rendező hálózatot csinálni.  
+Balancer helyett két szám összehasonlítása és a kimenetnél jó sorrendben adja ki.  
+Ugyan az a hálózat rendezetten adja ki az eredményt.
+
+```
+2 rendezés - 4 összerendezése \
+2 rendezés /                   \
+2 rendezés \                   /- 8 összerendezése
+2 rendezés - 4 összerendezése /
+```
+
+n * log(n) lépés lesz mindig, legjobb, legrosszabb és átlagos esetben is.  
+Ha van n processzorom n elemhez akkor log(n) lesz a rendezési idő.  
+
+### Teljesítmény
+
+Akkor éri meg leginkább amikor telített.  
+Ha alul telített, akkor nincs kihasználva teljesen.  
+Ha túl van terhelve, akkor versengések vannak a balancer-ekben, ez lassít.
+
+### Lehet számolni is
+
+Nagyon sok processzor akar hozzáadni egy értékhez.
+Nagyon sok szálnál a lock nem elég hatékony.
+De csak -1 vagy +1 lehet. **Combining Tree** tud több számot összeadni.  
