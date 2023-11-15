@@ -179,3 +179,89 @@ Jelek tervezése
 - Alakzat (Csillag, négyzet > kör)
 - Összetettség
 - Scale range - milyen nagyításnál látszik
+
+# GYAK 11.08
+
+Topology checker
+Processing toolbox / Fix geometry
+Invalid geometry:
+- Egy helyen két csomópont
+- Önmetszés
+- Vonalszerű
+[Sentinel 2 adatok](https://dataspace.copernicus.eu)
+
+# GYAK 11.15
+
+## Vetületek
+
+A felhasználáshoz kell megfelelő vetületet választani. 
+Gömb vagy forgási elipszoid és azt vetítjük valahogy síkra.
+
+### Szögtartó
+
+- Topográfiai
+- Tájékozódásra használjuk
+- A térképen a szög és a valóságban a szög megegyezik
+- Nagy méretarányú térképeken
+
+### Területtartó
+
+- Térképen mért terület és valós terület arányos
+- Kis méretarányú térképeken
+
+### Általános torzulású
+
+- Mindkét torzulást próbálja minimalizálni
+- Hasznos lehet
+
+### Hossztartó vonalak
+
+- Egyenlítő, szélességi körök
+
+### Pólus pont vagy vonal
+
+- Hogyan vetül, google maps pl pólus vonalas
+
+### Fontos vetületek
+
+#### Négyzetes hengervetület
+
+- Ez a legelterjedtebb vetület, pl QGIS,
+- Meridiánokban hossztartó
+- Négyzetrácsos
+
+#### Marcator vetület
+- Google
+- Hengervetület
+- Szögtartó
+
+## Geodéziai dátum
+
+Az elipszoidot a földhöz hova rakjuk
+Hol fogja jól közelíteni a földfelszínt
+
+## GPS
+
+WGS84 - 4326 
+Ez a GPS alapja és a legtöbb vetületnek
+GPS magasság az elipszoid feletti magasságot adja meg, több méter eltérés is lehet
+
+## GEOTIFF
+
+- TIFF header-ben vetületi adatok
+- Sarokpont, sorok és oszlopok száma
+- Pixelek mérete, méretarány
+- Vetület
+- Lehet több csatorna a pixelértékekhez
+	- RGB
+	- Más fény hullámhossz
+	- Magasság adat
+
+## Domborzat modellek
+
+- SRTM magasság feltérképezése
+	- Űrsiklóról sztereó mérés
+- Semi-global
+- 30m-es felbontás
+
+

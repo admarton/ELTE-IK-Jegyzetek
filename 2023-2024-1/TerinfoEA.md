@@ -141,4 +141,94 @@ Kézi földmérési munka sokszor kiváltható raszteres adatok feldolgozásáva
 	- Maszkokat lehet csinálni
 	- Csak a maszkolt részeket kell tovább vizsgálni
 
+# EA 10.25
 
+Overfitting probléma a modelleknél.  
+Variancia kell a tanító adatokban.  
+Metánt lehet látni megfelelő kamerával.  
+Megfelelő spektrumban lehet jobban el lehetne különíteni mint rgb képen.  
+
+## GIS Adatbázisok
+
+- Papír és kőbevésett, vagy fém térkép
+- Manapság digitálisan tároljuk
+- Csak ha nagyon kell, akkor nyomtatjuk ki / vizualizáljuk
+- 1807 - Martin Waldseemöller térképe - 10 millió dollár
+	- Az első olyan térkép ahol Amerika már országként szerepel
+- Rengeteg térképféle létezik
+- 30 méterenként megvan a magasság - SRTN
+- Kartogram térkép - kvantitatív információk megjelölése
+- Sűrűség térkép - nem a pontok helye hanem a sűrűsége ad információt
+- Izoplet térkép - Kontúr térkép, azonos értékek, vonallal összekötve (pl szintvonal)
+- Citizen sciences - az emberek gyűjtenek adatokat
+- Méterarányok és felbontások
+
+| Méretarány | Észlelhető méter | Raszter méter |
+| --- | --- | --- |
+| 1:1000 | 1 | 0.5 |
+| 1:5000 | 5 | 2.5 |
+| 1:10000 | 10 | 5 |
+| 1:50000 | 50 | 25 |
+
+- Térképi tartalom kiemelése
+	- Generalizálás
+	- Összevonok, Egyszerűsítek, Elmozgatok, Átméretezek, ...
+- Snapping, Overshoot, undershoot
+- Kontroll pontok
+	- Legalább 5
+	- Jó elhelyezkedés és sűrűség
+- Affin transzformációk vannak
+- Nem szabad transzformálni vetület konvertálásnál
+
+# EA 11.15
+
+Térinformatikát sok irányból meg lehet közelíteni.  
+Lehet valaki térképész, informatikus, mérnök, matematikus és jó lehet és megélhet.  
+Spacial-Data Industry
+- Összefügg az ország fejlettségével az ipar aránya területen
+- Nálunk inkább állami megbízások vannak
+
+## Üzleti fejlődés
+
+- Hardware -> Software -> **Szolgáltatások**
+- A Szolgáltatásban van a pénz, pl Google Maps
+- Felkészültségi szint:
+	- Vezetők, kihívók, közreműködők és befogadók
+	- Mi csak befogadók vagyunk
+	- Amerikában elérhetőek a téradatok bárkinek
+		- Nálunk ez nehezebb
+		- Így nehéz szolgáltatásokat csinálni
+		- [GeoPlatform.gov](geoplatform.gov/ngda/portfolio)
+		- Európában minden bonyolultabb
+- Jelenleg a BigData ami a legjobban megy a térinfóban
+	- IoT
+	- Automation
+		- Ne kelljen kimenni
+		- Le lehessen tölteni
+	- Cloud
+	- AR/VR
+	- 3D scanning
+		- Automatizáció a legdivatosabb
+		- EnviroSense - Devreceni cég
+- Ipari pénz
+	- Biztosítók
+		- jégkár, aszály, fagykár, szárazság
+	- Üdülés, vendéglátás
+		- Legjobb tengerpartok, horgász helyek
+	- Mezőgazdaság
+	- Logisztika
+		- Flottakövető rendszerek
+	- Média és reklám
+	- Ingatlan, infrastruktúra
+		- Kátyúk, közmű
+		- BIM
+		- SmartCity
+		- DigitalTwinning
+- Kihívások és értékek
+	- Bürokrácia
+	- Hiányzó tudás
+	- Anyagiak
+	- Érdeklődés
+- [WebOfScience](www.webofknowledge.com)
+- Szolgáltatást kell nyújtani
+- Egyre több műhold lesz

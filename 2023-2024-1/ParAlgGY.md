@@ -228,3 +228,128 @@ Ha túl van terhelve, akkor versengések vannak a balancer-ekben, ez lassít.
 Nagyon sok processzor akar hozzáadni egy értékhez.
 Nagyon sok szálnál a lock nem elég hatékony.
 De csak -1 vagy +1 lehet. **Combining Tree** tud több számot összeadni.  
+
+# 10.25 GYAK
+
+## Beadandó
+
+- Órai adatszerkezet
+- Saját probléma
+- Kapott probléma
+
+## Kombináló fa
+
+- Előző órán volt Bitonic
+	- Csak számolni tud
+- Combining tree tud összeadni, egynél nagyobb számmal növelni
+- Bináris fában vannak a szálak és a gyökérben vannak az eredmények
+- Két szál a közös pontjukon egyesítik az eredményeiket, majd ez feljebb gyűrűzik a fában.
+- Az ördög a részletekben rejlik
+	- Mi van ha nem egyszerre érnek oda a szálak?
+		- Aki előbb odaér, az vár
+		- Párhuzamos várakozás, multi-phase
+		- Csúcs státusz: 
+			- IDLE - vár
+			- FIRST - első lett
+			- SECOND - második lett
+			- DONE - feljutott a szülőben
+			- ROOT - gyökér lett
+		- Ezeket a státuszokat is szinkronizálni kell
+		- Az első feljebb is néz és ott is eldönti, hogy első lesz-e
+			- Ez lesz a párhuzamos várakozás
+		- Második szál lock-olja a node-ot és beírja az értékét
+			- Az első szál is beírja és a közös értéket viszi tovább
+		- A fában visszafelé is jelezni kell mindenkinek, hogy mi történt
+- Kellően nagy de nem túl nagy terhelésnél log(n) időben feljutnak az eredmények
+- Balszerencsés esetben mindenki zár a n * log(n) lesz
+- RMW típusú műveletek közül sokra tud működni
+
+## Queue
+
+- enq(x), y = deq()
+- A két végén dolgoznak
+- Ha csak egy berak és egy kivesz, akkor jól párhuzamosítható
+
+### Bounded Queue
+
+- Láncolt lista szerű megoldás
+- Számláló ami nézi a sor hosszát
+- A számláló használata indokolhatja a combining tree használatát
+
+### Lock menetes sor
+
+- Compare And Set
+- Időbélyegzők az ABA problémához
+
+# GYAK - 11.08
+
+Halmaz ábrázolások
+Konkurens halmazok
+- Fák, Piros-fekete, AVL
+- A kiegyensúlyozás globális módosítás, emiatt le kell zárni nagy részt, ami párhuzamosan nem jó
+- Nem determinisztikus megoldások
+
+## Probabilisztikus adatszerkezetek - Skip List
+
+- Várható értékben logaritmikus
+- Fa szerű
+- Láncolt lista, rövidítésekkel
+- Pointer-eknek szintjei
+	- Magasabb szint messzebb mutat
+	- Első szint a következő node-ra
+	- Várhatóan a következő szinten kétszer akkora ugrás
+- Log N magas az első node
+- Nem egzakt, szimmetrikus rendszer, inkább véletlen szerű
+- Node magassága véletlen, de nem egyenletes, nagyon magas nem jó
+- Beszúrás
+	- Megkeressük
+	- Elkérjük a lock-okat
+		- Mindent ami majd oda mutat
+	- Befűzzük
+	- Feloldjuk a zárakat
+	- Az összes link beállítása a linearizációs pont
+- Törlés
+	- Keresni az összes oda mutatót
+	- Bitben jelöljük, hogy törölt
+	- Lock-oljuk az oda mutatókat
+	- Átállítjuk a link-eket
+	- Feloldjuk a zárakat
+	- A bit beállítása a linearizációs pont
+- Keresés
+	- Akkor van bent ha 
+		- Nincs törlésre jelölve
+		- És teljesen beszúrt bit is be van jelölve
+- Optimista, lusta, finomszemcsés
+- Keresés, beszúrás, törlés logaritmikus lehet
+
+# GYAK 11.15
+
+## Beadandó ötletek
+
+### Logikai játék
+
+- n×m kocka az asztalon
+- Mindegyiken van valami -> közösen kirajzolódik egy ábra
+- Összekeverték
+	- Egy sor vagy egy oszlop forgatva van 90 fokkal a tengelye körül
+- Feladat
+	- Összekevert állapotból jussunk egy kirakott állapotba
+	- Minimális lépésszámmal
+- Egy kocka forgatása
+	- sor_i -> oszlop_j -> sor_i^-1 -> oszlop_j^-1
+- Szélességi keresés
+	- Párhuzamosítani
+	- Gráf az egyes állapotai a játéknak
+	- Élek a lépések
+- Óriási a gráf
+	- Nehéz eltárolni
+
+### Burrows Wheeler trafó
+
+- String algoritmus
+- Tömörítésre is használják
+- Egy szó egy hosszú érték sorozat
+	- Ez később jól tömöríthető
+	- Elég csak a jel és a darabszám a tömör verzióban
+- String összes ciklikus eltolása -> rendezés -> utolsó oszlop lesz az eredmény
+- BANANA$ -> BNN$AAA
