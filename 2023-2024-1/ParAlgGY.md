@@ -353,3 +353,41 @@ Konkurens halmazok
 	- Elég csak a jel és a darabszám a tömör verzióban
 - String összes ciklikus eltolása -> rendezés -> utolsó oszlop lesz az eredmény
 - BANANA$ -> BNN$AAA
+
+# GYAK - 11.29
+
+-  Nem mindig ragaszkodunk a linearizálhatósághoz
+- De lehet hogy, vannak fázisok amikor meg kell állni
+
+## Barrier Sync
+
+- Sorompóknál megállunk
+- Pl.:
+	- GPU magok a kép különböző részeit render-elik, de be kell várniuk egymást, hogy egységes képet adjanak ki
+	- Streaming, buffer-ben tudunk várni kieső dolgokra
+- Phase
+- Ne csináljuk túl hamar, de ne is szabadítsuk fel az erőforrásokat túl hamar
+- Barrier - nem mehetünk tovább amíg nem végez mindenki
+	- A fázison belül nem számít a sorrend, de a fázisok szigorúan egymás után vannak
+- Nagy numerikus számolásokban is használják
+- Duálisa a mutex-nek
+	- Nem az, hogy más ne csinálja amit én
+	- Hanem az, hogy mindenki azt csinálja mint én
+- Parallel prefix
+	- [a,b,c,d] -> [a,a+b,a+b+c,a+b+c+d]
+	- Minden elemre egy szál
+	- Hozzáadják a számuk a következőhöz (1,2,4,8,...)
+	- log_2 N körben lehet megcsinálni
+	- De addig nem lehet a következő körre menni amíg egy kör be nem fejeződött
+- Barrier megvalósítás
+	- Ha egy változó amit mindenki ír
+		- Az minden cache-be be lesz másolva és minding szinkronizálni kell
+		- Ez drága
+	- `AtomicInteger` a fenti okokból nem jó
+	- **Combining Tree** Barrier
+		- Két két szál kell csak veszekedjen
+		- Bottleneck szétosztása több helyre, ha ez volt a baj akkor segíthet
+	- **Tournament Tree** Barrier
+		- Ha csak egy bitet kell állítani, akkor statikusan el lehet dönteni dolgokat
+	- **Dissemination** Barrier
+	- Static binary tree a legjobb ha előre tudjuk az architektúrát

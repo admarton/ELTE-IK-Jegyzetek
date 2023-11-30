@@ -232,3 +232,50 @@ Spacial-Data Industry
 - [WebOfScience](www.webofknowledge.com)
 - Szolgáltatást kell nyújtani
 - Egyre több műhold lesz
+
+# EA 11.22
+
+## Open Source
+
+- Van ahol szeretik, van ahol nem
+	- Egészségügyi statisztika - nem
+	- Földtani statisztika - igen
+	- Magyar QGIS - nem
+	- Külföldön QGIS - népszerűbb tud lenni
+- .shp fájl elterjedt, geotiff, stb
+- OGC - Open GIS Consortium
+	- Szabványosítások
+	- Pl fájlformátumok
+	- Interopability
+	- OpenStreetMap
+		- Bele lehet fejleszteni, lehet adatokat felvenni
+	- Tagok
+		- Cégek, Non-profitok, Egyetemek, Kutatás, Kormány
+	- Átjárhatóság erőforrásokat takaríthat meg
+	- Tagsági dokumentum
+	- Nyílt standard != Nyílt forrás
+- Topológia
+	- Nem kell újat kitalálni
+	- Építkezni kell a már működőből
+- OpenLayers
+	- Dinamikus térképek
+
+# EA - 11.29
+
+## Élettanács
+- Ne barátokkal alapítsunk startup-ot
+- Most még kevesebb a rizikó
+- SmartFarm - Kövesdi József
+- PREGA - Precíziós Gazdálkodási Konferencia
+
+## Távérzékelés
+- Copernicus űrprogram
+- Sentinel műholdak
+	- Több is van
+- Űrszolgáltatásokból mindenki profitáljon
+- Startup támogatás
+- Copernicus Service - Cél területek
+-  Opportunities for Startups
+- Földfigyelési adatok feldolgozása
+- Arnocz István - SpaceApps
+	- mant.hu/rpa

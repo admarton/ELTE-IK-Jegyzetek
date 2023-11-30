@@ -265,3 +265,33 @@ GPS magasság az elipszoid feletti magasságot adja meg, több méter eltérés 
 - 30m-es felbontás
 
 
+# GYAK - 11.29
+
+## GeoKódolás
+
+- Név alapján szeretnénk egy címet
+- Fontos a megfelelő prompt
+- GeoPy
+
+## Térkép szolgáltatók
+- Raszteres adat
+	- Web Map Service
+	- Web Map Tile Service
+- Vectoros
+	- Web Feature Service
+
+## Téradat szolgáltatás
+- GeoServer
+- MapServer 
+	- Nem olyan jó
+	- Talán szebb
+- https://nta.lechnerkozpont.hu
+- http://monarchia.elte.hu
+- https://maps.hungaricana.hu
+
+## Térbeli adatbázisok
+- http://postgis.net
+- Well Known Text - Well Known Binary
+	- Így vannak leírva
+	- POINT, LINE_STRING, POLYGON
+	- (LAT LON)
